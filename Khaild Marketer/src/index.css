@@ -1,0 +1,138 @@
+/* -----------------------------------------
+   GOOGLE FONTS IMPORT
+----------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Anek+Tamil:wght@100..800&family=Changa:wght@200..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Noto+Sans+Arabic:wght@100..900&family=Reem+Kufi+Ink&family=Tajawal:wght@200;300;400;500;700;800;900&display=swap');
+
+/* -----------------------------------------
+   FONT CLASSES — READY TO USE
+----------------------------------------- */
+
+/* ------------------ Noto Naskh Arabic ------------------ */
+.noto-naskh-regular {
+  font-family: "Noto Naskh Arabic", serif;
+  font-weight: 400;
+}
+.noto-naskh-medium {
+  font-family: "Noto Naskh Arabic", serif;
+  font-weight: 500;
+}
+.noto-naskh-bold {
+  font-family: "Noto Naskh Arabic", serif;
+  font-weight: 700;
+}
+
+/* ------------------ Montserrat ------------------ */
+.montserrat-thin {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 100;
+}
+.montserrat-light {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 300;
+}
+.montserrat-regular {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+}
+.montserrat-medium {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+}
+.montserrat-bold {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+}
+.montserrat-black {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 900;
+}
+
+/* ------------------ Anek Tamil ------------------ */
+.anek-tamil-light {
+  font-family: "Anek Tamil", sans-serif;
+  font-weight: 200;
+}
+.anek-tamil-regular {
+  font-family: "Anek Tamil", sans-serif;
+  font-weight: 400;
+}
+.anek-tamil-medium {
+  font-family: "Anek Tamil", sans-serif;
+  font-weight: 600;
+}
+.anek-tamil-bold {
+  font-family: "Anek Tamil", sans-serif;
+  font-weight: 800;
+}
+
+/* ------------------ Changa ------------------ */
+.changa-light {
+  font-family: "Changa", sans-serif;
+  font-weight: 300;
+}
+.changa-regular {
+  font-family: "Changa", sans-serif;
+  font-weight: 400;
+}
+.changa-medium {
+  font-family: "Changa", sans-serif;
+  font-weight: 600;
+}
+.changa-bold {
+  font-family: "Changa", sans-serif;
+  font-weight: 800;
+}
+
+/* ------------------ Reem Kufi Ink ------------------ */
+.reem-kufi {
+  font-family: "Reem Kufi Ink", sans-serif;
+  font-weight: 400;
+}
+
+/* ------------------ Noto Sans Arabic ------------------ */
+.noto-sans-arabic-light {
+  font-family: "Noto Sans Arabic", sans-serif;
+  font-weight: 300;
+}
+.noto-sans-arabic-regular {
+  font-family: "Noto Sans Arabic", sans-serif;
+  font-weight: 400;
+}
+.noto-sans-arabic-medium {
+  font-family: "Noto Sans Arabic", sans-serif;
+  font-weight: 600;
+}
+.noto-sans-arabic-bold {
+  font-family: "Noto Sans Arabic", sans-serif;
+  font-weight: 900;
+}
+
+/* ------------------ Tajawal ------------------ */
+.tajawal-extralight {
+  font-family: "Tajawal", sans-serif;
+  font-weight: 200;
+}
+.tajawal-light {
+  font-family: "Tajawal", sans-serif;
+  font-weight: 300;
+}
+.tajawal-regular {
+  font-family: "Tajawal", sans-serif;
+  font-weight: 400;
+}
+.tajawal-medium {
+  font-family: "Tajawal", sans-serif;
+  font-weight: 500;
+}
+.tajawal-bold {
+  font-family: "Tajawal", sans-serif;
+  font-weight: 700;
+}
+.tajawal-extrabold {
+  font-family: "Tajawal", sans-serif;
+  font-weight: 800;
+}
+.tajawal-black {
+  font-family: "Tajawal", sans-serif;
+  font-weight: 900;
+}
