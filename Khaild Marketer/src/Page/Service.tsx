@@ -315,7 +315,7 @@ const Serviece: React.FC = () => {
               "&::-webkit-scrollbar": { display: "none" },
             }}
           >
-            {serviceCards.map((card, index) => (
+            {serviceCards.map((card) => (
               <Box
                 key={card.id}
                 sx={{
