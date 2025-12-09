@@ -63,19 +63,27 @@ const Serviece: React.FC = () => {
     },
   ];
 
-  // Calculate card width and update on resize
+  // Measure card width (card + gap). fallbackWidth used if measurement not ready.
   React.useEffect(() => {
     const calc = () => {
       const el = sliderRef.current;
-      if (!el || !el.firstElementChild) return;
+      if (!el || !el.firstElementChild) {
+        setCardWidth(0);
+        return;
+      }
       const child = el.firstElementChild as HTMLElement;
-      const gap = parseInt(getComputedStyle(el).gap || "16", 10);
+      const gap = parseInt(getComputedStyle(el).gap || "16", 10) || 16;
       setCardWidth(child.offsetWidth + gap);
     };
 
     calc();
+    const ro = new ResizeObserver(calc);
+    if (sliderRef.current) ro.observe(sliderRef.current);
     window.addEventListener("resize", calc);
-    return () => window.removeEventListener("resize", calc);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", calc);
+    };
   }, [isMobile]);
 
   // Update currentIndex while scrolling (throttled with rAF)
@@ -101,18 +109,32 @@ const Serviece: React.FC = () => {
     };
   }, [cardWidth, serviceCards.length]);
 
+  // robust scrollBy: uses measured cardWidth or sensible fallback
+  const scrollByCard = (direction: "left" | "right") => {
+    const el = sliderRef.current;
+    if (!el) return;
+
+    // Choose a sensible fallback if cardWidth not measured: use 86% of container width
+    const fallbackWidth = Math.round((el.clientWidth || window.innerWidth) * 0.86);
+    const step = cardWidth && cardWidth > 0 ? cardWidth : fallbackWidth;
+    const delta = direction === "left" ? -step : step;
+
+    // perform smooth scroll
+    el.scrollBy({ left: delta, behavior: "smooth" });
+
+    // optimistic update (onScroll will correct if needed)
+    const approxIndex = cardWidth ? Math.round(el.scrollLeft / (cardWidth || 1)) : currentIndex;
+    const targetIndex = Math.max(0, Math.min(serviceCards.length - 1, direction === "left" ? approxIndex - 1 : approxIndex + 1));
+    setCurrentIndex(targetIndex);
+  };
+
   const scrollToIndex = (index: number) => {
     const el = sliderRef.current;
     if (!el) return;
-    const left = index * cardWidth;
+    const size = cardWidth && cardWidth > 0 ? cardWidth : Math.round((el.clientWidth || window.innerWidth) * 0.86);
+    const left = index * size;
     el.scrollTo({ left, behavior: "smooth" });
-    setCurrentIndex(index);
-  };
-
-  const scrollByCard = (direction: "left" | "right") => {
-    const target = direction === "left" ? currentIndex - 1 : currentIndex + 1;
-    const bounded = Math.max(0, Math.min(serviceCards.length - 1, target));
-    scrollToIndex(bounded);
+    setCurrentIndex(Math.max(0, Math.min(serviceCards.length - 1, index)));
   };
 
   return (
