@@ -69,7 +69,7 @@ const Serviece: React.FC = () => {
       const el = sliderRef.current;
       if (!el || !el.firstElementChild) return;
       const child = el.firstElementChild as HTMLElement;
-      const gap = parseInt(getComputedStyle(el).gap || "16");
+      const gap = parseInt(getComputedStyle(el).gap || "16", 10);
       setCardWidth(child.offsetWidth + gap);
     };
 
@@ -78,16 +78,15 @@ const Serviece: React.FC = () => {
     return () => window.removeEventListener("resize", calc);
   }, [isMobile]);
 
-  // Update currentIndex while scrolling
+  // Update currentIndex while scrolling (throttled with rAF)
   React.useEffect(() => {
     const el = sliderRef.current;
     if (!el) return;
 
-    let raf = 0;
+    let rafId = 0;
     const onScroll = () => {
-      // throttle via rAF
-      if (raf) cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => {
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
         const left = el.scrollLeft;
         const idx = cardWidth ? Math.round(left / cardWidth) : 0;
         const bounded = Math.max(0, Math.min(serviceCards.length - 1, idx));
@@ -98,9 +97,9 @@ const Serviece: React.FC = () => {
     el.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       el.removeEventListener("scroll", onScroll);
-      if (raf) cancelAnimationFrame(raf);
+      if (rafId) cancelAnimationFrame(rafId);
     };
-  }, [cardWidth]);
+  }, [cardWidth, serviceCards.length]);
 
   const scrollToIndex = (index: number) => {
     const el = sliderRef.current;
