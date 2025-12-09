@@ -15,13 +15,24 @@ import EmailIcon from "@mui/icons-material/EmailOutlined";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import PhoneIphoneIcon from "@mui/icons-material/PhoneIphone";
 
-// Contact detail helper (keeps icons consistent)
-const ContactDetail: React.FC<{ icon: React.ReactElement; label: string; value: string }> = ({ icon, label, value }) => (
+
+const ContactDetail: React.FC<{ icon: React.ReactElement; label: string; value: React.ReactNode }> = ({
+  icon,
+  label,
+  value,
+}) => (
   <Box sx={{ mb: 1.5, display: "flex", alignItems: "center" }}>
     <Box sx={{ color: "#0F172A", mr: 1.5, display: "flex", alignItems: "center" }}>{icon}</Box>
-    <Typography variant="body2" sx={{ color: "#4B5563", fontFamily: "'Tajawal', sans-serif" }}>
-      {label}: <strong style={{ marginLeft: 6, color: "#0F172A" }}>{value}</strong>
-    </Typography>
+
+    {/* Use a small flex container for label + value so mixed directions render nicely */}
+    <Box sx={{ display: "flex", alignItems: "baseline", gap: 0.5 }}>
+      <Typography variant="body2" sx={{ color: "#4B5563", fontFamily: "'Tajawal', sans-serif" }}>
+        {label}:
+      </Typography>
+      <Typography variant="body2" sx={{ color: "#0F172A", fontWeight: 700, fontFamily: "'Tajawal', sans-serif" }}>
+        {value}
+      </Typography>
+    </Box>
   </Box>
 );
 
@@ -33,11 +44,13 @@ const Contactus: React.FC = () => {
     const email = (form.elements.namedItem("email") as HTMLInputElement)?.value || "";
     const mobile = (form.elements.namedItem("mobile") as HTMLInputElement)?.value || "";
     const subject = (form.elements.namedItem("subject") as HTMLInputElement)?.value || "";
-    const message = (form.elements.namedItem("message") as HTMLInputElement)?.value || "";
+    const formMessage = (form.elements.namedItem("message") as HTMLInputElement)?.value || "";
 
-    const whatsappNumber = "+94768696704"; // adjust if needed
-    const whatsappMessage = `Name: ${encodeURIComponent(name)}%0AEmail: ${encodeURIComponent(email)}%0AMobile: ${encodeURIComponent(mobile)}%0ASubject: ${encodeURIComponent(subject)}%0AMessage: ${encodeURIComponent(message)}`;
-    const whatsappURL = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
+    // wa.me expects only digits (country code + number) — no plus or parentheses
+    const whatsappNumber = "94768696704"; // <-- adjust if needed, digits only
+    const whatsappPlain = `Name: ${name}\nEmail: ${email}\nMobile: ${mobile}\nSubject: ${subject}\nMessage: ${formMessage}`;
+    const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappPlain)}`;
+
     window.open(whatsappURL, "_blank");
     form.reset();
   };
@@ -47,16 +60,16 @@ const Contactus: React.FC = () => {
       {/* Global font override to Tajawal for entire page (uses !important) */}
       <GlobalStyles
         styles={{
-          '*': {
+          "*": {
             fontFamily: '"Tajawal", sans-serif !important',
-            fontSize: '18px !important',
-            WebkitFontSmoothing: 'antialiased',
-            MozOsxFontSmoothing: 'grayscale',
+            fontSize: "18px !important",
+            WebkitFontSmoothing: "antialiased",
+            MozOsxFontSmoothing: "grayscale",
           },
-          'input, textarea, select, button': {
+          "input, textarea, select, button": {
             fontFamily: '"Tajawal", sans-serif !important',
-            fontSize: '18px !important'
-          }
+            fontSize: "18px !important",
+          },
         }}
       />
 
@@ -75,7 +88,16 @@ const Contactus: React.FC = () => {
         <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, gap: { xs: 4, md: 8 } }}>
           {/* Left column */}
           <Box sx={{ flex: 1 }}>
-            <Typography variant="h5" sx={{ fontWeight: 700, mb: 2, borderBottom: "3px solid #E5E7EB", display: "inline-block", pb: 0.5 }}>
+            <Typography
+              variant="h5"
+              sx={{
+                fontWeight: 700,
+                mb: 2,
+                borderBottom: "3px solid #E5E7EB",
+                display: "inline-block",
+                pb: 0.5,
+              }}
+            >
               Khalid Marketer
             </Typography>
 
@@ -86,15 +108,51 @@ const Contactus: React.FC = () => {
             <Box sx={{ mb: 3 }}>
               <Typography sx={{ fontWeight: 700, mb: 1 }}>QARAR - Contact Information</Typography>
               <ContactDetail icon={<EmailIcon fontSize="small" />} label="البريد الإلكتروني" value="info@almtcqatar.com | almtcqatar@gmail.com" />
-              <ContactDetail icon={<WhatsAppIcon fontSize="small" />} label="رقم الهاتف" value="(+974) 502260200" />
-              <ContactDetail icon={<PhoneIphoneIcon fontSize="small" />} label="موبايل" value="(+94) 672260200" />
+
+              <ContactDetail
+                icon={<WhatsAppIcon fontSize="small" />}
+                label="رقم الهاتف"
+                value={
+                  <span style={{ direction: "ltr", unicodeBidi: "bidi-override" }}>
+                    (+974) 502260200
+                  </span>
+                }
+              />
+
+              <ContactDetail
+                icon={<PhoneIphoneIcon fontSize="small" />}
+                label="موبايل"
+                value={
+                  <span style={{ direction: "ltr", unicodeBidi: "bidi-override" }}>
+                    (+94) 672260200
+                  </span>
+                }
+              />
             </Box>
           </Box>
 
           {/* Right column - form (no Grid) */}
           <Box sx={{ flex: 1 }}>
-            <Box component="form" onSubmit={handleSubmit} sx={{ p: { xs: 2.5, sm: 4 }, background: "#fff", borderRadius: 1, boxShadow: '0 4px 10px rgba(2,6,23,0.06)' }}>
-              <Typography variant="h6" sx={{ fontWeight: 700, mb: 2, borderBottom: "3px solid #E5E7EB", display: "inline-block", pb: 0.5 }}>
+            <Box
+              component="form"
+              onSubmit={handleSubmit}
+              sx={{
+                p: { xs: 2.5, sm: 4 },
+                background: "#fff",
+                borderRadius: 1,
+                boxShadow: "0 4px 10px rgba(2,6,23,0.06)",
+              }}
+            >
+              <Typography
+                variant="h6"
+                sx={{
+                  fontWeight: 700,
+                  mb: 2,
+                  borderBottom: "3px solid #E5E7EB",
+                  display: "inline-block",
+                  pb: 0.5,
+                }}
+              >
                 أرسل رسالتك
               </Typography>
 
@@ -109,8 +167,7 @@ const Contactus: React.FC = () => {
                     defaultValue=""
                     sx={{
                       fontFamily: '"Tajawal", sans-serif !important',
-                      // ensure the select text and icon inherit the Tajawal font
-                      '& .MuiSelect-select': { fontFamily: '"Tajawal", sans-serif !important', paddingTop: 1.5, paddingBottom: 1.5 },
+                      "& .MuiSelect-select": { fontFamily: '"Tajawal", sans-serif !important', paddingTop: 1.5, paddingBottom: 1.5 },
                     }}
                     MenuProps={{ PaperProps: { sx: { fontFamily: '"Tajawal", sans-serif !important' } } }}
                   >
@@ -189,12 +246,12 @@ const Contactus: React.FC = () => {
                     fullWidth
                     sx={{
                       background: "linear-gradient(135deg, #023B4E, #046A84, #08A4BF)",
-                      color: '#fff',
-                      '&:hover': { opacity: 0.95 },
-                      padding: '12px 18px',
+                      color: "#fff",
+                      "&:hover": { opacity: 0.95 },
+                      padding: "12px 18px",
                       fontSize: 18,
-                      textTransform: 'none',
-                      boxShadow: '0 6px 18px rgba(3, 67, 88, 0.18)'
+                      textTransform: "none",
+                      boxShadow: "0 6px 18px rgba(3, 67, 88, 0.18)",
                     }}
                   >
                     أرسل
