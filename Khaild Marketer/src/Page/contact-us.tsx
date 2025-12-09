@@ -9,6 +9,7 @@ import {
   Select,
   FormControl,
   InputLabel,
+  GlobalStyles,
 } from "@mui/material";
 import EmailIcon from "@mui/icons-material/EmailOutlined";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
@@ -18,7 +19,7 @@ import PhoneIphoneIcon from "@mui/icons-material/PhoneIphone";
 const ContactDetail: React.FC<{ icon: React.ReactElement; label: string; value: string }> = ({ icon, label, value }) => (
   <Box sx={{ mb: 1.5, display: "flex", alignItems: "center" }}>
     <Box sx={{ color: "#0F172A", mr: 1.5, display: "flex", alignItems: "center" }}>{icon}</Box>
-    <Typography variant="body2" sx={{ color: "#4B5563", fontFamily: "'Montserrat', sans-serif" }}>
+    <Typography variant="body2" sx={{ color: "#4B5563", fontFamily: "'Tajawal', sans-serif" }}>
       {label}: <strong style={{ marginLeft: 6, color: "#0F172A" }}>{value}</strong>
     </Typography>
   </Box>
@@ -42,7 +43,23 @@ const Contactus: React.FC = () => {
   };
 
   return (
-    <Box sx={{ direction: "rtl", fontFamily: "'Montserrat', sans-serif" }}>
+    <Box sx={{ direction: "rtl" }}>
+      {/* Global font override to Tajawal for entire page (uses !important) */}
+      <GlobalStyles
+        styles={{
+          '*': {
+            fontFamily: '"Tajawal", sans-serif !important',
+            fontSize: '18px !important',
+            WebkitFontSmoothing: 'antialiased',
+            MozOsxFontSmoothing: 'grayscale',
+          },
+          'input, textarea, select, button': {
+            fontFamily: '"Tajawal", sans-serif !important',
+            fontSize: '18px !important'
+          }
+        }}
+      />
+
       {/* Map - uses the provided dynamic map URL */}
       <Box sx={{ width: "100%", height: { xs: 300, md: 500 }, overflow: "hidden" }}>
         <iframe
@@ -59,17 +76,17 @@ const Contactus: React.FC = () => {
           {/* Left column */}
           <Box sx={{ flex: 1 }}>
             <Typography variant="h5" sx={{ fontWeight: 700, mb: 2, borderBottom: "3px solid #E5E7EB", display: "inline-block", pb: 0.5 }}>
-              مرحبًا بكم في Al Mubthadieen
+              Khalid Marketer
             </Typography>
 
             <Typography sx={{ color: "#4B5563", mt: 3, mb: 4, lineHeight: 1.7 }}>
-              <strong>Al Mubthadieen Trading & Contracting (MTC)</strong> شركة متخصصة في الديكور الداخلي وتفخر بالحرفية والتعاون مع أفضل المهندسين المعماريين الداخليين في المنطقة.
+              <strong> Khalid Marketer</strong> تواصل معنا لأي معلومات إضافية أو استفسارات.
             </Typography>
 
             <Box sx={{ mb: 3 }}>
               <Typography sx={{ fontWeight: 700, mb: 1 }}>QARAR - Contact Information</Typography>
-              <ContactDetail icon={<EmailIcon fontSize="small" />} label="البريد" value="info@almtcqatar.com | almtcqatar@gmail.com" />
-              <ContactDetail icon={<WhatsAppIcon fontSize="small" />} label="واتساب" value="(+974) 502260200" />
+              <ContactDetail icon={<EmailIcon fontSize="small" />} label="البريد الإلكتروني" value="info@almtcqatar.com | almtcqatar@gmail.com" />
+              <ContactDetail icon={<WhatsAppIcon fontSize="small" />} label="رقم الهاتف" value="(+974) 502260200" />
               <ContactDetail icon={<PhoneIphoneIcon fontSize="small" />} label="موبايل" value="(+94) 672260200" />
             </Box>
           </Box>
@@ -77,36 +94,109 @@ const Contactus: React.FC = () => {
           {/* Right column - form (no Grid) */}
           <Box sx={{ flex: 1 }}>
             <Box component="form" onSubmit={handleSubmit} sx={{ p: { xs: 2.5, sm: 4 }, background: "#fff", borderRadius: 1, boxShadow: '0 4px 10px rgba(2,6,23,0.06)' }}>
-              <Typography variant="h6" sx={{ fontWeight: 700, mb: 2, borderBottom: "3px solid #E5E7EB", display: "inline-block", pb: 0.5, fontFamily: "'Tajawal', sans-serif", }}>
+              <Typography variant="h6" sx={{ fontWeight: 700, mb: 2, borderBottom: "3px solid #E5E7EB", display: "inline-block", pb: 0.5 }}>
                 أرسل رسالتك
               </Typography>
 
               {/* Inquiry select - full width */}
               <Box sx={{ mb: 2 }}>
                 <FormControl fullWidth variant="standard">
-                  <InputLabel id="inquiry-type-label" sx={{fontFamily: "'Tajawal', sans-serif"}}>نوع الاستفسار</InputLabel>
-                  <Select labelId="inquiry-type-label" label="نوع الاستفسار" name="inquiryType" defaultValue="">
-                    <MenuItem value="general" sx={{fontFamily: "'Tajawal', sans-serif",}}>عام</MenuItem>
-                    <MenuItem value="project" sx={{fontFamily: "'Tajawal', sans-serif",}}>مشروع</MenuItem>
-                    <MenuItem value="support" sx={{fontFamily: "'Tajawal', sans-serif",}}>دعم</MenuItem>
+                  <InputLabel id="inquiry-type-label">نوع الاستفسار</InputLabel>
+                  <Select
+                    labelId="inquiry-type-label"
+                    label="نوع الاستفسار"
+                    name="inquiryType"
+                    defaultValue=""
+                    sx={{
+                      fontFamily: '"Tajawal", sans-serif !important',
+                      // ensure the select text and icon inherit the Tajawal font
+                      '& .MuiSelect-select': { fontFamily: '"Tajawal", sans-serif !important', paddingTop: 1.5, paddingBottom: 1.5 },
+                    }}
+                    MenuProps={{ PaperProps: { sx: { fontFamily: '"Tajawal", sans-serif !important' } } }}
+                  >
+                    <MenuItem value="general">عام</MenuItem>
+                    <MenuItem value="project">مشروع</MenuItem>
+                    <MenuItem value="support">دعم</MenuItem>
                   </Select>
                 </FormControl>
               </Box>
 
               {/* Two-column like layout using flex-wrap for inputs */}
               <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2 }}>
-                <TextField name="name" label="الاسم *" variant="standard" required sx={{ flex: "1 1 45%" }} InputLabelProps={{ shrink: true }} />
-                <TextField name="email" label="البريد الإلكتروني *" variant="standard" required sx={{ flex: "1 1 45%" }} InputLabelProps={{ shrink: true }} />
+                <TextField
+                  name="name"
+                  label="الاسم *"
+                  variant="standard"
+                  required
+                  sx={{ flex: "1 1 45%" }}
+                  InputLabelProps={{ shrink: true }}
+                  InputProps={{ sx: { fontFamily: '"Tajawal", sans-serif !important' } }}
+                />
 
-                <TextField name="location" label="الموقع" variant="standard" sx={{ flex: "1 1 45%" }} />
-                <TextField name="mobile" label="رقم الهاتف *" variant="standard" required sx={{ flex: "1 1 45%" }} />
+                <TextField
+                  name="email"
+                  label="البريد الإلكتروني *"
+                  variant="standard"
+                  required
+                  sx={{ flex: "1 1 45%" }}
+                  InputLabelProps={{ shrink: true }}
+                  InputProps={{ sx: { fontFamily: '"Tajawal", sans-serif !important' } }}
+                />
 
-                <TextField name="subject" label="الموضوع" variant="standard" sx={{ flex: "1 1 100%" }} />
+                <TextField
+                  name="location"
+                  label="الموقع"
+                  variant="standard"
+                  sx={{ flex: "1 1 45%" }}
+                  InputLabelProps={{ shrink: true }}
+                  InputProps={{ sx: { fontFamily: '"Tajawal", sans-serif !important' } }}
+                />
 
-                <TextField name="message" label="نص الرسالة *" variant="standard" required multiline rows={5} sx={{ flex: "1 1 100%" }} />
+                <TextField
+                  name="mobile"
+                  label="رقم الهاتف *"
+                  variant="standard"
+                  required
+                  sx={{ flex: "1 1 45%" }}
+                  InputLabelProps={{ shrink: true }}
+                  InputProps={{ sx: { fontFamily: '"Tajawal", sans-serif !important' } }}
+                />
+
+                <TextField
+                  name="subject"
+                  label="الموضوع"
+                  variant="standard"
+                  sx={{ flex: "1 1 100%" }}
+                  InputLabelProps={{ shrink: true }}
+                  InputProps={{ sx: { fontFamily: '"Tajawal", sans-serif !important' } }}
+                />
+
+                <TextField
+                  name="message"
+                  label="نص الرسالة *"
+                  variant="standard"
+                  required
+                  multiline
+                  rows={5}
+                  sx={{ flex: "1 1 100%" }}
+                  InputLabelProps={{ shrink: true }}
+                  InputProps={{ sx: { fontFamily: '"Tajawal", sans-serif !important' } }}
+                />
 
                 <Box sx={{ flex: "1 1 100%" }}>
-                  <Button type="submit" fullWidth sx={{ backgroundColor: '#C7A33B', color: '#fff', '&:hover': { backgroundColor: '#b48f2f' }, padding: '12px 18px', fontSize: 18, textTransform: 'none' }}>
+                  <Button
+                    type="submit"
+                    fullWidth
+                    sx={{
+                      background: "linear-gradient(135deg, #023B4E, #046A84, #08A4BF)",
+                      color: '#fff',
+                      '&:hover': { opacity: 0.95 },
+                      padding: '12px 18px',
+                      fontSize: 18,
+                      textTransform: 'none',
+                      boxShadow: '0 6px 18px rgba(3, 67, 88, 0.18)'
+                    }}
+                  >
                     أرسل
                   </Button>
                 </Box>
