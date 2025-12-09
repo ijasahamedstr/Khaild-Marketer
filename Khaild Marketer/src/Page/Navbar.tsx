@@ -18,7 +18,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import MenuIcon from '@mui/icons-material/Menu';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
-/* --- Arabic pages (removed duplicate 'أقسامنا') --- */
+/* --- Arabic pages --- */
 const pages = [
   { label: 'الرئيسية', path: '/' },
   { label: 'أقسامنا', path: '/أقسامنا' },
@@ -35,9 +35,7 @@ const projectsSubMenu = [
 
 export default function Navbar() {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
-  const [projectsMenuAnchor, setProjectsMenuAnchor] =
-    React.useState<null | HTMLElement>(null);
-
+  const [projectsMenuAnchor, setProjectsMenuAnchor] = React.useState<null | HTMLElement>(null);
   const [mobileProjectsOpen, setMobileProjectsOpen] = React.useState(false);
 
   const location = useLocation();
@@ -59,19 +57,13 @@ export default function Navbar() {
   const isActive = (path: string) => location.pathname === path;
 
   const marginTopValue = isDesktop || isMarginTop57px ? '' : '0px';
-  const handleDrawerToggle = () => setDrawerOpen((prev) => !prev);
 
-  const handleProjectsMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setProjectsMenuAnchor(event.currentTarget);
-  };
-
-  const handleProjectsMenuClose = () => {
-    setProjectsMenuAnchor(null);
-  };
+  const handleDrawerToggle = () => setDrawerOpen((prev) => prev);
+  const handleProjectsMenuOpen = (event: React.MouseEvent<HTMLElement>) => setProjectsMenuAnchor(event.currentTarget);
+  const handleProjectsMenuClose = () => setProjectsMenuAnchor(null);
 
   const isProjectsMenuOpen = Boolean(projectsMenuAnchor);
 
-  // central font for all menu items
   const menuFont = 'Tajawal, sans-serif';
 
   return (
@@ -83,8 +75,7 @@ export default function Navbar() {
         backgroundColor: '#023B4E',
         color: '#A69196',
         fontFamily: menuFont,
-          fontWeight: 500,
-                          
+        fontWeight: 500,
         transition: 'margin-top 0.3s ease',
         marginTop: marginTopValue,
         width: '100%',
@@ -102,11 +93,7 @@ export default function Navbar() {
           }}
         >
           {/* Logo */}
-          <Box
-            component={Link}
-            to="/"
-            sx={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}
-          >
+          <Box component={Link} to="/" sx={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
             <Box
               component="img"
               src="https://i.ibb.co/yn0gbKdZ/Gemini-Generated-Image-pua0mbpua0mbpua0-removebg-preview.png"
@@ -118,8 +105,7 @@ export default function Navbar() {
           {/* Desktop Menu */}
           {isDesktop ? (
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 5, mr: 3 }}>
-              {pages.map(({ label, path }, index) => {
-                // Use label check to determine the projects dropdown (robust to array changes)
+              {pages.map(({ label, path }) => {
                 if (label === 'أقسامنا') {
                   const dropdownActive = location.pathname.includes('/projects');
 
@@ -130,10 +116,8 @@ export default function Navbar() {
                         sx={{
                           color: dropdownActive ? activeColor : 'white',
                           fontFamily: menuFont,
-          fontWeight: 500,
-                          
+                          fontWeight: 500,
                           fontSize: '20px',
-                          
                           textTransform: 'none',
                           display: 'flex',
                           alignItems: 'center',
@@ -151,11 +135,7 @@ export default function Navbar() {
                         />
                       </Button>
 
-                      <Menu
-                        anchorEl={projectsMenuAnchor}
-                        open={isProjectsMenuOpen}
-                        onClose={handleProjectsMenuClose}
-                      >
+                      <Menu anchorEl={projectsMenuAnchor} open={isProjectsMenuOpen} onClose={handleProjectsMenuClose}>
                         {projectsSubMenu.map((item) => (
                           <MenuItem
                             key={item.label}
@@ -164,8 +144,7 @@ export default function Navbar() {
                             onClick={handleProjectsMenuClose}
                             sx={{
                               fontFamily: menuFont,
-          fontWeight: 500,
-                          
+                              fontWeight: 500,
                               fontSize: '18px',
                               backgroundColor: isActive(item.path) ? activeBg : 'transparent',
                               color: isActive(item.path) ? activeColor : 'black',
@@ -188,10 +167,8 @@ export default function Navbar() {
                     sx={{
                       color: isActive(path) ? activeColor : 'white',
                       fontFamily: menuFont,
-          fontWeight: 500,
-                          
+                      fontWeight: 500,
                       fontSize: '20px',
-                      
                       textTransform: 'none',
                     }}
                   >
@@ -201,7 +178,7 @@ export default function Navbar() {
               })}
             </Box>
           ) : (
-            <IconButton onClick={handleDrawerToggle} sx={{ color: '#A69196' }}>
+            <IconButton onClick={() => setDrawerOpen(!drawerOpen)} sx={{ color: '#A69196' }}>
               <MenuIcon />
             </IconButton>
           )}
@@ -212,7 +189,7 @@ export default function Navbar() {
       <Drawer
         anchor="right"
         open={drawerOpen}
-        onClose={handleDrawerToggle}
+        onClose={() => setDrawerOpen(false)}
         PaperProps={{
           sx: {
             width: '80%',
@@ -220,8 +197,7 @@ export default function Navbar() {
             direction: 'rtl',
             borderRadius: '16px 0 0 16px',
             fontFamily: menuFont,
-          fontWeight: 500,
-                          
+            fontWeight: 500,
           },
         }}
       >
@@ -236,11 +212,9 @@ export default function Navbar() {
             />
           </Box>
 
-          <List sx={{ textAlign: 'right', fontFamily: menuFont,
-          fontWeight: 500 }}>
-            {pages.map(({ label, path }, index) => (
+          <List sx={{ textAlign: 'right', fontFamily: menuFont, fontWeight: 500 }}>
+            {pages.map(({ label, path }) => (
               <React.Fragment key={label}>
-                {/* المشاريع Dropdown Mobile: use label check instead of fixed index */}
                 {label === 'أقسامنا' ? (
                   <>
                     <ListItemButton
@@ -250,19 +224,14 @@ export default function Navbar() {
                         mb: 1,
                         justifyContent: 'flex-end',
                         backgroundColor: location.pathname.includes('/projects') ? activeBg : 'transparent',
-                        fontFamily: menuFont,
-          fontWeight: 500,
-                          
                       }}
                     >
                       <ListItemText
                         primary={label}
                         primaryTypographyProps={{
                           fontFamily: menuFont,
-          fontWeight: 500,
-                          
+                          fontWeight: 500,
                           fontSize: '19px',
-                          
                           color: location.pathname.includes('/projects') ? activeColor : 'black',
                           textAlign: 'right',
                         }}
@@ -281,22 +250,18 @@ export default function Navbar() {
                           key={item.label}
                           component={Link}
                           to={item.path}
-                          onClick={handleDrawerToggle}
+                          onClick={() => setDrawerOpen(false)}
                           sx={{
                             pr: 4,
                             borderRadius: 2,
                             backgroundColor: isActive(item.path) ? activeBg : 'transparent',
-                            fontFamily: menuFont,
-          fontWeight: 500,
-                          
                           }}
                         >
                           <ListItemText
                             primary={item.label}
                             primaryTypographyProps={{
                               fontFamily: menuFont,
-          fontWeight: 500,
-                          
+                              fontWeight: 500,
                               fontSize: '17px',
                               color: isActive(item.path) ? activeColor : 'black',
                               textAlign: 'right',
@@ -309,24 +274,19 @@ export default function Navbar() {
                   <ListItemButton
                     component={Link}
                     to={path}
-                    onClick={handleDrawerToggle}
+                    onClick={() => setDrawerOpen(false)}
                     sx={{
                       borderRadius: 2,
                       mb: 1,
                       backgroundColor: isActive(path) ? activeBg : 'transparent',
-                      fontFamily: menuFont,
-          fontWeight: 500,
-                          
                     }}
                   >
                     <ListItemText
                       primary={label}
                       primaryTypographyProps={{
                         fontFamily: menuFont,
-          fontWeight: 500,
-                          
+                        fontWeight: 500,
                         fontSize: '19px',
-                        
                         color: isActive(path) ? activeColor : 'black',
                         textAlign: 'right',
                       }}
