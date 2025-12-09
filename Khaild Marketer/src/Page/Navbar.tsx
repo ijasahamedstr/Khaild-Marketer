@@ -18,7 +18,6 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import MenuIcon from '@mui/icons-material/Menu';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
-/* --- Arabic pages --- */
 const pages = [
   { label: 'الرئيسية', path: '/' },
   { label: 'أقسامنا', path: '/أقسامنا' },
@@ -26,7 +25,6 @@ const pages = [
   { label: 'إتصل بنا', path: '/إتصل بنا' },
 ];
 
-/* --- Projects dropdown --- */
 const projectsSubMenu = [
   { label: 'أقسامنا', path: '/projects' },
   { label: 'المشاريع الجارية', path: '/projects/ongoing' },
@@ -57,12 +55,6 @@ export default function Navbar() {
   const isActive = (path: string) => location.pathname === path;
 
   const marginTopValue = isDesktop || isMarginTop57px ? '' : '0px';
-
-  const handleDrawerToggle = () => setDrawerOpen((prev) => prev);
-  const handleProjectsMenuOpen = (event: React.MouseEvent<HTMLElement>) => setProjectsMenuAnchor(event.currentTarget);
-  const handleProjectsMenuClose = () => setProjectsMenuAnchor(null);
-
-  const isProjectsMenuOpen = Boolean(projectsMenuAnchor);
 
   const menuFont = 'Tajawal, sans-serif';
 
@@ -112,7 +104,7 @@ export default function Navbar() {
                   return (
                     <React.Fragment key={label}>
                       <Button
-                        onClick={handleProjectsMenuOpen}
+                        onClick={(e) => setProjectsMenuAnchor(e.currentTarget)}
                         sx={{
                           color: dropdownActive ? activeColor : 'white',
                           fontFamily: menuFont,
@@ -130,18 +122,22 @@ export default function Navbar() {
                             fontSize: 24,
                             transition: '0.3s',
                             color: dropdownActive ? activeColor : 'white',
-                            transform: isProjectsMenuOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                            transform: projectsMenuAnchor ? 'rotate(180deg)' : 'rotate(0deg)',
                           }}
                         />
                       </Button>
 
-                      <Menu anchorEl={projectsMenuAnchor} open={isProjectsMenuOpen} onClose={handleProjectsMenuClose}>
+                      <Menu
+                        anchorEl={projectsMenuAnchor}
+                        open={Boolean(projectsMenuAnchor)}
+                        onClose={() => setProjectsMenuAnchor(null)}
+                      >
                         {projectsSubMenu.map((item) => (
                           <MenuItem
                             key={item.label}
                             component={Link}
                             to={item.path}
-                            onClick={handleProjectsMenuClose}
+                            onClick={() => setProjectsMenuAnchor(null)}
                             sx={{
                               fontFamily: menuFont,
                               fontWeight: 500,
@@ -178,7 +174,7 @@ export default function Navbar() {
               })}
             </Box>
           ) : (
-            <IconButton onClick={() => setDrawerOpen(!drawerOpen)} sx={{ color: '#A69196' }}>
+            <IconButton onClick={() => setDrawerOpen(true)} sx={{ color: '#A69196' }}>
               <MenuIcon />
             </IconButton>
           )}
@@ -212,7 +208,7 @@ export default function Navbar() {
             />
           </Box>
 
-          <List sx={{ textAlign: 'right', fontFamily: menuFont, fontWeight: 500 }}>
+          <List sx={{ textAlign: 'right' }}>
             {pages.map(({ label, path }) => (
               <React.Fragment key={label}>
                 {label === 'أقسامنا' ? (
