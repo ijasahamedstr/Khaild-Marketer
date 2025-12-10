@@ -117,7 +117,6 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
   const [selectedThird, setSelectedThird] = React.useState<Record<number, boolean>>({});
   const [selectedFifth, setSelectedFifth] = React.useState<Record<number, boolean>>({});
   const [sixthButtonsState, setSixthButtonsState] = React.useState<Record<number, boolean>>({});
-  const [sixthSearchQuery, setSixthSearchQuery] = React.useState<string>("");
   // fifthText -> store per-line text
   const [fifthText, setFifthText] = React.useState<Record<number, string>>({});
 
@@ -142,7 +141,7 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
     const chosenFifth = CHECKBOX_ITEMS_FIFTH.filter((_, i) => !!selectedFifth[i]);
 
     // convert fifthText record to array keeping indices order
-    const fifthTextArr = CHECKBOX_ITEMS_FIFTH.map((_, i) => fifthText[i] ?? "");
+    const fifthTextArr = CHECKBOX_ITEMS_FIFTH.map((_, i) => (fifthText[i] ?? "").trim());
 
     // sixth: collect labels of buttons that are active/toggled
     const sixthButtonsArr = SIXTH_BUTTONS.filter((_, i) => !!sixthButtonsState[i]);
@@ -153,7 +152,6 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
         second: chosenSecond,
         third: chosenThird,
         fifth: chosenFifth,
-        search: sixthSearchQuery,
         fifthText: fifthTextArr,
         sixthButtons: sixthButtonsArr,
       });
@@ -198,7 +196,6 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
               <Box sx={{ display: "grid", gridTemplateColumns: gridCols, gap: { xs: 1.25, md: 2 } }}>
                 {CHECKBOX_ITEMS_FIRST.map((label, i) => {
                   const checked = !!selectedFirst[i];
-                  const delay = `${i * 80}ms`;
                   return (
                     <FormControlLabel
                       key={`first-${label}-${i}`}
@@ -230,7 +227,7 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
                         backgroundColor: checked ? "rgba(234,255,246,0.7)" : "#fff",
                         transition: "all 220ms ease",
                         animation: `${fadeUp()} 480ms ease both`,
-                        animationDelay: delay,
+                        animationDelay: `${i * 80}ms`,
                         "& .MuiFormControlLabel-label": { fontFamily: TAJAWAL },
                       }}
                     />
@@ -254,7 +251,6 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
                 <Box sx={{ display: "grid", gridTemplateColumns: gridCols, gap: { xs: 1.25, md: 2 } }}>
                   {CHECKBOX_ITEMS_SECOND.map((label, i) => {
                     const checked = !!selectedSecond[i];
-                    const delay = `${i * 80}ms`;
                     return (
                       <FormControlLabel
                         key={`second-${label}-${i}`}
@@ -286,7 +282,7 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
                           backgroundColor: checked ? "rgba(234,255,246,0.7)" : "#fff",
                           transition: "all 220ms ease",
                           animation: `${fadeUp()} 480ms ease both`,
-                          animationDelay: delay,
+                          animationDelay: `${i * 80}ms`,
                           "& .MuiFormControlLabel-label": { fontFamily: TAJAWAL },
                         }}
                       />
@@ -311,7 +307,6 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
                 <Box sx={{ display: "grid", gridTemplateColumns: gridCols, gap: { xs: 1.25, md: 2 } }}>
                   {CHECKBOX_ITEMS_THIRD.map((label, i) => {
                     const checked = !!selectedThird[i];
-                    const delay = `${i * 80}ms`;
                     return (
                       <FormControlLabel
                         key={`third-${label}-${i}`}
@@ -343,7 +338,7 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
                           backgroundColor: checked ? "rgba(234,255,246,0.7)" : "#fff",
                           transition: "all 220ms ease",
                           animation: `${fadeUp()} 480ms ease both`,
-                          animationDelay: delay,
+                          animationDelay: `${i * 80}ms`,
                           "& .MuiFormControlLabel-label": { fontFamily: TAJAWAL },
                         }}
                       />
@@ -369,7 +364,6 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
                 <Box sx={{ display: "grid", gap: 2 }}>
                   {CHECKBOX_ITEMS_FIFTH.map((label, i) => {
                     const checked = !!selectedFifth[i];
-                    const delay = `${i * 80}ms`;
                     return (
                       <Box key={`fifth-row-${i}`} sx={{ display: { xs: "block", sm: "flex" }, alignItems: "center", gap: 2 }}>
                         <FormControlLabel
@@ -400,7 +394,7 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
                             backgroundColor: checked ? "rgba(234,255,246,0.7)" : "#fff",
                             transition: "all 220ms ease",
                             animation: `${fadeUp()} 480ms ease both`,
-                            animationDelay: delay,
+                            animationDelay: `${i * 80}ms`,
                             "& .MuiFormControlLabel-label": { fontFamily: TAJAWAL },
                             minWidth: { sm: "260px" },
                           }}
@@ -460,7 +454,6 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
                             },
                           }
                         : {
-                            // styles for outlined state (keeps MUI default outline look, but ensure direction)
                             background: "transparent",
                           }),
                     }}
@@ -471,6 +464,25 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
               })}
             </Box>
           </Box>
+        </Box>
+
+        {/* Submit button */}
+        <Box sx={{ mt: 4, display: "flex", justifyContent: "center" }}>
+          <Button
+            variant="contained"
+            onClick={handleSubmit}
+            sx={{
+              px: 4,
+              py: 1.25,
+              fontWeight: 700,
+              background: GRADIENT,
+              color: "#fff",
+              boxShadow: "0 10px 30px rgba(3,80,75,0.08)",
+              fontFamily: TAJAWAL,
+            }}
+          >
+            إرسال
+          </Button>
         </Box>
       </Box>
     </Container>

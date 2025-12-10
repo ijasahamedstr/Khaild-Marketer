@@ -26,7 +26,7 @@ const Mapsection: React.FC = () => {
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const markerRefs = useRef<mapboxgl.Marker[]>([]);
 
-  const [language, setLanguage] = useState<"ar" | "en">("ar");
+  // language state removed as requested — direction kept RTL
   const [openDrawer, setOpenDrawer] = useState(true);
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
 
@@ -72,8 +72,6 @@ const Mapsection: React.FC = () => {
     // اضف ماركرات فقط إذا داخل باوند الرياض
     markers.forEach((m) => {
       if (!isWithinRiyadh(m.lng, m.lat)) {
-        // لو أردت يمكن تسجيلها في console للمراجعة
-        // console.warn(`Marker ${m.id} is outside Riyadh bounds and will be skipped.`);
         return;
       }
 
@@ -104,15 +102,10 @@ const Mapsection: React.FC = () => {
       markerRefs.current.push(marker);
     });
 
-    // تأكد من أن الخريطة تعيد القياس عند تغيير حجم النافذة
     const handleResize = () => map.resize();
     window.addEventListener("resize", handleResize);
 
-    // لو أردت: عند التحريك، يمكن منع الخروج عن الباوند الإضافي
-    // Mapbox سيبقي الكاميرا داخل maxBounds تلقائياً، لذلك ليست هناك حاجة لإضافة مراقب moveend
-
     return () => {
-      // cleanup markers
       markerRefs.current.forEach((mrk) => mrk.remove());
       markerRefs.current = [];
 
@@ -129,13 +122,11 @@ const Mapsection: React.FC = () => {
   }, []);
 
   const resetToRiyadh = () => {
-    // تأكد من أن الكاميرا داخل باوند عند العودة
     const lng = defaultCenter[0];
     const lat = defaultCenter[1];
     const [westLng, southLat] = riyadhBounds[0];
     const [eastLng, northLat] = riyadhBounds[1];
 
-    // clamp center داخل الباوند إذا احتاج
     const clampedLng = Math.min(Math.max(lng, westLng), eastLng);
     const clampedLat = Math.min(Math.max(lat, southLat), northLat);
 
@@ -147,7 +138,7 @@ const Mapsection: React.FC = () => {
       style={{
         width: "100%",
         background: "#f5f5f5",
-        direction: language === "ar" ? "rtl" : "ltr",
+        direction: "rtl", // ثابت إلى اليمين كما طلبت
         paddingBottom: "60px",
         fontFamily: "'Tajawal', sans-serif",
       }}

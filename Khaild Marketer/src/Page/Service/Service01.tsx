@@ -138,7 +138,7 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
       .filter(Boolean) as string[];
 
     const chosenFourthTexts1 = Object.entries(fourthTexts)
-      .map(([iStr, txt]) => {
+      .map(([, txt]) => {
         const trimmed = (txt || "").trim();
         if (!trimmed) return null;
         return `${FOURTH_TEXT_LABEL_1} — ${trimmed}`;
@@ -146,7 +146,7 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
       .filter(Boolean) as string[];
 
     const chosenFourthTexts2 = Object.entries(fourthTexts2)
-      .map(([iStr, txt]) => {
+      .map(([, txt]) => {
         const trimmed = (txt || "").trim();
         if (!trimmed) return null;
         return `${FOURTH_TEXT_LABEL_2} — ${trimmed}`;
@@ -199,7 +199,6 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
               <Box sx={{ display: "grid", gridTemplateColumns: gridCols, gap: { xs: 1.25, md: 2 } }}>
                 {CHECKBOX_ITEMS_FIRST.map((label, i) => {
                   const checked = !!selectedFirst[i];
-                  const delay = `${i * 80}ms`;
                   return (
                     <FormControlLabel
                       key={`first-${label}-${i}`}
@@ -231,7 +230,7 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
                         backgroundColor: checked ? "rgba(234,255,246,0.7)" : "#fff",
                         transition: "all 220ms ease",
                         animation: `${fadeUp()} 480ms ease both`,
-                        animationDelay: delay,
+                        animationDelay: `${i * 80}ms`,
                         // ensure FormControlLabel label uses Tajawal as well
                         "& .MuiFormControlLabel-label": { fontFamily: TAJAWAL },
                       }}
@@ -256,7 +255,6 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
                 <Box sx={{ display: "grid", gridTemplateColumns: gridCols, gap: { xs: 1.25, md: 2 } }}>
                   {CHECKBOX_ITEMS_SECOND.map((label, i) => {
                     const checked = !!selectedSecond[i];
-                    const delay = `${i * 80}ms`;
                     return (
                       <FormControlLabel
                         key={`second-${label}-${i}`}
@@ -288,7 +286,7 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
                           backgroundColor: checked ? "rgba(234,255,246,0.7)" : "#fff",
                           transition: "all 220ms ease",
                           animation: `${fadeUp()} 480ms ease both`,
-                          animationDelay: delay,
+                          animationDelay: `${i * 80}ms`,
                           "& .MuiFormControlLabel-label": { fontFamily: TAJAWAL },
                         }}
                       />
@@ -313,7 +311,6 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
                 <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr" }, gap: { xs: 1.25, md: 2 } }}>
                   {CHECKBOX_ITEMS_THIRD.map((label, i) => {
                     const checked = !!selectedThird[i];
-                    const delay = `${i * 80}ms`;
                     return (
                       <Box
                         key={`third-row-${i}`}
@@ -330,7 +327,7 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
                           backgroundColor: checked ? "rgba(234,255,246,0.7)" : "#fff",
                           transition: "all 220ms ease",
                           animation: `${fadeUp()} 480ms ease both`,
-                          animationDelay: delay,
+                          animationDelay: `${i * 80}ms`,
                           gap: 1,
                         }}
                       >
@@ -387,7 +384,6 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
               <Box sx={{ display: "grid", gap: 2 }}>
                 {CHECKBOX_ITEMS_FOURTH.map((label, i) => {
                   const checked = !!selectedFourth[i];
-                  const delay = `${i * 80}ms`;
                   return (
                     <Box
                       key={`fourth-row-${i}`}
@@ -404,7 +400,7 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
                         backgroundColor: checked ? "rgba(234,255,246,0.7)" : "#fff",
                         transition: "all 220ms ease",
                         animation: `${fadeUp()} 480ms ease both`,
-                        animationDelay: delay,
+                        animationDelay: `${i * 80}ms`,
                         gap: 2,
                         flexWrap: "wrap",
                       }}
@@ -483,7 +479,6 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
                 <Box sx={{ display: "grid", gridTemplateColumns: gridCols, gap: { xs: 1.25, md: 2 } }}>
                   {CHECKBOX_ITEMS_FIFTH.map((label, i) => {
                     const checked = !!selectedFifth[i];
-                    const delay = `${i * 80}ms`;
                     return (
                       <FormControlLabel
                         key={`fifth-${label}-${i}`}
@@ -515,7 +510,7 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
                           backgroundColor: checked ? "rgba(234,255,246,0.7)" : "#fff",
                           transition: "all 220ms ease",
                           animation: `${fadeUp()} 480ms ease both`,
-                          animationDelay: delay,
+                          animationDelay: `${i * 80}ms`,
                           "& .MuiFormControlLabel-label": { fontFamily: TAJAWAL },
                         }}
                       />
