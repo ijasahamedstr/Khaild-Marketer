@@ -243,11 +243,11 @@ const Service: React.FC = () => {
         >
           {serviceCards.map((card, index) => {
             // make the 7th and 8th cards center-wide on md+ screens
-            const isCenterWide = index === 6 || index === 7; // indices 6 and 7
-            const isLast = index === serviceCards.length - 1;
+            const isCenterWide = index === 6 || index === 7;
 
             // Hide vertical divider for the center-wide cards
-            const showDivider = !isCenterWide && index % 3 !== 2 && index !== serviceCards.length - 1;
+            const showDivider =
+              !isCenterWide && index % 3 !== 2 && index !== serviceCards.length - 1;
 
             return (
               <Box
