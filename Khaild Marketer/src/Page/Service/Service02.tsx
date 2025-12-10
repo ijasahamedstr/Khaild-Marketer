@@ -483,6 +483,28 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
             </Box>
           </Box>
         </Box>
+
+        {/* Submit Button */}
+        <Box sx={{ mt: 5, textAlign: "center" }}>
+          <Button
+            onClick={handleSubmit}
+            variant="contained"
+            sx={{
+              px: 5,
+              py: 1.8,
+              fontSize: "1.2rem",
+              fontWeight: 800,
+              fontFamily: TAJAWAL,
+              background: GRADIENT,
+              color: "#fff",
+              borderRadius: 3,
+              boxShadow: "0 10px 30px rgba(2,59,78,0.18)",
+              "&:hover": { filter: "brightness(0.95)" },
+            }}
+          >
+            إرسال البيانات
+          </Button>
+        </Box>
       </Box>
     </Container>
   );

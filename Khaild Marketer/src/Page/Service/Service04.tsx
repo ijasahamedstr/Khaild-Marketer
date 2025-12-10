@@ -32,12 +32,6 @@ const SEVENTH_ROWS = [
 
 const TAJAWAL = "'Tajawal', sans-serif";
 
-const float = keyframes`
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
-  100% { transform: translateY(0) }
-`;
-
 const fadeUp = keyframes`
   0% { opacity: 0; transform: translateY(18px) scale(0.995); }
   60% { opacity: 1; transform: translateY(0) scale(1); }
@@ -138,6 +132,8 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
         fontFamily: TAJAWAL,
       }}
     >
+      <div ref={topRef} />
+
       <Box sx={{ mb: 4 }}>
         {/* Seventh Group */}
         <Box sx={{ mt: 5, mb: 4 }}>
@@ -154,7 +150,7 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
                 fontFamily: TAJAWAL,
               }}
             >
-               تشطيب
+              تشطيب
             </Typography>
           </Box>
 
@@ -200,8 +196,7 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
 
         {/* Fifth Group */}
         <Box sx={{ mt: 0 }}>
-          <Box sx={{ textAlign: "center", mb: 2 }}>
-          </Box>
+          <Box sx={{ textAlign: "center", mb: 2 }}></Box>
 
           <Box
             sx={{
@@ -269,6 +264,24 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
                   })}
                 </Box>
               </FormGroup>
+
+              {/* Submit button */}
+              <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
+                <Button
+                  variant="contained"
+                  onClick={handleSubmit}
+                  sx={{
+                    px: 4,
+                    py: 1.25,
+                    borderRadius: 2,
+                    fontWeight: 700,
+                    textTransform: "none",
+                    boxShadow: "0 8px 28px rgba(2,59,78,0.08)",
+                  }}
+                >
+                  إرسال
+                </Button>
+              </Box>
             </FormControl>
           </Box>
         </Box>
