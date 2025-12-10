@@ -69,16 +69,23 @@ const serviceCards: ServiceCard[] = [
   },
   {
     id: 6,
-    title: " القسم النسائي  ",
+    title: " القسم النسائي",
     description:
-      "نطلاقًا من إيماننا بأهمية الخصوصية وراحة التعامل، تم تخصيص قسم نسائي مستقل، يُدار بكوادر نسائية مؤهلة، لتمكين المرأة من مناقشة تفاصيل عقاراتها بكل ارتياح وثقة، في بيئة تراعي احتياجاتها وتلبي تطلعاتها.",
+      "انطلاقًا من إيماننا بأهمية الخصوصية وراحة التعامل، تم تخصيص قسم نسائي مستقل، يُدار بكوادر نسائية مؤهلة، لتمكين المرأة من مناقشة تفاصيل عقاراتها بكل ارتياح وثقة، في بيئة تراعي احتياجاتها وتلبي تطلعاتها.",
     href: "/services/inspection",
   },
   {
     id: 7,
-    title: " قسم التمويل العقاري",
+    title: "قسم التمويل العقاري ",
     description:
       "نُسهم في تسهيل رحلتك نحو التملك من خلال توجيهك إلى الجهات التمويلية الأنسب، بما يتوافق مع احتياجاتك وإمكاناتك، بكل حيادية وموثوقية.",
+    href: "/services/other",
+  },
+  {
+    id: 8,
+    title: " النظام يجيب",
+    description:
+      "في هذا القسم، نسلّط الضوء بشكل دوري على أبرز الأنظمة واللوائح العقارية، لنقدّم لمتابعينا محتوى توعوي يُثري معرفتهم ويعزز وعيهم قبل اتخاذ أي قرار.",
     href: "/services/other",
   },
 ];
@@ -235,9 +242,12 @@ const Service: React.FC = () => {
           }}
         >
           {serviceCards.map((card, index) => {
-            // Remove divider for last card in a row
-            const showDivider = index % 3 !== 2 && index !== serviceCards.length - 1;
+            // make the 7th and 8th cards center-wide on md+ screens
+            const isCenterWide = index === 6 || index === 7; // indices 6 and 7
             const isLast = index === serviceCards.length - 1;
+
+            // Hide vertical divider for the center-wide cards
+            const showDivider = !isCenterWide && index % 3 !== 2 && index !== serviceCards.length - 1;
 
             return (
               <Box
@@ -253,11 +263,11 @@ const Service: React.FC = () => {
                   textAlign: "right",
                   mb: { xs: 4, md: index < 3 ? 6 : 0 },
 
-                  // add top spacing specifically for the last card so it sits lower in the center column
-                  mt: isLast ? { md: 6, xs: 0 } : 0,
+                  // add top spacing specifically for center-wide cards so each sits on its own row
+                  mt: isCenterWide ? { md: 6, xs: 0 } : 0,
 
-                  // Force the 7th card into the center column on md+ screens
-                  gridColumn: isLast
+                  // Force the 7th and 8th cards into the center column on md+ screens
+                  gridColumn: isCenterWide
                     ? { md: "2 / span 1" }
                     : index === 3
                     ? "1 / span 1"
@@ -265,14 +275,14 @@ const Service: React.FC = () => {
                     ? "2 / span 1"
                     : "auto",
 
-                  // center the last card horizontally when it spans the center column
-                  justifySelf: isLast ? "center" : "stretch",
+                  // center the center-wide cards horizontally when they occupy the center column
+                  justifySelf: isCenterWide ? "center" : "stretch",
 
-                  // single width entry (no duplicate property)
-                  width: isLast ? { md: "140%", xs: "100%" } : "100%",
+                  // wider visual width for center-wide cards
+                  width: isCenterWide ? { md: "140%", xs: "100%" } : "100%",
 
                   // cap the maximum visual width to avoid extreme overflow
-                  maxWidth: isLast ? { md: "1100px", xs: "100%" } : "100%",
+                  maxWidth: isCenterWide ? { md: "1100px", xs: "100%" } : "100%",
 
                   fontFamily: "'Tajawal', sans-serif",
                   p: 3,
