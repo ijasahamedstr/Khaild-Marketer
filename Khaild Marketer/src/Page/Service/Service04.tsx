@@ -1,4 +1,4 @@
-// Service04.tsx
+// src/Page/Service/Service04.tsx
 import React from "react";
 import {
   Box,
@@ -19,7 +19,7 @@ type Props = {
     search?: string;
     fifthText?: string[]; // array for multiple lines
     sixthButtons?: string[]; // buttons pressed/toggled in sixth section
-    seventhRows?: string[]; // [row1Value, row2LabelText, row3LabelText]
+    seventhRows?: string[]; // [row1Value, row2LabelText, ...]
   }) => void;
 };
 
@@ -43,13 +43,17 @@ const float = keyframes`
   100% { transform: translateY(0) }
 `;
 
-const fadeUp = (delay = 0) => keyframes`
+// Removed unused 'delay' param; single keyframes to avoid TS6133
+const fadeUp = keyframes`
   0% { opacity: 0; transform: translateY(18px) scale(0.995); }
   60% { opacity: 1; transform: translateY(0) scale(1); }
   100% { opacity: 1; transform: translateY(0) scale(1); }
 `;
 
 const GRADIENT = "linear-gradient(135deg, #023B4E 0%, #06f9f3 100%)";
+
+// small scroll delay so layout can stabilise before scroll
+const SCROLL_DELAY_MS = 120;
 
 const ToggleIcon = ({ checked }: { checked?: boolean }) => {
   return (
@@ -92,6 +96,20 @@ const ToggleIcon = ({ checked }: { checked?: boolean }) => {
 };
 
 const Service04: React.FC<Props> = ({ onSubmit }) => {
+  const topRef = React.useRef<HTMLDivElement | null>(null);
+
+  // Scroll to top/ref on mount
+  React.useEffect(() => {
+    const t = setTimeout(() => {
+      if (topRef.current) {
+        topRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    }, SCROLL_DELAY_MS);
+    return () => clearTimeout(t);
+  }, []);
+
   const [selectedFifth, setSelectedFifth] = React.useState<Record<number, boolean>>({});
   const [sixthButtonsState, setSixthButtonsState] = React.useState<Record<number, boolean>>({});
   const [sixthSearchQuery, setSixthSearchQuery] = React.useState<string>("");
@@ -101,26 +119,24 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
   const toggleFifth = (i: number) => setSelectedFifth((s) => ({ ...s, [i]: !s[i] }));
   const handleFifthTextChange = (i: number, val: string) => setFifthText((s) => ({ ...s, [i]: val }));
   const toggleSixthButton = (i: number) => setSixthButtonsState((s) => ({ ...s, [i]: !s[i] }));
-  const handleSeventhTextChange = (i: number, val: string) =>
-    setSeventhText((s) => ({ ...s, [i]: val }));
+  const handleSeventhTextChange = (i: number, val: string) => setSeventhText((s) => ({ ...s, [i]: val }));
 
   const handleSubmit = () => {
     const chosenFifth = CHECKBOX_ITEMS_FIFTH.filter((_, i) => !!selectedFifth[i]);
-    const fifthTextArr = CHECKBOX_ITEMS_FIFTH.map((_, i) => fifthText[i] ?? "");
+    const fifthTextArr = CHECKBOX_ITEMS_FIFTH.map((_, i) => (fifthText[i] ?? "").trim());
     const sixthButtonsArr = SIXTH_BUTTONS.filter((_, i) => !!sixthButtonsState[i]);
 
-    const seventhRowsArr = SEVENTH_ROWS.map((r, i) =>
-      r.hasInput ? (seventhText[i] ?? "") : r.label
-    );
+    const seventhRowsArr = SEVENTH_ROWS.map((r, i) => (r.hasInput ? (seventhText[i] ?? "").trim() : r.label));
 
-    if (onSubmit)
+    if (onSubmit) {
       onSubmit({
         fifth: chosenFifth,
-        search: sixthSearchQuery,
+        search: sixthSearchQuery.trim(),
         fifthText: fifthTextArr,
         sixthButtons: sixthButtonsArr,
         seventhRows: seventhRowsArr,
       });
+    }
   };
 
   return (
@@ -134,8 +150,22 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
         fontFamily: TAJAWAL,
       }}
     >
-      {/* Header */}
-      <Box sx={{ textAlign: "center", mb: 3, animation: `${float} 6s ease-in-out infinite` }}>
+      {/* Header (target for scroll) */}
+      <Box ref={topRef} sx={{ textAlign: "center", mb: 3, animation: `${float} 6s ease-in-out infinite` }}>
+        <Typography
+          variant="h2"
+          sx={{
+            fontWeight: 800,
+            fontSize: { xs: "1.6rem", md: "2.4rem" },
+            background: GRADIENT,
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            display: "inline-block",
+            fontFamily: TAJAWAL,
+          }}
+        >
+          معلومات وخيارات
+        </Typography>
       </Box>
 
       <Box sx={{ mb: 4 }}>
@@ -178,9 +208,7 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
                     flexDirection: { xs: "column", sm: "row" },
                   }}
                 >
-                  <Typography
-                    sx={{ fontWeight: 700, minWidth: { sm: "220px" }, fontFamily: TAJAWAL }}
-                  >
+                  <Typography sx={{ fontWeight: 700, minWidth: { sm: "220px" }, fontFamily: TAJAWAL }}>
                     {r.label}
                   </Typography>
 
@@ -199,6 +227,8 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
             </Box>
           </Box>
         </Box>
+
+        {/* Fifth Group */}
         <Box sx={{ mt: 0 }}>
           <Box sx={{ textAlign: "center", mb: 2 }}>
             <Typography
@@ -233,10 +263,7 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
                     const checked = !!selectedFifth[i];
                     const delay = `${i * 80}ms`;
                     return (
-                      <Box
-                        key={`fifth-row-${i}`}
-                        sx={{ display: { xs: "block", sm: "flex" }, alignItems: "center", gap: 2 }}
-                      >
+                      <Box key={`fifth-row-${i}`} sx={{ display: { xs: "block", sm: "flex" }, alignItems: "center", gap: 2 }}>
                         <FormControlLabel
                           control={
                             <Checkbox
@@ -250,13 +277,7 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
                             />
                           }
                           label={
-                            <Typography
-                              sx={{
-                                fontSize: { xs: "1rem", md: "1.15rem" },
-                                fontWeight: 700,
-                                fontFamily: TAJAWAL,
-                              }}
-                            >
+                            <Typography sx={{ fontSize: { xs: "1rem", md: "1.15rem" }, fontWeight: 700, fontFamily: TAJAWAL }}>
                               {label}
                             </Typography>
                           }
@@ -270,7 +291,7 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
                             border: checked ? "1px solid rgba(34,197,94,0.12)" : "1px solid #eef3f3",
                             backgroundColor: checked ? "rgba(234,255,246,0.7)" : "#fff",
                             transition: "all 220ms ease",
-                            animation: `${fadeUp()} 480ms ease both`,
+                            animation: `${fadeUp} 480ms ease both`,
                             animationDelay: delay,
                             "& .MuiFormControlLabel-label": { fontFamily: TAJAWAL },
                             minWidth: { sm: "260px" },
@@ -294,6 +315,102 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
               </FormGroup>
             </FormControl>
           </Box>
+        </Box>
+
+        {/* Sixth Group (search + two full-width toggle buttons) */}
+        <Box sx={{ mt: 5 }}>
+          <Box sx={{ textAlign: "center", mb: 2 }}>
+            <Typography
+              variant="h2"
+              sx={{
+                fontWeight: 800,
+                fontSize: { xs: "1.45rem", md: "2rem" },
+                background: GRADIENT,
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                display: "inline-block",
+                fontFamily: TAJAWAL,
+              }}
+            >
+              إجراءات وبحث
+            </Typography>
+          </Box>
+
+          <Box
+            sx={{
+              background: "linear-gradient(180deg, rgba(255,255,255,0.95), #fff)",
+              borderRadius: 3,
+              p: { xs: 2, md: 3 },
+              boxShadow: "0 18px 50px rgba(7,22,23,0.06)",
+              border: "1px solid rgba(3,59,66,0.04)",
+            }}
+          >
+            <Box sx={{ maxWidth: 1100, mx: "auto", display: "grid", gap: 2 }}>
+              <TextField
+                fullWidth
+                placeholder="ابحث هنا..."
+                value={sixthSearchQuery}
+                onChange={(e) => setSixthSearchQuery(e.target.value)}
+                size="small"
+                variant="outlined"
+                inputProps={{ dir: "rtl", style: { fontFamily: TAJAWAL } }}
+                sx={{ "& .MuiInputBase-input": { fontFamily: TAJAWAL } }}
+              />
+
+              {SIXTH_BUTTONS.map((label, i) => {
+                const active = !!sixthButtonsState[i];
+                return (
+                  <Button
+                    key={`sixth-btn-${i}`}
+                    fullWidth
+                    variant={active ? "contained" : "outlined"}
+                    onClick={() => toggleSixthButton(i)}
+                    sx={{
+                      py: 1.4,
+                      fontWeight: 700,
+                      fontFamily: TAJAWAL,
+                      textTransform: "none",
+                      ...(active
+                        ? {
+                            background: GRADIENT,
+                            color: "#fff",
+                            border: "none",
+                            boxShadow: "0 8px 28px rgba(2,59,78,0.12)",
+                            "&:hover": {
+                              filter: "brightness(0.95)",
+                              boxShadow: "0 10px 30px rgba(2,59,78,0.14)",
+                            },
+                          }
+                        : {
+                            background: "transparent",
+                          }),
+                    }}
+                  >
+                    {active ? `${label} — مفعّل` : label}
+                  </Button>
+                );
+              })}
+            </Box>
+          </Box>
+        </Box>
+
+        {/* Submit button */}
+        <Box sx={{ mt: 4, display: "flex", justifyContent: "center" }}>
+          <Button
+            variant="contained"
+            onClick={handleSubmit}
+            sx={{
+              px: 4,
+              py: 1.25,
+              fontWeight: 700,
+              background: GRADIENT,
+              color: "#fff",
+              boxShadow: "0 10px 30px rgba(3,80,75,0.08)",
+              fontFamily: TAJAWAL,
+            }}
+          >
+            إرسال
+          </Button>
         </Box>
       </Box>
     </Container>

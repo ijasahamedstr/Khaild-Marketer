@@ -1,4 +1,4 @@
-// Service02.tsx
+// src/Page/Service/Service02.tsx
 import React from "react";
 import {
   Box,
@@ -62,7 +62,8 @@ const float = keyframes`
   100% { transform: translateY(0) }
 `;
 
-const fadeUp = (delay = 0) => keyframes`
+// Removed unused 'delay' parameter to fix TS6133 — use a plain keyframes
+const fadeUp = keyframes`
   0% { opacity: 0; transform: translateY(18px) scale(0.995); }
   60% { opacity: 1; transform: translateY(0) scale(1); }
   100% { opacity: 1; transform: translateY(0) scale(1); }
@@ -70,6 +71,9 @@ const fadeUp = (delay = 0) => keyframes`
 
 // The gradient you requested — reused for active button background
 const GRADIENT = "linear-gradient(135deg, #023B4E 0%, #06f9f3 100%)";
+
+// SCROLL delay (ms) — small delay helps if the page needs layout/rendering
+const SCROLL_DELAY_MS = 120;
 
 const ToggleIcon = ({ checked }: { checked?: boolean }) => {
   return (
@@ -112,6 +116,20 @@ const ToggleIcon = ({ checked }: { checked?: boolean }) => {
 };
 
 const Service02: React.FC<Props> = ({ onSubmit }) => {
+  const topRef = React.useRef<HTMLDivElement | null>(null);
+
+  // On mount, scroll to the topRef (first/header) — small timeout lets layout finish
+  React.useEffect(() => {
+    const t = setTimeout(() => {
+      if (topRef.current) {
+        topRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    }, SCROLL_DELAY_MS);
+    return () => clearTimeout(t);
+  }, []);
+
   const [selectedFirst, setSelectedFirst] = React.useState<Record<number, boolean>>({});
   const [selectedSecond, setSelectedSecond] = React.useState<Record<number, boolean>>({});
   const [selectedThird, setSelectedThird] = React.useState<Record<number, boolean>>({});
@@ -170,8 +188,8 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
         fontFamily: TAJAWAL,
       }}
     >
-      {/* Header */}
-      <Box sx={{ textAlign: "center", mb: 3, animation: `${float} 6s ease-in-out infinite` }}>
+      {/* Header (target for scroll on load) */}
+      <Box ref={topRef} sx={{ textAlign: "center", mb: 3, animation: `${float} 6s ease-in-out infinite` }}>
         <Typography
           variant="h2"
           sx={{
@@ -226,7 +244,7 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
                         border: checked ? "1px solid rgba(34,197,94,0.12)" : "1px solid #eef3f3",
                         backgroundColor: checked ? "rgba(234,255,246,0.7)" : "#fff",
                         transition: "all 220ms ease",
-                        animation: `${fadeUp()} 480ms ease both`,
+                        animation: `${fadeUp} 480ms ease both`,
                         animationDelay: `${i * 80}ms`,
                         "& .MuiFormControlLabel-label": { fontFamily: TAJAWAL },
                       }}
@@ -281,7 +299,7 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
                           border: checked ? "1px solid rgba(34,197,94,0.12)" : "1px solid #eef3f3",
                           backgroundColor: checked ? "rgba(234,255,246,0.7)" : "#fff",
                           transition: "all 220ms ease",
-                          animation: `${fadeUp()} 480ms ease both`,
+                          animation: `${fadeUp} 480ms ease both`,
                           animationDelay: `${i * 80}ms`,
                           "& .MuiFormControlLabel-label": { fontFamily: TAJAWAL },
                         }}
@@ -337,7 +355,7 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
                           border: checked ? "1px solid rgba(34,197,94,0.12)" : "1px solid #eef3f3",
                           backgroundColor: checked ? "rgba(234,255,246,0.7)" : "#fff",
                           transition: "all 220ms ease",
-                          animation: `${fadeUp()} 480ms ease both`,
+                          animation: `${fadeUp} 480ms ease both`,
                           animationDelay: `${i * 80}ms`,
                           "& .MuiFormControlLabel-label": { fontFamily: TAJAWAL },
                         }}
@@ -393,7 +411,7 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
                             border: checked ? "1px solid rgba(34,197,94,0.12)" : "1px solid #eef3f3",
                             backgroundColor: checked ? "rgba(234,255,246,0.7)" : "#fff",
                             transition: "all 220ms ease",
-                            animation: `${fadeUp()} 480ms ease both`,
+                            animation: `${fadeUp} 480ms ease both`,
                             animationDelay: `${i * 80}ms`,
                             "& .MuiFormControlLabel-label": { fontFamily: TAJAWAL },
                             minWidth: { sm: "260px" },
