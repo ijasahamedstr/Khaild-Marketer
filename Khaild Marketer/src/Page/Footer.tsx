@@ -31,12 +31,6 @@ const Footer: React.FC = () => {
       href: "#",
       label: "شريك 2",
     },
-    {
-      src: "https://alrossais.com/wp-content/uploads/2025/09/rega-2.png",
-      alt: "Partner 3",
-      href: "#",
-      label: "شريك 3",
-    },
     // يمكن إضافة شركاء آخرين هنا إذا رغبت
   ];
 

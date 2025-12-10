@@ -10,8 +10,7 @@ import {
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { keyframes } from "@mui/system";
-
-/* Tajawal font note as before (keep it) */
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 
 const floatUp = keyframes`
   0% { transform: translateY(0); }
@@ -24,44 +23,72 @@ const sheen = keyframes`
   100% { background-position: 150% 0; }
 `;
 
-const Serviece: React.FC = () => {
+// Add optional href so each card/button can navigate
+interface ServiceCard {
+  id: number;
+  title: string;
+  description: string;
+  href?: string; // optional route or external URL
+}
+
+const serviceCards: ServiceCard[] = [
+  {
+    id: 1,
+    title: " بيع العقار  ",
+    description:
+      "نقدم لك خدمة بيع عقارك بأفضل الأدوات التسويقية، ونستهدف الفئة المناسبة لضمان بيع سريع وبأعلى سعر ممكن، مع متابعة كاملة حتى إتمام العملية.",
+    href: "/services/sell",
+  },
+  {
+    id: 2,
+    title: "شراء العقار",
+    description:
+      "نساعدك في إيجاد العقار الأمثل وفق احتياجك وميزانيتك، من خلال شبكة واسعة من العروض والفرص العقارية، مع تقديم استشارات احترافية لضمان قرارك الاستثماري أو السكني.",
+    href: "/services/buy",
+  },
+  {
+    id: 3,
+    title: "استئجار العقار ",
+    description:
+      "نوفر لك خيارات متعددة من الوحدات السكنية أو التجارية للإيجار، مع متابعة دقيقة لكافة الإجراءات لتضمن تجربة سلسة وموثوقة.",
+    href: "/services/rent",
+  },
+  {
+    id: 4,
+    title: "تشطيب العقار",
+    description:
+      "نقدم خدمة التشطيب المتكامل للعقارات، من التصميم إلى التنفيذ، بأفضل المواد والمعايير، لتسكن أو تستثمر في مساحة تعكس ذوقك وقيمتك.",
+    href: "/services/finish",
+  },
+  {
+    id: 5,
+    title: "تسليم واستلام العقار",
+    description:
+      "نقوم بتمثيلك في استلام العقار أو تسليمه، ونتحقق من مطابقة المواصفات، لضمان حماية حقوقك وضمان جودة العقار كما تم الاتفاق عليه.",
+    href: "/services/handover",
+  },
+  {
+    id: 6,
+    title: "تسليم واستلام العقار",
+    description:
+      "نقوم بتمثيلك في استلام العقار أو تسليمه، ونتحقق من مطابقة المواصفات، لضمان حماية حقوقك وضمان جودة العقار كما تم الاتفاق عليه.",
+    href: "/services/inspection",
+  },
+  {
+    id: 7,
+    title: "تسليم واستلام العقار",
+    description:
+      "نقوم بتمثيلك في استلام العقار أو تسليمه، ونتحقق من مطابقة المواصفات، لضمان حماية حقوقك وضمان جودة العقار كما تم الاتفاق عليه.",
+    href: "/services/other",
+  },
+];
+
+const Service: React.FC = () => {
   const isMobile = useMediaQuery("(max-width:600px)");
   const sliderRef = React.useRef<HTMLDivElement | null>(null);
   const [currentIndex, setCurrentIndex] = React.useState(0);
   const [cardWidth, setCardWidth] = React.useState(0);
-
-  const serviceCards = [
-    {
-      id: 1,
-      title: " بيع العقار  ",
-      description:
-        "نقدم لك خدمة بيع عقارك بأفضل الأدوات التسويقية، ونستهدف الفئة المناسبة لضمان بيع سريع وبأعلى سعر ممكن، مع متابعة كاملة حتى إتمام العملية.",
-    },
-    {
-      id: 2,
-      title: "شراء العقار",
-      description:
-        "نساعدك في إيجاد العقار الأمثل وفق احتياجك وميزانيتك، من خلال شبكة واسعة من العروض والفرص العقارية، مع تقديم استشارات احترافية لضمان قرارك الاستثماري أو السكني.",
-    },
-    {
-      id: 3,
-      title: "استئجار العقار ",
-      description:
-        "نوفر لك خيارات متعددة من الوحدات السكنية أو التجارية للإيجار، مع متابعة دقيقة لكافة الإجراءات لتضمن تجربة سلسة وموثوقة.",
-    },
-    {
-      id: 4,
-      title: "تشطيب العقار",
-      description:
-        "نقدم خدمة التشطيب المتكامل للعقارات، من التصميم إلى التنفيذ، بأفضل المواد والمعايير، لتسكن أو تستثمر في مساحة تعكس ذوقك وقيمتك.",
-    },
-    {
-      id: 5,
-      title: "تسليم واستلام العقار",
-      description:
-        "نقوم بتمثيلك في استلام العقار أو تسليمه، ونتحقق من مطابقة المواصفات، لضمان حماية حقوقك وضمان جودة العقار كما تم الاتفاق عليه.",
-    },
-  ];
+  const navigate = useNavigate();
 
   // Measure card width (card + gap). fallbackWidth used if measurement not ready.
   React.useEffect(() => {
@@ -72,6 +99,7 @@ const Serviece: React.FC = () => {
         return;
       }
       const child = el.firstElementChild as HTMLElement;
+      // Use 16px as default gap if not computed
       const gap = parseInt(getComputedStyle(el).gap || "16", 10) || 16;
       setCardWidth(child.offsetWidth + gap);
     };
@@ -96,6 +124,7 @@ const Serviece: React.FC = () => {
       if (rafId) cancelAnimationFrame(rafId);
       rafId = requestAnimationFrame(() => {
         const left = el.scrollLeft;
+        // Use cardWidth for accurate index calculation, defaulting to 0 if not measured
         const idx = cardWidth ? Math.round(left / cardWidth) : 0;
         const bounded = Math.max(0, Math.min(serviceCards.length - 1, idx));
         setCurrentIndex(bounded);
@@ -107,7 +136,7 @@ const Serviece: React.FC = () => {
       el.removeEventListener("scroll", onScroll);
       if (rafId) cancelAnimationFrame(rafId);
     };
-  }, [cardWidth, serviceCards.length]);
+  }, [cardWidth]);
 
   // robust scrollBy: uses measured cardWidth or sensible fallback
   const scrollByCard = (direction: "left" | "right") => {
@@ -115,7 +144,9 @@ const Serviece: React.FC = () => {
     if (!el) return;
 
     // Choose a sensible fallback if cardWidth not measured: use 86% of container width
-    const fallbackWidth = Math.round((el.clientWidth || window.innerWidth) * 0.86);
+    const fallbackWidth = Math.round(
+      (el.clientWidth || window.innerWidth) * 0.86
+    );
     const step = cardWidth && cardWidth > 0 ? cardWidth : fallbackWidth;
     const delta = direction === "left" ? -step : step;
 
@@ -123,18 +154,40 @@ const Serviece: React.FC = () => {
     el.scrollBy({ left: delta, behavior: "smooth" });
 
     // optimistic update (onScroll will correct if needed)
-    const approxIndex = cardWidth ? Math.round(el.scrollLeft / (cardWidth || 1)) : currentIndex;
-    const targetIndex = Math.max(0, Math.min(serviceCards.length - 1, direction === "left" ? approxIndex - 1 : approxIndex + 1));
+    const approxIndex = cardWidth
+      ? Math.round(el.scrollLeft / (cardWidth || 1))
+      : currentIndex;
+    const targetIndex = Math.max(
+      0,
+      Math.min(
+        serviceCards.length - 1,
+        direction === "left" ? approxIndex - 1 : approxIndex + 1
+      )
+    );
     setCurrentIndex(targetIndex);
   };
 
   const scrollToIndex = (index: number) => {
     const el = sliderRef.current;
     if (!el) return;
-    const size = cardWidth && cardWidth > 0 ? cardWidth : Math.round((el.clientWidth || window.innerWidth) * 0.86);
+    const size =
+      cardWidth && cardWidth > 0
+        ? cardWidth
+        : Math.round((el.clientWidth || window.innerWidth) * 0.86);
     const left = index * size;
     el.scrollTo({ left, behavior: "smooth" });
     setCurrentIndex(Math.max(0, Math.min(serviceCards.length - 1, index)));
+  };
+
+  // helper to navigate when clicking a card
+  const handleCardClick = (href?: string) => {
+    if (!href) return;
+    if (href.startsWith("http://") || href.startsWith("https://")) {
+      window.open(href, "_blank");
+    } else {
+      // internal route
+      navigate(href);
+    }
   };
 
   return (
@@ -156,7 +209,8 @@ const Serviece: React.FC = () => {
           mb: 3,
           textAlign: "right",
           fontFamily: "'Tajawal', sans-serif",
-          background: "linear-gradient(90deg, rgba(2,59,78,1), rgba(4,106,132,1))",
+          background:
+            "linear-gradient(90deg, rgba(2,59,78,1), rgba(4,106,132,1))",
           WebkitBackgroundClip: "text",
           WebkitTextFillColor: "transparent",
           backgroundSize: "200% 100%",
@@ -166,7 +220,7 @@ const Serviece: React.FC = () => {
         نبذة عن خدماتنا
       </Typography>
 
-      {/* Desktop / Tablet Grid */}
+      {/* --- Desktop / Tablet Grid --- */}
       {!isMobile && (
         <Box
           sx={{
@@ -177,31 +231,65 @@ const Serviece: React.FC = () => {
               md: "repeat(3, 1fr)",
             },
             gap: 4,
+            alignItems: "start",
           }}
         >
           {serviceCards.map((card, index) => {
-            const showDivider = index % 3 !== 2;
+            // Remove divider for last card in a row
+            const showDivider = index % 3 !== 2 && index !== serviceCards.length - 1;
+            const isLast = index === serviceCards.length - 1;
+
             return (
               <Box
                 key={card.id}
+                onClick={() => handleCardClick(card.href)}
+                role={card.href ? "button" : undefined}
+                tabIndex={card.href ? 0 : -1}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") handleCardClick(card.href);
+                }}
                 sx={{
-                  width: "100%",
                   position: "relative",
                   textAlign: "right",
                   mb: { xs: 4, md: index < 3 ? 6 : 0 },
-                  gridColumn:
-                    index === 3 ? "1 / span 1" : index === 4 ? "2 / span 1" : "auto",
+
+                  // add top spacing specifically for the last card so it sits lower in the center column
+                  mt: isLast ? { md: 6, xs: 0 } : 0,
+
+                  // Force the 7th card into the center column on md+ screens
+                  gridColumn: isLast
+                    ? { md: "2 / span 1" }
+                    : index === 3
+                    ? "1 / span 1"
+                    : index === 4
+                    ? "2 / span 1"
+                    : "auto",
+
+                  // center the last card horizontally when it spans the center column
+                  justifySelf: isLast ? "center" : "stretch",
+
+                  // single width entry (no duplicate property)
+                  width: isLast ? { md: "140%", xs: "100%" } : "100%",
+
+                  // cap the maximum visual width to avoid extreme overflow
+                  maxWidth: isLast ? { md: "1100px", xs: "100%" } : "100%",
+
                   fontFamily: "'Tajawal', sans-serif",
                   p: 3,
                   borderRadius: 2,
-                  transition: "transform 0.36s cubic-bezier(.2,.9,.2,1), box-shadow 0.36s",
+                  transition:
+                    "transform 0.36s cubic-bezier(.2,.9,.2,1), box-shadow 0.36s",
                   boxShadow: "0 10px 30px rgba(2,59,78,0.06)",
                   background:
                     "linear-gradient(180deg, rgba(255,255,255,0.75), rgba(250,250,250,0.6))",
-                  "&:hover": {
-                    transform: "translateY(-8px)",
-                    boxShadow: "0 22px 50px rgba(2,59,78,0.12)",
+                  cursor: card.href ? "pointer" : "default",
+                  '&:hover': {
+                    transform: card.href ? "translateY(-8px)" : undefined,
+                    boxShadow: card.href ? "0 22px 50px rgba(2,59,78,0.12)" : undefined,
                   },
+
+                  // allow the wider element to overflow the grid container bounds horizontally
+                  overflow: "visible",
                 }}
               >
                 <Box
@@ -234,24 +322,44 @@ const Serviece: React.FC = () => {
                 >
                   <span>{card.title}</span>
 
-                  <Box sx={{ display: { xs: "none", md: "inline-flex" }, alignItems: "center" }}>
+                  <Box
+                    sx={{
+                      display: { xs: "none", md: "inline-flex" },
+                      alignItems: "center",
+                    }}
+                  >
                     <ArrowBackIosNewIcon
                       sx={{
                         transform: "rotateY(180deg)",
                         transition: "transform .28s",
-                        "&:hover": { transform: "translateX(6px) rotateY(180deg)" },
+                        "&:hover": {
+                          transform: "translateX(6px) rotateY(180deg)",
+                        },
                       }}
                     />
                   </Box>
                 </Typography>
 
-                <Typography sx={{ lineHeight: 2, mb: 4, fontFamily: "'Tajawal', sans-serif" }}>
+                <Typography
+                  sx={{
+                    lineHeight: 2,
+                    mb: 4,
+                    fontFamily: "'Tajawal', sans-serif",
+                  }}
+                >
                   {card.description}
                 </Typography>
 
                 <Button
                   variant="outlined"
                   endIcon={<ArrowBackIosNewIcon />}
+                  component={card.href && !card.href.startsWith("http") ? RouterLink : "a"}
+                  to={card.href && !card.href.startsWith("http") ? card.href : undefined}
+                  href={card.href && card.href.startsWith("http") ? card.href : undefined}
+                  onClick={(e) => {
+                    // prevent double navigation when card href exists (card click already handles)
+                    if (card.href) e.stopPropagation();
+                  }}
                   sx={{
                     borderColor: "#023B4E",
                     color: "#023B4E",
@@ -288,7 +396,7 @@ const Serviece: React.FC = () => {
         </Box>
       )}
 
-      {/* Mobile Slider with dots + arrows */}
+      {/* --- Mobile Slider with dots + arrows --- */}
       {isMobile && (
         <Box sx={{ position: "relative", mt: 2 }}>
           <IconButton
@@ -340,6 +448,12 @@ const Serviece: React.FC = () => {
             {serviceCards.map((card) => (
               <Box
                 key={card.id}
+                onClick={() => handleCardClick(card.href)}
+                role={card.href ? "button" : undefined}
+                tabIndex={card.href ? 0 : -1}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") handleCardClick(card.href);
+                }}
                 sx={{
                   flex: "0 0 86%",
                   scrollSnapAlign: "center",
@@ -348,10 +462,12 @@ const Serviece: React.FC = () => {
                   textAlign: "right",
                   p: 3,
                   borderRadius: 2,
-                  transition: "transform 0.36s cubic-bezier(.2,.9,.2,1), box-shadow 0.36s",
+                  transition:
+                    "transform 0.36s cubic-bezier(.2,.9,.2,1), box-shadow 0.36s",
                   boxShadow: "0 10px 30px rgba(2,59,78,0.06)",
                   background:
                     "linear-gradient(180deg, rgba(255,255,255,0.95), rgba(250,250,250,0.9))",
+                  cursor: card.href ? "pointer" : "default",
                 }}
               >
                 <Typography
@@ -370,13 +486,26 @@ const Serviece: React.FC = () => {
                   <span>{card.title}</span>
                 </Typography>
 
-                <Typography sx={{ lineHeight: 1.9, mb: 3, fontFamily: "'Tajawal', sans-serif", fontSize: "0.95rem" }}>
+                <Typography
+                  sx={{
+                    lineHeight: 1.9,
+                    mb: 3,
+                    fontFamily: "'Tajawal', sans-serif",
+                    fontSize: "0.95rem",
+                  }}
+                >
                   {card.description}
                 </Typography>
 
                 <Button
                   variant="outlined"
                   endIcon={<ArrowBackIosNewIcon />}
+                  component={card.href && !card.href.startsWith("http") ? RouterLink : "a"}
+                  to={card.href && !card.href.startsWith("http") ? card.href : undefined}
+                  href={card.href && card.href.startsWith("http") ? card.href : undefined}
+                  onClick={(e) => {
+                    if (card.href) e.stopPropagation();
+                  }}
                   sx={{
                     borderColor: "#023B4E",
                     color: "#023B4E",
@@ -408,7 +537,8 @@ const Serviece: React.FC = () => {
                   width: currentIndex === i ? 12 : 8,
                   height: currentIndex === i ? 12 : 8,
                   borderRadius: "50%",
-                  background: currentIndex === i ? "#023B4E" : "rgba(2,59,78,0.18)",
+                  background:
+                    currentIndex === i ? "#023B4E" : "rgba(2,59,78,0.18)",
                   cursor: "pointer",
                   transition: "all .18s",
                 }}
@@ -421,4 +551,4 @@ const Serviece: React.FC = () => {
   );
 };
 
-export default Serviece;
+export default Service;
