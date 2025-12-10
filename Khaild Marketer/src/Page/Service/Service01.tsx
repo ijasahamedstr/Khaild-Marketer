@@ -28,21 +28,21 @@ type Props = {
 
 const CHECKBOX_ITEMS_FIRST = ["على الخارطة", "جاهز"];
 const CHECKBOX_ITEMS_SECOND = [
-  "دوبلكس",
-  "فيلا",
   "أرض",
-  "تاون هاوس",
-  "قصر",
+  "فيلا",
+  "دوبلكس",
   "شقة",
-  "مستودعات",
+  "قصر",
+  "تاون هاوس",
   "روف",
+  "مستودعات",
 ];
-const CHECKBOX_ITEMS_THIRD = ["الحي المرغوب فيه الشراء"];
-const CHECKBOX_ITEMS_FOURTH = ["01 خيار إضافي"];
-const CHECKBOX_ITEMS_FIFTH = ["على الخارطة", "على الخارطة", "جاهز"];
+const CHECKBOX_ITEMS_THIRD = ["اختر الحي"];
+const CHECKBOX_ITEMS_FOURTH = ["السعر المقترح"];
+const CHECKBOX_ITEMS_FIFTH = ["كاش", "تحويل بنكي", "مدعوم"];
 
-const FOURTH_TEXT_LABEL_1 = "ملاحظة 1";
-const FOURTH_TEXT_LABEL_2 = "ملاحظة 2";
+const FOURTH_TEXT_LABEL_1 = "من";
+const FOURTH_TEXT_LABEL_2 = "إلى";
 
 const TAJAWAL = "'Tajawal', sans-serif";
 
@@ -202,7 +202,7 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
             fontFamily: TAJAWAL,
           }}
         >
-          خصائص
+          شراء
         </Typography>
       </Box>
 
@@ -261,7 +261,7 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
         <Box sx={{ mt: 5 }}>
           <Box sx={{ textAlign: "center", mb: 2 }}>
             <Typography variant="h2" sx={{ fontWeight: 800, fontSize: { xs: "1.45rem", md: "2rem" }, background: GRADIENT, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", display: "inline-block", fontFamily: TAJAWAL }}>
-              نوع العقار
+               نوع العقار
             </Typography>
           </Box>
           <Box sx={{ background: "linear-gradient(180deg, rgba(255,255,255,0.95), #fff)", borderRadius: 3, p: { xs: 2, md: 3 }, boxShadow: "0 18px 50px rgba(7,22,23,0.06)", border: "1px solid rgba(3,59,66,0.04)" }}>
@@ -317,7 +317,7 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
         <Box sx={{ mt: 5 }}>
           <Box sx={{ textAlign: "center", mb: 2 }}>
             <Typography variant="h2" sx={{ fontWeight: 800, fontSize: { xs: "1.45rem", md: "2rem" }, background: GRADIENT, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", display: "inline-block", fontFamily: TAJAWAL }}>
-              مميزات إضافية
+               الحي المرغوب فيه الشراء
             </Typography>
           </Box>
           <Box sx={{ background: "linear-gradient(180deg, rgba(255,255,255,0.95), #fff)", borderRadius: 3, p: { xs: 2, md: 3 }, boxShadow: "0 18px 50px rgba(7,22,23,0.06)", border: "1px solid rgba(3,59,66,0.04)" }}>
@@ -391,7 +391,7 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
         <Box sx={{ mt: 5 }}>
           <Box sx={{ textAlign: "center", mb: 2 }}>
             <Typography variant="h2" sx={{ fontWeight: 800, fontSize: { xs: "1.45rem", md: "2rem" }, background: GRADIENT, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", display: "inline-block", fontFamily: TAJAWAL }}>
-              المجموعة الرابعة
+               المعلومات المالية
             </Typography>
           </Box>
           <Box sx={{ background: "linear-gradient(180deg, rgba(255,255,255,0.95), #fff)", borderRadius: 3, p: { xs: 2, md: 3 }, boxShadow: "0 18px 50px rgba(7,22,23,0.06)", border: "1px solid rgba(3,59,66,0.04)" }}>
@@ -485,7 +485,7 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
         <Box sx={{ mt: 5 }}>
           <Box sx={{ textAlign: "center", mb: 2 }}>
             <Typography variant="h2" sx={{ fontWeight: 800, fontSize: { xs: "1.45rem", md: "2rem" }, background: GRADIENT, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", display: "inline-block", fontFamily: TAJAWAL }}>
-              المجموعة الخامسة
+               طرية الدفع
             </Typography>
           </Box>
           <Box sx={{ background: "linear-gradient(180deg, rgba(255,255,255,0.95), #fff)", borderRadius: 3, p: { xs: 2, md: 3 }, boxShadow: "0 18px 50px rgba(7,22,23,0.06)", border: "1px solid rgba(3,59,66,0.04)" }}>
@@ -541,7 +541,7 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
         <Box sx={{ mt: 5 }}>
           <Box sx={{ textAlign: "center", mb: 2 }}>
             <Typography variant="h2" sx={{ fontWeight: 800, fontSize: { xs: "1.45rem", md: "2rem" }, background: GRADIENT, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", display: "inline-block", fontFamily: TAJAWAL }}>
-              المجموعة السادسة
+               
             </Typography>
           </Box>
           <Box sx={{ background: "linear-gradient(180deg, rgba(255,255,255,0.95), #fff)", borderRadius: 3, p: { xs: 2, md: 3 }, boxShadow: "0 18px 50px rgba(7,22,23,0.06)", border: "1px solid rgba(3,59,66,0.04)" }}>
@@ -584,7 +584,7 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
                     fontFamily: TAJAWAL,
                   }}
                 >
-                  إرسال
+                  ابحث
                 </Button>
               </Box>
             </FormControl>
