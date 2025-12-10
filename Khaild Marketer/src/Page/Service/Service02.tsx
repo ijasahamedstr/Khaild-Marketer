@@ -25,34 +25,34 @@ type Props = {
   }) => void;
 };
 
-const CHECKBOX_ITEMS_FIRST = ["على الخارطة", "جاهز"];
+const CHECKBOX_ITEMS_FIRST = ["جاهز", "على الخارطة"];
 
 const CHECKBOX_ITEMS_SECOND = [
-  "دوبلكس",
-  "فيلا",
   "أرض",
-  "تاون هاوس",
-  "قصر",
+  "فيلا",
+  "دوبلكس",
   "شقة",
-  "مستودع",
+  "قصر",
   "روف",
+  "مستودعات",
+  "فيلا",
 ];
 
 const CHECKBOX_ITEMS_THIRD = [
-  "دوبلكس",
-  "فيلا",
-  "أرض",
-  "تاون هاوس",
-  "قصر",
-  "شقة",
-  "مستودع",
+  "رقم المخطط",
+  "بلوك",
+  "رقم القطعة",
+  "العنوان الوطني",
+  "مساحة العقار",
+  "اسم المطور العقاري",
+  "عقار رقم",
 ];
 
 // Fifth group: now two lines/items
-const CHECKBOX_ITEMS_FIFTH = ["تفاصيل إضافية 1", "تفاصيل إضافية 2"];
+const CHECKBOX_ITEMS_FIFTH = ["الحد", "السعر المقترح"];
 
 // Sixth group: two full-width buttons (labels shown inside buttons)
-const SIXTH_BUTTONS = ["إجراء 1", "إجراء 2"];
+const SIXTH_BUTTONS = ["صور للعقار", "رابط فيديو يوتيوب"];
 
 const TAJAWAL = "'Tajawal', sans-serif";
 
@@ -202,7 +202,7 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
             fontFamily: TAJAWAL,
           }}
         >
-          خصائص
+          البيع
         </Typography>
       </Box>
 
@@ -260,7 +260,7 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
         <Box sx={{ mt: 5 }}>
           <Box sx={{ textAlign: "center", mb: 2 }}>
             <Typography variant="h2" sx={{ fontWeight: 800, fontSize: { xs: "1.45rem", md: "2rem" }, background: GRADIENT, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", display: "inline-block", fontFamily: TAJAWAL }}>
-              نوع العقار
+               نوع العقار
             </Typography>
           </Box>
           <Box sx={{ background: "linear-gradient(180deg, rgba(255,255,255,0.95), #fff)", borderRadius: 3, p: { xs: 2, md: 3 }, boxShadow: "0 18px 50px rgba(7,22,23,0.06)", border: "1px solid rgba(3,59,66,0.04)" }}>
@@ -316,7 +316,7 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
         <Box sx={{ mt: 5 }}>
           <Box sx={{ textAlign: "center", mb: 2 }}>
             <Typography variant="h2" sx={{ fontWeight: 800, fontSize: { xs: "1.45rem", md: "2rem" }, background: GRADIENT, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", display: "inline-block", fontFamily: TAJAWAL }}>
-              مميزات إضافية
+               معلومات العقار
             </Typography>
           </Box>
           <Box sx={{ background: "linear-gradient(180deg, rgba(255,255,255,0.95), #fff)", borderRadius: 3, p: { xs: 2, md: 3 }, boxShadow: "0 18px 50px rgba(7,22,23,0.06)", border: "1px solid rgba(3,59,66,0.04)" }}>
@@ -372,7 +372,7 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
         <Box sx={{ mt: 5 }}>
           <Box sx={{ textAlign: "center", mb: 2 }}>
             <Typography variant="h2" sx={{ fontWeight: 800, fontSize: { xs: "1.45rem", md: "2rem" }, background: GRADIENT, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", display: "inline-block", fontFamily: TAJAWAL }}>
-              ملاحظة إضافية
+               المعلومات المالية
             </Typography>
           </Box>
 
@@ -441,7 +441,7 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
         <Box sx={{ mt: 5 }}>
           <Box sx={{ textAlign: "center", mb: 2 }}>
             <Typography variant="h2" sx={{ fontWeight: 800, fontSize: { xs: "1.45rem", md: "2rem" }, background: GRADIENT, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", display: "inline-block", fontFamily: TAJAWAL }}>
-              إجراءات
+              صور توضيحية
             </Typography>
           </Box>
 
@@ -482,25 +482,6 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
               })}
             </Box>
           </Box>
-        </Box>
-
-        {/* Submit button */}
-        <Box sx={{ mt: 4, display: "flex", justifyContent: "center" }}>
-          <Button
-            variant="contained"
-            onClick={handleSubmit}
-            sx={{
-              px: 4,
-              py: 1.25,
-              fontWeight: 700,
-              background: GRADIENT,
-              color: "#fff",
-              boxShadow: "0 10px 30px rgba(3,80,75,0.08)",
-              fontFamily: TAJAWAL,
-            }}
-          >
-            إرسال
-          </Button>
         </Box>
       </Box>
     </Container>
