@@ -18,7 +18,7 @@ type SocialLink = {
 
 // ⭐ Direct URL for the hero image
 const heroImage =
-  "https://i.ibb.co/cKKVxszn/Whats-App-Image-2025-12-06-at-1-07-47-PM.jpg";
+  "https://i.ibb.co/VnhmX3m/D.jpg";
 
 const socialLinks: SocialLink[] = [
   { icon: <FaXTwitter size={22} />, link: "https://x.com/digilasersa" },
