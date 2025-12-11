@@ -40,11 +40,9 @@ export default function Navbar() {
   const location = useLocation();
 
   const isDesktop = useMediaQuery('(min-width:1024px)');
-  const isMarginTop57px = useMediaQuery(
-    '(min-width:768px) and (max-width:1024px), (min-width:820px) and (max-width:1180px), (min-width:853px) and (max-width:1280px), (min-width:912px) and (max-width:1368px)'
-  );
 
   React.useEffect(() => {
+    // close menus/drawer when route changes
     setDrawerOpen(false);
     setProjectsMenuAnchor(null);
     setMobileProjectsOpen(false);
@@ -106,7 +104,7 @@ export default function Navbar() {
           fontFamily: menuFont,
           fontWeight: 500,
           width: '100%',
-          zIndex: theme.zIndex.drawer + 2, // ensure above drawer & content
+          zIndex: theme.zIndex.drawer + 2,
         })}
       >
         <Container maxWidth="xl">
@@ -169,6 +167,7 @@ export default function Navbar() {
                               color: dropdownActive ? activeColor : 'white',
                               transform: projectsMenuAnchor ? 'rotate(180deg)' : 'rotate(0deg)',
                             }}
+                            aria-hidden="true"
                           />
                         </Button>
 
@@ -230,7 +229,12 @@ export default function Navbar() {
                 })}
               </Box>
             ) : (
-              <IconButton onClick={() => setDrawerOpen(true)} sx={{ color: '#A69196' }}>
+              <IconButton
+                onClick={() => setDrawerOpen(true)}
+                sx={{ color: '#A69196' }}
+                aria-label="فتح القائمة"
+                size="large"
+              >
                 <MenuIcon />
               </IconButton>
             )}
@@ -281,6 +285,7 @@ export default function Navbar() {
                         justifyContent: 'flex-end',
                         backgroundColor: isProjectParentActive() ? activeBg : 'transparent',
                       }}
+                      aria-expanded={mobileProjectsOpen}
                     >
                       <ListItemText
                         primary={label}
@@ -297,6 +302,7 @@ export default function Navbar() {
                           transform: mobileProjectsOpen ? 'rotate(180deg)' : 'rotate(0deg)',
                           color: isProjectParentActive() ? activeColor : 'black',
                         }}
+                        aria-hidden="true"
                       />
                     </ListItemButton>
 
