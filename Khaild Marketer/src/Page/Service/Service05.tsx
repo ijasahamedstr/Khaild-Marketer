@@ -57,7 +57,7 @@ const Service05: React.FC<Props> = ({ onSubmit }) => {
             color: "#023B4E",
           }}
         >
-          البيع
+          تسليم واستلام
         </Typography>
       </Box>
 

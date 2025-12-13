@@ -26,7 +26,6 @@ type Props = {
   }) => void;
 };
 
-const CHECKBOX_ITEMS_FIRST = ["على الخارطة"];
 const CHECKBOX_ITEMS_SECOND = [
   "أرض",
   "فيلا",
@@ -116,7 +115,6 @@ const Service03: React.FC<Props> = ({ onSubmit }) => {
     }
   }, []);
 
-  const [selectedFirst, setSelectedFirst] = React.useState<Record<number, boolean>>({});
   const [selectedSecond, setSelectedSecond] = React.useState<Record<number, boolean>>({});
   const [selectedThird, setSelectedThird] = React.useState<Record<number, boolean>>({});
   const [thirdTexts, setThirdTexts] = React.useState<Record<number, string>>({});
@@ -126,7 +124,6 @@ const Service03: React.FC<Props> = ({ onSubmit }) => {
   const [selectedFifth, setSelectedFifth] = React.useState<Record<number, boolean>>({});
   const [sixthSearchQuery, setSixthSearchQuery] = React.useState<string>("");
 
-  const toggleFirst = (i: number) => setSelectedFirst((s) => ({ ...s, [i]: !s[i] }));
   const toggleSecond = (i: number) => setSelectedSecond((s) => ({ ...s, [i]: !s[i] }));
   const toggleThird = (i: number) => setSelectedThird((s) => ({ ...s, [i]: !s[i] }));
   const toggleFourth = (i: number) => setSelectedFourth((s) => ({ ...s, [i]: !s[i] }));
@@ -137,7 +134,6 @@ const Service03: React.FC<Props> = ({ onSubmit }) => {
   const handleFourthText2Change = (i: number, value: string) => setFourthTexts2((s) => ({ ...s, [i]: value }));
 
   const handleSubmit = () => {
-    const chosenFirst = CHECKBOX_ITEMS_FIRST.filter((_, i) => !!selectedFirst[i]);
     const chosenSecond = CHECKBOX_ITEMS_SECOND.filter((_, i) => !!selectedSecond[i]);
 
     const chosenThird = CHECKBOX_ITEMS_THIRD
@@ -202,60 +198,12 @@ const Service03: React.FC<Props> = ({ onSubmit }) => {
             fontFamily: TAJAWAL,
           }}
         >
-          شراء
+          استئجار العقار
         </Typography>
       </Box>
 
       <Box sx={{ mb: 4 }}>
         {/* First Group */}
-        <Box sx={{ background: "linear-gradient(180deg, rgba(255,255,255,0.95), #fff)", borderRadius: 3, p: { xs: 2, md: 3 }, boxShadow: "0 18px 50px rgba(7,22,23,0.06)", border: "1px solid rgba(3,59,66,0.04)" }}>
-          <FormControl component="fieldset" sx={{ width: "100%", maxWidth: 1100, mx: "auto" }}>
-            <FormGroup>
-              <Box sx={{ display: "grid", gridTemplateColumns: gridCols, gap: { xs: 1.25, md: 2 } }}>
-                {CHECKBOX_ITEMS_FIRST.map((label, i) => {
-                  const checked = !!selectedFirst[i];
-                  return (
-                    <FormControlLabel
-                      key={`first-${label}-${i}`}
-                      control={
-                        <Checkbox
-                          checked={checked}
-                          onChange={() => toggleFirst(i)}
-                          inputProps={{ "aria-label": label }}
-                          disableRipple
-                          icon={<ToggleIcon checked={false} />}
-                          checkedIcon={<ToggleIcon checked={true} />}
-                          sx={{ p: 0, mr: 1.4, "& .MuiSvgIcon-root": { display: "none" } }}
-                        />
-                      }
-                      label={
-                        <Typography sx={{ fontSize: { xs: "1rem", md: "1.15rem" }, fontWeight: 700, fontFamily: TAJAWAL }}>
-                          {label}
-                        </Typography>
-                      }
-                      sx={{
-                        m: 0,
-                        p: 1.2,
-                        borderRadius: 3,
-                        width: "100%",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        border: checked ? "1px solid rgba(34,197,94,0.12)" : "1px solid #eef3f3",
-                        backgroundColor: checked ? "rgba(234,255,246,0.7)" : "#fff",
-                        transition: "all 220ms ease",
-                        animation: `${fadeUp} 480ms ease both`,
-                        animationDelay: `${i * 80}ms`,
-                        // ensure FormControlLabel label uses Tajawal as well
-                        "& .MuiFormControlLabel-label": { fontFamily: TAJAWAL },
-                      }}
-                    />
-                  );
-                })}
-              </Box>
-            </FormGroup>
-          </FormControl>
-        </Box>
 
         {/* Second Group */}
         <Box sx={{ mt: 5 }}>
