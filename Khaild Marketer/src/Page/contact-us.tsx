@@ -1,123 +1,9 @@
 // Contactus.tsx
-import React, { useEffect, useRef, useState } from "react";
-import mapboxgl from "mapbox-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
+import React from "react";
 import { Box, Typography, Container, GlobalStyles } from "@mui/material";
-import EmailIcon from "@mui/icons-material/EmailOutlined";
-import PhoneIphoneIcon from "@mui/icons-material/PhoneIphone";
-
-mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN || "";
-
-type ContactDetailProps = {
-  icon: React.ReactElement;
-  label: string;
-  value: React.ReactNode;
-};
-
-const ContactDetail: React.FC<ContactDetailProps> = ({ icon, label, value }) => (
-  <Box sx={{ mb: 1.6, display: "flex", alignItems: "center" }}>
-    <Box
-      sx={{
-        color: "#0F172A",
-        mr: 1.6,
-        display: "flex",
-        alignItems: "center",
-        fontSize: "22px",
-      }}
-    >
-      {icon}
-    </Box>
-
-    <Box sx={{ display: "flex", alignItems: "baseline", gap: 1 }}>
-      <Typography
-        sx={{
-          color: "#4B5563",
-          fontSize: "18px",
-          fontFamily: "'Tajawal', sans-serif",
-        }}
-      >
-        {label}:
-      </Typography>
-
-      <Typography
-        sx={{
-          color: "#0F172A",
-          fontWeight: 700,
-          fontSize: "20px",
-          fontFamily: "'Tajawal', sans-serif",
-        }}
-      >
-        {value}
-      </Typography>
-    </Box>
-  </Box>
-);
-
-type MarkerItem = {
-  id: string;
-  title: string;
-  lat: number;
-  lng: number;
-};
+import { Phone, Email } from "@mui/icons-material";
 
 const Contactus: React.FC = () => {
-  const mapRef = useRef<mapboxgl.Map | null>(null);
-  const mapContainer = useRef<HTMLDivElement | null>(null);
-
-  const [markers] = useState<MarkerItem[]>([
-    { id: "1", title: "Project A", lat: 24.7136, lng: 46.6753 },
-    { id: "2", title: "Project B", lat: 24.725, lng: 46.68 },
-    { id: "3", title: "Project C", lat: 24.7, lng: 46.66 },
-  ]);
-
-  useEffect(() => {
-    if (!mapContainer.current) return;
-    if (mapRef.current) return;
-
-    const map = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: "mapbox://styles/mapbox/streets-v11",
-      center: [46.6753, 24.7136],
-      zoom: 11,
-    });
-
-    mapRef.current = map;
-    map.addControl(new mapboxgl.NavigationControl(), "top-left");
-
-    markers.forEach((m) => {
-      const el = document.createElement("div");
-      el.style.width = "18px";
-      el.style.height = "18px";
-      el.style.borderRadius = "50%";
-      el.style.background = "#0b5565";
-      el.style.border = "2px solid white";
-      el.title = m.title;
-      new mapboxgl.Marker(el).setLngLat([m.lng, m.lat]).addTo(map);
-    });
-
-    const resizeObserver = new ResizeObserver(() => map.resize());
-    if (mapContainer.current) resizeObserver.observe(mapContainer.current);
-
-    return () => {
-      resizeObserver.disconnect();
-      map.remove();
-      mapRef.current = null;
-    };
-  }, []);
-
-  const ltrNumber = (text: string) => (
-    <span
-      style={{
-        direction: "ltr",
-        unicodeBidi: "bidi-override",
-        display: "inline-block",
-        fontSize: "20px",
-      }}
-    >
-      {text}
-    </span>
-  );
-
   return (
     <Box sx={{ direction: "rtl" }}>
       <GlobalStyles
@@ -126,12 +12,6 @@ const Contactus: React.FC = () => {
         }}
       />
 
-      {/* MAP */}
-      <div style={{ width: "100vw", height: "min(720px, 60vh)" }}>
-        <div ref={mapContainer} style={{ width: "100%", height: "100%" }} />
-      </div>
-
-      {/* CONTACT DETAILS */}
       <Container maxWidth="lg" sx={{ my: 6, px: 3 }}>
         <Box
           sx={{
@@ -143,9 +23,9 @@ const Contactus: React.FC = () => {
           {/* LEFT SECTION */}
           <Box sx={{ flex: 1 }}>
             <Typography
-              variant="h5"
               sx={{
                 fontWeight: 700,
+                mt: 4,
                 mb: 2,
                 borderBottom: "3px solid #E5E7EB",
                 pb: 0.5,
@@ -164,49 +44,97 @@ const Contactus: React.FC = () => {
                 fontSize: "20px",
               }}
             >
-              <strong>Khalid Marketer</strong> تواصل معنا لأي معلومات إضافية أو استفسارات.
+              <strong>Khalid Marketer</strong> تواصل معنا لأي معلومات إضافية أو
+              استفسارات.
             </Typography>
 
+            {/* CONTACT INFORMATION */}
             <Box>
-              <Typography sx={{ fontWeight: 700, mb: 2, fontSize: "22px" }}>
+              <Typography sx={{ fontWeight: 700, mb: 3, fontSize: "22px" }}>
                 Saudi Arabia - Contact Information
               </Typography>
 
-              <ContactDetail
-                icon={<EmailIcon sx={{ fontSize: "22px" }} />}
-                label="ايميل الموقع"
-                value="info@waseetaqary.com"
-              />
+              <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                {[
+                  {
+                    icon: <Phone sx={{ fontSize: 22 }} />,
+                    label: "لبيع وشراء العقارات",
+                    value: "057 081 9999",
+                  },
+                  {
+                    icon: <Phone sx={{ fontSize: 22 }} />,
+                    label: "استئجار وتسليم واستلام العقارات",
+                    value: "057 082 9999",
+                  },
+                  {
+                    icon: <Phone sx={{ fontSize: 22 }} />,
+                    label: "لتشطيب العقار",
+                    value: "057 083 9999",
+                  },
+                  {
+                    icon: <Phone sx={{ fontSize: 22 }} />,
+                    label: "للقسم النسائي",
+                    value: "057 084 9999",
+                  },
+                  {
+                    icon: <Phone sx={{ fontSize: 22 }} />,
+                    label: "لقسم التمويل العقاري",
+                    value: "057 085 9999",
+                  },
+                  {
+                    icon: <Email sx={{ fontSize: 22 }} />,
+                    label: "ايميل الموقع",
+                    value: "info@waseetaqary.com",
+                  },
+                ].map((item, index) => (
+                  <Box
+                    key={index}
+                    sx={{
+                      display: "grid",
+                      gridTemplateColumns: "1fr 24px 1fr", // ✅ 3 COLUMNS
+                      alignItems: "center",
+                    }}
+                  >
+                    {/* COLUMN 1 – ICON + TEXT */}
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                      <Box sx={{ color: "#0F172A" }}>{item.icon}</Box>
+                      <Typography
+                        sx={{
+                          fontSize: "18px",
+                          color: "#4B5563",
+                        }}
+                      >
+                        {item.label}
+                      </Typography>
+                    </Box>
 
-              <ContactDetail
-                icon={<PhoneIphoneIcon sx={{ fontSize: "22px" }} />}
-                label="لبيع وشراء العقارات"
-                value={ltrNumber("(+966) 570819999")}
-              />
+                    {/* COLUMN 2 – : */}
+                    <Typography
+                      sx={{
+                        fontSize: "18px",
+                        color: "#4B5563",
+                        textAlign: "center",
+                      }}
+                    >
+                      :
+                    </Typography>
 
-              <ContactDetail
-                icon={<PhoneIphoneIcon sx={{ fontSize: "22px" }} />}
-                label="استئجار وتسليم واستلام العقارات"
-                value={ltrNumber("(+966) 570829999")}
-              />
-
-              <ContactDetail
-                icon={<PhoneIphoneIcon sx={{ fontSize: "22px" }} />}
-                label="لتشطيب العقار"
-                value={ltrNumber("(+966) 570839999")}
-              />
-
-              <ContactDetail
-                icon={<PhoneIphoneIcon sx={{ fontSize: "22px" }} />}
-                label="للقسم النسائي"
-                value={ltrNumber("(+966) 570849999")}
-              />
-
-              <ContactDetail
-                icon={<PhoneIphoneIcon sx={{ fontSize: "22px" }} />}
-                label="لقسم التمويل العقاري"
-                value={ltrNumber("(+966) 570859999")}
-              />
+                    {/* COLUMN 3 – NUMBER / EMAIL */}
+                    <Typography
+                      sx={{
+                        fontSize: "20px",
+                        fontWeight: 700,
+                        color: "#0F172A",
+                        direction: "ltr",
+                        unicodeBidi: "bidi-override",
+                        letterSpacing: "1px",
+                      }}
+                    >
+                      {item.value}
+                    </Typography>
+                  </Box>
+                ))}
+              </Box>
             </Box>
           </Box>
 
