@@ -17,7 +17,6 @@ import { keyframes } from "@mui/system";
 
 type Props = {
   onSubmit?: (selectedItems: {
-    first: string[];
     second: string[];
     third: string[];
     fourth: string[];
@@ -168,7 +167,7 @@ const Service03: React.FC<Props> = ({ onSubmit }) => {
 
     const chosenFifth = CHECKBOX_ITEMS_FIFTH.filter((_, i) => !!selectedFifth[i]);
 
-    if (onSubmit) onSubmit({ first: chosenFirst, second: chosenSecond, third: chosenThird, fourth: chosenFourth, fifth: chosenFifth, search: sixthSearchQuery });
+    if (onSubmit) onSubmit({second: chosenSecond, third: chosenThird, fourth: chosenFourth, fifth: chosenFifth, search: sixthSearchQuery });
   };
 
   const gridCols = { xs: "1fr", sm: "repeat(2,1fr)", md: "repeat(3,1fr)" };
