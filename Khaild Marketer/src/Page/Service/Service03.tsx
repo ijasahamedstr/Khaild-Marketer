@@ -50,7 +50,6 @@ const float = keyframes`
   100% { transform: translateY(0) }
 `;
 
-// Removed unused 'delay' parameter to fix TS6133
 const fadeUp = keyframes`
   0% { opacity: 0; transform: translateY(18px) scale(0.995); }
   60% { opacity: 1; transform: translateY(0) scale(1); }
@@ -103,16 +102,13 @@ const ToggleIcon = ({ checked }: { checked?: boolean }) => {
 const Service03: React.FC<Props> = ({ onSubmit }) => {
   const topRef = React.useRef<HTMLDivElement | null>(null);
 
+
   React.useEffect(() => {
-    // Scroll to the topRef element when component mounts
-    if (topRef.current) {
-      // slight timeout can help if the page still lays out heavy content
-      // but kept immediate — smooth scroll to the first section/header
-      topRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-    } else {
-      // fallback: scroll to window top
+    // Scroll to the very top of the window instead of a specific element
+    const t = setTimeout(() => {
       window.scrollTo({ top: 0, behavior: "smooth" });
-    }
+    }, 120);
+    return () => clearTimeout(t);
   }, []);
 
   const [selectedSecond, setSelectedSecond] = React.useState<Record<number, boolean>>({});
@@ -203,14 +199,14 @@ const Service03: React.FC<Props> = ({ onSubmit }) => {
       </Box>
 
       <Box sx={{ mb: 4 }}>
-        {/* Second Group */}
+        {/* Second Group: نوع العقار (Property Type) */}
         <Box sx={{ mt: 5 }}>
           <Box sx={{ textAlign: "right", mb: 2 }}>
             <Typography variant="h2" sx={{ fontWeight: 800, fontSize: { xs: "1.45rem", md: "2rem" }, background: COLOR_PRIMARY, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", display: "inline-block", fontFamily: TAJAWAL }}>
-                نوع العقار
+              نوع العقار
             </Typography>
           </Box>
-          <Box sx={{ background: "linear-gradient(180deg, rgba(255,255,255,0.95), #fff)", borderRadius: 3, p: { xs: 2, md: 3 }, boxShadow: "0 18px 50px rgba(7,22,23,0.06)", border: "1px solid rgba(3,59,66,0.04)" }}>
+          <Box>
             <FormControl component="fieldset" sx={{ width: "100%", maxWidth: 1100, mx: "auto" }}>
               <FormGroup>
                 <Box sx={{ display: "grid", gridTemplateColumns: gridCols, gap: { xs: 1.25, md: 2 } }}>
@@ -246,7 +242,7 @@ const Service03: React.FC<Props> = ({ onSubmit }) => {
                           justifyContent: "space-between",
                           // Styling adjusted for Blue/Cyan theme with border/background
                           border: checked ? `1px solid ${COLOR_SECONDARY}` : "1px solid #eef3f3",
-                          backgroundColor: checked ? "rgba(234,255,246,0.7)" : "#fff",
+                          backgroundColor: checked ? "rgba(234,255,246,0.7)" : "#85c1E9",
                           transition: "all 220ms ease",
                           animation: `${fadeUp} 480ms ease both`,
                           animationDelay: `${i * 80}ms`,
@@ -261,14 +257,14 @@ const Service03: React.FC<Props> = ({ onSubmit }) => {
           </Box>
         </Box>
 
-        {/* Third Group */}
+        {/* Third Group: الحي المرغوب فيه الشراء (Desired Neighborhood) */}
         <Box sx={{ mt: 5 }}>
           <Box sx={{ textAlign: "right", mb: 2 }}>
             <Typography variant="h2" sx={{ fontWeight: 800, fontSize: { xs: "1.45rem", md: "2rem" }, background: COLOR_PRIMARY, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", display: "inline-block", fontFamily: TAJAWAL }}>
-                الحي المرغوب فيه الشراء
+              الحي المرغوب فيه الشراء
             </Typography>
           </Box>
-          <Box sx={{ background: "linear-gradient(180deg, rgba(255,255,255,0.95), #fff)", borderRadius: 3, p: { xs: 2, md: 3 }, boxShadow: "0 18px 50px rgba(7,22,23,0.06)", border: "1px solid rgba(3,59,66,0.04)" }}>
+          <Box >
             <FormControl component="fieldset" sx={{ width: "100%", maxWidth: 1100, mx: "auto" }}>
               <FormGroup>
                 <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr" }, gap: { xs: 1.25, md: 2 } }}>
@@ -288,7 +284,7 @@ const Service03: React.FC<Props> = ({ onSubmit }) => {
                           justifyContent: "space-between",
                           // Styling adjusted for Blue/Cyan theme with border/background
                           border: checked ? `1px solid ${COLOR_SECONDARY}` : "1px solid #eef3f3",
-                          backgroundColor: checked ? "rgba(234,255,246,0.7)" : "#fff",
+                          backgroundColor: checked ? "rgba(234,255,246,0.7)" : "#85c1E9",
                           transition: "all 220ms ease",
                           animation: `${fadeUp} 480ms ease both`,
                           animationDelay: `${i * 80}ms`,
@@ -336,14 +332,14 @@ const Service03: React.FC<Props> = ({ onSubmit }) => {
           </Box>
         </Box>
 
-        {/* Fourth Group */}
+        {/* Fourth Group: المعلومات المالية (Financial Information) */}
         <Box sx={{ mt: 5 }}>
           <Box sx={{ textAlign: "right", mb: 2 }}>
             <Typography variant="h2" sx={{ fontWeight: 800, fontSize: { xs: "1.45rem", md: "2rem" }, background: COLOR_PRIMARY, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", display: "inline-block", fontFamily: TAJAWAL }}>
-                المعلومات المالية
+              المعلومات المالية
             </Typography>
           </Box>
-          <Box sx={{ background: "linear-gradient(180deg, rgba(255,255,255,0.95), #fff)", borderRadius: 3, p: { xs: 2, md: 3 }, boxShadow: "0 18px 50px rgba(7,22,23,0.06)", border: "1px solid rgba(3,59,66,0.04)" }}>
+          <Box>
             <FormControl component="fieldset" sx={{ width: "100%", maxWidth: 1100, mx: "auto" }}>
               <Box sx={{ display: "grid", gap: 2 }}>
                 {CHECKBOX_ITEMS_FOURTH.map((label, i) => {
@@ -362,7 +358,7 @@ const Service03: React.FC<Props> = ({ onSubmit }) => {
                         justifyContent: "flex-start",
                         // Styling adjusted for Blue/Cyan theme with border/background
                         border: checked ? `1px solid ${COLOR_SECONDARY}` : "1px solid #eef3f3",
-                        backgroundColor: checked ? "rgba(234,255,246,0.7)" : "#fff",
+                        backgroundColor: checked ? "rgba(234,255,246,0.7)" : "#85c1E9",
                         transition: "all 220ms ease",
                         animation: `${fadeUp} 480ms ease both`,
                         animationDelay: `${i * 80}ms`,
@@ -431,14 +427,14 @@ const Service03: React.FC<Props> = ({ onSubmit }) => {
           </Box>
         </Box>
 
-        {/* Fifth Group */}
+        {/* Fifth Group: طرية الدفع (Payment Method) */}
         <Box sx={{ mt: 5 }}>
           <Box sx={{ textAlign: "right", mb: 2 }}>
             <Typography variant="h2" sx={{ fontWeight: 800, fontSize: { xs: "1.45rem", md: "2rem" }, background: COLOR_PRIMARY, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", display: "inline-block", fontFamily: TAJAWAL }}>
-                طرية الدفع
+              طرية الدفع
             </Typography>
           </Box>
-          <Box sx={{ background: "linear-gradient(180deg, rgba(255,255,255,0.95), #fff)", borderRadius: 3, p: { xs: 2, md: 3 }, boxShadow: "0 18px 50px rgba(7,22,23,0.06)", border: "1px solid rgba(3,59,66,0.04)" }}>
+          <Box >
             <FormControl component="fieldset" sx={{ width: "100%", maxWidth: 1100, mx: "auto" }}>
               <FormGroup>
                 <Box sx={{ display: "grid", gridTemplateColumns: gridCols, gap: { xs: 1.25, md: 2 } }}>
@@ -473,7 +469,7 @@ const Service03: React.FC<Props> = ({ onSubmit }) => {
                           justifyContent: "space-between",
                           // Styling adjusted for Blue/Cyan theme with border/background
                           border: checked ? `1px solid ${COLOR_SECONDARY}` : "1px solid #eef3f3",
-                          backgroundColor: checked ? "rgba(234,255,246,0.7)" : "#fff",
+                          backgroundColor: checked ? "rgba(234,255,246,0.7)" : "#85c1E9",
                           transition: "all 220ms ease",
                           animation: `${fadeUp} 480ms ease both`,
                           animationDelay: `${i * 80}ms`,
@@ -492,10 +488,10 @@ const Service03: React.FC<Props> = ({ onSubmit }) => {
         <Box sx={{ mt: 5 }}>
           <Box sx={{ textAlign: "center", mb: 2 }}>
             <Typography variant="h2" sx={{ fontWeight: 800, fontSize: { xs: "1.45rem", md: "2rem" }, background: GRADIENT, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", display: "inline-block", fontFamily: TAJAWAL }}>
-                
+              
             </Typography>
           </Box>
-          <Box sx={{ background: "linear-gradient(180deg, rgba(255,255,255,0.95), #fff)", borderRadius: 3, p: { xs: 2, md: 3 }, boxShadow: "0 18px 50px rgba(7,22,23,0.06)", border: "1px solid rgba(3,59,66,0.04)" }}>
+          <Box>
             <FormControl sx={{ width: "100%", maxWidth: 1100, mx: "auto" }}>
               <Box sx={{ display: "flex", alignItems: "center", gap: 2, flexDirection: { xs: "column", md: "row" } }}>
                 <TextField

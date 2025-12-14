@@ -62,13 +62,6 @@ const Service05: React.FC<Props> = ({ onSubmit }) => {
       </Box>
 
       <Box
-        sx={{
-          background: "linear-gradient(180deg, rgba(255,255,255,0.98), #fff)",
-          borderRadius: 3,
-          p: { xs: 2, md: 3 },
-          boxShadow: "0 12px 40px rgba(7,22,23,0.05)",
-          border: "1px solid rgba(3,59,66,0.04)",
-        }}
       >
         {/* WhatsApp row */}
         <Box

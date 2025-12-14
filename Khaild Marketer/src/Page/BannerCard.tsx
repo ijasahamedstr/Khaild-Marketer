@@ -8,26 +8,31 @@ const BannerCard: React.FC = () => {
       sx={{
         bgcolor: "#f7f7f7",
         py: { xs: 6, md: 8 },
+        // Direction is 'rtl' (Right-to-Left)
         direction: "rtl",
         fontFamily: "Tajawal, sans-serif",
       }}
     >
       <Container maxWidth="xl">
-        {/* المحتوى الرئيسي */}
+        {/* المحتوى الرئيسي (Main Content) */}
         <Box
           sx={{
             display: "flex",
             flexDirection: { xs: "column", md: "row" },
+            // Align items to the right side in RTL
             alignItems: "flex-start",
             gap: { xs: 3, md: 6 },
             textAlign: "right",
           }}
         >
-          {/* العنوان – 30% */}
+          {/* الوصف – 80% (Description - Placed First for RTL Flow) */}
+      
+          {/* العنوان – 20% (Heading - Placed Second for RTL Flow) */}
           <Typography
             variant="h3"
             sx={{
-              flexBasis: { md: "30%" },
+              // Set Heading to 20% on medium screens and up
+              flexBasis: { md: "20%" },
               fontWeight: 700,
               color: "#004652",
               lineHeight: 1.2,
@@ -37,15 +42,16 @@ const BannerCard: React.FC = () => {
             من نحن
           </Typography>
 
-          {/* الوصف – 70% */}
           <Typography
             sx={{
-              flexBasis: { md: "70%" },
+              // Set Description to 80% on medium screens and up
+              flexBasis: { md: "80%" },
               fontSize: { xs: "1.1rem", md: "1.8rem" },
               lineHeight: 1.9,
               color: "#004652",
               fontFamily: "Tajawal, sans-serif",
-              textAlign:'center'
+              // Kept original center alignment for description
+              textAlign: 'center'
             }}
           >
             نحن متخصصون في تسويق منتجات المطورين العقاريين بمدينة الرياض، نُبرز
@@ -54,7 +60,7 @@ const BannerCard: React.FC = () => {
           </Typography>
         </Box>
 
-        {/* الخط السفلي */}
+        {/* الخط السفلي (Bottom Line) */}
         <Box
           sx={{
             borderBottom: "2px solid #0c6b71",

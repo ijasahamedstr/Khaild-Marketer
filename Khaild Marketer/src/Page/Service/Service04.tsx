@@ -87,14 +87,12 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
   const topRef = React.useRef<HTMLDivElement | null>(null);
 
   // Scroll to top/ref on mount
+
   React.useEffect(() => {
+    // Scroll to the very top of the window instead of a specific element
     const t = setTimeout(() => {
-      if (topRef.current) {
-        topRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-      } else {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }
-    }, SCROLL_DELAY_MS);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, 120);
     return () => clearTimeout(t);
   }, []);
 
@@ -155,13 +153,7 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
           </Box>
 
           <Box
-            sx={{
-              background: "linear-gradient(180deg, rgba(255,255,255,0.95), #fff)",
-              borderRadius: 3,
-              p: { xs: 2, md: 3 },
-              boxShadow: "0 18px 50px rgba(7,22,23,0.06)",
-              border: "1px solid rgba(3,59,66,0.04)",
-            }}
+           
           >
             <Box sx={{ display: "grid", gap: 2, maxWidth: 1100, mx: "auto" }}>
               {SEVENTH_ROWS.map((r, i) => (
@@ -199,13 +191,7 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
           <Box sx={{ textAlign: "center", mb: 2 }}></Box>
 
           <Box
-            sx={{
-              background: "linear-gradient(180deg, rgba(255,255,255,0.95), #fff)",
-              borderRadius: 3,
-              p: { xs: 2, md: 3 },
-              boxShadow: "0 18px 50px rgba(7,22,23,0.06)",
-              border: "1px solid rgba(3,59,66,0.04)",
-            }}
+           
           >
             <FormControl component="fieldset" sx={{ width: "100%", maxWidth: 1100, mx: "auto" }}>
               <FormGroup>
@@ -242,7 +228,7 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
                             justifyContent: "flex-start",
                             // Styling adjusted for Blue/Cyan theme with border/background
                             border: checked ? `1px solid ${COLOR_SECONDARY}` : "1px solid #eef3f3",
-                            backgroundColor: checked ? "rgba(234,255,246,0.7)" : "#fff",
+                            backgroundColor: checked ? "rgba(234,255,246,0.7)" : "#85c1E9",
                             transition: "all 220ms ease",
                             animation: `${fadeUp} 480ms ease both`,
                             animationDelay: delay,

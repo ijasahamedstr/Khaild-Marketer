@@ -79,7 +79,7 @@ const ToggleIcon = ({ checked }: { checked?: boolean }) => {
         transition: "all 260ms cubic-bezier(.2,.9,.2,1)",
 
         // *** STYLE CHANGE 2: Checked state is a solid gradient background ***
-        background: checked ? GRADIENT : "#fff", 
+        background: checked ? GRADIENT : "#fff",
 
         // *** STYLE CHANGE 3: Adjusted border/shadow for checked and unchecked states ***
         border: checked ? "1px solid rgba(168,85,247,0.2)" : "1px solid #A855F7", // Purple outline when unchecked
@@ -102,16 +102,13 @@ const ToggleIcon = ({ checked }: { checked?: boolean }) => {
 const Service01: React.FC<Props> = ({ onSubmit }) => {
   const topRef = React.useRef<HTMLDivElement | null>(null);
 
+
   React.useEffect(() => {
-    // Scroll to the topRef element when component mounts
-    if (topRef.current) {
-      // slight timeout can help if the page still lays out heavy content
-      // but kept immediate — smooth scroll to the first section/header
-      topRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-    } else {
-      // fallback: scroll to window top
+    // Scroll to the very top of the window instead of a specific element
+    const t = setTimeout(() => {
       window.scrollTo({ top: 0, behavior: "smooth" });
-    }
+    }, 120);
+    return () => clearTimeout(t);
   }, []);
 
   const [selectedFirst, setSelectedFirst] = React.useState<Record<number, boolean>>({});
@@ -175,6 +172,9 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
 
   const gridCols = { xs: "1fr", sm: "repeat(2,1fr)", md: "repeat(3,1fr)" };
 
+  // 🛠️ Defined a minimalist style for the group wrappers
+  const minimalistGroupStyle = { p: { xs: 2, md: 3 } };
+
   return (
     <Container
       maxWidth="lg"
@@ -206,8 +206,8 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
       </Box>
 
       <Box sx={{ mb: 4 }}>
-        {/* First Group */}
-        <Box sx={{ background: "linear-gradient(180deg, rgba(255,255,255,0.95), #fff)", borderRadius: 3, p: { xs: 2, md: 3 }, boxShadow: "0 18px 50px rgba(7,22,23,0.06)", border: "1px solid rgba(3,59,66,0.04)" }}>
+        {/* First Group - Applied minimalist style */}
+        <Box sx={minimalistGroupStyle}>
           <FormControl component="fieldset" sx={{ width: "100%", maxWidth: 1100, mx: "auto" }}>
             <FormGroup>
               <Box sx={{ display: "grid", gridTemplateColumns: gridCols, gap: { xs: 1.25, md: 2 } }}>
@@ -240,10 +240,10 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
                         width: "100%",
                         display: "flex",
                         alignItems: "center",
-                        justifyContent: "space-between",
+                        gap: 2,
                         // Keeping box/container styles from previous update (Purple/Pink theme)
                         border: checked ? "1px solid #A855F7" : "1px solid #eef3f3",
-                        backgroundColor: checked ? "rgba(168, 85, 247, 0.08)" : "#fff", // Pale Purple Background
+                        backgroundColor: checked ? "rgba(168, 85, 247, 0.08)" : "#85c1E9", // Pale Purple Background
                         transition: "all 220ms ease",
                         animation: `${fadeUp} 480ms ease both`,
                         animationDelay: `${i * 80}ms`,
@@ -264,7 +264,8 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
                 نوع العقار
             </Typography>
           </Box>
-          <Box sx={{ background: "linear-gradient(180deg, rgba(255,255,255,0.95), #fff)", borderRadius: 3, p: { xs: 2, md: 3 }, boxShadow: "0 18px 50px rgba(7,22,23,0.06)", border: "1px solid rgba(3,59,66,0.04)" }}>
+          {/* Applied minimalist style */}
+          <Box sx={minimalistGroupStyle}>
             <FormControl component="fieldset" sx={{ width: "100%", maxWidth: 1100, mx: "auto" }}>
               <FormGroup>
                 <Box sx={{ display: "grid", gridTemplateColumns: gridCols, gap: { xs: 1.25, md: 2 } }}>
@@ -296,9 +297,9 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
                           width: "100%",
                           display: "flex",
                           alignItems: "center",
-                          justifyContent: "space-between",
+                           gap: 2,
                           border: checked ? "1px solid #A855F7" : "1px solid #eef3f3",
-                          backgroundColor: checked ? "rgba(168, 85, 247, 0.08)" : "#fff",
+                          backgroundColor: checked ? "rgba(168, 85, 247, 0.08)" : "#85c1E9",
                           transition: "all 220ms ease",
                           animation: `${fadeUp} 480ms ease both`,
                           animationDelay: `${i * 80}ms`,
@@ -320,7 +321,8 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
                 الحي المرغوب فيه الشراء
             </Typography>
           </Box>
-          <Box sx={{ background: "linear-gradient(180deg, rgba(255,255,255,0.95), #fff)", borderRadius: 3, p: { xs: 2, md: 3 }, boxShadow: "0 18px 50px rgba(7,22,23,0.06)", border: "1px solid rgba(3,59,66,0.04)" }}>
+          {/* Applied minimalist style */}
+          <Box sx={minimalistGroupStyle}>
             <FormControl component="fieldset" sx={{ width: "100%", maxWidth: 1100, mx: "auto" }}>
               <FormGroup>
                 <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr" }, gap: { xs: 1.25, md: 2 } }}>
@@ -337,14 +339,13 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
                           display: "flex",
                           flexDirection: { xs: "column", sm: "row" },
                           alignItems: { xs: "stretch", sm: "center" },
-                          justifyContent: "space-between",
                           // Keeping box/container styles from previous update (Purple/Pink theme)
                           border: checked ? "1px solid #A855F7" : "1px solid #eef3f3",
-                          backgroundColor: checked ? "rgba(168, 85, 247, 0.08)" : "#fff",
+                          backgroundColor: checked ? "rgba(168, 85, 247, 0.08)" : "#85c1E9",
                           transition: "all 220ms ease",
                           animation: `${fadeUp} 480ms ease both`,
                           animationDelay: `${i * 80}ms`,
-                          gap: 1,
+                          gap: 2,
                         }}
                       >
                         <FormControlLabel
@@ -395,7 +396,8 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
                 المعلومات المالية
             </Typography>
           </Box>
-          <Box sx={{ background: "linear-gradient(180deg, rgba(255,255,255,0.95), #fff)", borderRadius: 3, p: { xs: 2, md: 3 }, boxShadow: "0 18px 50px rgba(7,22,23,0.06)", border: "1px solid rgba(3,59,66,0.04)" }}>
+          {/* Applied minimalist style */}
+          <Box sx={minimalistGroupStyle}>
             <FormControl component="fieldset" sx={{ width: "100%", maxWidth: 1100, mx: "auto" }}>
               <Box sx={{ display: "grid", gap: 2 }}>
                 {CHECKBOX_ITEMS_FOURTH.map((label, i) => {
@@ -414,7 +416,7 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
                         justifyContent: "flex-start",
                         // Keeping box/container styles from previous update (Purple/Pink theme)
                         border: checked ? "1px solid #A855F7" : "1px solid #eef3f3",
-                        backgroundColor: checked ? "rgba(168, 85, 247, 0.08)" : "#fff",
+                        backgroundColor: checked ? "rgba(168, 85, 247, 0.08)" : "#85c1E9",
                         transition: "all 220ms ease",
                         animation: `${fadeUp} 480ms ease both`,
                         animationDelay: `${i * 80}ms`,
@@ -490,7 +492,8 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
                 طرية الدفع
             </Typography>
           </Box>
-          <Box sx={{ background: "linear-gradient(180deg, rgba(255,255,255,0.95), #fff)", borderRadius: 3, p: { xs: 2, md: 3 }, boxShadow: "0 18px 50px rgba(7,22,23,0.06)", border: "1px solid rgba(3,59,66,0.04)" }}>
+          {/* Applied minimalist style */}
+          <Box sx={minimalistGroupStyle}>
             <FormControl component="fieldset" sx={{ width: "100%", maxWidth: 1100, mx: "auto" }}>
               <FormGroup>
                 <Box sx={{ display: "grid", gridTemplateColumns: gridCols, gap: { xs: 1.25, md: 2 } }}>
@@ -522,9 +525,9 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
                           width: "100%",
                           display: "flex",
                           alignItems: "center",
-                          justifyContent: "space-between",
+                          gap: 2,
                           border: checked ? "1px solid #A855F7" : "1px solid #eef3f3",
-                          backgroundColor: checked ? "rgba(168, 85, 247, 0.08)" : "#fff",
+                          backgroundColor: checked ? "rgba(168, 85, 247, 0.08)" : "#85c1E9",
                           transition: "all 220ms ease",
                           animation: `${fadeUp} 480ms ease both`,
                           animationDelay: `${i * 80}ms`,
@@ -543,10 +546,11 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
         <Box sx={{ mt: 5 }}>
           <Box sx={{ textAlign: "center", mb: 2 }}>
             <Typography variant="h2" sx={{ fontWeight: 800, fontSize: { xs: "1.45rem", md: "2rem" }, background: GRADIENT, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", display: "inline-block", fontFamily: TAJAWAL }}>
-                
+                ابحث
             </Typography>
           </Box>
-          <Box sx={{ background: "linear-gradient(180deg, rgba(255,255,255,0.95), #fff)", borderRadius: 3, p: { xs: 2, md: 3 }, boxShadow: "0 18px 50px rgba(7,22,23,0.06)", border: "1px solid rgba(3,59,66,0.04)" }}>
+          {/* Applied minimalist style */}
+          <Box sx={minimalistGroupStyle}>
             <FormControl sx={{ width: "100%", maxWidth: 1100, mx: "auto" }}>
               <Box sx={{ display: "flex", alignItems: "center", gap: 2, flexDirection: { xs: "column", md: "row" } }}>
                 <TextField
