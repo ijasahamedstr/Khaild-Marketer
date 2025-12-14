@@ -96,21 +96,6 @@ const BannerCard01: React.FC = () => {
               <Box
                 sx={{
                   position: "absolute",
-                  right: "-40px",
-                  bottom: "-40px",
-                  width: { xs: "140px", md: "190px" },
-                  height: { xs: "140px", md: "190px" },
-                  borderRadius: "50%",
-                  background: "radial-gradient(circle, rgba(152,235,255,0.95), rgba(0,76,104,0.06))",
-                  opacity: 0.55,
-                  filter: "blur(6px)",
-                  animation: `${floatCircle} 9s ease-in-out infinite`,
-                }}
-              />
-
-              <Box
-                sx={{
-                  position: "absolute",
                   left: 18,
                   top: 18,
                   width: 12,
@@ -153,7 +138,7 @@ const BannerCard01: React.FC = () => {
 
               <Typography
                 sx={{
-                  fontSize: { xs: "1.05rem", md: "1.15rem" },
+                  fontSize: { xs: "1.05rem", md: "1.3rem" },
                   color: "rgba(222,242,250,0.95)",
                   lineHeight: 1.9,
                   mb: 3.5,
@@ -162,40 +147,6 @@ const BannerCard01: React.FC = () => {
               >
                 {card.text}
               </Typography>
-
-              <Button
-                variant="text"
-                sx={{
-                  px: 0,
-                  fontSize: "1.05rem",
-                  fontWeight: 700,
-                  color: "#FFFFFF",
-                  textTransform: "none",
-                  gap: 1,
-                  position: "relative",
-                  overflow: 'visible',
-                  '&::after': {
-                    content: '""',
-                    position: "absolute",
-                    bottom: -2,
-                    right: 0,
-                    height: "3px",
-                    width: "100%",
-                    transform: "scaleX(0)",
-                    transformOrigin: 'right',
-                    background: "linear-gradient(90deg, rgba(156,240,255,0.9), rgba(255,255,255,0.95), rgba(156,240,255,0.9))",
-                    transition: "transform 0.35s cubic-bezier(.2,.9,.2,1)",
-                    borderRadius: '2px'
-                  },
-                  '&:hover::after': {
-                    transform: "scaleX(1)",
-                    transformOrigin: 'left',
-                  },
-                }}
-              >
-                <span>تعرّف أكثر</span>
-                <span aria-hidden className="arrow" style={{ marginLeft: 8 }}>↗</span>
-              </Button>
 
               <Box
                 sx={{

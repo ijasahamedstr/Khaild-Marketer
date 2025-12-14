@@ -59,47 +59,45 @@ const fadeUp = keyframes`
   100% { opacity: 1; transform: translateY(0) scale(1); }
 `;
 
-const GRADIENT = "linear-gradient(135deg, #023B4E 0%, #06f9f3 100%)";
+const GRADIENT = "linear-gradient(135deg, #023B4E 0%, #06f9f3 100%)"; // Purple to Pink
 
+// *** START: SQUARE STYLE CHECKBOX IMPLEMENTATION ***
 const ToggleIcon = ({ checked }: { checked?: boolean }) => {
+  const SIZE = 24; // Size of the square checkbox
+
   return (
     <Box
       sx={{
-        width: 46,
-        height: 28,
-        borderRadius: 20,
+        width: SIZE,
+        height: SIZE,
+        // *** STYLE CHANGE 1: Use 6px border radius for square/rounded corner look ***
+        borderRadius: "6px",
         display: "flex",
         alignItems: "center",
-        p: "4px",
+        justifyContent: "center",
         boxSizing: "border-box",
         transition: "all 260ms cubic-bezier(.2,.9,.2,1)",
-        background: checked ? GRADIENT : "#fff",
-        border: checked ? "1px solid rgba(2,59,78,0.16)" : "1px solid #dfeef0",
-        boxShadow: checked ? "0 10px 28px rgba(3,80,75,0.12)" : "0 6px 18px rgba(9,12,15,0.03)",
+
+        // *** STYLE CHANGE 2: Checked state is a solid gradient background ***
+        background: checked ? GRADIENT : "#fff", 
+
+        // *** STYLE CHANGE 3: Adjusted border/shadow for checked and unchecked states ***
+        border: checked ? "1px solid rgba(168,85,247,0.2)" : "1px solid #A855F7", // Purple outline when unchecked
+        boxShadow: checked ? "0 4px 12px rgba(168,85,247,0.3)" : "none", // Softer purple shadow when checked
       }}
     >
-      <Box
-        sx={{
-          width: 20,
-          height: 20,
-          borderRadius: "50%",
-          background: checked ? "#fff" : "#06caa6",
-          transform: checked ? "translateX(18px)" : "translateX(0px)",
-          transition: "transform 240ms cubic-bezier(.2,.9,.2,1), background 240ms ease",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        {checked ? (
-          <svg width="12" height="9" viewBox="0 0 12 9" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10.6 1.1L4.6 7.1 1.4 3.9" stroke="#023B4E" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        ) : null}
-      </Box>
+      {checked ? (
+        // Checkmark Icon
+        <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+          {/* White checkmark for contrast on the dark purple/pink background */}
+          <path d="M12.6 1.1L5.6 8.1 1.4 3.9" stroke="#FFFFFF" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      ) : null}
     </Box>
   );
 };
+// *** END: SQUARE STYLE CHECKBOX IMPLEMENTATION ***
+
 
 const Service01: React.FC<Props> = ({ onSubmit }) => {
   const topRef = React.useRef<HTMLDivElement | null>(null);
@@ -195,14 +193,15 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
           sx={{
             fontWeight: 800,
             fontSize: { xs: "1.6rem", md: "2.4rem" },
-            background: GRADIENT,
+            // Keeping original title color for strong contrast
+            background: "#023B4E",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             display: "inline-block",
             fontFamily: TAJAWAL,
           }}
         >
-          شراء
+          شراء العقار
         </Typography>
       </Box>
 
@@ -225,6 +224,7 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
                           disableRipple
                           icon={<ToggleIcon checked={false} />}
                           checkedIcon={<ToggleIcon checked={true} />}
+                          // Adjusted padding/margin for the square style
                           sx={{ p: 0, mr: 1.4, "& .MuiSvgIcon-root": { display: "none" } }}
                         />
                       }
@@ -241,12 +241,12 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "space-between",
-                        border: checked ? "1px solid rgba(34,197,94,0.12)" : "1px solid #eef3f3",
-                        backgroundColor: checked ? "rgba(234,255,246,0.7)" : "#fff",
+                        // Keeping box/container styles from previous update (Purple/Pink theme)
+                        border: checked ? "1px solid #A855F7" : "1px solid #eef3f3",
+                        backgroundColor: checked ? "rgba(168, 85, 247, 0.08)" : "#fff", // Pale Purple Background
                         transition: "all 220ms ease",
                         animation: `${fadeUp} 480ms ease both`,
                         animationDelay: `${i * 80}ms`,
-                        // ensure FormControlLabel label uses Tajawal as well
                         "& .MuiFormControlLabel-label": { fontFamily: TAJAWAL },
                       }}
                     />
@@ -259,9 +259,9 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
 
         {/* Second Group */}
         <Box sx={{ mt: 5 }}>
-          <Box sx={{ textAlign: "center", mb: 2 }}>
-            <Typography variant="h2" sx={{ fontWeight: 800, fontSize: { xs: "1.45rem", md: "2rem" }, background: GRADIENT, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", display: "inline-block", fontFamily: TAJAWAL }}>
-               نوع العقار
+          <Box sx={{ textAlign: "right", mb: 2 }}>
+            <Typography variant="h2" sx={{ fontWeight: 800, fontSize: { xs: "1.45rem", md: "2rem" }, background: '#023B4E', WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", display: "inline-block", fontFamily: TAJAWAL }}>
+                نوع العقار
             </Typography>
           </Box>
           <Box sx={{ background: "linear-gradient(180deg, rgba(255,255,255,0.95), #fff)", borderRadius: 3, p: { xs: 2, md: 3 }, boxShadow: "0 18px 50px rgba(7,22,23,0.06)", border: "1px solid rgba(3,59,66,0.04)" }}>
@@ -297,8 +297,8 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
-                          border: checked ? "1px solid rgba(34,197,94,0.12)" : "1px solid #eef3f3",
-                          backgroundColor: checked ? "rgba(234,255,246,0.7)" : "#fff",
+                          border: checked ? "1px solid #A855F7" : "1px solid #eef3f3",
+                          backgroundColor: checked ? "rgba(168, 85, 247, 0.08)" : "#fff",
                           transition: "all 220ms ease",
                           animation: `${fadeUp} 480ms ease both`,
                           animationDelay: `${i * 80}ms`,
@@ -315,9 +315,9 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
 
         {/* Third Group */}
         <Box sx={{ mt: 5 }}>
-          <Box sx={{ textAlign: "center", mb: 2 }}>
-            <Typography variant="h2" sx={{ fontWeight: 800, fontSize: { xs: "1.45rem", md: "2rem" }, background: GRADIENT, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", display: "inline-block", fontFamily: TAJAWAL }}>
-               الحي المرغوب فيه الشراء
+          <Box sx={{ textAlign: "right", mb: 2 }}>
+            <Typography variant="h2" sx={{ fontWeight: 800, fontSize: { xs: "1.45rem", md: "2rem" }, background: '#023B4E', WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", display: "inline-block", fontFamily: TAJAWAL }}>
+                الحي المرغوب فيه الشراء
             </Typography>
           </Box>
           <Box sx={{ background: "linear-gradient(180deg, rgba(255,255,255,0.95), #fff)", borderRadius: 3, p: { xs: 2, md: 3 }, boxShadow: "0 18px 50px rgba(7,22,23,0.06)", border: "1px solid rgba(3,59,66,0.04)" }}>
@@ -338,8 +338,9 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
                           flexDirection: { xs: "column", sm: "row" },
                           alignItems: { xs: "stretch", sm: "center" },
                           justifyContent: "space-between",
-                          border: checked ? "1px solid rgba(34,197,94,0.12)" : "1px solid #eef3f3",
-                          backgroundColor: checked ? "rgba(234,255,246,0.7)" : "#fff",
+                          // Keeping box/container styles from previous update (Purple/Pink theme)
+                          border: checked ? "1px solid #A855F7" : "1px solid #eef3f3",
+                          backgroundColor: checked ? "rgba(168, 85, 247, 0.08)" : "#fff",
                           transition: "all 220ms ease",
                           animation: `${fadeUp} 480ms ease both`,
                           animationDelay: `${i * 80}ms`,
@@ -389,9 +390,9 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
 
         {/* Fourth Group */}
         <Box sx={{ mt: 5 }}>
-          <Box sx={{ textAlign: "center", mb: 2 }}>
-            <Typography variant="h2" sx={{ fontWeight: 800, fontSize: { xs: "1.45rem", md: "2rem" }, background: GRADIENT, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", display: "inline-block", fontFamily: TAJAWAL }}>
-               المعلومات المالية
+          <Box sx={{ textAlign: "right", mb: 2 }}>
+            <Typography variant="h2" sx={{ fontWeight: 800, fontSize: { xs: "1.45rem", md: "2rem" }, background: '#023B4E', WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", display: "inline-block", fontFamily: TAJAWAL }}>
+                المعلومات المالية
             </Typography>
           </Box>
           <Box sx={{ background: "linear-gradient(180deg, rgba(255,255,255,0.95), #fff)", borderRadius: 3, p: { xs: 2, md: 3 }, boxShadow: "0 18px 50px rgba(7,22,23,0.06)", border: "1px solid rgba(3,59,66,0.04)" }}>
@@ -411,8 +412,9 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
                         flexDirection: { xs: "column", sm: "row" },
                         alignItems: "center",
                         justifyContent: "flex-start",
-                        border: checked ? "1px solid rgba(34,197,94,0.12)" : "1px solid #eef3f3",
-                        backgroundColor: checked ? "rgba(234,255,246,0.7)" : "#fff",
+                        // Keeping box/container styles from previous update (Purple/Pink theme)
+                        border: checked ? "1px solid #A855F7" : "1px solid #eef3f3",
+                        backgroundColor: checked ? "rgba(168, 85, 247, 0.08)" : "#fff",
                         transition: "all 220ms ease",
                         animation: `${fadeUp} 480ms ease both`,
                         animationDelay: `${i * 80}ms`,
@@ -483,9 +485,9 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
 
         {/* Fifth Group */}
         <Box sx={{ mt: 5 }}>
-          <Box sx={{ textAlign: "center", mb: 2 }}>
-            <Typography variant="h2" sx={{ fontWeight: 800, fontSize: { xs: "1.45rem", md: "2rem" }, background: GRADIENT, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", display: "inline-block", fontFamily: TAJAWAL }}>
-               طرية الدفع
+          <Box sx={{ textAlign: "right", mb: 2 }}>
+            <Typography variant="h2" sx={{ fontWeight: 800, fontSize: { xs: "1.45rem", md: "2rem" }, background: '#023B4E', WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", display: "inline-block", fontFamily: TAJAWAL }}>
+                طرية الدفع
             </Typography>
           </Box>
           <Box sx={{ background: "linear-gradient(180deg, rgba(255,255,255,0.95), #fff)", borderRadius: 3, p: { xs: 2, md: 3 }, boxShadow: "0 18px 50px rgba(7,22,23,0.06)", border: "1px solid rgba(3,59,66,0.04)" }}>
@@ -521,8 +523,8 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
-                          border: checked ? "1px solid rgba(34,197,94,0.12)" : "1px solid #eef3f3",
-                          backgroundColor: checked ? "rgba(234,255,246,0.7)" : "#fff",
+                          border: checked ? "1px solid #A855F7" : "1px solid #eef3f3",
+                          backgroundColor: checked ? "rgba(168, 85, 247, 0.08)" : "#fff",
                           transition: "all 220ms ease",
                           animation: `${fadeUp} 480ms ease both`,
                           animationDelay: `${i * 80}ms`,
@@ -541,7 +543,7 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
         <Box sx={{ mt: 5 }}>
           <Box sx={{ textAlign: "center", mb: 2 }}>
             <Typography variant="h2" sx={{ fontWeight: 800, fontSize: { xs: "1.45rem", md: "2rem" }, background: GRADIENT, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", display: "inline-block", fontFamily: TAJAWAL }}>
-               
+                
             </Typography>
           </Box>
           <Box sx={{ background: "linear-gradient(180deg, rgba(255,255,255,0.95), #fff)", borderRadius: 3, p: { xs: 2, md: 3 }, boxShadow: "0 18px 50px rgba(7,22,23,0.06)", border: "1px solid rgba(3,59,66,0.04)" }}>
@@ -580,7 +582,7 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
                     alignSelf: { xs: "stretch", md: "center" },
                     width: { xs: "100%", md: "auto" },
                     background: GRADIENT,
-                    boxShadow: "0 10px 30px rgba(3,80,75,0.08)",
+                    boxShadow: "0 10px 30px rgba(168, 85, 247, 0.2)",
                     fontFamily: TAJAWAL,
                   }}
                 >

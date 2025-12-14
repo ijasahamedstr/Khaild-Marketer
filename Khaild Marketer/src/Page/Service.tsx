@@ -289,7 +289,7 @@ const Service: React.FC = () => {
                   borderRadius: 2,
                   transition:
                     "transform 0.36s cubic-bezier(.2,.9,.2,1), box-shadow 0.36s",
-                  boxShadow: "0 10px 30px rgba(2,59,78,0.06)",
+                  boxShadow: "0 14px 34px rgba(2,59,78,0.14), 0 6px 16px rgba(2,59,78,0.10)",
                   background:
                     "linear-gradient(180deg, rgba(255,255,255,0.75), rgba(250,250,250,0.6))",
                   cursor: card.href ? "pointer" : "default",
@@ -311,7 +311,7 @@ const Service: React.FC = () => {
                     height: 10,
                     borderRadius: "50%",
                     background: "linear-gradient(90deg, #9CF0FF, #FFFFFF)",
-                    boxShadow: "0 6px 18px rgba(4,106,132,0.12)",
+                    boxShadow: "0 14px 34px rgba(2,59,78,0.14), 0 6px 16px rgba(2,59,78,0.10)",
                     transformOrigin: "center",
                     animation: `${floatUp} ${6 + index}s ease-in-out infinite`,
                     display: { xs: "none", md: "block" },
@@ -395,7 +395,7 @@ const Service: React.FC = () => {
                       top: 0,
                       height: "100%",
                       width: "2px",
-                      backgroundColor: "#e5e5e5",
+                      backgroundColor: "#023B4E",
                       display: { xs: "none", md: "block" },
                     }}
                   />
@@ -474,7 +474,7 @@ const Service: React.FC = () => {
                   borderRadius: 2,
                   transition:
                     "transform 0.36s cubic-bezier(.2,.9,.2,1), box-shadow 0.36s",
-                  boxShadow: "0 10px 30px rgba(2,59,78,0.06)",
+                  boxShadow: "0 14px 34px rgba(2,59,78,0.14), 0 6px 16px rgba(2,59,78,0.10)",
                   background:
                     "linear-gradient(180deg, rgba(255,255,255,0.95), rgba(250,250,250,0.9))",
                   cursor: card.href ? "pointer" : "default",

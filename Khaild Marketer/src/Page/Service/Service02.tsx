@@ -132,14 +132,14 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
           sx={{
             fontWeight: 800,
             fontSize: { xs: "1.6rem", md: "2.4rem" },
-            background: GRADIENT,
+            background: "#003c46",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             display: "inline-block",
             fontFamily: TAJAWAL,
           }}
         >
-          قسم البيع
+           بيع العقار
         </Typography>
       </Box>
 
