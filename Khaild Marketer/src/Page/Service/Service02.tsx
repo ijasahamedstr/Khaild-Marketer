@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { keyframes } from "@mui/system";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 
 type Props = {
   onSubmit?: (selectedItems: {
@@ -22,7 +23,7 @@ type Props = {
 const ROWS = [
   { id: 0, label: "رفع صورة صك الملكية", type: "file" },
   { id: 1, label: "يمكنك التواصل معنا عبر واتس اب الموقع ", type: "phone" },
-  { id: 2, label: "أو بإمكانك ترك رقم جوالك للتواصل معك لاحقا", type: "text" },
+  { id: 2, label: "ترك رقم جوالك للتواصل معك لاحقا", type: "text" },
   { id: 3, label: "أو بإمكانك التواصل معنا مباشرة على الرقم", type: "none" },
 ];
 
@@ -126,6 +127,7 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
         fontFamily: TAJAWAL,
       }}
     >
+     
       <Box ref={topRef} sx={{ textAlign: "center", mb: 3, animation: `${float} 6s ease-in-out infinite` }}>
         <Typography
           variant="h2"
@@ -153,6 +155,19 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
             border: "1px solid rgba(3,59,66,0.04)",
           }}
         >
+                {/* MOVED TEXT: Frist Text After Upload Box is now at the top of the component */}
+          <Box sx={{ textAlign: "center", mb: 2 }}>
+            <Typography
+                variant="h5"
+                sx={{
+                    fontWeight: 700,
+                    color: "text.primary",
+                    fontFamily: TAJAWAL,
+                }}
+            >
+                الرجاء اختيار إحدى الطرق المناسبة لك للتواصل معنا
+            </Typography>
+          </Box>
           <Box sx={{ display: "grid", gap: 2 }}>
             {ROWS.map((row) => {
               return (
@@ -288,15 +303,23 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
                   )}
 
                   {/* PHONE INPUT */}
-                  {row.type === "phone" && (
-                    <TextField
-                      placeholder="أدخل رقم واتساب مع الماكينة (مثال: +9665... )"
-                      value={whatsapp}
-                      onChange={(e) => setWhatsapp(e.target.value)}
-                      fullWidth
-                      inputProps={{ dir: "ltr", style: { fontFamily: TAJAWAL } }}
-                    />
-                  )}
+              {row.type === "phone" && (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 1,
+                      fontFamily: TAJAWAL,
+                      direction: "ltr",
+                    }}
+                  >
+                    <WhatsAppIcon sx={{ color: "#25D366", fontSize: 28 }} />
+                    <Typography sx={{ fontSize: 16, fontWeight: 600 }}>
+                      057 085 9999
+                    </Typography>
+                  </Box>
+                )}
+
 
                   {/* TEXTAREA */}
                   {row.type === "text" && (
