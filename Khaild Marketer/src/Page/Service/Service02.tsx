@@ -38,12 +38,13 @@ const GRADIENT = "linear-gradient(135deg, #023B4E 0%, #06f9f3 100%)";
 const ACCEPTED_EXT = [".pdf"];
 
 const Service02: React.FC<Props> = ({ onSubmit }) => {
-  const topRef = React.useRef<HTMLDivElement | null>(null);
+  // Removed topRef as the goal is to scroll to the absolute top (Navbar position)
+  // const topRef = React.useRef<HTMLDivElement | null>(null);
 
   React.useEffect(() => {
+    // Scroll to the very top of the window instead of a specific element
     const t = setTimeout(() => {
-      if (topRef.current) topRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-      else window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }, 120);
     return () => clearTimeout(t);
   }, []);
@@ -127,8 +128,9 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
         fontFamily: TAJAWAL,
       }}
     >
-     
-      <Box ref={topRef} sx={{ textAlign: "center", mb: 3, animation: `${float} 6s ease-in-out infinite` }}>
+      
+      {/* Scroll target is now the absolute top (window.scrollTo) */}
+      <Box sx={{ textAlign: "center", mb: 3, animation: `${float} 6s ease-in-out infinite` }}>
         <Typography
           variant="h2"
           sx={{
@@ -141,7 +143,7 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
             fontFamily: TAJAWAL,
           }}
         >
-           بيع العقار
+          بيع العقار
         </Typography>
       </Box>
 
@@ -155,17 +157,17 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
             border: "1px solid rgba(3,59,66,0.04)",
           }}
         >
-                {/* MOVED TEXT: Frist Text After Upload Box is now at the top of the component */}
+          {/* MOVED TEXT: Frist Text After Upload Box is now at the top of the component */}
           <Box sx={{ textAlign: "center", mb: 2 }}>
             <Typography
-                variant="h5"
-                sx={{
-                    fontWeight: 700,
-                    color: "text.primary",
-                    fontFamily: TAJAWAL,
-                }}
+              variant="h5"
+              sx={{
+                fontWeight: 700,
+                color: "text.primary",
+                fontFamily: TAJAWAL,
+              }}
             >
-                الرجاء اختيار إحدى الطرق المناسبة لك للتواصل معنا
+              الرجاء اختيار إحدى الطرق المناسبة لك للتواصل معنا
             </Typography>
           </Box>
           <Box sx={{ display: "grid", gap: 2 }}>
@@ -255,7 +257,7 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
                         </Box>
 
                         <Typography sx={{ fontSize: "0.95rem", color: "text.primary", fontFamily: TAJAWAL }}>
-                           لرفع صورة صك الملكية الرجاء الضغط هنا
+                          لرفع صورة صك الملكية الرجاء الضغط هنا
                         </Typography>
 
                         <Button variant="contained" size="small" onClick={() => fileInputRef.current?.click()} sx={{ textTransform: "none", background: "rgba(2,59,78,0.9)" }}>
@@ -303,36 +305,85 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
                   )}
 
                   {/* PHONE INPUT */}
-              {row.type === "phone" && (
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 1,
-                      fontFamily: TAJAWAL,
-                      direction: "ltr",
-                    }}
-                  >
-                    <WhatsAppIcon sx={{ color: "#25D366", fontSize: 28 }} />
-                    <Typography sx={{ fontSize: 16, fontWeight: 600 }}>
-                      057 085 9999
-                    </Typography>
-                  </Box>
-                )}
+                  {row.type === "phone" && (
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 1,
+                        fontFamily: TAJAWAL,
+                        direction: "ltr",
+                      }}
+                    >
+                      <WhatsAppIcon sx={{ color: "#25D366", fontSize: 28 }} />
+                      <Typography sx={{ fontSize: 16, fontWeight: 600 }}>
+                        057 085 9999
+                      </Typography>
+                    </Box>
+                  )}
 
 
                   {/* TEXTAREA */}
-                  {row.type === "text" && (
-                    <TextField
-                      placeholder="أضف تفاصيل أو وصفًا إضافيًا..."
-                      value={note}
-                      onChange={(e) => setNote(e.target.value)}
-                      fullWidth
-                      multiline
-                      minRows={2}
-                      inputProps={{ dir: "rtl", style: { fontFamily: TAJAWAL } }}
-                    />
-                  )}
+
+                 {row.type === "text" && (
+                    <Box 
+                        sx={{ 
+                            display: 'flex', 
+                            // 1. Crucial for perfect bottom alignment of button and text field
+                            alignItems: 'flex-end', 
+                            gap: 1 
+                        }}
+                    >
+                        <TextField
+                            value={note}
+                            onChange={(e) => setNote(e.target.value)}
+                            // Use 'flexGrow: 1' to make the TextField take up the remaining space
+                            sx={{ flexGrow: 1 }}
+                            
+                            // *** Refinements for Small/Perfect Height ***
+                            // 2. Set size="small" to drastically reduce padding/height
+                            size="small" 
+                            multiline
+                            // 3. Set minRows to 1 to guarantee a single-line height when empty
+                            minRows={1} 
+                            // Optional: You can set maxRows to prevent it from growing too large
+                            // maxRows={4} 
+                            
+                            inputProps={{
+                                dir: "rtl",
+                                // Assuming TAJAWAL is defined and imported
+                                style: { fontFamily: TAJAWAL } 
+                            }}
+                        />
+                        
+                        {/* The Small Send Button */}
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            // Set size="small" to match the TextField size
+                            size="small"
+                            sx={{
+                                // Ensure the button is aligned to the bottom/baseline
+                                alignSelf: 'flex-end',
+                                // Optional: To make the button look more compact
+                                padding: '4px 8px',
+                                 boxShadow: "0 10px 30px rgba(2,59,78,0.18)",
+                                "&:hover": { filter: "brightness(0.95)" }, 
+                                   fontSize: "1.2rem",
+                                  fontWeight: 800,
+                                  fontFamily: TAJAWAL,
+                                  background: GRADIENT,
+                            }}
+                            onClick={() => {
+                                // Add your send/submit logic here
+                                console.log("Note submitted:", note);
+                            }}
+                        >
+                            إرسال
+                        </Button>
+                    </Box>
+                )}
+       
                 </Box>
               );
             })}
