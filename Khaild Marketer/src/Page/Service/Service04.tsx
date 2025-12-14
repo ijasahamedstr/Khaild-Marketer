@@ -80,9 +80,6 @@ const ToggleIcon = ({ checked }: { checked?: boolean }) => {
 // *** END: SQUARE STYLE CHECKBOX IMPLEMENTATION ***
 
 
-// small scroll delay so layout can stabilise before scroll
-const SCROLL_DELAY_MS = 120;
-
 const Service04: React.FC<Props> = ({ onSubmit }) => {
   const topRef = React.useRef<HTMLDivElement | null>(null);
 

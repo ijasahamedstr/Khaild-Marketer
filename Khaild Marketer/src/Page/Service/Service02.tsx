@@ -1,4 +1,3 @@
-// src/Page/Service/Service02.tsx
 import React from "react";
 import {
   Box,
@@ -15,16 +14,16 @@ type Props = {
   onSubmit?: (selectedItems: {
     rowsSelected?: string[];
     files?: File[];
-    whatsapp?: string;
+    contactPhone?: string; // Changed from 'whatsapp' to 'contactPhone'
     note?: string;
   }) => void;
 };
 
 const ROWS = [
   { id: 0, label: "رفع صورة صك الملكية", type: "file" },
-  { id: 1, label: "يمكنك التواصل معنا عبر واتس اب الموقع ", type: "phone" },
-  { id: 2, label: "ترك رقم جوالك للتواصل معك لاحقا", type: "text" },
-  { id: 3, label: "أو بإمكانك التواصل معنا مباشرة على الرقم", type: "none" },
+  { id: 1, label: "يمكنك التواصل معنا عبر واتس اب الموقع ", type: "static_phone" }, // New type for static display
+  { id: 2, label: "ترك رقم جوالك للتواصل معك لاحقا (مطلوب)", type: "contact_phone_input" }, // New type for required phone input
+  { id: 3, label: "ملاحظات إضافية (اختياري)", type: "note_area" }, // New type for optional note
 ];
 
 const TAJAWAL = "'Tajawal', sans-serif";
@@ -38,9 +37,6 @@ const GRADIENT = "linear-gradient(135deg, #023B4E 0%, #06f9f3 100%)";
 const ACCEPTED_EXT = [".pdf"];
 
 const Service02: React.FC<Props> = ({ onSubmit }) => {
-  // Removed topRef as the goal is to scroll to the absolute top (Navbar position)
-  // const topRef = React.useRef<HTMLDivElement | null>(null);
-
   React.useEffect(() => {
     // Scroll to the very top of the window instead of a specific element
     const t = setTimeout(() => {
@@ -49,10 +45,11 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
     return () => clearTimeout(t);
   }, []);
 
-  // Removed checkbox state — inputs always visible
+  // State initialization
   const [files, setFiles] = React.useState<File[]>([]);
-  const [whatsapp, setWhatsapp] = React.useState<string>("");
+  const [contactPhone, setContactPhone] = React.useState<string>(""); // New state for contact phone
   const [note, setNote] = React.useState<string>("");
+  const [phoneError, setPhoneError] = React.useState<string | null>(null);
 
   const fileInputRef = React.useRef<HTMLInputElement | null>(null);
   const [isDragOver, setIsDragOver] = React.useState(false);
@@ -67,6 +64,24 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
     });
     return accepted;
   };
+
+  const validatePhone = (phone: string): boolean => {
+    // Simple validation: check if it's non-empty and contains only digits/common characters
+    const trimmed = phone.trim();
+    if (trimmed.length === 0) {
+        setPhoneError("الرجاء إدخال رقم الجوال للتواصل");
+        return false;
+    }
+    // Simple regex for digits, spaces, hyphens, and parentheses (common for phone inputs)
+    const phoneRegex = /^[\d\s()+-]+$/; 
+    if (!phoneRegex.test(trimmed)) {
+        setPhoneError("صيغة رقم الجوال غير صحيحة");
+        return false;
+    }
+    setPhoneError(null);
+    return true;
+  };
+
 
   const handleFilePick = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDragError(null);
@@ -107,12 +122,20 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
   };
 
   const handleSubmit = () => {
+    const isPhoneValid = validatePhone(contactPhone);
+
+    if (!isPhoneValid) {
+        // Scroll to the phone input if invalid
+        document.getElementById('contact-phone-input')?.focus();
+        return;
+    }
+
     const rowsSelected = ROWS.map((r) => r.label);
     if (onSubmit)
       onSubmit({
         rowsSelected,
         files,
-        whatsapp: whatsapp.trim(),
+        contactPhone: contactPhone.trim(),
         note: note.trim(),
       });
   };
@@ -157,7 +180,6 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
             border: "1px solid rgba(3,59,66,0.04)",
           }}
         >
-          {/* MOVED TEXT: Frist Text After Upload Box is now at the top of the component */}
           <Box sx={{ textAlign: "center", mb: 2 }}>
             <Typography
               variant="h5"
@@ -170,11 +192,11 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
               الرجاء اختيار إحدى الطرق المناسبة لك للتواصل معنا
             </Typography>
           </Box>
-          <Box sx={{ display: "grid", gap: 2 }}>
+          <Box sx={{ display: "grid", gap: 3 }}>
             {ROWS.map((row) => {
               return (
                 <Box key={`row-${row.id}`} sx={{ display: { xs: "block", sm: "flex" }, alignItems: "center", gap: 2 }}>
-                  {/* LABEL (clickable for file row) */}
+                  {/* LABEL */}
                   <Box
                     sx={{
                       minWidth: { sm: "240px" },
@@ -293,6 +315,7 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
                               size="small"
                               onClick={() => {
                                 setFiles([]);
+                                if(fileInputRef.current) fileInputRef.current.value = ''; // Reset file input
                               }}
                               sx={{ mt: 1, textTransform: "none" }}
                             >
@@ -304,8 +327,8 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
                     </Box>
                   )}
 
-                  {/* PHONE INPUT */}
-                  {row.type === "phone" && (
+                  {/* STATIC PHONE DISPLAY */}
+                  {row.type === "static_phone" && (
                     <Box
                       sx={{
                         display: "flex",
@@ -323,67 +346,46 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
                   )}
 
 
-                  {/* TEXTAREA */}
+                  {/* CONTACT PHONE INPUT */}
+                  {row.type === "contact_phone_input" && (
+                    <TextField
+                      id="contact-phone-input"
+                      value={contactPhone}
+                      onChange={(e) => {
+                        setContactPhone(e.target.value);
+                        // Optional: clear error on user input
+                        if (phoneError) validatePhone(e.target.value);
+                      }}
+                      error={!!phoneError}
+                      helperText={phoneError}
+                      size="small"
+                      type="tel"
+                      sx={{ flexGrow: 1, minWidth: { xs: '100%', sm: 'auto' } }}
+                      inputProps={{
+                        dir: "ltr", // Phone number should be LTR
+                        style: { fontFamily: TAJAWAL, textAlign: 'left' }
+                      }}
+                    />
+                  )}
 
-                 {row.type === "text" && (
-                    <Box 
-                        sx={{ 
-                            display: 'flex', 
-                            // 1. Crucial for perfect bottom alignment of button and text field
-                            alignItems: 'flex-end', 
-                            gap: 1 
-                        }}
-                    >
-                        <TextField
-                            value={note}
-                            onChange={(e) => setNote(e.target.value)}
-                            // Use 'flexGrow: 1' to make the TextField take up the remaining space
-                            sx={{ flexGrow: 1 }}
-                            
-                            // *** Refinements for Small/Perfect Height ***
-                            // 2. Set size="small" to drastically reduce padding/height
-                            size="small" 
-                            multiline
-                            // 3. Set minRows to 1 to guarantee a single-line height when empty
-                            minRows={1} 
-                            // Optional: You can set maxRows to prevent it from growing too large
-                            // maxRows={4} 
-                            
-                            inputProps={{
-                                dir: "rtl",
-                                // Assuming TAJAWAL is defined and imported
-                                style: { fontFamily: TAJAWAL } 
-                            }}
-                        />
-                        
-                        {/* The Small Send Button */}
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            // Set size="small" to match the TextField size
-                            size="small"
-                            sx={{
-                                // Ensure the button is aligned to the bottom/baseline
-                                alignSelf: 'flex-end',
-                                // Optional: To make the button look more compact
-                                padding: '4px 8px',
-                                 boxShadow: "0 10px 30px rgba(2,59,78,0.18)",
-                                "&:hover": { filter: "brightness(0.95)" }, 
-                                   fontSize: "1rem",
-                                  fontWeight: 800,
-                                  fontFamily: TAJAWAL,
-                                  background: GRADIENT,
-                            }}
-                            onClick={() => {
-                                // Add your send/submit logic here
-                                console.log("Note submitted:", note);
-                            }}
-                        >
-                            إرسال
-                        </Button>
-                    </Box>
-                )}
-       
+                  {/* NOTE AREA */}
+                  {row.type === "note_area" && (
+                      <TextField
+                          value={note}
+                          onChange={(e) => setNote(e.target.value)}
+                          size="small" 
+                          multiline
+                          minRows={1} 
+                          maxRows={4} 
+                          placeholder="اكتب ملاحظاتك هنا..."
+                          sx={{ flexGrow: 1 }}
+                          inputProps={{
+                              dir: "rtl",
+                              style: { fontFamily: TAJAWAL } 
+                          }}
+                      />
+                  )}
+            
                 </Box>
               );
             })}
@@ -392,9 +394,7 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
           {/* Submit Button */}
           <Box sx={{ mt: 5, textAlign: "center" }}>
             <Button
-              onClick={() => {
-                handleSubmit();
-              }}
+              onClick={handleSubmit}
               variant="contained"
               sx={{
                 px: 5,
