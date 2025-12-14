@@ -369,7 +369,7 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
                                 padding: '4px 8px',
                                  boxShadow: "0 10px 30px rgba(2,59,78,0.18)",
                                 "&:hover": { filter: "brightness(0.95)" }, 
-                                   fontSize: "1.2rem",
+                                   fontSize: "1rem",
                                   fontWeight: 800,
                                   fontFamily: TAJAWAL,
                                   background: GRADIENT,
