@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography, Button, Container } from "@mui/material";
+import { Box, Typography, Container } from "@mui/material";
 import { keyframes } from "@mui/system";
 
 // Enhanced animations & readability: titles are now pure white (no shimmer)
@@ -8,12 +8,6 @@ const gradientShift = keyframes`
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
-`;
-
-const floatCircle = keyframes`
-  0% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(-6px, -6px) scale(1.05); }
-  100% { transform: translate(0, 0) scale(1); }
 `;
 
 const floatTiny = keyframes`
