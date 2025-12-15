@@ -11,6 +11,13 @@ import {
   Button,
 } from "@mui/material";
 
+/* ---------------- ICONS ---------------- */
+import AssignmentIcon from "@mui/icons-material/Assignment";
+import HomeWorkIcon from "@mui/icons-material/HomeWork";
+import LocationCityIcon from "@mui/icons-material/LocationCity";
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
+import StraightenIcon from "@mui/icons-material/Straighten";
+
 /* ---------------- TYPES ---------------- */
 
 type Props = {
@@ -30,12 +37,29 @@ const LABEL_COLOR = "#023B4E";
 /* ---------------- DROPDOWN CONFIG ---------------- */
 
 const DROPDOWN_FIELDS = [
-  { label: "نوع الطلب", options: ["الرياض", "جدة", "الدمام", "الخبر", "مكة"] },
-  { label: "نوع العقار", options: ["الملقا", "النرجس", "الياسمين", "العارض"] },
-  { label: "المدينة", options: ["سكني", "تجاري", "استثماري"] },
-  { label: "الميزانية", options: ["1", "2", "3", "4", "5+"] },
+  {
+    label: "نوع الطلب",
+    icon: <AssignmentIcon fontSize="small" />,
+    options: ["شراء", "إيجار"],
+  },
+  {
+    label: "نوع العقار",
+    icon: <HomeWorkIcon fontSize="small" />,
+    options: ["شقة", "فيلا", "أرض", "دوبلكس"],
+  },
+  {
+    label: "المدينة",
+    icon: <LocationCityIcon fontSize="small" />,
+    options: ["الرياض", "جدة", "الدمام", "الخبر", "مكة"],
+  },
+  {
+    label: "الميزانية",
+    icon: <AccountBalanceWalletIcon fontSize="small" />,
+    options: ["أقل من 500 ألف", "500 ألف - 1 مليون", "1 - 2 مليون", "أكثر من 2 مليون"],
+  },
   {
     label: "المساحة",
+    icon: <StraightenIcon fontSize="small" />,
     options: ["أقل من 100", "100 - 200", "200 - 300", "أكثر من 300"],
   },
 ];
@@ -43,7 +67,6 @@ const DROPDOWN_FIELDS = [
 /* ---------------- COMPONENT ---------------- */
 
 const Service01: React.FC<Props> = ({ onSubmit }) => {
-  /* ✅ SCROLL TO TOP ON PAGE LOAD */
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
@@ -109,17 +132,27 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
               border: "1px solid #eef3f3",
             }}
           >
-            <Typography
+            {/* LABEL WITH ICON */}
+            <Box
               sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 1,
                 mb: 1,
-                fontWeight: 700,
-                fontSize: { xs: "1rem", md: "1.4rem" },
                 color: LABEL_COLOR,
-                fontFamily: TAJAWAL,
               }}
             >
-              {field.label}
-            </Typography>
+              {field.icon}
+              <Typography
+                sx={{
+                  fontWeight: 700,
+                  fontSize: { xs: "1rem", md: "1.3rem" },
+                  fontFamily: TAJAWAL,
+                }}
+              >
+                {field.label}
+              </Typography>
+            </Box>
 
             <FormControl fullWidth>
               <Select
@@ -137,7 +170,7 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
                 }}
               >
                 <MenuItem value="">
-                  <em>اختر</em>
+                  <em>{field.label}</em>
                 </MenuItem>
 
                 {field.options.map((opt, idx) => (
