@@ -24,11 +24,10 @@ type FormData = {
 const FORM_BACKGROUND_COLOR = "#fff"; // White background for the main form
 const COLOR_PRIMARY_CYAN = "#E7E5E4"; // Used for borders
 const GRADIENT1 = "linear-gradient(135deg, #023B4E 0%, #06f9f3 100%)"; // Purple to Pink
-const COLOR_SECONDARY = "#06caa6"; // Teal/Green-Cyan (used for button hover/outline)
 
 // Define custom styling for the form fields
 // *** TEXT BOX EFFECT REMOVED: No transition, no hover background change, no focus box shadow/border change ***
-const DarkTextField = styled(TextField)(({ theme }) => ({
+const DarkTextField = styled(TextField)(({}) => ({
   "& .MuiFilledInput-root": {
     borderRadius: "12px",
     backgroundColor: "rgba(255, 255, 255, 0.9)", // Input field background (fixed)
