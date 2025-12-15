@@ -337,6 +337,7 @@ const Service: React.FC = () => {
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",
+                    fontSize:'25px',
                   }}
                 >
                   <span>{card.title}</span>
@@ -364,6 +365,7 @@ const Service: React.FC = () => {
                     lineHeight: 2,
                     mb: 4,
                     fontFamily: "'Tajawal', sans-serif",
+                    fontSize:'18px',
                   }}
                 >
                   {card.description}
