@@ -237,7 +237,7 @@ const Service: React.FC = () => {
               sm: "repeat(2, 1fr)",
               md: "repeat(3, 1fr)",
             },
-            gap: 4,
+            gap: 6,
             alignItems: "start",
           }}
         >
