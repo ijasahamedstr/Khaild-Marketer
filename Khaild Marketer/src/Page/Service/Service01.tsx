@@ -11,7 +11,6 @@ import {
   TextField,
   InputAdornment,
   Button,
-  InputLabel,
   Select,
   MenuItem,
 } from "@mui/material";
@@ -152,10 +151,10 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
   const [selectedFourth, setSelectedFourth] = React.useState<
     Record<number, boolean>
   >({});
-  const [fourthTexts, setFourthTexts] = React.useState<Record<number, string>>(
+  const [fourthTexts] = React.useState<Record<number, string>>(
     {}
   );
-  const [fourthTexts2, setFourthTexts2] = React.useState<
+  const [fourthTexts2, ] = React.useState<
     Record<number, string>
   >({});
   const [selectedFifth, setSelectedFifth] = React.useState<
@@ -178,10 +177,8 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
   const handleThirdDropdownChange = (i: number, value: string) =>
     setThirdDropdownValues((s) => ({ ...s, [i]: value }));
   // ******************************************************************************************
-  const handleFourthTextChange = (i: number, value: string) =>
-    setFourthTexts((s) => ({ ...s, [i]: value }));
-  const handleFourthText2Change = (i: number, value: string) =>
-    setFourthTexts2((s) => ({ ...s, [i]: value }));
+ 
+
 
   const handleSubmit = () => {
     const chosenFirst = CHECKBOX_ITEMS_FIRST.filter((_, i) => !!selectedFirst[i]);
