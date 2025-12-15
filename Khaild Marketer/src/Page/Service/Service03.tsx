@@ -133,9 +133,7 @@ const Service03: React.FC<Props> = ({ onSubmit }) => {
     return () => clearTimeout(t);
   }, []);
 
-  const [selectedFirst, setSelectedFirst] = React.useState<
-    Record<number, boolean>
-  >({});
+
   const [selectedSecond, setSelectedSecond] = React.useState<
     Record<number, boolean>
   >({});
@@ -150,10 +148,10 @@ const Service03: React.FC<Props> = ({ onSubmit }) => {
   const [selectedFourth, setSelectedFourth] = React.useState<
     Record<number, boolean>
   >({});
-  const [fourthTexts, setFourthTexts] = React.useState<Record<number, string>>(
+  const [fourthTexts] = React.useState<Record<number, string>>(
     {}
   );
-  const [fourthTexts2, setFourthTexts2] = React.useState<
+  const [fourthTexts2] = React.useState<
     Record<number, string>
   >({});
   const [selectedFifth, setSelectedFifth] = React.useState<
@@ -161,8 +159,6 @@ const Service03: React.FC<Props> = ({ onSubmit }) => {
   >({});
   const [sixthSearchQuery, setSixthSearchQuery] = React.useState<string>("");
 
-  const toggleFirst = (i: number) =>
-    setSelectedFirst((s) => ({ ...s, [i]: !s[i] }));
   const toggleSecond = (i: number) =>
     setSelectedSecond((s) => ({ ...s, [i]: !s[i] }));
   const toggleThird = (i: number) =>
@@ -176,10 +172,6 @@ const Service03: React.FC<Props> = ({ onSubmit }) => {
   const handleThirdDropdownChange = (i: number, value: string) =>
     setThirdDropdownValues((s) => ({ ...s, [i]: value }));
   // ******************************************************************************************
-  const handleFourthTextChange = (i: number, value: string) =>
-    setFourthTexts((s) => ({ ...s, [i]: value }));
-  const handleFourthText2Change = (i: number, value: string) =>
-    setFourthTexts2((s) => ({ ...s, [i]: value }));
 
   const handleSubmit = () => {
     const chosenSecond = CHECKBOX_ITEMS_SECOND.filter((
