@@ -1,5 +1,5 @@
 // src/Page/Service/Service01.tsx
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Container,
@@ -43,6 +43,11 @@ const DROPDOWN_FIELDS = [
 /* ---------------- COMPONENT ---------------- */
 
 const Service01: React.FC<Props> = ({ onSubmit }) => {
+  /* ✅ SCROLL TO TOP ON PAGE LOAD */
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
   const [dropdownValues, setDropdownValues] =
     React.useState<Record<number, string>>({});
   const [notes, setNotes] = React.useState("");
@@ -69,7 +74,7 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
         mt: { xs: 4, md: 8 },
         mb: { xs: 6, md: 12 },
         direction: "rtl",
-        fontFamily: TAJAWAL, // ✅ BASE FONT
+        fontFamily: TAJAWAL,
       }}
     >
       {/* ---------------- TITLE ---------------- */}
@@ -102,10 +107,8 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
               p: 2,
               borderRadius: 3,
               border: "1px solid #eef3f3",
-              fontFamily: TAJAWAL,
             }}
           >
-            {/* LABEL */}
             <Typography
               sx={{
                 mb: 1,
@@ -118,7 +121,6 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
               {field.label}
             </Typography>
 
-            {/* SELECT */}
             <FormControl fullWidth>
               <Select
                 value={dropdownValues[i] || ""}
@@ -128,28 +130,18 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
                 displayEmpty
                 sx={{
                   fontFamily: TAJAWAL,
-                  "& .MuiSelect-select": {
-                    fontFamily: TAJAWAL,
-                  },
+                  "& .MuiSelect-select": { fontFamily: TAJAWAL },
                 }}
                 MenuProps={{
-                  PaperProps: {
-                    sx: {
-                      fontFamily: TAJAWAL,
-                    },
-                  },
+                  PaperProps: { sx: { fontFamily: TAJAWAL } },
                 }}
               >
-                <MenuItem value="" sx={{ fontFamily: TAJAWAL }}>
-                  <em style={{ fontFamily: TAJAWAL }}>اختر</em>
+                <MenuItem value="">
+                  <em>اختر</em>
                 </MenuItem>
 
                 {field.options.map((opt, idx) => (
-                  <MenuItem
-                    key={idx}
-                    value={opt}
-                    sx={{ fontFamily: TAJAWAL }}
-                  >
+                  <MenuItem key={idx} value={opt}>
                     {opt}
                   </MenuItem>
                 ))}
@@ -170,7 +162,7 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
             fontFamily: TAJAWAL,
           }}
         >
-           تفاصيل
+          تفاصيل
         </Typography>
 
         <TextField
