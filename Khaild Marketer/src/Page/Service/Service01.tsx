@@ -9,6 +9,8 @@ import {
   MenuItem,
   TextField,
   Button,
+  Checkbox,
+  FormControlLabel,
 } from "@mui/material";
 
 /* ---------------- ICONS ---------------- */
@@ -17,6 +19,10 @@ import HomeWorkIcon from "@mui/icons-material/HomeWork";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import StraightenIcon from "@mui/icons-material/Straighten";
+import EditNoteIcon from "@mui/icons-material/EditNote";
+import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import PhoneIcon from "@mui/icons-material/Phone";
 
 /* ---------------- TYPES ---------------- */
 
@@ -25,6 +31,11 @@ type Props = {
     dropdowns: string[];
     notes: string;
     search: string;
+    channels: {
+      chat: boolean;
+      whatsapp: boolean;
+      call: boolean;
+    };
   }) => void;
 };
 
@@ -55,7 +66,12 @@ const DROPDOWN_FIELDS = [
   {
     label: "الميزانية",
     icon: <AccountBalanceWalletIcon fontSize="small" />,
-    options: ["أقل من 500 ألف", "500 ألف - 1 مليون", "1 - 2 مليون", "أكثر من 2 مليون"],
+    options: [
+      "أقل من 500 ألف",
+      "500 ألف - 1 مليون",
+      "1 - 2 مليون",
+      "أكثر من 2 مليون",
+    ],
   },
   {
     label: "المساحة",
@@ -76,6 +92,12 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
   const [notes, setNotes] = React.useState("");
   const [search] = React.useState("");
 
+  const [channels, setChannels] = React.useState({
+    chat: true,
+    whatsapp: true,
+    call: false,
+  });
+
   const handleDropdownChange = (index: number, value: string) => {
     setDropdownValues((prev) => ({ ...prev, [index]: value }));
   };
@@ -87,6 +109,7 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
       dropdowns: DROPDOWN_FIELDS.map((_, i) => dropdownValues[i] || ""),
       notes,
       search,
+      channels,
     });
   };
 
@@ -103,7 +126,6 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
       {/* ---------------- TITLE ---------------- */}
       <Box sx={{ textAlign: "center", mb: 4 }}>
         <Typography
-          variant="h2"
           sx={{
             fontWeight: 800,
             fontSize: { xs: "1.6rem", md: "2.4rem" },
@@ -116,13 +138,7 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
       </Box>
 
       {/* ---------------- DROPDOWNS ---------------- */}
-      <Box
-        sx={{
-          display: "grid",
-          gridTemplateColumns: "1fr",
-          gap: 3,
-        }}
-      >
+      <Box sx={{ display: "grid", gap: 3 }}>
         {DROPDOWN_FIELDS.map((field, i) => (
           <Box
             key={i}
@@ -132,16 +148,7 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
               border: "1px solid #eef3f3",
             }}
           >
-            {/* LABEL WITH ICON */}
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: 1,
-                mb: 1,
-                color: LABEL_COLOR,
-              }}
-            >
+            <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR }}>
               {field.icon}
               <Typography
                 sx={{
@@ -161,18 +168,11 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
                   handleDropdownChange(i, e.target.value as string)
                 }
                 displayEmpty
-                sx={{
-                  fontFamily: TAJAWAL,
-                  "& .MuiSelect-select": { fontFamily: TAJAWAL },
-                }}
-                MenuProps={{
-                  PaperProps: { sx: { fontFamily: TAJAWAL } },
-                }}
+                sx={{ fontFamily: TAJAWAL }}
               >
                 <MenuItem value="">
                   <em>{field.label}</em>
                 </MenuItem>
-
                 {field.options.map((opt, idx) => (
                   <MenuItem key={idx} value={opt}>
                     {opt}
@@ -186,16 +186,30 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
 
       {/* ---------------- TEXT AREA ---------------- */}
       <Box sx={{ mt: 5 }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <EditNoteIcon sx={{ color: LABEL_COLOR }} />
+          <Typography
+            sx={{
+              fontWeight: 800,
+              fontSize: { xs: "1.2rem", md: "1.6rem" },
+              color: LABEL_COLOR,
+              fontFamily: TAJAWAL,
+            }}
+          >
+            تفاصيل إضافية
+          </Typography>
+        </Box>
+
         <Typography
           sx={{
-            mb: 1,
-            fontWeight: 800,
-            fontSize: { xs: "1.2rem", md: "1.6rem" },
-            color: LABEL_COLOR,
+            mt: 0.5,
+            mb: 1.5,
+            fontSize: "0.95rem",
+            color: "#6b7280",
             fontFamily: TAJAWAL,
           }}
         >
-          تفاصيل
+          اذكر أي ملاحظات أو متطلبات خاصة تساعدنا في خدمتك بشكل أفضل
         </Typography>
 
         <TextField
@@ -211,6 +225,103 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
             },
           }}
         />
+      </Box>
+
+      {/* ---------------- CONTACT CHANNELS ---------------- */}
+      <Box
+        sx={{
+          mt: 6,
+          p: 3,
+          borderRadius: 3,
+          border: "1px solid #eef3f3",
+          backgroundColor: "#fafafa",
+        }}
+      >
+        <Typography
+          sx={{
+            fontWeight: 800,
+            fontSize: "1.3rem",
+            mb: 0.5,
+            color: LABEL_COLOR,
+            fontFamily: TAJAWAL,
+          }}
+        >
+          قنوات التواصل
+        </Typography>
+
+        <Typography
+          sx={{
+            fontSize: "0.9rem",
+            mb: 2,
+            color: "#6b7280",
+            fontFamily: TAJAWAL,
+          }}
+        >
+          وسائل التواصل المتعددة تتيح الرد السريع من الفريق المختص
+        </Typography>
+
+        <Box sx={{ display: "grid", gap: 1.2 }}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={channels.chat}
+                onChange={(e) =>
+                  setChannels({ ...channels, chat: e.target.checked })
+                }
+              />
+            }
+            label={
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <ChatBubbleOutlineIcon fontSize="small" />
+                <Typography sx={{ fontFamily: TAJAWAL }}>
+                  محادثة في التطبيق
+                </Typography>
+              </Box>
+            }
+          />
+
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={channels.whatsapp}
+                onChange={(e) =>
+                  setChannels({ ...channels, whatsapp: e.target.checked })
+                }
+                sx={{
+                  color: "#25D366",
+                  "&.Mui-checked": { color: "#25D366" },
+                }}
+              />
+            }
+            label={
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <WhatsAppIcon fontSize="small" sx={{ color: "#25D366" }} />
+                <Typography sx={{ fontFamily: TAJAWAL }}>
+                  واتساب
+                </Typography>
+              </Box>
+            }
+          />
+
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={channels.call}
+                onChange={(e) =>
+                  setChannels({ ...channels, call: e.target.checked })
+                }
+              />
+            }
+            label={
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <PhoneIcon fontSize="small" />
+                <Typography sx={{ fontFamily: TAJAWAL }}>
+                  اتصال
+                </Typography>
+              </Box>
+            }
+          />
+        </Box>
       </Box>
 
       {/* ---------------- SUBMIT ---------------- */}
