@@ -4,30 +4,94 @@ import {
   Box,
   Container,
   Typography,
-  Checkbox,
-  FormControlLabel,
-  FormGroup,
-  FormControl,
   TextField,
   Button,
+  styled,
+  FormControl,
 } from "@mui/material";
 import { keyframes } from "@mui/system";
 
+// ----------------------------------------------------
+// *** REQUIRED CONSTANTS AND TYPES FOR COMPILATION ***
+// ----------------------------------------------------
+
+type FormData = {
+  name: string;
+  mobile: string;
+  message: string;
+};
+
+const FORM_BACKGROUND_COLOR = "#fff"; // White background for the main form
+const COLOR_PRIMARY_CYAN = "#E7E5E4"; // Used for borders
+const GRADIENT1 = "linear-gradient(135deg, #023B4E 0%, #06f9f3 100%)"; // Purple to Pink
+const COLOR_SECONDARY = "#06caa6"; // Teal/Green-Cyan (used for button hover/outline)
+
+// Define custom styling for the form fields
+// *** TEXT BOX EFFECT REMOVED: No transition, no hover background change, no focus box shadow/border change ***
+const DarkTextField = styled(TextField)(({ theme }) => ({
+  "& .MuiFilledInput-root": {
+    borderRadius: "12px",
+    backgroundColor: "rgba(255, 255, 255, 0.9)", // Input field background (fixed)
+    color: "#000", // Black text color inside the input
+    border: `1px solid ${COLOR_PRIMARY_CYAN}`,
+    transition: "none", // REMOVED TRANSITION EFFECT
+    
+    // EFFECT REMOVED: Remove hover styles
+    "&:hover": {
+      backgroundColor: "rgba(255, 255, 255, 0.9)", // Keep background fixed on hover
+    },
+    
+    // EFFECT REMOVED: Remove focus styles
+    "&.Mui-focused": {
+      backgroundColor: "rgba(255, 255, 255, 0.9)", // Keep background fixed on focus
+      borderColor: COLOR_PRIMARY_CYAN, // Keep border fixed on focus
+      boxShadow: `none`, // Remove focus shadow
+    },
+  },
+  "& .MuiInputBase-input": {
+    padding: "16px 12px",
+    color: "#000",
+    "&::placeholder": {
+      color: "rgba(0, 0, 0, 0.5)",
+      opacity: 1,
+    },
+  },
+  "& .MuiInputLabel-filled": {
+    color: "#000",
+  },
+}));
+
+// Define the label component for the form fields
+const FieldLabel: React.FC<{ label: string }> = ({ label }) => (
+  <Typography
+    sx={{
+      fontWeight: 700,
+      minWidth: { xs: "50px", sm: "70px" },
+      fontFamily: TAJAWAL,
+      color: "#000", // Label color set to black
+      textAlign: "right",
+      pt: 1.8,
+      flexShrink: 0,
+    }}
+  >
+    {label}
+  </Typography>
+);
+
+// ----------------------------------------------------
+// *** ORIGINAL COMPONENT CODE STARTS HERE ***
+// ----------------------------------------------------
+
 type Props = {
   onSubmit?: (selectedItems: {
-    fifth?: string[];
-    fifthText?: string[]; // array for multiple lines
     seventhRows?: string[]; // [row1Value, row2LabelText, ...]
   }) => void;
 };
 
-// Fifth group: two lines/items
-const CHECKBOX_ITEMS_FIFTH = ["الاسم", "رقم الجوال"];
-
 // Seventh section rows definitions (labels)
 const SEVENTH_ROWS = [
-  { label: "الرجاء التواصل على هذا الرقم", hasInput: true },
-  { label: "أو اترك تفاصيل وسنعاود الاتصال بك لاحقا", hasInput: false },
+  { label: " التواصل مباشرةعلى هذا الرقم", hasInput: true },
+  { label: "", hasInput: false },
 ];
 
 const TAJAWAL = "'Tajawal', sans-serif";
@@ -38,79 +102,43 @@ const fadeUp = keyframes`
   100% { opacity: 1; transform: translateY(0) scale(1); }
 `;
 
-const GRADIENT = "linear-gradient(135deg, #023B4E 0%, #06f9f3 100%)";
-const COLOR_SECONDARY = "#06caa6"; // Teal/Green-Cyan (used for outlines/highlights)
-
-
-// *** START: SQUARE STYLE CHECKBOX IMPLEMENTATION ***
-const ToggleIcon = ({ checked }: { checked?: boolean }) => {
-  const SIZE = 24; // Size of the square checkbox
-
-  return (
-    <Box
-      sx={{
-        width: SIZE,
-        height: SIZE,
-        // *** STYLE CHANGE 1: Use 6px border radius for square/rounded corner look ***
-        borderRadius: "6px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        boxSizing: "border-box",
-        transition: "all 260ms cubic-bezier(.2,.9,.2,1)",
-
-        // *** STYLE CHANGE 2: Checked state is a solid gradient background ***
-        background: checked ? GRADIENT : "#fff", 
-
-        // *** STYLE CHANGE 3: Adjusted border/shadow for checked and unchecked states ***
-        border: checked ? `1px solid ${COLOR_SECONDARY}` : `1px solid ${COLOR_SECONDARY}`, // Teal/Cyan outline when unchecked
-        boxShadow: checked ? `0 4px 12px rgba(6, 249, 243, 0.3)` : "none", // Softer cyan shadow when checked
-      }}
-    >
-      {checked ? (
-        // Checkmark Icon - using white for visibility on the dark gradient
-        <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-          {/* White checkmark for contrast on the dark Blue/Cyan background */}
-          <path d="M12.6 1.1L5.6 8.1 1.4 3.9" stroke="#FFFFFF" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-      ) : null}
-    </Box>
-  );
-};
-// *** END: SQUARE STYLE CHECKBOX IMPLEMENTATION ***
-
 
 const Service04: React.FC<Props> = ({ onSubmit }) => {
   const topRef = React.useRef<HTMLDivElement | null>(null);
 
   // Scroll to top/ref on mount
-
   React.useEffect(() => {
-    // Scroll to the very top of the window instead of a specific element
     const t = setTimeout(() => {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }, 120);
     return () => clearTimeout(t);
   }, []);
 
-  const [selectedFifth, setSelectedFifth] = React.useState<Record<number, boolean>>({});
-  const [fifthText, setFifthText] = React.useState<Record<number, string>>({});
+  
+  // State for the Seventh Group (تشطيب العقار) inputs
   const [seventhText, setSeventhText] = React.useState<Record<number, string>>({});
 
-  const toggleFifth = (i: number) => setSelectedFifth((s) => ({ ...s, [i]: !s[i] }));
-  const handleFifthTextChange = (i: number, val: string) => setFifthText((s) => ({ ...s, [i]: val }));
+  // State for the main contact form fields
+  const [formData, setFormData] = React.useState<FormData>({
+    name: '',
+    mobile: '',
+    message: '',
+  });
+
+  // Handlers for state changes
   const handleSeventhTextChange = (i: number, val: string) => setSeventhText((s) => ({ ...s, [i]: val }));
+  
+  const handleChange = (field: keyof FormData, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
 
   const handleSubmit = () => {
-    const chosenFifth = CHECKBOX_ITEMS_FIFTH.filter((_, i) => !!selectedFifth[i]);
-    const fifthTextArr = CHECKBOX_ITEMS_FIFTH.map((_, i) => (fifthText[i] ?? "").trim());
-
     const seventhRowsArr = SEVENTH_ROWS.map((r, i) => (r.hasInput ? (seventhText[i] ?? "").trim() : r.label));
+    
+    console.log("Contact Form Data:", formData);
 
     if (onSubmit) {
       onSubmit({
-        fifth: chosenFifth,
-        fifthText: fifthTextArr,
         seventhRows: seventhRowsArr,
       });
     }
@@ -121,27 +149,29 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
       maxWidth="lg"
       sx={{
         mt: { xs: 4, md: 8 },
+        // Ensure the container has bottom margin for overall page spacing
         mb: { xs: 6, md: 12 },
         direction: "rtl",
         px: { xs: 2, md: 4 },
         fontFamily: TAJAWAL,
+        backgroundColor: FORM_BACKGROUND_COLOR, // White background
+        borderRadius: '16px',
+        py: { xs: 4, md: 8 },
       }}
     >
       <div ref={topRef} />
 
-      <Box sx={{ mb: 4 }}>
-        {/* Seventh Group */}
-        <Box sx={{ mt: 5, mb: 4 }}>
-          <Box sx={{ textAlign: "center", mb: 2 }}>
+      <Box sx={{ mb: 0 }}>
+        
+        {/* Seventh Group - تشطيب العقار Section */}
+        <Box sx={{ mt: 5, mb: 4, p: 3, backgroundColor: 'rgba(2, 59, 78, 0.05)', borderRadius: '12px' }}>
+          <Box sx={{ textAlign: "center", mb: 4 }}>
             <Typography
               variant="h2"
               sx={{
                 fontWeight: 800,
                 fontSize: { xs: "1.45rem", md: "2rem" },
-                background: '#023B4E',
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                display: "inline-block",
+                color: '#023B4E',
                 fontFamily: TAJAWAL,
               }}
             >
@@ -149,9 +179,7 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
             </Typography>
           </Box>
 
-          <Box
-           
-          >
+          <Box>
             <Box sx={{ display: "grid", gap: 2, maxWidth: 1100, mx: "auto" }}>
               {SEVENTH_ROWS.map((r, i) => (
                 <Box
@@ -163,7 +191,7 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
                     flexDirection: { xs: "column", sm: "row" },
                   }}
                 >
-                  <Typography sx={{ fontWeight: 700, minWidth: { sm: "220px" }, fontFamily: TAJAWAL }}>
+                  <Typography sx={{ fontWeight: 700, minWidth: { sm: "220px" }, fontFamily: TAJAWAL, color: '#000' }}>
                     {r.label}
                   </Typography>
 
@@ -173,8 +201,28 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
                       onChange={(e) => handleSeventhTextChange(i, e.target.value)}
                       placeholder="أدخل قيمة..."
                       fullWidth
-                      inputProps={{ dir: "rtl", style: { fontFamily: TAJAWAL } }}
-                      sx={{ "& .MuiInputBase-root": { borderRadius: 2 } }}
+                      inputProps={{ dir: "rtl", style: { fontFamily: TAJAWAL, color: '#000' } }}
+                      sx={{
+                        "& .MuiInputBase-root": {
+                            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                            color: '#000',
+                            // *** EFFECT REMOVED: Remove hover/focus effects from this TextField ***
+                            transition: 'none',
+                            '&:hover': {
+                                backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                            },
+                            '&.Mui-focused': {
+                                backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                                boxShadow: 'none',
+                            },
+                        },
+                        "& .MuiInputBase-input": {
+                            padding: '10px 12px',
+                            color: '#000',
+                        }
+                      }}
+                      variant="filled"
+                      hiddenLabel
                     />
                   ) : null}
                 </Box>
@@ -183,95 +231,97 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
           </Box>
         </Box>
 
-        {/* Fifth Group */}
-        <Box sx={{ mt: 0 }}>
-          <Box sx={{ textAlign: "center", mb: 2 }}></Box>
+        {/* Fifth Group (Main Contact Form) */}
+        <Box sx={{ mt: 6, p: 4, borderRadius: '16px', animation: `${fadeUp} 1000ms 300ms backwards` }}>
+          <FormControl component="fieldset" sx={{ width: "100%", maxWidth: 1100, mx: "auto" }}>
+            
+            {/* Form Title Section */}
+            <Box sx={{ mb: 4, textAlign: "right" }}>
+              <Typography
+                variant="h4"
+                sx={{
+                  fontWeight: 800,
+                  fontSize: { xs: "1.6rem", md: "2.2rem" },
+                  color: '#023B4E',
+                  fontFamily: TAJAWAL,
+                  mb: 1,
+                }}
+              >
+              الرجاء ترك الإسم ورقم الجوال وسوف نعاود الإتصال بك 
+              </Typography>
+              <Typography
+                variant="h5"
+                sx={{
+                  fontWeight: 600,
+                  fontSize: { xs: "1.2rem", md: "1.6rem" },
+                  color: '#000',
+                  fontFamily: TAJAWAL,
+                }}
+              >
+              </Typography>
+            </Box>
 
-          <Box
-           
-          >
-            <FormControl component="fieldset" sx={{ width: "100%", maxWidth: 1100, mx: "auto" }}>
-              <FormGroup>
-                <Box sx={{ display: "grid", gap: 2 }}>
-                  {CHECKBOX_ITEMS_FIFTH.map((label, i) => {
-                    const checked = !!selectedFifth[i];
-                    const delay = `${i * 80}ms`;
-                    return (
-                      <Box key={`fifth-row-${i}`} sx={{ display: { xs: "block", sm: "flex" }, alignItems: "center", gap: 2 }}>
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              checked={checked}
-                              onChange={() => toggleFifth(i)}
-                              inputProps={{ "aria-label": label }}
-                              disableRipple
-                              icon={<ToggleIcon checked={false} />}
-                              checkedIcon={<ToggleIcon checked={true} />}
-                              // Adjusted padding/margin for the square style
-                              sx={{ p: 0, mr: 1.4, "& .MuiSvgIcon-root": { display: "none" } }}
-                            />
-                          }
-                          label={
-                            <Typography sx={{ fontSize: { xs: "1rem", md: "1.15rem" }, fontWeight: 700, fontFamily: TAJAWAL }}>
-                              {label}
-                            </Typography>
-                          }
-                          sx={{
-                            m: 0,
-                            p: 1.2,
-                            borderRadius: 3,
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "flex-start",
-                            // Styling adjusted for Blue/Cyan theme with border/background
-                            border: checked ? `1px solid ${COLOR_SECONDARY}` : "1px solid #eef3f3",
-                            backgroundColor: checked ? "rgba(234,255,246,0.7)" : "#85c1E9",
-                            transition: "all 220ms ease",
-                            animation: `${fadeUp} 480ms ease both`,
-                            animationDelay: delay,
-                            "& .MuiFormControlLabel-label": { fontFamily: TAJAWAL },
-                            minWidth: { sm: "260px" },
-                          }}
-                        />
-
-                        <TextField
-                          value={fifthText[i] ?? ""}
-                          onChange={(e) => handleFifthTextChange(i, e.target.value)}
-                          placeholder="أدخل ملاحظة أو تفاصيل..."
-                          fullWidth
-                          inputProps={{ dir: "rtl", style: { fontFamily: TAJAWAL } }}
-                          sx={{
-                            "& .MuiInputBase-root": { borderRadius: 2 },
-                          }}
-                        />
-                      </Box>
-                    );
-                  })}
-                </Box>
-              </FormGroup>
-
-              {/* Submit button */}
-              <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
-                <Button
-                  variant="contained"
-                  onClick={handleSubmit}
-                  sx={{
-                    px: 4,
-                    py: 1.25,
-                    borderRadius: 2,
-                    fontWeight: 700,
-                    fontFamily: TAJAWAL ,
-                    textTransform: "none",
-                    // Use the new gradient for the button background
-                    background: GRADIENT, 
-                    boxShadow: "0 8px 28px rgba(2,59,78,0.08)",
-                  }}
-                >
-                  إرسال
-                </Button>
+            {/* Form Fields Section */}
+            <Box sx={{ display: "grid", gap: 3, width: "100%", mx: "auto" }}>
+              
+              {/* Name Field (الاسم) */}
+              <Box sx={{ display: "flex", gap: 2, alignItems: "top" }}>
+                <FieldLabel label="الاسم" />
+                <DarkTextField
+                  value={formData.name}
+                  onChange={(e) => handleChange('name', e.target.value)}
+                  placeholder="أدخل الاسم"
+                  fullWidth
+                  variant="filled" 
+                  hiddenLabel 
+                  inputProps={{ dir: "rtl", style: { fontFamily: TAJAWAL, color: '#000' } }}
+                />
               </Box>
-            </FormControl>
-          </Box>
+
+              {/* Mobile Field (جوال) */}
+              <Box sx={{ display: "flex", gap: 2, alignItems: "top" }}>
+                <FieldLabel label="جوال" />
+                <DarkTextField
+                  value={formData.mobile}
+                  onChange={(e) => handleChange('mobile', e.target.value)}
+                  placeholder="أدخل رقم الجوال"
+                  fullWidth
+                  variant="filled"
+                  hiddenLabel
+                  inputProps={{ dir: "rtl", style: { fontFamily: TAJAWAL, color: '#000' } }}
+                />
+              </Box>
+
+            </Box>
+
+            {/* Submit button */}
+            <Box sx={{ display: "flex", justifyContent: "center", mt: 6 }}>
+              <Button
+                variant="contained"
+                onClick={handleSubmit}
+                sx={{
+                  px: 6,
+                  py: 1.5,
+                  borderRadius: 3,
+                  fontWeight: 700,
+                  fontFamily: TAJAWAL,
+                  fontSize: '1.2rem',
+                  textTransform: "none",
+                  background: GRADIENT1, 
+                  color: "#000",
+                  boxShadow: "0 8px 28px rgba(6, 249, 243, 0.4)",
+                  // *** FIXED: Removed hover effect to align with "No eFFECT" request ***
+                  '&:hover': {
+                    background: GRADIENT1, // Keep background fixed on hover
+                    boxShadow: "0 8px 28px rgba(6, 249, 243, 0.4)", // Keep shadow fixed on hover
+                  }
+                }}
+              >
+                إرسال
+              </Button>
+            </Box>
+          
+          </FormControl>
         </Box>
       </Box>
     </Container>
