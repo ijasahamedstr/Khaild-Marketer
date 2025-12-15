@@ -261,6 +261,7 @@ const Service: React.FC = () => {
                 sx={{
                   position: "relative",
                   textAlign: "right",
+                  color:'#000',
                   mb: { xs: 4, md: index < 3 ? 6 : 0 },
 
                   // add top spacing specifically for center-wide cards so each sits on its own row
@@ -290,8 +291,8 @@ const Service: React.FC = () => {
                   transition:
                     "transform 0.36s cubic-bezier(.2,.9,.2,1), box-shadow 0.36s",
                   boxShadow: "0 14px 34px rgba(2,59,78,0.14), 0 6px 16px rgba(2,59,78,0.10)",
-                  background:
-                    "linear-gradient(180deg, rgba(255,255,255,0.75), rgba(250,250,250,0.6))",
+                  // background:
+                  //   "linear-gradient(180deg, rgba(255,255,255,0.75), rgba(250,250,250,0.6))",
                   cursor: card.href ? "pointer" : "default",
                   '&:hover': {
                     transform: card.href ? "translateY(-8px)" : undefined,
@@ -300,6 +301,14 @@ const Service: React.FC = () => {
 
                   // allow the wider element to overflow the grid container bounds horizontally
                   overflow: "visible",
+                   background: `
+                linear-gradient(
+                  145deg,
+                  #CAD5E2 0%,
+                  #a2adbbff 45%,
+                  #E4E4E7 100%
+                )
+              `,
                 }}
               >
                 <Box
