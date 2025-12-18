@@ -149,8 +149,6 @@ const Service: React.FC = () => {
     const onScroll = () => {
       if (rafId) cancelAnimationFrame(rafId);
       rafId = requestAnimationFrame(() => {
-        const left = el.scrollLeft;
-        const idx = cardWidth ? Math.round(left / cardWidth) : 0;
       });
     };
 
