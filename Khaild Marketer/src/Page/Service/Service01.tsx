@@ -182,19 +182,30 @@ const handleCheckboxChange = (index: number, value: boolean) => {
           <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR }}>
             <HomeWorkIcon />
             <Typography sx={{ fontWeight: 700, fontSize: { xs: "1rem", md: "1.3rem" }, fontFamily: TAJAWAL }}>
-                  المنطقة الوسطى - الرياض  - شمال الرياض 
+                 الموقع
             </Typography>
           </Box>
           <TextField
             fullWidth
-            placeholder="Enter Property Type"
+            placeholder=" المنطقة الوسطى - الرياض  - شمال الرياض "
             value={dropdownValues[0] || ""}
             onChange={(e) => handleDropdownChange(0, e.target.value)}
+            sx={{
+              "& .MuiInputBase-input": {
+                fontSize: "1.8rem", // Adjust size as needed (e.g., 24px)
+                color: "black",     // Sets the typed text color
+                WebkitTextFillColor: "black", // Ensures color stays black on all browsers
+              },
+              "& .MuiInputBase-input::placeholder": {
+                fontSize: "1.8rem", // Optional: separate size for placeholder
+                opacity: 0.7,       // Optional: makes placeholder slightly lighter
+              },
+            }}
           />
         </Box>
 
         {/* ===== 2. City ===== */}
-        <Box sx={{ p: 2, borderRadius: 3, border: "1px solid #eef3f3" }}>
+        {/* <Box sx={{ p: 2, borderRadius: 3, border: "1px solid #eef3f3" }}>
           <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR }}>
             <LocationCityIcon />
             <Typography sx={{ fontWeight: 700, fontSize: { xs: "1rem", md: "1.3rem" }, fontFamily: TAJAWAL }}>
@@ -207,7 +218,7 @@ const handleCheckboxChange = (index: number, value: boolean) => {
             value={dropdownValues[1] || ""}
             onChange={(e) => handleDropdownChange(1, e.target.value)}
           />
-        </Box>
+        </Box> */}
 
         {/* ===== 3. Area ===== */}
         <Box sx={{ p: 2, borderRadius: 3, border: "1px solid #eef3f3" }}>
@@ -227,90 +238,46 @@ const handleCheckboxChange = (index: number, value: boolean) => {
 
         {/* ===== 4. Budget ===== */}
 
-        <Box sx={{ p: 2, borderRadius: 3, border: "1px solid #eef3f3" }}>
-          {/* ================= HEADER ================= */}
-          <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR }}>
-            <AccountBalanceWalletIcon />
-            <Typography
-              sx={{
-                fontWeight: 700,
-                fontSize: { xs: "1rem", md: "1.3rem" },
-                fontFamily: TAJAWAL,
-              }}
-            >
-              سعر البيع
-            </Typography>
-          </Box>
+       <Box sx={{ p: 2, borderRadius: 3, border: "1px solid #eef3f3" }}>
+  {/* ================= HEADER ================= */}
+  <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR }}>
+    <AccountBalanceWalletIcon />
+    <Typography
+      sx={{
+        fontWeight: 700,
+        fontSize: { xs: "1rem", md: "1.3rem" },
+        fontFamily: TAJAWAL,
+      }}
+    >
+       الميزانية
+    </Typography>
+  </Box>
 
-          {/* ================= ROW 1 ================= */}
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: 2,
-              mb: 1.5,
-            }}
-          >
-            <Checkbox
-              checked={checkboxValues[0]}
-              onChange={(e) =>
-                handleCheckboxChange(0, e.target.checked)
-              }
-            />
-
-            <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL }}>
-              حد
-            </Typography>
-
-            <TextField
-              size="small"
-              placeholder="Enter price"
-              disabled={!checkboxValues[0]}
-              value={dropdownValues[0] || ""}
-              onChange={(e) =>
-                handleDropdownChange(0, e.target.value)
-              }
-              sx={{
-                width: { xs: 120, sm: 160, md: 220 }, // 👈 Small → Big
-              }}
-              type="number"
-            />
-          </Box>
-
-          {/* ================= ROW 2 ================= */}
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: 2,
-            }}
-          >
-            <Checkbox
-              checked={checkboxValues[1]}
-              onChange={(e) =>
-                handleCheckboxChange(1, e.target.checked)
-              }
-            />
-
-            <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL }}>
-              سومه
-            </Typography>
-
-            <TextField
-              size="small"
-              placeholder="Enter price"
-              disabled={!checkboxValues[1]}
-              value={dropdownValues[1] || ""}
-              onChange={(e) =>
-                handleDropdownChange(1, e.target.value)
-              }
-              sx={{
-                width: { xs: 120, sm: 160, md: 220 }, // 👈 Small → Big
-              }}
-              type="number"
-            />
-          </Box>
-        </Box>
+    {/* ================= DROPDOWN SELECT ================= */}
+    <TextField
+      select // 👈 This turns the TextField into a Dropdown
+      fullWidth
+      value={dropdownValues[0] || ""}
+      onChange={(e) => handleDropdownChange(0, e.target.value)}
+      SelectProps={{
+        native: false, // Set to true if you want native HTML select
+      }}
+      sx={{
+        "& .MuiSelect-select": {
+          fontSize: "1.2rem", // Bigger font
+          color: "black",      // Black text
+          fontFamily: TAJAWAL,
+          py: 1.5,             // Added padding for better look
+        },
+      }}
+    >
+      {/* Replace these MenuItem labels with your actual price options */}
+      <MenuItem value=" من 500,000 إلى 1000000 " sx={{ fontFamily: TAJAWAL }}>من 500,000 إلى 1000000 </MenuItem>
+      <MenuItem value="من 1000000 إلى 1500000" sx={{ fontFamily: TAJAWAL }}>من 1000000 إلى 1500000</MenuItem>
+      <MenuItem value="على امن 1500000 إلى 2000000" sx={{ fontFamily: TAJAWAL }}>من 1500000 إلى 200000</MenuItem>
+       <MenuItem value="من 2000000 فأكثر" sx={{ fontFamily: TAJAWAL }}>من 2000000 فأكثر</MenuItem>
+    </TextField>
+  </Box>
       </Box>
 
       {/* ---------------- TEXT AREA ---------------- */}

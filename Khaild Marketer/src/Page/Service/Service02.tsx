@@ -182,15 +182,26 @@ const handleCheckboxChange = (index: number, value: boolean) => {
           <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR }}>
             <HomeWorkIcon />
             <Typography sx={{ fontWeight: 700, fontSize: { xs: "1rem", md: "1.3rem" }, fontFamily: TAJAWAL }}>
-                  المنطقة الوسطى - الرياض  - شمال الرياض 
+                 الموقع
             </Typography>
           </Box>
           <TextField
-            fullWidth
-            placeholder="Enter Property Type"
-            value={dropdownValues[0] || ""}
-            onChange={(e) => handleDropdownChange(0, e.target.value)}
-          />
+                     fullWidth
+                     placeholder=" المنطقة الوسطى - الرياض  - شمال الرياض "
+                     value={dropdownValues[0] || ""}
+                     onChange={(e) => handleDropdownChange(0, e.target.value)}
+                     sx={{
+                       "& .MuiInputBase-input": {
+                         fontSize: "1.8rem", // Adjust size as needed (e.g., 24px)
+                         color: "black",     // Sets the typed text color
+                         WebkitTextFillColor: "black", // Ensures color stays black on all browsers
+                       },
+                       "& .MuiInputBase-input::placeholder": {
+                         fontSize: "1.8rem", // Optional: separate size for placeholder
+                         opacity: 0.7,       // Optional: makes placeholder slightly lighter
+                       },
+                     }}
+                   />
         </Box>
 
         {/* ===== 2. City ===== */}
