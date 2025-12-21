@@ -415,19 +415,27 @@ const handleCheckboxChange = (index: number, value: boolean) => {
             }
           />
 
-          <Box sx={{ flexGrow: 1, textAlign: "center" }}>
-            <Typography
-              sx={{
-                fontFamily: TAJAWAL,
-                fontWeight: 600,
-                color: "#111827",
-                direction: "ltr",
-                fontSize:'18px'
-              }}
-            >
-              +966509855666
-            </Typography>
-          </Box>
+          <Box sx={{ flexGrow: 1, textAlign: "center", marginLeft: "150px" }}>
+          <Typography
+            sx={{
+              fontFamily: TAJAWAL,
+              fontWeight: 800,
+              fontSize: "17px",
+              direction: "ltr",
+              color: "#ffffff",
+              background: "linear-gradient(135deg, #2563eb, #1e40af)",
+              px: 3,
+              py: 1,
+              borderRadius: "999px",
+              display: "inline-block",
+              boxShadow: "0 6px 20px rgba(37,99,235,0.35)",
+              letterSpacing: "0.5px",
+            }}
+          >
+            📞 +966 50 985 5666
+          </Typography>
+        </Box>
+
         </Box>
 
         {/* ================= ROW 02 : WhatsApp / Mobile (Right aligned + space) ================= */}
@@ -438,6 +446,7 @@ const handleCheckboxChange = (index: number, value: boolean) => {
             gap: 8,
             alignItems: "center",
             mb: 3,
+            marginRight:'27px',
           }}
         >
           <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
@@ -539,12 +548,13 @@ const handleCheckboxChange = (index: number, value: boolean) => {
           sx={{
             px: 5,
             py: 1.4,
+            fontSize:'18px',
             fontWeight: 800,
             background: GRADIENT,
             fontFamily: TAJAWAL,
           }}
         >
-          بحث
+          ارسال الطلب 
         </Button>
       </Box>
     </Container>
