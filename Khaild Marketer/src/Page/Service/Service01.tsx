@@ -15,7 +15,6 @@ import {
 
 /* ---------------- ICONS ---------------- */
 import HomeWorkIcon from "@mui/icons-material/HomeWork";
-import LocationCityIcon from "@mui/icons-material/LocationCity";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import StraightenIcon from "@mui/icons-material/Straighten";
 import EditNoteIcon from "@mui/icons-material/EditNote";
@@ -86,16 +85,7 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
     });
   };
 
-  const [checkboxValues, setCheckboxValues] = React.useState<boolean[]>([
-  false,
-  false,
-]);
 
-const handleCheckboxChange = (index: number, value: boolean) => {
-  const updated = [...checkboxValues];
-  updated[index] = value;
-  setCheckboxValues(updated);
-};
 
 
 
