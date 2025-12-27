@@ -434,7 +434,7 @@ const handleCheckboxChange = (index: number, value: boolean) => {
               letterSpacing: "0.5px",
             }}
           >
-            📞 +966 50 985 5666
+            📞 +966 00 000 0000
           </Typography>
         </Box>
 

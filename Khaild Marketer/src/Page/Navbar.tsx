@@ -27,9 +27,17 @@ const pages = [
 ];
 
 const projectsSubMenu = [
-  { label: 'أقسامنا', path: '/projects' },
-  { label: 'المشاريع الجارية', path: '/projects/ongoing' },
-  { label: 'المشاريع المكتملة', path: '/projects/completed' },
+  { label: 'بيع العقار', path: '/projects' },
+  { label: 'شراء العقار', path: '/projects/ongoing' },
+  { label: 'استئجار العقار', path: '/projects/completed' },
+  { label: 'تشطيب العقار', path: '/projects/completed' },
+  { label: 'تسليم واستلام العقار', path: '/projects/completed' },
+  { label: 'القسم النسائي', path: '/projects/completed' },
+
+  { label: 'النظام يجيب', path: '/projects/completed' },
+  { label: 'خدمات التوثيق', path: '/projects/completed' },
+  { label: 'خدمات التصوير العقاري', path: '/projects/completed' },
+  { label: 'قسم التمويل العقاري', path: '/projects/completed' },
 ];
 
 export default function Navbar() {

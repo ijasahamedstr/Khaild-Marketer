@@ -263,10 +263,10 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
       }}
     >
       {/* Replace these MenuItem labels with your actual price options */}
-      <MenuItem value=" من 500,000 إلى 1000000 " sx={{ fontFamily: TAJAWAL }}>من 500,000 إلى 1000000 </MenuItem>
-      <MenuItem value="من 1000000 إلى 1500000" sx={{ fontFamily: TAJAWAL }}>من 1000000 إلى 1500000</MenuItem>
-      <MenuItem value="على امن 1500000 إلى 2000000" sx={{ fontFamily: TAJAWAL }}>من 1500000 إلى 200000</MenuItem>
-       <MenuItem value="من 2000000 فأكثر" sx={{ fontFamily: TAJAWAL }}>من 2000000 فأكثر</MenuItem>
+      <MenuItem value=" من 500,000 إلى 1,000,000 " sx={{ fontFamily: TAJAWAL }}>من 500,000 إلى 1,000,000 </MenuItem>
+      <MenuItem value="من 1,000,000 إلى 1,500,000" sx={{ fontFamily: TAJAWAL }}>من 1,000,000 إلى 1,500,000</MenuItem>
+      <MenuItem value="على امن 1,500,000 إلى 2,000,000" sx={{ fontFamily: TAJAWAL }}>من 1,500,000 إلى 200,000</MenuItem>
+       <MenuItem value="من 2,000,000 فأكثر" sx={{ fontFamily: TAJAWAL }}>من 2,000,000 فأكثر</MenuItem>
     </TextField>
   </Box>
       </Box>
@@ -390,7 +390,7 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
               letterSpacing: "0.5px",
             }}
           >
-            📞 +966 50 985 5666
+            📞 +966 00 000 0000
           </Typography>
         </Box>
 
