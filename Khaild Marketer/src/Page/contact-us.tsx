@@ -75,27 +75,27 @@ const Contactus: React.FC = () => {
                   {
                     icon: <Phone sx={{ fontSize: 28 }} />,
                     label: "لبيع وشراء العقارات",
-                    value: "057 081 9999",
+                    value: "000 000 0000",
                   },
                   {
                     icon: <Phone sx={{ fontSize: 28 }} />,
                     label: "استئجار وتسليم واستلام العقارات",
-                    value: "057 082 9999",
+                    value: "000 000 0000",
                   },
                   {
                     icon: <Phone sx={{ fontSize: 28 }} />,
                     label: "لتشطيب العقار",
-                    value: "057 083 9999",
+                    value: "000 000 0000",
                   },
                   {
                     icon: <Phone sx={{ fontSize: 28 }} />,
                     label: "للقسم النسائي",
-                    value: "057 084 9999",
+                    value: "000 000 0000",
                   },
                   {
                     icon: <Phone sx={{ fontSize: 28 }} />,
                     label: "لقسم التمويل العقاري",
-                    value: "057 085 9999",
+                    value: "000 000 0000",
                   },
                   {
                     icon: <Email sx={{ fontSize: 28 }} />,

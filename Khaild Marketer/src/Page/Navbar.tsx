@@ -1,6 +1,6 @@
 // Navbar.tsx
-import * as React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import * as React from "react";
+import { Link, useLocation } from "react-router-dom";
 import {
   AppBar,
   Box,
@@ -14,234 +14,199 @@ import {
   ListItemText,
   Menu,
   MenuItem,
-} from '@mui/material';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import MenuIcon from '@mui/icons-material/Menu';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+} from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import MenuIcon from "@mui/icons-material/Menu";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
+import {
+  FaInstagram,
+  FaLinkedin,
+  FaYoutube,
+  FaSnapchat,
+  FaTiktok,
+  FaWhatsapp,
+} from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
+
+/* -------------------- DATA -------------------- */
 const pages = [
-  { label: 'الرئيسية', path: '/' },
-  { label: 'أقسامنا', path: '/projects' },
-  { label: 'من نحن', path: '/من نحن' },
-  { label: 'إتصل بنا', path: '/إتصل بنا' },
+  { label: "الرئيسية", path: "/" },
+  { label: "أقسامنا", path: "/projects" },
+  { label: "من نحن", path: "/من نحن" },
+  { label: "إتصل بنا", path: "/إتصل بنا" },
 ];
 
 const projectsSubMenu = [
-  { label: 'بيع العقار', path: '/projects' },
-  { label: 'شراء العقار', path: '/projects/ongoing' },
-  { label: 'استئجار العقار', path: '/projects/completed' },
-  { label: 'تشطيب العقار', path: '/projects/completed' },
-  { label: 'تسليم واستلام العقار', path: '/projects/completed' },
-  { label: 'القسم النسائي', path: '/projects/completed' },
-
-  { label: 'النظام يجيب', path: '/projects/completed' },
-  { label: 'خدمات التوثيق', path: '/projects/completed' },
-  { label: 'خدمات التصوير العقاري', path: '/projects/completed' },
-  { label: 'قسم التمويل العقاري', path: '/projects/completed' },
+  { label: "بيع العقار", path: "/projects" },
+  { label: "شراء العقار", path: "/projects/ongoing" },
+  { label: "استئجار العقار", path: "/projects/completed" },
+  { label: "تشطيب العقار", path: "/projects/completed" },
+  { label: "تسليم واستلام العقار", path: "/projects/completed" },
+  { label: "القسم النسائي", path: "/projects/completed" },
+  { label: "النظام يجيب", path: "/projects/completed" },
+  { label: "خدمات التوثيق", path: "/projects/completed" },
+  { label: "خدمات التصوير العقاري", path: "/projects/completed" },
+  { label: "قسم التمويل العقاري", path: "/projects/completed" },
 ];
 
+const socialLinks = [
+  { icon: <FaXTwitter size={22} />, link: "https://x.com/digilasersa" },
+  { icon: <FaInstagram size={25} />, link: "https://www.instagram.com/digilasersa" },
+  { icon: <FaLinkedin size={25} />, link: "https://www.linkedin.com/company/digilasersa" },
+  { icon: <FaYoutube size={25} />, link: "https://youtube.com/@digilaserSa" },
+  { icon: <FaSnapchat size={25} />, link: "https://www.snapchat.com/add/digilasersa" },
+  { icon: <FaTiktok size={25} />, link: "https://www.tiktok.com/@digilasersa" },
+  { icon: <FaWhatsapp size={25} />, link: "http://wa.me/966571978888" },
+];
+
+/* -------------------- COMPONENT -------------------- */
 export default function Navbar() {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
-  const [projectsMenuAnchor, setProjectsMenuAnchor] = React.useState<null | HTMLElement>(null);
+  const [projectsMenuAnchor, setProjectsMenuAnchor] =
+    React.useState<null | HTMLElement>(null);
   const [mobileProjectsOpen, setMobileProjectsOpen] = React.useState(false);
 
   const location = useLocation();
-
-  const isDesktop = useMediaQuery('(min-width:1024px)');
+  const isDesktop = useMediaQuery("(min-width:1024px)");
 
   React.useEffect(() => {
-    // close menus/drawer when route changes
     setDrawerOpen(false);
     setProjectsMenuAnchor(null);
     setMobileProjectsOpen(false);
   }, [location]);
 
-  const activeColor = '#CC9D2F';
-  const activeBg = 'rgba(204,157,47,0.15)';
+  const activeColor = "#CC9D2F";
+  const activeBg = "rgba(204,157,47,0.15)";
+  const menuFont = "Tajawal, sans-serif";
 
   const normalize = (p: string) => {
     try {
-      let s = decodeURIComponent(p || '');
-      s = s.replace(/\s+/g, ' ').trim();
-      while (s.length > 1 && s.endsWith('/')) s = s.slice(0, -1);
-      if (!s.startsWith('/')) s = '/' + s;
-      return s || '/';
-    } catch (e) {
-      let s = (p || '').replace(/\s+/g, ' ').trim();
-      while (s.length > 1 && s.endsWith('/')) s = s.slice(0, -1);
-      if (!s.startsWith('/')) s = '/' + s;
-      return s || '/';
+      let s = decodeURIComponent(p || "");
+      s = s.replace(/\s+/g, " ").trim();
+      while (s.length > 1 && s.endsWith("/")) s = s.slice(0, -1);
+      if (!s.startsWith("/")) s = "/" + s;
+      return s || "/";
+    } catch {
+      return "/";
     }
   };
 
   const currentPath = normalize(location.pathname);
 
-  const projectParentPaths = ['/projects', '/أقسامنا'];
+  const projectParentPaths = ["/projects", "/أقسامنا"];
 
   const isActive = (path: string) => {
     const np = normalize(path);
     if (currentPath === np) return true;
-    if (np !== '/' && currentPath.indexOf(np + '/') === 0) return true;
-    if (projectParentPaths.includes(np)) {
-      return projectParentPaths.some(pp => {
-        const npp = normalize(pp);
-        return currentPath === npp || (npp !== '/' && currentPath.indexOf(npp + '/') === 0);
-      });
-    }
+    if (np !== "/" && currentPath.startsWith(np + "/")) return true;
     return false;
   };
 
   const isProjectParentActive = () =>
-    projectParentPaths.some(pp => {
+    projectParentPaths.some((pp) => {
       const npp = normalize(pp);
-      return currentPath === npp || (npp !== '/' && currentPath.indexOf(npp + '/') === 0);
+      return currentPath === npp || currentPath.startsWith(npp + "/");
     });
-
-  const menuFont = 'Tajawal, sans-serif';
 
   return (
     <>
+      {/* ================= NAVBAR ================= */}
       <AppBar
         position="fixed"
         dir="rtl"
         elevation={6}
-        sx={(theme) => ({
-          direction: 'rtl',
-          backgroundColor: '#023B4E',
-          color: '#A69196',
+        sx={{
+          backgroundColor: "#023B4E",
           fontFamily: menuFont,
-          fontWeight: 500,
-          width: '100%',
-          zIndex: theme.zIndex.drawer + 2,
-        })}
+          zIndex: 1201,
+        }}
       >
         <Container maxWidth="xl">
           <Toolbar
             sx={{
-              py: 1,
-              flexWrap: 'wrap',
-              alignItems: 'center',
-              justifyContent: isDesktop ? 'flex-start' : 'space-between',
+              justifyContent: isDesktop ? "flex-start" : "space-between",
               gap: 2,
             }}
           >
-            {/* Logo */}
-            <Box component={Link} to="/" sx={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+            {/* LOGO */}
+            <Box component={Link} to="/" sx={{ textDecoration: "none" }}>
               <Box
                 component="img"
                 src="https://i.ibb.co/yn0gbKdZ/Gemini-Generated-Image-pua0mbpua0mbpua0-removebg-preview.png"
                 alt="Logo"
-                sx={{ maxHeight: 90, width: 'auto' }}
+                sx={{ maxHeight: 90 }}
               />
             </Box>
 
-            {/* Desktop Menu */}
+            {/* DESKTOP MENU */}
             {isDesktop ? (
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 5, mr: 3 }}>
-                {pages.map(({ label, path }) => {
-                  if (label === 'أقسامنا') {
-                    const dropdownActive = isProjectParentActive();
+              <Box sx={{ display: "flex", gap: 5, mr: 3 }}>
+                {pages.map(({ label, path }) =>
+                  label === "أقسامنا" ? (
+                    <React.Fragment key={label}>
+                      <Button
+                        onClick={(e) => setProjectsMenuAnchor(e.currentTarget)}
+                        sx={{
+                          fontSize: "20px",
+                          fontFamily: menuFont,
+                          color: isProjectParentActive()
+                            ? activeColor
+                            : "white",
+                        }}
+                      >
+                        {label}
+                        <KeyboardArrowDownIcon />
+                      </Button>
 
-                    return (
-                      <React.Fragment key={label}>
-                        <Button
-                          onClick={(e) => setProjectsMenuAnchor(e.currentTarget)}
-                          aria-haspopup="true"
-                          aria-expanded={Boolean(projectsMenuAnchor)}
-                          aria-controls={projectsMenuAnchor ? 'projects-menu' : undefined}
-                          aria-current={dropdownActive ? 'page' : undefined}
-                          sx={{
-                            backgroundColor: dropdownActive ? activeBg : 'transparent',
-                            color: dropdownActive ? activeColor : 'white',
-                            fontFamily: menuFont,
-                            fontWeight: 500,
-                            fontSize: '20px',
-                            textTransform: 'none',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: 1,
-                            borderRadius: 2,
-                            px: 1.5,
-                            '&:hover': {
-                              backgroundColor: dropdownActive ? activeBg : 'rgba(255,255,255,0.08)',
-                            },
-                          }}
-                        >
-                          {label}
-                          <KeyboardArrowDownIcon
+                      <Menu
+                        anchorEl={projectsMenuAnchor}
+                        open={Boolean(projectsMenuAnchor)}
+                        onClose={() => setProjectsMenuAnchor(null)}
+                        MenuListProps={{ sx: { direction: "rtl" } }}
+                      >
+                        {projectsSubMenu.map((item) => (
+                          <MenuItem
+                            key={item.label}
+                            component={Link}
+                            to={item.path}
+                            onClick={() => setProjectsMenuAnchor(null)}
                             sx={{
-                              fontSize: 24,
-                              transition: '0.3s',
-                              color: dropdownActive ? activeColor : 'white',
-                              transform: projectsMenuAnchor ? 'rotate(180deg)' : 'rotate(0deg)',
+                              fontFamily: menuFont,
+                              fontSize: "18px",
+                              backgroundColor: isActive(item.path)
+                                ? activeBg
+                                : "transparent",
+                              color: isActive(item.path)
+                                ? activeColor
+                                : "black",
                             }}
-                            aria-hidden="true"
-                          />
-                        </Button>
-
-                        <Menu
-                          id="projects-menu"
-                          anchorEl={projectsMenuAnchor}
-                          open={Boolean(projectsMenuAnchor)}
-                          onClose={() => setProjectsMenuAnchor(null)}
-                          MenuListProps={{ sx: { direction: 'rtl' } }}
-                        >
-                          {projectsSubMenu.map((item) => (
-                            <MenuItem
-                              key={item.label}
-                              component={Link}
-                              to={item.path}
-                              onClick={() => setProjectsMenuAnchor(null)}
-                              sx={{
-                                fontFamily: menuFont,
-                                fontWeight: 500,
-                                fontSize: '18px',
-                                backgroundColor: isActive(item.path) ? activeBg : 'transparent',
-                                color: isActive(item.path) ? activeColor : 'black',
-                                justifyContent: 'flex-end',
-                                borderRadius: 1,
-                                '&:hover': { backgroundColor: isActive(item.path) ? activeBg : 'rgba(0,0,0,0.04)' },
-                              }}
-                            >
-                              {item.label}
-                            </MenuItem>
-                          ))}
-                        </Menu>
-                      </React.Fragment>
-                    );
-                  }
-
-                  return (
+                          >
+                            {item.label}
+                          </MenuItem>
+                        ))}
+                      </Menu>
+                    </React.Fragment>
+                  ) : (
                     <Button
                       key={label}
                       component={Link}
                       to={path}
-                      aria-current={isActive(path) ? 'page' : undefined}
                       sx={{
-                        backgroundColor: isActive(path) ? activeBg : 'transparent',
-                        color: isActive(path) ? activeColor : 'white',
+                        fontSize: "20px",
                         fontFamily: menuFont,
-                        fontWeight: 500,
-                        fontSize: '20px',
-                        textTransform: 'none',
-                        borderRadius: 2,
-                        px: 1.5,
-                        '&:hover': {
-                          backgroundColor: isActive(path) ? activeBg : 'rgba(255,255,255,0.08)',
-                        },
+                        color: isActive(path) ? activeColor : "white",
                       }}
                     >
                       {label}
                     </Button>
-                  );
-                })}
+                  )
+                )}
               </Box>
             ) : (
               <IconButton
                 onClick={() => setDrawerOpen(true)}
-                sx={{ color: '#A69196' }}
-                aria-label="فتح القائمة"
-                size="large"
+                sx={{ color: "#fff" }}
               >
                 <MenuIcon />
               </IconButton>
@@ -250,124 +215,90 @@ export default function Navbar() {
         </Container>
       </AppBar>
 
-      {/* Spacer so page content is not covered by the fixed AppBar */}
       <Toolbar />
 
-      {/* Mobile Drawer */}
+      {/* ================= MOBILE DRAWER ================= */}
       <Drawer
         anchor="right"
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
         PaperProps={{
           sx: {
-            width: '80%',
+            width: "80%",
             maxWidth: 340,
-            direction: 'rtl',
-            borderRadius: '16px 0 0 16px',
+            direction: "rtl",
             fontFamily: menuFont,
-            fontWeight: 500,
-            zIndex: (theme) => theme.zIndex.appBar + 1,
           },
         }}
       >
-        <Box sx={{ p: 2, textAlign: 'right' }}>
-          <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
-            <Box
-              component="img"
-              src="https://i.ibb.co/yn0gbKdZ/Gemini-Generated-Image-pua0mbpua0mbpua0-removebg-preview.png"
-              alt="Logo"
-              sx={{ maxHeight: 70 }}
-            />
-          </Box>
-
-          <List sx={{ textAlign: 'right' }}>
+        <Box sx={{ p: 2 }}>
+          <List>
             {pages.map(({ label, path }) => (
-              <React.Fragment key={label}>
-                {label === 'أقسامنا' ? (
-                  <>
-                    <ListItemButton
-                      onClick={() => setMobileProjectsOpen((prev) => !prev)}
-                      sx={{
-                        borderRadius: 2,
-                        mb: 1,
-                        justifyContent: 'flex-end',
-                        backgroundColor: isProjectParentActive() ? activeBg : 'transparent',
-                      }}
-                      aria-expanded={mobileProjectsOpen}
-                    >
-                      <ListItemText
-                        primary={label}
-                        primaryTypographyProps={{
-                          fontFamily: menuFont,
-                          fontWeight: 500,
-                          fontSize: '19px',
-                          color: isProjectParentActive() ? activeColor : 'black',
-                          textAlign: 'right',
-                        }}
-                      />
-                      <KeyboardArrowDownIcon
-                        sx={{
-                          transform: mobileProjectsOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-                          color: isProjectParentActive() ? activeColor : 'black',
-                        }}
-                        aria-hidden="true"
-                      />
-                    </ListItemButton>
-
-                    {mobileProjectsOpen &&
-                      projectsSubMenu.map((item) => (
-                        <ListItemButton
-                          key={item.label}
-                          component={Link}
-                          to={item.path}
-                          onClick={() => setDrawerOpen(false)}
-                          sx={{
-                            pr: 4,
-                            borderRadius: 2,
-                            backgroundColor: isActive(item.path) ? activeBg : 'transparent',
-                          }}
-                        >
-                          <ListItemText
-                            primary={item.label}
-                            primaryTypographyProps={{
-                              fontFamily: menuFont,
-                              fontWeight: 500,
-                              fontSize: '17px',
-                              color: isActive(item.path) ? activeColor : 'black',
-                              textAlign: 'right',
-                            }}
-                          />
-                        </ListItemButton>
-                      ))}
-                  </>
-                ) : (
-                  <ListItemButton
-                    component={Link}
-                    to={path}
-                    onClick={() => setDrawerOpen(false)}
-                    sx={{
-                      borderRadius: 2,
-                      mb: 1,
-                      backgroundColor: isActive(path) ? activeBg : 'transparent',
-                    }}
-                  >
-                    <ListItemText
-                      primary={label}
-                      primaryTypographyProps={{
-                        fontFamily: menuFont,
-                        fontWeight: 500,
-                        fontSize: '19px',
-                        color: isActive(path) ? activeColor : 'black',
-                        textAlign: 'right',
-                      }}
-                    />
-                  </ListItemButton>
-                )}
-              </React.Fragment>
+              <ListItemButton
+                key={label}
+                component={Link}
+                to={path}
+                onClick={() => setDrawerOpen(false)}
+              >
+                <ListItemText
+                  primary={label}
+                  primaryTypographyProps={{
+                    fontFamily: menuFont,
+                    fontSize: "19px",
+                    textAlign: "right",
+                  }}
+                />
+              </ListItemButton>
             ))}
           </List>
         </Box>
       </Drawer>
+
+      {/* ================= SOCIAL SIDEBAR ================= */}
+      <Box
+        sx={{
+          position: "fixed",
+          top: "50%",
+          left: 0,
+          transform: "translateY(-50%)",
+          display: { xs: "none", md: "flex" },
+          flexDirection: "column",
+          gap: 2,
+          zIndex: 1200,
+          pl: 2,
+        }}
+      >
+        {socialLinks.map(({ icon, link }, index) => (
+          <a
+            key={index}
+            href={link}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ direction: "ltr" }} // ✅ LTR safety
+          >
+            <Box
+              sx={{
+                width: 40,
+                height: 40,
+                borderRadius: "50%",
+                background:
+                  "linear-gradient(135deg, #023B4E 0%, #06f9f3 100%)",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                color: "#ffffff",
+                boxShadow: 3,
+                transition: "0.3s",
+                "&:hover": {
+                  transform: "scale(1.2)",
+                },
+              }}
+            >
+              {icon}
+            </Box>
+          </a>
+        ))}
+      </Box>
     </>
   );
 }

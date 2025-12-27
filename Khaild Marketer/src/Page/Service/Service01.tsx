@@ -427,7 +427,7 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
         sx={{
           my: 3,
           borderColor: "rgba(0,0,0,0.25)",
-          borderBottomWidth: "1.5px",
+          borderBottomWidth: "2.5px",
         }}
       />
 

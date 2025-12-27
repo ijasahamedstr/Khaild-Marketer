@@ -34,7 +34,7 @@ const Service03: React.FC = () => {
             color: "#023B4E",
           }}
         >
-          الأنظمة واللوائح العقارية
+          النظام يجيب
         </Typography>
       </Box>
 

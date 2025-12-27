@@ -12,6 +12,7 @@ import Whoweare from './Page/Who-we-are';
 import Service06 from './Page/Service/Service06';
 import Service07 from './Page/Service/Service07';
 import Service08 from './Page/Service/Service08';
+import Service09 from './Page/Service/Service09';
 
 
 
@@ -30,7 +31,8 @@ function App() {
         <Route path="/services/handover" element={<Service05/>} />
         <Route path="/services/other" element={<Service06/>} />
         <Route path="/services/New" element={<Service07/>} />
-         <Route path="/services/handovernew" element={<Service08/>} />
+        <Route path="/services/handovernew" element={<Service08/>} />
+        <Route path="/services/inspection" element={<Service09/>} />
         <Route path="/من نحن" element={<Whoweare/>} />
       </Routes>
       <Footer/>
