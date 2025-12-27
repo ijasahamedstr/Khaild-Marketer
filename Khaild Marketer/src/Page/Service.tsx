@@ -89,14 +89,14 @@ const serviceCards: ServiceCard[] = [
     title: "خدمات التوثيق",
     description:
       "نوفر خدمات توثيق العقود والوكالات العقارية لضمان حقوق جميع الأطراف بسرعة وموثوقية.",
-    href: "/services/other",
+    href: "/services/New",
   },
   {
     id: 9,
      title: "خدمات التصوير العقاري",
     description:
       "نوفر تصويرًا احترافيًا للعقار يعكس جماله ويعزز فرص البيع أو التأجير بشكل جذاب ودقيق.",
-    href: "/services/handover",
+    href: "/services/handovernew",
   },
   {
     id: 10,
