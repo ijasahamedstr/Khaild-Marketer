@@ -100,6 +100,13 @@ const serviceCards: ServiceCard[] = [
   },
   {
     id: 10,
+    title: "القسم النسائي",
+    description:
+      "انطلاقًا من إيماننا بأهمية الخصوصية وراحة التعامل، تم تخصيص قسم نسائي مستقل، يُدار بكوادر نسائية مؤهلة، لتمكين المرأة من مناقشة تفاصيل عقاراتها بكل ارتياح وثقة، في بيئة تراعي احتياجاتها وتلبي تطلعاتها.",
+    href: "/services/inspection",
+  },
+  {
+    id: 11,
     title: "قسم التمويل العقاري",
     description:
       "انطلاقًا من إيماننا بأهمية الخصوصية وراحة التعامل، تم تخصيص قسم نسائي مستقل، يُدار بكوادر نسائية مؤهلة، لتمكين المرأة من مناقشة تفاصيل عقاراتها بكل ارتياح وثقة، في بيئة تراعي احتياجاتها وتلبي تطلعاتها.",
@@ -229,7 +236,7 @@ const Service: React.FC = () => {
         >
           {serviceCards.map((card, index) => {
             // ✅ ONLY CHANGE: center LAST card only
-            const isCenterWide = index === serviceCards.length - 1;
+            const isCenterWide = card.id === 11 || card.id === 10;
 
             const showDivider =
               !isCenterWide &&
