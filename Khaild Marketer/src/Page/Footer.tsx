@@ -131,14 +131,37 @@ const Footer: React.FC = () => {
               </Typography>
               <Typography
                 variant="body2"
-                sx={{ lineHeight: 1.8, fontSize: "0.95rem", maxWidth: 260, fontFamily: "Tajawal, sans-serif" }}
+                sx={{
+                  lineHeight: 1.8,
+                  fontSize: "0.95rem",
+                  maxWidth: 260,
+                  fontFamily: "Tajawal, sans-serif",
+                  direction: "rtl",
+                }}
               >
-                Khalid Marketer<br />
-                ص.ب 23693<br />
-                هاتف: +974 502260200<br />
-                المنتزه، شارع الروابي، الدوحة<br />
+                Khalid Marketer
+                <br />
+                ص.ب 23693
+                <br />
+                هاتف:{" "}
+                <Box
+                  component="span"
+                  sx={{
+                    direction: "ltr",
+                    unicodeBidi: "bidi-override",
+                    display: "inline-block",
+                    fontWeight: 600,
+                    letterSpacing: "0.5px",
+                  }}
+                >
+                  +974 000 000 0000
+                </Box>
+                <br />
+                المنتزه، شارع الروابي، الدوحة
+                <br />
                 مكتب الدوحة - قطر
               </Typography>
+
             </Box>
 
             <Divider
@@ -162,7 +185,7 @@ const Footer: React.FC = () => {
                 variant="body2"
                 sx={{ lineHeight: 1.8, fontSize: "0.95rem", direction: "ltr", fontFamily: "Tajawal, sans-serif" }}
               >
-                +94 672260200<br />
+                +966 000 000 0000<br />
                 <Link
                   href="mailto:info@almtcqatar.com"
                   underline="hover"
