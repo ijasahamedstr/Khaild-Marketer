@@ -11,6 +11,7 @@ import {
   Button,
   Checkbox,
   FormControlLabel,
+  Divider
 } from "@mui/material";
 
 /* ---------------- ICONS ---------------- */
@@ -276,15 +277,10 @@ const handleCheckboxChange = (index: number, value: boolean) => {
             <TextField
               size="small"
               placeholder="Enter price"
-              disabled={!checkboxValues[0]}
-              value={dropdownValues[0] || ""}
-              onChange={(e) =>
-                handleDropdownChange(0, e.target.value)
-              }
               sx={{
                 width: { xs: 120, sm: 160, md: 220 }, // 👈 Small → Big
               }}
-              type="number"
+              type="text"
             />
           </Box>
 
@@ -310,15 +306,10 @@ const handleCheckboxChange = (index: number, value: boolean) => {
             <TextField
               size="small"
               placeholder="Enter price"
-              disabled={!checkboxValues[1]}
-              value={dropdownValues[1] || ""}
-              onChange={(e) =>
-                handleDropdownChange(1, e.target.value)
-              }
               sx={{
                 width: { xs: 120, sm: 160, md: 220 }, // 👈 Small → Big
               }}
-              type="number"
+              type="text"
             />
           </Box>
         </Box>
@@ -474,6 +465,16 @@ const handleCheckboxChange = (index: number, value: boolean) => {
             </Typography>
           </Box>
         </Box>
+
+      <Divider
+        sx={{
+          my: 3,
+          borderColor: "rgba(0,0,0,0.25)",
+          borderBottomWidth: "1.5px",
+        }}
+      />
+
+
 
         {/* ================= ROW 03 : Checkbox ================= */}
         <FormControlLabel

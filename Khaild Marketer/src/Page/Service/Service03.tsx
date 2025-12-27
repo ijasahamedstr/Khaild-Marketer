@@ -11,6 +11,7 @@ import {
   Button,
   Checkbox,
   FormControlLabel,
+  Divider
 } from "@mui/material";
 
 /* ---------------- ICONS ---------------- */
@@ -420,6 +421,14 @@ const Service03: React.FC<Props> = ({ onSubmit }) => {
             </Typography>
           </Box>
         </Box>
+
+      <Divider
+        sx={{
+          my: 3,
+          borderColor: "rgba(0,0,0,0.25)",
+          borderBottomWidth: "1.5px",
+        }}
+      />
 
         {/* ================= ROW 03 : Checkbox ================= */}
         <FormControlLabel
