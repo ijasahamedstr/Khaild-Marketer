@@ -65,7 +65,6 @@ export default function Navbar() {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
   const [projectsMenuAnchor, setProjectsMenuAnchor] =
     React.useState<null | HTMLElement>(null);
-  const [mobileProjectsOpen, setMobileProjectsOpen] = React.useState(false);
 
   const location = useLocation();
   const isDesktop = useMediaQuery("(min-width:1024px)");
@@ -73,7 +72,6 @@ export default function Navbar() {
   React.useEffect(() => {
     setDrawerOpen(false);
     setProjectsMenuAnchor(null);
-    setMobileProjectsOpen(false);
   }, [location]);
 
   const activeColor = "#CC9D2F";
