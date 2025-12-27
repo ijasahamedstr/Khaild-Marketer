@@ -160,75 +160,129 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
     >
       <div ref={topRef} />
 
+           <Box sx={{ textAlign: "center", mb: 4 }}>
+              <Typography
+                sx={{
+                  fontWeight: 800,
+                  fontSize: { xs: "1.6rem", md: "2.4rem" },
+                  color: '#023B4E',
+                  fontFamily: TAJAWAL,
+                }}
+              >
+                تشطيب العقار
+              </Typography>
+            </Box>
+
       <Box sx={{ mb: 0 }}>
         
         {/* Seventh Group - تشطيب العقار Section */}
-        <Box sx={{ mt: 5, mb: 4, p: 3, backgroundColor: 'rgba(2, 59, 78, 0.05)', borderRadius: '12px' }}>
-          <Box sx={{ textAlign: "center", mb: 4 }}>
-            <Typography
-              variant="h2"
+
+       <Box
+        sx={{
+          mt: 5,
+          mb: 4,
+          p: 3,
+          backgroundColor: "rgba(2, 59, 78, 0.05)",
+          borderRadius: "12px",
+        }}
+      >
+        <Box
+          sx={{
+            display: "grid",
+            gap: 3,
+            maxWidth: 1100,
+            mx: "auto",
+          }}
+        >
+          {SEVENTH_ROWS.map((r, i) => (
+            <Box
+              key={`seventh-row-${i}`}
               sx={{
-                fontWeight: 800,
-                fontSize: { xs: "1.45rem", md: "2rem" },
-                color: '#023B4E',
-                fontFamily: TAJAWAL,
+                display: "flex",
+                alignItems: "center",
+                gap: 2,
+                flexDirection: { xs: "column", sm: "row" },
               }}
             >
-              تشطيب العقار
-            </Typography>
-          </Box>
-
-          <Box>
-            <Box sx={{ display: "grid", gap: 2, maxWidth: 1100, mx: "auto" }}>
-              {SEVENTH_ROWS.map((r, i) => (
-                <Box
-                  key={`seventh-row-${i}`}
+              {/* ================= LABEL (50%) ================= */}
+              <Box
+                sx={{
+                  flexBasis: { sm: "50%" },
+                  width: "100%",
+                }}
+              >
+                <Typography
                   sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 2,
-                    flexDirection: { xs: "column", sm: "row" },
+                    fontWeight: 900,
+                    fontSize: { xs: "24px", sm: "32px" }, // ⬅️ VERY BIG LABEL
+                    fontFamily: TAJAWAL,
+                    color: "#000",
+                    lineHeight: 1.3,
                   }}
                 >
-                  <Typography sx={{ fontWeight: 700, minWidth: { sm: "220px" }, fontFamily: TAJAWAL, color: '#000' }}>
-                    {r.label}
-                  </Typography>
+                  {r.label}
+                </Typography>
+              </Box>
 
-                  {r.hasInput ? (
-                    <TextField
-                      value={seventhText[i] ?? ""}
-                      onChange={(e) => handleSeventhTextChange(i, e.target.value)}
-                      placeholder="أدخل قيمة..."
-                      fullWidth
-                      inputProps={{ dir: "rtl", style: { fontFamily: TAJAWAL, color: '#000' } }}
-                      sx={{
-                        "& .MuiInputBase-root": {
-                            backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                            color: '#000',
-                            // *** EFFECT REMOVED: Remove hover/focus effects from this TextField ***
-                            transition: 'none',
-                            '&:hover': {
-                                backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                            },
-                            '&.Mui-focused': {
-                                backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                                boxShadow: 'none',
-                            },
+              {/* ================= INPUT (50%) ================= */}
+              {r.hasInput && (
+                <Box
+                  sx={{
+                    flexBasis: { sm: "50%" },
+                    width: "100%",
+                  }}
+                >
+                  <TextField
+                    value={seventhText[i] ?? ""}
+                    onChange={(e) =>
+                      handleSeventhTextChange(i, e.target.value)
+                    }
+                    placeholder="أدخل قيمة..."
+                    fullWidth
+                    variant="filled"
+                    hiddenLabel
+                    inputProps={{
+                      dir: "rtl",
+                      style: {
+                        fontFamily: TAJAWAL,
+                        color: "#000",
+                        fontSize: "14px",
+                      },
+                    }}
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        backgroundColor: "rgba(255, 255, 255, 0.95)",
+                        transition: "none",
+                        "&:hover": {
+                          backgroundColor: "rgba(255, 255, 255, 0.95)",
                         },
-                        "& .MuiInputBase-input": {
-                            padding: '10px 12px',
-                            color: '#000',
-                        }
-                      }}
-                      variant="filled"
-                      hiddenLabel
-                    />
-                  ) : null}
+                        "&.Mui-focused": {
+                          backgroundColor: "rgba(255, 255, 255, 0.95)",
+                          boxShadow: "none",
+                        },
+                      },
+                      "& .MuiInputBase-input": {
+                        padding: "12px 14px",
+                      },
+                      "& .MuiFilledInput-underline:before": {
+                        borderBottom: "none",
+                      },
+                      "& .MuiFilledInput-underline:after": {
+                        borderBottom: "none",
+                      },
+                    }}
+                  />
                 </Box>
-              ))}
+              )}
             </Box>
-          </Box>
+          ))}
         </Box>
+      </Box>
+
+
+
+
+      
 
         {/* Fifth Group (Main Contact Form) */}
         <Box sx={{ mt: 6, p: 4, borderRadius: '16px', animation: `${fadeUp} 1000ms 300ms backwards` }}>
@@ -246,7 +300,7 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
                   mb: 1,
                 }}
               >
-              الرجاء ترك الإسم ورقم الجوال وسوف نعاود الإتصال بك 
+                أو الرجاء ترك الإسم ورقم الجوال وسوف نعاود الإتصال بك
               </Typography>
               <Typography
                 variant="h5"
@@ -265,21 +319,48 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
               
               {/* Name Field (الاسم) */}
               <Box sx={{ display: "flex", gap: 2, alignItems: "top" }}>
-                <FieldLabel label="الاسم" />
+                <Typography
+                  sx={{
+                    fontFamily: TAJAWAL,
+                    fontSize: "28px",  // حجم طبيعي
+                    fontWeight: 600,   // متوسط الوزن
+                    color: "#000",
+                    lineHeight: 1.5,
+                  }}
+                >
+                  الاسم
+                </Typography>
+
+                <Box sx={{ width: "40%" }}>
                 <DarkTextField
                   value={formData.name}
-                  onChange={(e) => handleChange('name', e.target.value)}
+                  onChange={(e) => handleChange("name", e.target.value)}
                   placeholder="أدخل الاسم"
                   fullWidth
-                  variant="filled" 
-                  hiddenLabel 
-                  inputProps={{ dir: "rtl", style: { fontFamily: TAJAWAL, color: '#000' } }}
+                  variant="filled"
+                  hiddenLabel
+                  inputProps={{
+                    dir: "rtl",
+                    style: { fontFamily: TAJAWAL, color: "#000" },
+                  }}
                 />
+              </Box>
               </Box>
 
               {/* Mobile Field (جوال) */}
               <Box sx={{ display: "flex", gap: 2, alignItems: "top" }}>
-                <FieldLabel label="جوال" />
+                <Typography
+                  sx={{
+                    fontFamily: TAJAWAL,
+                    fontSize: "28px",  // حجم طبيعي
+                    fontWeight: 600,   // متوسط الوزن
+                    color: "#000",
+                    lineHeight: 1.5,
+                  }}
+                >
+                  جوال
+                </Typography>
+                <Box sx={{ width: "40%" }}>
                 <DarkTextField
                   value={formData.mobile}
                   onChange={(e) => handleChange('mobile', e.target.value)}
@@ -289,6 +370,7 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
                   hiddenLabel
                   inputProps={{ dir: "rtl", style: { fontFamily: TAJAWAL, color: '#000' } }}
                 />
+              </Box>
               </Box>
 
             </Box>
