@@ -24,7 +24,7 @@ const float = keyframes`
   100% { transform: translateY(0) }
 `;
 
-const FIXED_WHATSAPP = "+966 55 555 5555";
+const FIXED_WHATSAPP = "+966 00 000 0000";
 
 const Service05: React.FC<Props> = ({ onSubmit }) => {
   const handleSubmit = () => {
@@ -42,10 +42,11 @@ const Service05: React.FC<Props> = ({ onSubmit }) => {
         fontFamily: TAJAWAL,
       }}
     >
+      {/* Heading */}
       <Box
         sx={{
           textAlign: "center",
-          mb: 3,
+          mb: 5, // مسافة أكبر أسفل الهيدينج
           animation: `${float} 6s ease-in-out infinite`,
         }}
       >
@@ -57,90 +58,85 @@ const Service05: React.FC<Props> = ({ onSubmit }) => {
             color: "#023B4E",
           }}
         >
-           تسليم واستلام العقار
+          تسليم واستلام العقار
         </Typography>
       </Box>
 
-      <Box
-      >
-        {/* WhatsApp row */}
-        <Box
+      <Box sx={{ textAlign: "Right" }}>
+        {/* Text */}
+        <Typography
           sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: 2,
-            flexDirection: { xs: "column", sm: "row" },
-            justifyContent: "space-between",
+            fontWeight: 700,
+            fontFamily: TAJAWAL,
+            fontSize: "2rem", // حجم أكبر للنص
+            mb: 2,
           }}
         >
-          {/* TEXT ONLY */}
+          للتواصل مع قسم الاستلام والتسليم برجاء الاتصال على هذا الرقم
+        </Typography>
+
+        {/* WhatsApp Icon + Number BELOW */}
+        <Box
+          sx={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 1,
+            mt: 1,
+          }}
+        >
+          <IconButton
+            aria-label="whatsapp"
+            sx={{
+              bgcolor: "rgba(37,211,102,0.08)",
+              border: "1px solid rgba(37,211,102,0.12)",
+              "&:hover": { bgcolor: "rgba(37,211,102,0.12)" },
+              p: 1,
+            }}
+          >
+            <WhatsAppIcon sx={{ color: "#25D366" }} />
+          </IconButton>
+
           <Typography
             sx={{
-              fontWeight: 700,
               fontFamily: TAJAWAL,
-              fontSize: "1rem",
-              whiteSpace: "nowrap",
+              fontSize: "2rem", // رقم أكبر
+              fontWeight: 700,
+              color: "#023B4E",
             }}
+            dir="ltr"
           >
-            للتواصل مع قسم الاستلام والتسليم برجاء الاتصال على هذا الرقم
+            {FIXED_WHATSAPP}
           </Typography>
-
-          {/* ICON + NUMBER GROUP */}
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: 1,
-            }}
-          >
-            <IconButton
-              aria-label="whatsapp"
-              sx={{
-                bgcolor: "rgba(37,211,102,0.08)",
-                border: "1px solid rgba(37,211,102,0.12)",
-                "&:hover": { bgcolor: "rgba(37,211,102,0.12)" },
-                p: 1,
-              }}
-            >
-              <WhatsAppIcon sx={{ color: "#25D366" }} />
-            </IconButton>
-
-            {/* NUMBER NEXT TO ICON — NOW LTR */}
-            <Typography
-              sx={{
-                fontFamily: TAJAWAL,
-                fontSize: "1.2rem",
-                fontWeight: 700,
-                color: "#023B4E",
-              }}
-              dir="ltr"   // <<< IMPORTANT FIX
-            >
-              {FIXED_WHATSAPP}
-            </Typography>
-          </Box>
-        </Box>
-
-        <Box sx={{ mt: 4, textAlign: "center" }}>
-          <Button
-            onClick={handleSubmit}
-            variant="contained"
-            sx={{
-              px: 5,
-              py: 1.2,
-              fontSize: "1rem",
-              fontWeight: 700,
-              fontFamily: TAJAWAL,
-              background: "linear-gradient(135deg,#023B4E 0%, #06f9f3 100%)",
-              color: "#fff",
-              borderRadius: 2,
-              boxShadow: "0 8px 28px rgba(2,59,78,0.12)",
-              "&:hover": { filter: "brightness(0.95)" },
-            }}
-          >
-            إرسال
-          </Button>
         </Box>
       </Box>
+      <Box
+        sx={{
+          mt: 4,
+          display: "flex",         // لتفعيل Flexbox
+          justifyContent: "center", // لجعل المحتوى في الوسط
+        }}
+      >
+        <Button
+          onClick={handleSubmit}
+          variant="contained"
+          sx={{
+            px: 5,
+            py: 1.2,
+            fontSize: "1rem",
+            fontWeight: 700,
+            fontFamily: TAJAWAL,
+            background: "linear-gradient(135deg,#023B4E 0%, #06f9f3 100%)",
+            color: "#fff",
+            borderRadius: 2,
+            boxShadow: "0 8px 28px rgba(2,59,78,0.12)",
+            "&:hover": { filter: "brightness(0.95)" },
+          }}
+        >
+          إرسال
+        </Button>
+      </Box>
+
+ 
     </Container>
   );
 };
