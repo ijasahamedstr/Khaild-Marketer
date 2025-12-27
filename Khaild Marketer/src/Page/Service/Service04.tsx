@@ -60,22 +60,22 @@ const DarkTextField = styled(TextField)(({}) => ({
   },
 }));
 
-// Define the label component for the form fields
-const FieldLabel: React.FC<{ label: string }> = ({ label }) => (
-  <Typography
-    sx={{
-      fontWeight: 700,
-      minWidth: { xs: "50px", sm: "70px" },
-      fontFamily: TAJAWAL,
-      color: "#000", // Label color set to black
-      textAlign: "right",
-      pt: 1.8,
-      flexShrink: 0,
-    }}
-  >
-    {label}
-  </Typography>
-);
+// // Define the label component for the form fields
+// const FieldLabel: React.FC<{ label: string }> = ({ label }) => (
+//   <Typography
+//     sx={{
+//       fontWeight: 700,
+//       minWidth: { xs: "50px", sm: "70px" },
+//       fontFamily: TAJAWAL,
+//       color: "#000", // Label color set to black
+//       textAlign: "right",
+//       pt: 1.8,
+//       flexShrink: 0,
+//     }}
+//   >
+//     {label}
+//   </Typography>
+// );
 
 // ----------------------------------------------------
 // *** ORIGINAL COMPONENT CODE STARTS HERE ***
