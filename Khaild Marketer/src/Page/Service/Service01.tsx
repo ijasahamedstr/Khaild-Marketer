@@ -48,7 +48,7 @@ const DROPDOWN_FIELDS = [
   {
     label: "نوع العقار",
     icon: <HomeWorkIcon fontSize="small" />,
-    options: ["أرض","فيلا","شقة","تاون هاوس", "قصر", "مستودعات"],
+    options: ["قصر","فيلا","تاون هاوس","شقة", "مستودعات", "أرض"],
   },
 ];
 
