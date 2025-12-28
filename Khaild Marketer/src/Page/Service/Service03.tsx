@@ -39,7 +39,6 @@ type Props = {
 
 /* ---------------- CONSTANTS ---------------- */
 const TAJAWAL = "'Tajawal', sans-serif";
-const GRADIENT = "linear-gradient(135deg, #023B4E 0%, #06f9f3 100%)";
 const LABEL_COLOR = "#023B4E";
 
 /* ---------------- DROPDOWN CONFIG ---------------- */
