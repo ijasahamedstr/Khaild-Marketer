@@ -25,16 +25,17 @@ function App() {
       <Routes>
         <Route path="/" element={< Home/>} />
         <Route path="/إتصل بنا" element={<Contactus/>} />
-        <Route path="/services/sell" element={<Service02/>} />
-        <Route path="/services/buy" element={<Service01/>} />
-        <Route path="/services/rent" element={<Service03/>} />
-        <Route path="/services/finish" element={<Service04/>} />
-        <Route path="/services/handover" element={<Service05/>} />
-        <Route path="/services/other" element={<Service06/>} />
-        <Route path="/services/New" element={<Service07/>} />
-        <Route path="/services/handovernew" element={<Service08/>} />
-        <Route path="/services/inspection" element={<Service09/>} />
+        <Route path="/services/بيع العقار" element={<Service02/>} />
+        <Route path="/services/شراء العقار" element={<Service01/>} />
+        <Route path="/services/إيجار العقار" element={<Service03/>} />
+        <Route path="/services/تشطيب العقار" element={<Service04/>} />
+        <Route path="/services/تسليم واستلام العقار" element={<Service05/>} />
+        <Route path="/services/النظام يجيب" element={<Service06/>} />
+        <Route path="/services/خدمات التوثيق" element={<Service07/>} />
+        <Route path="/services/خدمات التصوير العقاري" element={<Service08/>} />
+        <Route path="/services/القسم النسائي" element={<Service09/>} />
         <Route path="/services/inspection3" element={<Service10/>} />
+        <Route path="/services/قسم التمويل العقاري" element={<Service10/>} />
         <Route path="/من نحن" element={<Whoweare/>} />
       </Routes>
       <Footer/>

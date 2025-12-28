@@ -38,16 +38,17 @@ const pages = [
 ];
 
 const projectsSubMenu = [
-  { label: "بيع العقار", path: "/projects" },
-  { label: "شراء العقار", path: "/projects/ongoing" },
-  { label: "استئجار العقار", path: "/projects/completed" },
-  { label: "تشطيب العقار", path: "/projects/completed" },
-  { label: "تسليم واستلام العقار", path: "/projects/completed" },
-  { label: "القسم النسائي", path: "/projects/completed" },
-  { label: "النظام يجيب", path: "/projects/completed" },
-  { label: "خدمات التوثيق", path: "/projects/completed" },
-  { label: "خدمات التصوير العقاري", path: "/projects/completed" },
-  { label: "قسم التمويل العقاري", path: "/projects/completed" },
+  { label: "بيع العقار", path: "/services/بيع العقار" },
+  { label: "شراء العقار", path: "/services/شراء العقار" },
+  { label: "إيجار العقار", path: "/services/إيجار العقار" },
+  { label: "تشطيب العقار", path: "/services/تشطيب العقار" },
+  { label: "تسليم واستلام العقار", path: "/services/تسليم واستلام العقار" },
+  { label: "النظام يجيب", path: "/services/النظام يجيب" },
+  { label: "محكم معتمد", path: "/projects/completed" },
+  { label: "خدمات التوثيق", path: "/services/خدمات التوثيق" },
+  { label: "خدمات التصوير العقاري", path: "/services/خدمات التصوير العقاري" },
+  { label: "القسم النسائي", path: "/services/القسم النسائي" },
+   { label: "قسم التمويل العقاري", path: "/services/قسم التمويل العقاري" },
 ];
 
 const socialLinks = [
@@ -96,9 +97,10 @@ export default function Navbar() {
 
   const isActive = (path: string) => {
     const np = normalize(path);
-    if (currentPath === np) return true;
-    if (np !== "/" && currentPath.startsWith(np + "/")) return true;
-    return false;
+    return (
+      currentPath === np ||
+      (np !== "/" && currentPath.startsWith(np + "/"))
+    );
   };
 
   const isProjectParentActive = () =>
@@ -120,15 +122,18 @@ export default function Navbar() {
           zIndex: 1201,
         }}
       >
-        <Container maxWidth="xl">
+        {/* ✅ FULL WIDTH – NO SIDE SPACE */}
+        <Container maxWidth={false} sx={{ px: 0 }}>
           <Toolbar
+            disableGutters
             sx={{
+              px: 0,
               justifyContent: isDesktop ? "flex-start" : "space-between",
               gap: 2,
             }}
           >
             {/* LOGO */}
-            <Box component={Link} to="/" sx={{ textDecoration: "none" }}>
+            <Box component={Link} to="/" sx={{ textDecoration: "none", mr: 2 }}>
               <Box
                 component="img"
                 src="https://i.ibb.co/yn0gbKdZ/Gemini-Generated-Image-pua0mbpua0mbpua0-removebg-preview.png"
@@ -139,7 +144,7 @@ export default function Navbar() {
 
             {/* DESKTOP MENU */}
             {isDesktop ? (
-              <Box sx={{ display: "flex", gap: 5, mr: 3 }}>
+              <Box sx={{ display: "flex", gap: 5 }}>
                 {pages.map(({ label, path }) =>
                   label === "أقسامنا" ? (
                     <React.Fragment key={label}>
@@ -204,7 +209,7 @@ export default function Navbar() {
             ) : (
               <IconButton
                 onClick={() => setDrawerOpen(true)}
-                sx={{ color: "#fff" }}
+                sx={{ color: "#fff", ml: 1 }}
               >
                 <MenuIcon />
               </IconButton>
@@ -213,6 +218,7 @@ export default function Navbar() {
         </Container>
       </AppBar>
 
+      {/* OFFSET */}
       <Toolbar />
 
       {/* ================= MOBILE DRAWER ================= */}
@@ -272,7 +278,7 @@ export default function Navbar() {
             href={link}
             target="_blank"
             rel="noopener noreferrer"
-            style={{ direction: "ltr" }} // ✅ LTR safety
+            style={{ direction: "ltr" }}
           >
             <Box
               sx={{
@@ -284,12 +290,10 @@ export default function Navbar() {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                color: "#ffffff",
+                color: "#fff",
                 boxShadow: 3,
                 transition: "0.3s",
-                "&:hover": {
-                  transform: "scale(1.2)",
-                },
+                "&:hover": { transform: "scale(1.2)" },
               }}
             >
               {icon}
