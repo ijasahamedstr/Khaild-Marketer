@@ -31,6 +31,14 @@ const Service05: React.FC<Props> = ({ onSubmit }) => {
     if (onSubmit) onSubmit({ whatsapp: FIXED_WHATSAPP });
   };
 
+    React.useEffect(() => {
+      const t = setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }, 120);
+      return () => clearTimeout(t);
+    }, []);
+  
+
   return (
     <Container
       maxWidth="lg"
