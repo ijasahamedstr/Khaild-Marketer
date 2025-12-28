@@ -6,7 +6,7 @@ const BannerCard: React.FC = () => {
     <Box
       component="section"
       sx={{
-        bgcolor: "#f7f7f7",
+        bgcolor: "#E2E8F0",
         py: { xs: 6, md: 8 },
         direction: "rtl",
         fontFamily: "Tajawal, sans-serif",
@@ -19,7 +19,7 @@ const BannerCard: React.FC = () => {
           src="https://i.ibb.co/Zp0m4B0L/w-2.webp" // ضع رابط الصورة الفعلي هنا
           alt="Banner"
           sx={{
-            width: "100%",
+            width: "95%",
             height: "100%",
             objectFit: "cover",
             borderRadius: 2,
