@@ -218,29 +218,38 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
         </Box> */}
 
         {/* Two checkboxes side by side (only one selectable) */}
-        <Box sx={{ display: "flex", gap: 3, flexWrap: "wrap", mb: 2 }}>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={isChecked1}
-                onChange={() => handleDeveloperCheckbox(0)}
-                sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }} // optional: adjust checkbox size
-              />
-            }
-            label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: "1rem" }}>مؤجر</Typography>}
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={isChecked2}
-                onChange={() => handleDeveloperCheckbox(1)}
-                sx={{ '& .MuiSvgIcon-root': { fontSize: 24 } }} // optional: adjust checkbox size
-              />
-            }
-            label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: "1rem" }}>مستأجر</Typography>}
-          />
-        </Box>
-
+          <Box sx={{ display: "flex", mb: 2 }}>
+            <FormControlLabel
+              sx={{ width: '50%' }} // 50% width
+              control={
+                <Checkbox
+                  checked={isChecked1}
+                  onChange={() => handleDeveloperCheckbox(0)}
+                  sx={{ '& .MuiSvgIcon-root': { fontSize: 40 } }} // much bigger checkbox
+                />
+              }
+              label={
+                <Typography sx={{ fontFamily: TAJAWAL, fontSize: "1.5rem", fontWeight: 'bold' }}>
+                  مؤجر
+                </Typography>
+              }
+            />
+            <FormControlLabel
+              sx={{ width: '50%' }} // 50% width
+              control={
+                <Checkbox
+                  checked={isChecked2}
+                  onChange={() => handleDeveloperCheckbox(1)}
+                  sx={{ '& .MuiSvgIcon-root': { fontSize: 40 } }} // much bigger checkbox
+                />
+              }
+              label={
+                <Typography sx={{ fontFamily: TAJAWAL, fontSize: "1.5rem", fontWeight: 'bold' }}>
+                  مستأجر
+                </Typography>
+              }
+            />
+          </Box>
       </Box>
 
       {/* ---------------- DROPDOWNS ---------------- */}

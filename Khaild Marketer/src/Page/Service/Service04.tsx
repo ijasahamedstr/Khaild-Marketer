@@ -167,60 +167,65 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
           borderRadius: "12px",
         }}
       >
-        <Box sx={{ display: "grid", gap: 3, maxWidth: 1100, mx: "auto" }}>
-          {SEVENTH_ROWS.map((r, i) => (
-            <Box
-              key={`seventh-row-${i}`}
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: 2,
-                flexDirection: { xs: "column", sm: "row" },
-              }}
-            >
-              <Box sx={{ flexBasis: { sm: "50%" }, width: "100%" }}>
-                <Typography
-                  sx={{
-                    fontWeight: 900,
-                    fontSize: { xs: "24px", sm: "32px" },
-                    fontFamily: TAJAWAL,
-                    color: "#000",
-                    lineHeight: 1.3,
-                  }}
-                >
-                  {r.label}
-                </Typography>
-              </Box>
-              {r.hasInput && (
-                <Box sx={{ flexBasis: { sm: "50%" }, width: "100%" }}>
-                  <TextField
-                    value={seventhText[i] ?? ""}
-                    onChange={(e) => handleSeventhTextChange(i, e.target.value)}
-                    placeholder="أدخل قيمة..."
-                    fullWidth
-                    variant="filled"
-                    hiddenLabel
-                    inputProps={{
-                      dir: "rtl",
-                      style: { fontFamily: TAJAWAL, color: "#000", fontSize: "14px" },
-                    }}
-                    sx={{
-                      "& .MuiInputBase-root": {
-                        backgroundColor: "rgba(255, 255, 255, 0.95)",
-                        transition: "none",
-                        "&:hover": { backgroundColor: "rgba(255, 255, 255, 0.95)" },
-                        "&.Mui-focused": { backgroundColor: "rgba(255, 255, 255, 0.95)", boxShadow: "none" },
-                      },
-                      "& .MuiInputBase-input": { padding: "12px 14px" },
-                      "& .MuiFilledInput-underline:before": { borderBottom: "none" },
-                      "& .MuiFilledInput-underline:after": { borderBottom: "none" },
-                    }}
-                  />
-                </Box>
-              )}
-            </Box>
-          ))}
-        </Box>
+<Box sx={{ display: "grid", gap: 3, maxWidth: 1100, mx: "auto" }}>
+  {SEVENTH_ROWS.map((r, i) => (
+    <Box
+      key={`seventh-row-${i}`}
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        gap: 2,
+        flexDirection: "row",
+        width: "100%",
+      }}
+    >
+      <Typography
+        sx={{
+          fontWeight: 900,
+          fontSize: { xs: "24px", sm: "27px" },
+          fontFamily: TAJAWAL,
+          color: "#000",
+          lineHeight: 1.3,
+          width: "35%", // Label takes 30%
+        }}
+      >
+        {r.label}
+      </Typography>
+
+      {r.hasInput && (
+        <TextField
+          value={seventhText[i] ?? ""}
+          onChange={(e) => handleSeventhTextChange(i, e.target.value)}
+          placeholder="أدخل قيمة..."
+          variant="filled"
+          hiddenLabel
+          inputProps={{
+            dir: "rtl",
+            style: { fontFamily: TAJAWAL, color: "#000", fontSize: "14px" },
+          }}
+          sx={{
+            width: "30%", // Textbox takes 70%
+            "& .MuiInputBase-root": {
+              backgroundColor: "rgba(255, 255, 255, 0.95)",
+              transition: "none",
+              "&:hover": { backgroundColor: "rgba(255, 255, 255, 0.95)" },
+              "&.Mui-focused": { backgroundColor: "rgba(255, 255, 255, 0.95)", boxShadow: "none" },
+            },
+            "& .MuiInputBase-input": { padding: "12px 14px" },
+            "& .MuiFilledInput-underline:before": { borderBottom: "none" },
+            "& .MuiFilledInput-underline:after": { borderBottom: "none" },
+          }}
+        />
+      )}
+    </Box>
+  ))}
+</Box>
+
+
+
+
+
+
       </Box>
 
       {/* ---------------- CONTACT FORM ---------------- */}
