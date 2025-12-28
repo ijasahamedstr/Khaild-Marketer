@@ -22,8 +22,8 @@ import StraightenIcon from "@mui/icons-material/Straighten";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import PhoneIcon from "@mui/icons-material/Phone";
-/* ---------------- TYPES ---------------- */
 
+/* ---------------- TYPES ---------------- */
 type Props = {
   onSubmit?: (data: {
     dropdowns: string[];
@@ -38,13 +38,11 @@ type Props = {
 };
 
 /* ---------------- CONSTANTS ---------------- */
-
 const TAJAWAL = "'Tajawal', sans-serif";
 const GRADIENT = "linear-gradient(135deg, #023B4E 0%, #06f9f3 100%)";
 const LABEL_COLOR = "#023B4E";
 
 /* ---------------- DROPDOWN CONFIG ---------------- */
-
 const DROPDOWN_FIELDS = [
   {
     label: "نوع العقار",
@@ -54,24 +52,17 @@ const DROPDOWN_FIELDS = [
 ];
 
 /* ---------------- COMPONENT ---------------- */
-
 const Service03: React.FC<Props> = ({ onSubmit }) => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
-  const [dropdownValues, setDropdownValues] =
-    React.useState<Record<number, string>>({});
+  const [dropdownValues, setDropdownValues] = React.useState<Record<number, string>>({});
   const [notes, setNotes] = React.useState("");
   const [search] = React.useState("");
+  const [channels, setChannels] = React.useState({ chat: true, whatsapp: true, call: false });
 
-  const [channels, setChannels] = React.useState({
-    chat: true,
-    whatsapp: true,
-    call: false,
-  });
-
-  // States for inputs
+  // Input states
   const [name, setName] = React.useState("");
   const [mobile, setMobile] = React.useState("");
   const [location, setLocation] = React.useState("");
@@ -79,16 +70,13 @@ const Service03: React.FC<Props> = ({ onSubmit }) => {
   const [area, setArea] = React.useState("");
   const [priceLimit, setPriceLimit] = React.useState("");
   const [priceOffer, setPriceOffer] = React.useState("");
-  
-  // Developer checkboxes (only one can be selected)
+
+  // Developer checkboxes
   const [isChecked1, setIsChecked1] = React.useState(false);
   const [isChecked2, setIsChecked2] = React.useState(false);
+  const [checkboxValues, setCheckboxValues] = React.useState<boolean[]>([false, false]);
 
-  const [checkboxValues, setCheckboxValues] = React.useState<boolean[]>([
-    false,
-    false,
-  ]);
-
+  /* ---------------- HANDLERS ---------------- */
   const handleDropdownChange = (index: number, value: string) => {
     setDropdownValues((prev) => ({ ...prev, [index]: value }));
   };
@@ -99,7 +87,6 @@ const Service03: React.FC<Props> = ({ onSubmit }) => {
     setCheckboxValues(updated);
   };
 
-  // Developer checkbox logic: only one can be selected
   const handleDeveloperCheckbox = (index: number) => {
     if (index === 0) {
       setIsChecked1(true);
@@ -110,18 +97,13 @@ const Service03: React.FC<Props> = ({ onSubmit }) => {
     }
   };
 
-  const buildWhatsAppMessage = () => {
-    return `
+ const buildWhatsAppMessage = () => {
+  const developerStatus = isChecked1 ? "مؤجر" : isChecked2 ? "مستأجر" : "غير محدد";
+
+  return `
 🛒 *طلب بيع عقار جديد*
 
-✅ *شروط المطور:* ${
-      isChecked1
-        ? "أوافق على شروط المطور"
-        : isChecked2
-        ? "أوافق على شروط التواصل"
-        : "غير محدد"
-    }
-
+✅ *حالة المطور:* ${developerStatus}
 
 🏠 *نوع العقار:* ${dropdownValues[0] || "غير محدد"}
 📍 *الموقع:* ${location || "غير محدد"}
@@ -142,7 +124,8 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
 👤 *الاسم:* ${name || "غير مدخل"}
 📱 *الجوال:* ${mobile || "غير مدخل"}
 `;
-  };
+};
+
 
   const handleSubmit = () => {
     if (!channels.call && !channels.whatsapp && !channels.chat) {
@@ -153,6 +136,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
       alert("يرجى إدخال الاسم والجوال للتواصل عبر الدردشة");
       return;
     }
+
     if (onSubmit) {
       onSubmit({
         dropdowns: DROPDOWN_FIELDS.map((_, i) => dropdownValues[i] || ""),
@@ -161,14 +145,13 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
         channels,
       });
     }
-    const phoneNumber = "966509855666"; // Replace with your WhatsApp number
+
+    const phoneNumber = "966509855666"; // رقم واتساب
     const message = buildWhatsAppMessage();
-    const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
-      message
-    )}`;
+    const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappURL, "_blank");
 
-    // ---------------- RESET ALL FIELDS ----------------
+    // Reset all fields
     setDropdownValues({});
     setNotes("");
     setChannels({ chat: true, whatsapp: true, call: false });
@@ -209,79 +192,58 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
       </Box>
 
       {/* ---------------- DEVELOPER CHECKBOXES ---------------- */}
-      <Box sx={{ p: 2, borderRadius: 3, border: "1px solid #eef3f3" }}>
-        {/* <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR }}>
-          <LocationCityIcon />
-          <Typography sx={{ fontWeight: 700, fontSize: { xs: "1rem", md: "1.3rem" }, fontFamily: TAJAWAL }}>
-            اسم المطور العقاري
-          </Typography>
-        </Box> */}
+      <Box sx={{ display: "flex", gap: 2, mb: 4 }}>
+        <Box sx={{ flex: 1, p: 2, borderRadius: 3, border: "1px solid #eef3f3", textAlign: "center" }}>
+          <FormControlLabel
+            sx={{ width: '50%' }}
+            control={
+              <Checkbox
+                checked={isChecked1}
+                onChange={() => handleDeveloperCheckbox(0)}
+                sx={{ '& .MuiSvgIcon-root': { fontSize: 40 } }}
+              />
+            }
+            label={
+              <Typography sx={{ fontFamily: TAJAWAL, fontSize: "1.5rem", fontWeight: 'bold' }}>
+                مؤجر
+              </Typography>
+            }
+          />
+        </Box>
 
-        {/* Two checkboxes side by side (only one selectable) */}
-          <Box sx={{ display: "flex", mb: 2 }}>
-            <FormControlLabel
-              sx={{ width: '50%' }} // 50% width
-              control={
-                <Checkbox
-                  checked={isChecked1}
-                  onChange={() => handleDeveloperCheckbox(0)}
-                  sx={{ '& .MuiSvgIcon-root': { fontSize: 40 } }} // much bigger checkbox
-                />
-              }
-              label={
-                <Typography sx={{ fontFamily: TAJAWAL, fontSize: "1.5rem", fontWeight: 'bold' }}>
-                  مؤجر
-                </Typography>
-              }
-            />
-            <FormControlLabel
-              sx={{ width: '50%' }} // 50% width
-              control={
-                <Checkbox
-                  checked={isChecked2}
-                  onChange={() => handleDeveloperCheckbox(1)}
-                  sx={{ '& .MuiSvgIcon-root': { fontSize: 40 } }} // much bigger checkbox
-                />
-              }
-              label={
-                <Typography sx={{ fontFamily: TAJAWAL, fontSize: "1.5rem", fontWeight: 'bold' }}>
-                  مستأجر
-                </Typography>
-              }
-            />
-          </Box>
+        <Box sx={{ flex: 1, p: 2, borderRadius: 3, border: "1px solid #eef3f3", textAlign: "center" }}>
+          <FormControlLabel
+            sx={{ width: '50%' }}
+            control={
+              <Checkbox
+                checked={isChecked2}
+                onChange={() => handleDeveloperCheckbox(1)}
+                sx={{ '& .MuiSvgIcon-root': { fontSize: 40 } }}
+              />
+            }
+            label={
+              <Typography sx={{ fontFamily: TAJAWAL, fontSize: "1.5rem", fontWeight: 'bold' }}>
+                مستأجر
+              </Typography>
+            }
+          />
+        </Box>
       </Box>
 
       {/* ---------------- DROPDOWNS ---------------- */}
       <Box sx={{ display: "grid", gap: 3 }}>
         {DROPDOWN_FIELDS.map((field, i) => (
-          <Box
-            key={i}
-            sx={{
-              p: 2,
-              borderRadius: 3,
-              border: "1px solid #eef3f3",
-            }}
-          >
+          <Box key={i} sx={{ p: 2, borderRadius: 3, border: "1px solid #eef3f3" }}>
             <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR }}>
               {field.icon}
-              <Typography
-                sx={{
-                  fontWeight: 700,
-                  fontSize: { xs: "1rem", md: "1.3rem" },
-                  fontFamily: TAJAWAL,
-                }}
-              >
+              <Typography sx={{ fontWeight: 700, fontSize: { xs: "1rem", md: "1.3rem" }, fontFamily: TAJAWAL }}>
                 {field.label}
               </Typography>
             </Box>
-
             <FormControl fullWidth>
               <Select
                 value={dropdownValues[i] || ""}
-                onChange={(e) =>
-                  handleDropdownChange(i, e.target.value as string)
-                }
+                onChange={(e) => handleDropdownChange(i, e.target.value)}
                 displayEmpty
                 sx={{ fontFamily: TAJAWAL }}
               >
@@ -289,9 +251,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
                   <em>{field.label}</em>
                 </MenuItem>
                 {field.options.map((opt, idx) => (
-                  <MenuItem key={idx} value={opt}>
-                    {opt}
-                  </MenuItem>
+                  <MenuItem key={idx} value={opt}>{opt}</MenuItem>
                 ))}
               </Select>
             </FormControl>
@@ -336,12 +296,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
               اسم المطور العقاري 
             </Typography>
           </Box>
-          <TextField
-            fullWidth
-            placeholder="اسم المطور العقاري"
-            value={developer}
-            onChange={(e) => setDeveloper(e.target.value)}
-          />
+          <TextField fullWidth placeholder="اسم المطور العقاري" value={developer} onChange={(e)=>setDeveloper(e.target.value)}/>
         </Box>
 
         {/* Area */}
@@ -352,12 +307,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
               المساحة
             </Typography>
           </Box>
-          <TextField
-            fullWidth
-            placeholder="المساحة"
-            value={area}
-            onChange={(e) => setArea(e.target.value)}
-          />
+          <TextField fullWidth placeholder="المساحة" value={area} onChange={(e)=>setArea(e.target.value)}/>
         </Box>
 
         {/* Budget */}
@@ -370,15 +320,15 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
           </Box>
 
           <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 1.5 }}>
-            <Checkbox checked={checkboxValues[0]} onChange={(e)=>handleCheckboxChange(0, e.target.checked)} />
+            <Checkbox checked={checkboxValues[0]} onChange={(e)=>handleCheckboxChange(0, e.target.checked)}/>
             <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL }}>حد</Typography>
-            <TextField size="small"  value={priceLimit} onChange={(e)=>setPriceLimit(e.target.value)} sx={{width:{xs:120, sm:160, md:220}}} type="text"/>
+            <TextField size="small" value={priceLimit} onChange={(e)=>setPriceLimit(e.target.value)} sx={{width:{xs:120, sm:160, md:220}}} type="text"/>
           </Box>
 
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-            <Checkbox checked={checkboxValues[1]} onChange={(e)=>handleCheckboxChange(1, e.target.checked)} />
+            <Checkbox checked={checkboxValues[1]} onChange={(e)=>handleCheckboxChange(1, e.target.checked)}/>
             <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL }}>على السوم</Typography>
-            <TextField size="small"  value={priceOffer} onChange={(e)=>setPriceOffer(e.target.value)} sx={{width:{xs:120, sm:160, md:220}}} type="text"/>
+            <TextField size="small" value={priceOffer} onChange={(e)=>setPriceOffer(e.target.value)} sx={{width:{xs:120, sm:160, md:220}}} type="text"/>
           </Box>
         </Box>
       </Box>
@@ -407,9 +357,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
         {/* Call */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
           <FormControlLabel
-            control={
-              <Checkbox checked={channels.call} onChange={(e)=>setChannels({...channels, call:e.target.checked})} />
-            }
+            control={<Checkbox checked={channels.call} onChange={(e)=>setChannels({...channels, call:e.target.checked})}/>}
             label={<Typography sx={{ fontFamily: TAJAWAL ,fontSize:'18px'}}> الرجاء التواصل على الرقم </Typography>}
           />
           <Box sx={{ flexGrow: 1, textAlign: "center", marginLeft: "150px" }}>
@@ -445,15 +393,16 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
         {/* Mobile */}
         <Box sx={{ display:"flex", alignItems:"center", gap:2 }}>
           <Typography sx={{ minWidth:120, fontFamily:TAJAWAL, fontWeight:600, fontSize:'18px'}}> الجوال </Typography>
-          <TextField placeholder="ادخل الجوال" value={mobile} onChange={(e)=>setMobile(e.target.value)} sx={{ flexGrow:1 }}/>
+          <TextField placeholder="ادخل رقم الجوال" value={mobile} onChange={(e)=>setMobile(e.target.value)} sx={{ flexGrow:1 }}/>
         </Box>
-      </Box>
 
-      {/* ---------------- SUBMIT BUTTON ---------------- */}
-      <Box sx={{ textAlign:"center", mt:6 }}>
-        <Button onClick={handleSubmit} sx={{ px:6, py:1.5, fontFamily:TAJAWAL, fontWeight:800, fontSize:'18px', background: GRADIENT, color:"#fff", borderRadius:3, "&:hover":{ opacity:0.85 } }}>
-          إرسال
-        </Button>
+        {/* Submit Button */}
+        <Box sx={{ mt:4, textAlign:"center" }}>
+          <Button variant="contained" color="primary" onClick={handleSubmit} sx={{ px:6, py:1.5, fontSize:"1.2rem", fontFamily:TAJAWAL }}>
+            إرسال
+          </Button>
+        </Box>
+
       </Box>
     </Container>
   );

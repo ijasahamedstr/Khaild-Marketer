@@ -44,11 +44,11 @@ const projectsSubMenu = [
   { label: "تشطيب العقار", path: "/services/تشطيب العقار" },
   { label: "تسليم واستلام العقار", path: "/services/تسليم واستلام العقار" },
   { label: "النظام يجيب", path: "/services/النظام يجيب" },
-  { label: "محكم معتمد", path: "/projects/completed" },
+  { label: "محكم معتمد", path: "/services/محكم معتمد" },
   { label: "خدمات التوثيق", path: "/services/خدمات التوثيق" },
   { label: "خدمات التصوير العقاري", path: "/services/خدمات التصوير العقاري" },
   { label: "القسم النسائي", path: "/services/القسم النسائي" },
-   { label: "قسم التمويل العقاري", path: "/services/قسم التمويل العقاري" },
+  { label: "قسم التمويل العقاري", path: "/services/قسم التمويل العقاري" },
 ];
 
 const socialLinks = [

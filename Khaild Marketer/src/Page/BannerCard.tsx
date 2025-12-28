@@ -8,30 +8,39 @@ const BannerCard: React.FC = () => {
       sx={{
         bgcolor: "#f7f7f7",
         py: { xs: 6, md: 8 },
-        // Direction is 'rtl' (Right-to-Left)
         direction: "rtl",
         fontFamily: "Tajawal, sans-serif",
       }}
     >
       <Container maxWidth="xl">
-        {/* المحتوى الرئيسي (Main Content) */}
+        {/* ===== صورة رئيسية Responsive في الأعلى ===== */}
+        <Box
+          component="img"
+          src="https://i.ibb.co/Zp0m4B0L/w-2.webp" // ضع رابط الصورة الفعلي هنا
+          alt="Banner"
+          sx={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            borderRadius: 2,
+            mb: { xs: 4, md: 6 },
+          }}
+        />
+
+        {/* المحتوى الرئيسي */}
         <Box
           sx={{
             display: "flex",
             flexDirection: { xs: "column", md: "row" },
-            // Align items to the right side in RTL
             alignItems: "flex-start",
             gap: { xs: 3, md: 6 },
             textAlign: "right",
           }}
         >
-          {/* الوصف – 80% (Description - Placed First for RTL Flow) */}
-      
-          {/* العنوان – 20% (Heading - Placed Second for RTL Flow) */}
+          {/* العنوان – 20% */}
           <Typography
             variant="h3"
             sx={{
-              // Set Heading to 20% on medium screens and up
               flexBasis: { md: "20%" },
               fontWeight: 700,
               color: "#004652",
@@ -42,16 +51,15 @@ const BannerCard: React.FC = () => {
             من نحن
           </Typography>
 
+          {/* الوصف – 80% */}
           <Typography
             sx={{
-              // Set Description to 80% on medium screens and up
               flexBasis: { md: "80%" },
               fontSize: { xs: "1.1rem", md: "1.8rem" },
               lineHeight: 1.9,
               color: "#004652",
-              fontFamily: "Tajawal, sans-serif",
-              // Kept original center alignment for description
-              textAlign: 'center'
+              textAlign: { xs: "center", md: "right" },
+              fontFamily: "Tajawal, sans-serif", // مركز على الموبايل، يمين على الديسكتوب
             }}
           >
             نحن متخصصون في تسويق منتجات المطورين العقاريين بمدينة الرياض، نُبرز
@@ -60,7 +68,7 @@ const BannerCard: React.FC = () => {
           </Typography>
         </Box>
 
-        {/* الخط السفلي (Bottom Line) */}
+        {/* الخط السفلي */}
         <Box
           sx={{
             borderBottom: "2px solid #0c6b71",
