@@ -165,76 +165,85 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
           p: 3,
           backgroundColor: "rgba(2, 59, 78, 0.05)",
           borderRadius: "12px",
+          border: "1px solid #E5E5E5", // ← OUTLINE
         }}
       >
-<Box sx={{ display: "grid", gap: 3, maxWidth: 1100, mx: "auto" }}>
-  {SEVENTH_ROWS.map((r, i) => (
-    <Box
-      key={`seventh-row-${i}`}
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        gap: 2,
-        flexDirection: "row",
-        width: "100%",
-      }}
-    >
-      <Typography
-        sx={{
-          fontWeight: 900,
-          fontSize: { xs: "24px", sm: "27px" },
-          fontFamily: TAJAWAL,
-          color: "#000",
-          lineHeight: 1.3,
-          width: "35%", // Label takes 30%
-        }}
-      >
-        {r.label}
-      </Typography>
+        <Box sx={{ display: "grid", gap: 3, maxWidth: 1100, mx: "auto" }}>
+          {SEVENTH_ROWS.map((r, i) => (
+            <Box
+              key={`seventh-row-${i}`}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 2,
+                flexDirection: "row",
+                width: "100%",
+              }}
+            >
+              <Typography
+                sx={{
+                  fontWeight: 900,
+                  fontSize: { xs: "24px", sm: "27px" },
+                  fontFamily: TAJAWAL,
+                  color: "#000",
+                  lineHeight: 1.3,
+                  width: "35%", // Label takes 35%
+                }}
+              >
+                {r.label}
+              </Typography>
 
-      {r.hasInput && (
-        <TextField
-          value={seventhText[i] ?? ""}
-          onChange={(e) => handleSeventhTextChange(i, e.target.value)}
-          placeholder="أدخل قيمة..."
-          variant="filled"
-          hiddenLabel
-          inputProps={{
-            dir: "rtl",
-            style: { fontFamily: TAJAWAL, color: "#000", fontSize: "14px" },
-          }}
-          sx={{
-            width: "30%", // Textbox takes 70%
-            "& .MuiInputBase-root": {
-              backgroundColor: "rgba(255, 255, 255, 0.95)",
-              transition: "none",
-              "&:hover": { backgroundColor: "rgba(255, 255, 255, 0.95)" },
-              "&.Mui-focused": { backgroundColor: "rgba(255, 255, 255, 0.95)", boxShadow: "none" },
-            },
-            "& .MuiInputBase-input": { padding: "12px 14px" },
-            "& .MuiFilledInput-underline:before": { borderBottom: "none" },
-            "& .MuiFilledInput-underline:after": { borderBottom: "none" },
-          }}
-        />
-      )}
-    </Box>
-  ))}
-</Box>
-
-
-
-
-
-
+              {r.hasInput && (
+                <TextField
+                  value={seventhText[i] ?? ""}
+                  onChange={(e) => handleSeventhTextChange(i, e.target.value)}
+                  placeholder="أدخل قيمة..."
+                  variant="filled"
+                  hiddenLabel
+                  inputProps={{
+                    dir: "rtl",
+                    style: { fontFamily: TAJAWAL, color: "#000", fontSize: "14px" },
+                  }}
+                  sx={{
+                    width: "30%", // Textbox width
+                    "& .MuiInputBase-root": {
+                      backgroundColor: "rgba(255, 255, 255, 0.95)",
+                      transition: "none",
+                      "&:hover": { backgroundColor: "rgba(255, 255, 255, 0.95)" },
+                      "&.Mui-focused": { backgroundColor: "rgba(255, 255, 255, 0.95)", boxShadow: "none" },
+                    },
+                    "& .MuiInputBase-input": { padding: "12px 14px" },
+                    "& .MuiFilledInput-underline:before": { borderBottom: "none" },
+                    "& .MuiFilledInput-underline:after": { borderBottom: "none" },
+                  }}
+                />
+              )}
+            </Box>
+          ))}
+        </Box>
       </Box>
 
       {/* ---------------- CONTACT FORM ---------------- */}
-      <Box sx={{ mt: 6, p: 4, borderRadius: "16px", animation: `${fadeUp} 1000ms 300ms backwards` }}>
+      <Box
+        sx={{
+          mt: 6,
+          p: 4,
+          borderRadius: "16px",
+          border: "1px solid #E5E5E5", // ← OUTLINE
+          animation: `${fadeUp} 1000ms 300ms backwards`,
+        }}
+      >
         <FormControl component="fieldset" sx={{ width: "100%", maxWidth: 1100, mx: "auto" }}>
           <Box sx={{ mb: 4, textAlign: "right" }}>
             <Typography
               variant="h4"
-              sx={{ fontWeight: 800, fontSize: { xs: "1.6rem", md: "2.2rem" }, color: "#023B4E", fontFamily: TAJAWAL, mb: 1 }}
+              sx={{
+                fontWeight: 800,
+                fontSize: { xs: "1.6rem", md: "2.2rem" },
+                color: "#023B4E",
+                fontFamily: TAJAWAL,
+                mb: 1,
+              }}
             >
               أو الرجاء ترك الإسم ورقم الجوال وسوف نعاود الإتصال بك
             </Typography>
@@ -243,7 +252,15 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
           <Box sx={{ display: "grid", gap: 3, width: "100%", mx: "auto" }}>
             {/* Name */}
             <Box sx={{ display: "flex", gap: 2, alignItems: "top" }}>
-              <Typography sx={{ fontFamily: TAJAWAL, fontSize: "28px", fontWeight: 600, color: "#000", lineHeight: 1.5 }}>
+              <Typography
+                sx={{
+                  fontFamily: TAJAWAL,
+                  fontSize: "28px",
+                  fontWeight: 600,
+                  color: "#000",
+                  lineHeight: 1.5,
+                }}
+              >
                 الاسم
               </Typography>
               <Box sx={{ width: "40%" }}>
@@ -261,7 +278,15 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
 
             {/* Mobile */}
             <Box sx={{ display: "flex", gap: 2, alignItems: "top" }}>
-              <Typography sx={{ fontFamily: TAJAWAL, fontSize: "28px", fontWeight: 600, color: "#000", lineHeight: 1.5 }}>
+              <Typography
+                sx={{
+                  fontFamily: TAJAWAL,
+                  fontSize: "28px",
+                  fontWeight: 600,
+                  color: "#000",
+                  lineHeight: 1.5,
+                }}
+              >
                 جوال
               </Typography>
               <Box sx={{ width: "40%" }}>

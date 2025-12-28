@@ -192,7 +192,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
 
       {/* ---------------- DEVELOPER CHECKBOXES ---------------- */}
       <Box sx={{ display: "flex", gap: 2, mb: 4 }}>
-        <Box sx={{ flex: 1, p: 2, borderRadius: 3, border: "1px solid #eef3f3", textAlign: "center" }}>
+        <Box sx={{ flex: 1, p: 2, borderRadius: 3, border: "1px solid #ADADAD", textAlign: "center" }}>
           <FormControlLabel
             sx={{ width: '50%' }}
             control={
@@ -210,7 +210,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
           />
         </Box>
 
-        <Box sx={{ flex: 1, p: 2, borderRadius: 3, border: "1px solid #eef3f3", textAlign: "center" }}>
+        <Box sx={{ flex: 1, p: 2, borderRadius: 3, border: "1px solid #ADADAD", textAlign: "center" }}>
           <FormControlLabel
             sx={{ width: '50%' }}
             control={

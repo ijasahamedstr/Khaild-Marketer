@@ -3,29 +3,30 @@ import React from "react";
 import { Container, Typography, Box } from "@mui/material";
 
 const TAJAWAL = "'Tajawal', sans-serif";
+const BORDER_COLOR = "#E5E5E5";
 
 const Service03: React.FC = () => {
-      // Scroll to top on mount
+  // Scroll to top on mount
   React.useEffect(() => {
     const t = setTimeout(() => {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }, 120);
     return () => clearTimeout(t);
   }, []);
+
   return (
     <Container
       maxWidth="lg"
       sx={{
-        mt: { xs: 8, md: 12 }, // زيادة المسافة العلوية للصفحة بالكامل
+        mt: { xs: 8, md: 12 },
         mb: { xs: 6, md: 12 },
         direction: "rtl",
         px: { xs: 2, md: 4 },
         fontFamily: TAJAWAL,
-        height: "40vh",       
       }}
     >
-      {/* Heading */}
-      <Box sx={{ textAlign: "center", mb: 4, mt: 6 }}> {/* إضافة مسافة أعلى العنوان */}
+      {/* ===== Heading ===== */}
+      <Box sx={{ textAlign: "center", mb: { xs: 6, md: 10 } }}> {/* زيادة المسافة تحت العنوان */}
         <Typography
           variant="h4"
           sx={{
@@ -38,18 +39,30 @@ const Service03: React.FC = () => {
         </Typography>
       </Box>
 
-      {/* Paragraph */}
-      <Box sx={{ textAlign: "right" }}>
+      {/* ===== BOX يحتوي المحتوى ===== */}
+      <Box
+        sx={{
+          border: `2px solid ${BORDER_COLOR}`,
+          borderRadius: 3,
+          p: { xs: 5, md: 8 }, // padding أكبر
+          display: "flex",
+          flexDirection: "column",
+          gap: 4, // فجوة بين الفقرات
+          backgroundColor: "#fff",
+        }}
+      >
+        {/* Paragraph */}
         <Typography
           sx={{
             fontWeight: 700,
             fontFamily: TAJAWAL,
-            fontSize: "1.8rem",
+            fontSize: { xs: "1.5rem", md: "1.8rem" },
             lineHeight: 1.6,
             color: "#023B4E",
+            textAlign: "right",
           }}
         >
-          في هذا القسم، نسلّط الضوء بشكل دوري على أبرز الأنظمة واللوائح العقارية، 
+          في هذا القسم، نسلّط الضوء بشكل دوري على أبرز الأنظمة واللوائح العقارية،
           لنقدّم لمتابعينا محتوى توعوي يُثري معرفتهم ويعزز وعيهم قبل اتخاذ أي قرار.
         </Typography>
       </Box>

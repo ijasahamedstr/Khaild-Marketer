@@ -3,6 +3,7 @@ import React from "react";
 import { Container, Typography, Box } from "@mui/material";
 
 const TAJAWAL = "'Tajawal', sans-serif";
+const BORDER_COLOR = "#E5E5E5";
 
 const Service11: React.FC = () => {
   // Scroll to top on mount
@@ -25,65 +26,52 @@ const Service11: React.FC = () => {
       }}
     >
       {/* Heading */}
-      <Box sx={{ textAlign: "center", mb: 4, mt: 6 }}>
-        <Typography
-          variant="h4"
-          sx={{
-            fontWeight: 800,
-            fontFamily: TAJAWAL,
-            color: "#023B4E",
-          }}
-        >
-            محكم معتمد
-        </Typography>
-      </Box>
+      <Typography
+        variant="h4"
+        sx={{
+          fontWeight: 800,
+          fontFamily: TAJAWAL,
+          color: "#023B4E",
+          textAlign: "center",
+          mb: { xs: 6, md: 8 },
+        }}
+      >
+        محكم معتمد
+      </Typography>
 
-      {/* Paragraph / Points */}
-      <Box sx={{ textAlign: "right", display: "flex", flexDirection: "column", gap: 2 }}>
-        <Typography
-          sx={{
-            fontWeight: 700,
-            fontFamily: TAJAWAL,
-            fontSize: { xs: "1.4rem", md: "1.8rem" },
-            lineHeight: 1.8,
-            color: "#023B4E",
-          }}
-        >
-          ١. نوفّر خدمة "محكّم معتمد" لحل النزاعات العقارية باحترافية وحيادية.
-        </Typography>
-        <Typography
-          sx={{
-            fontWeight: 700,
-            fontFamily: TAJAWAL,
-            fontSize: { xs: "1.4rem", md: "1.8rem" },
-            lineHeight: 1.8,
-            color: "#023B4E",
-          }}
-        >
-          ٢. رأي قانوني خبير من محكّمين معتمدين لضمان حقوق جميع الأطراف.
-        </Typography>
-        <Typography
-          sx={{
-            fontWeight: 700,
-            fontFamily: TAJAWAL,
-            fontSize: { xs: "1.4rem", md: "1.8rem" },
-            lineHeight: 1.8,
-            color: "#023B4E",
-          }}
-        >
-          ٣. عند الخلاف… لا تحتار، معنا محكّم معتمد يفصل بوضوح وعدالة.
-        </Typography>
-        <Typography
-          sx={{
-            fontWeight: 700,
-            fontFamily: TAJAWAL,
-            fontSize: { xs: "1.4rem", md: "1.8rem" },
-            lineHeight: 1.8,
-            color: "#023B4E",
-          }}
-        >
-          ٤. نخدم عملاءنا بخبرة تحكيم عقاري موثوقة ومعتمدة من الجهات الرسمية.
-        </Typography>
+      {/* Box يحتوي الفقرات */}
+      <Box
+        sx={{
+          border: `2px solid ${BORDER_COLOR}`, // حدود الصندوق
+          borderRadius: 3,
+          p: { xs: 5, md: 8 }, // padding داخلي
+          display: "flex",
+          flexDirection: "column",
+          gap: 3, // فجوة بين الفقرات
+          backgroundColor: "#fff",
+        }}
+      >
+        {/* Paragraphs / Points */}
+        {[
+          '١. نوفّر خدمة "محكّم معتمد" لحل النزاعات العقارية باحترافية وحيادية.',
+          '٢. رأي قانوني خبير من محكّمين معتمدين لضمان حقوق جميع الأطراف.',
+          '٣. عند الخلاف… لا تحتار، معنا محكّم معتمد يفصل بوضوح وعدالة.',
+          '٤. نخدم عملاءنا بخبرة تحكيم عقاري موثوقة ومعتمدة من الجهات الرسمية.',
+        ].map((text, index) => (
+          <Typography
+            key={index}
+            sx={{
+              fontWeight: 700,
+              fontFamily: TAJAWAL,
+              fontSize: { xs: "1.5rem", md: "1.8rem" },
+              lineHeight: 1.8,
+              color: "#023B4E",
+              textAlign: "right",
+            }}
+          >
+            {text}
+          </Typography>
+        ))}
       </Box>
     </Container>
   );
