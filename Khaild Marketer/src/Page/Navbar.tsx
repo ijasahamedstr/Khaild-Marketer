@@ -14,8 +14,8 @@ import {
   ListItemText,
   Menu,
   MenuItem,
+  useMediaQuery,
 } from "@mui/material";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import MenuIcon from "@mui/icons-material/Menu";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
@@ -92,17 +92,11 @@ export default function Navbar() {
   };
 
   const currentPath = normalize(location.pathname);
-
   const projectParentPaths = ["/projects", "/أقسامنا"];
-
   const isActive = (path: string) => {
     const np = normalize(path);
-    return (
-      currentPath === np ||
-      (np !== "/" && currentPath.startsWith(np + "/"))
-    );
+    return currentPath === np || (np !== "/" && currentPath.startsWith(np + "/"));
   };
-
   const isProjectParentActive = () =>
     projectParentPaths.some((pp) => {
       const npp = normalize(pp);
@@ -122,18 +116,27 @@ export default function Navbar() {
           zIndex: 1201,
         }}
       >
-        {/* ✅ FULL WIDTH – NO SIDE SPACE */}
         <Container maxWidth={false} sx={{ px: 0 }}>
           <Toolbar
             disableGutters
             sx={{
-              px: 0,
+              px: 3,
               justifyContent: isDesktop ? "flex-start" : "space-between",
-              gap: 2,
+              gap: isDesktop ? 6 : 2,
+              alignItems: "center",
             }}
           >
             {/* LOGO */}
-            <Box component={Link} to="/" sx={{ textDecoration: "none", mr: 2 }}>
+            <Box
+              component={Link}
+              to="/"
+              sx={{
+                textDecoration: "none",
+                mr: isDesktop ? 6 : 0,
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
               <Box
                 component="img"
                 src="https://i.ibb.co/yn0gbKdZ/Gemini-Generated-Image-pua0mbpua0mbpua0-removebg-preview.png"
@@ -153,15 +156,12 @@ export default function Navbar() {
                         sx={{
                           fontSize: "20px",
                           fontFamily: menuFont,
-                          color: isProjectParentActive()
-                            ? activeColor
-                            : "white",
+                          color: isProjectParentActive() ? activeColor : "white",
                         }}
                       >
                         {label}
                         <KeyboardArrowDownIcon />
                       </Button>
-
                       <Menu
                         anchorEl={projectsMenuAnchor}
                         open={Boolean(projectsMenuAnchor)}
@@ -177,12 +177,8 @@ export default function Navbar() {
                             sx={{
                               fontFamily: menuFont,
                               fontSize: "18px",
-                              backgroundColor: isActive(item.path)
-                                ? activeBg
-                                : "transparent",
-                              color: isActive(item.path)
-                                ? activeColor
-                                : "black",
+                              backgroundColor: isActive(item.path) ? activeBg : "transparent",
+                              color: isActive(item.path) ? activeColor : "black",
                             }}
                           >
                             {item.label}
@@ -285,8 +281,7 @@ export default function Navbar() {
                 width: 40,
                 height: 40,
                 borderRadius: "50%",
-                background:
-                  "linear-gradient(135deg, #023B4E 0%, #06f9f3 100%)",
+                background: "linear-gradient(135deg, #023B4E 0%, #06f9f3 100%)",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
