@@ -1,4 +1,4 @@
-// src/Page/Service/Service02.tsx
+// src/Page/Service/Service05.tsx
 import React from "react";
 import {
   Box,
@@ -35,8 +35,8 @@ const Service05: React.FC<Props> = ({ onSubmit }) => {
     <Container
       maxWidth="lg"
       sx={{
-        mt: { xs: 4, md: 8 },
-        mb: { xs: 6, md: 12 },
+        mt: { xs: 8, md: 12 }, // MORE TOP SPACE
+        mb: { xs: 10, md: 16 }, // MORE BOTTOM SPACE
         direction: "rtl",
         px: { xs: 2, md: 4 },
         fontFamily: TAJAWAL,
@@ -46,7 +46,7 @@ const Service05: React.FC<Props> = ({ onSubmit }) => {
       <Box
         sx={{
           textAlign: "center",
-          mb: 5, // مسافة أكبر أسفل الهيدينج
+          mb: 6,
           animation: `${float} 6s ease-in-out infinite`,
         }}
       >
@@ -62,45 +62,54 @@ const Service05: React.FC<Props> = ({ onSubmit }) => {
         </Typography>
       </Box>
 
-      <Box sx={{ textAlign: "Right" }}>
-        {/* Text */}
-        <Typography
-          sx={{
-            fontWeight: 700,
-            fontFamily: TAJAWAL,
-            fontSize: "2rem", // حجم أكبر للنص
-            mb: 2,
-          }}
-        >
-          للتواصل مع قسم الاستلام والتسليم برجاء الاتصال على هذا الرقم
-        </Typography>
+      {/* Text */}
+      <Typography
+        sx={{
+          fontWeight: 700,
+          fontFamily: TAJAWAL,
+          fontSize: "2rem",
+          mb: 5,
+          textAlign: "center",
+        }}
+      >
+        للتواصل مع قسم الاستلام والتسليم برجاء الاتصال على هذا الرقم
+      </Typography>
 
-        {/* WhatsApp Icon + Number BELOW */}
+      {/* NUMBER CENTERED WITH OUTLINE */}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          mb: 6,
+        }}
+      >
         <Box
           sx={{
-            display: "inline-flex",
+            display: "flex",
             alignItems: "center",
-            gap: 1,
-            mt: 1,
+            gap: 2,
+            px: 4,
+            py: 2,
+            border: "2px solid #25D366",
+            borderRadius: 3,
+            backgroundColor: "rgba(37,211,102,0.05)",
           }}
         >
           <IconButton
             aria-label="whatsapp"
             sx={{
-              bgcolor: "rgba(37,211,102,0.08)",
-              border: "1px solid rgba(37,211,102,0.12)",
-              "&:hover": { bgcolor: "rgba(37,211,102,0.12)" },
-              p: 1,
+              bgcolor: "rgba(37,211,102,0.15)",
+              "&:hover": { bgcolor: "rgba(37,211,102,0.25)" },
             }}
           >
-            <WhatsAppIcon sx={{ color: "#25D366" }} />
+            <WhatsAppIcon sx={{ color: "#25D366", fontSize: 30 }} />
           </IconButton>
 
           <Typography
             sx={{
               fontFamily: TAJAWAL,
-              fontSize: "2rem", // رقم أكبر
-              fontWeight: 700,
+              fontSize: "2rem",
+              fontWeight: 800,
               color: "#023B4E",
             }}
             dir="ltr"
@@ -109,23 +118,20 @@ const Service05: React.FC<Props> = ({ onSubmit }) => {
           </Typography>
         </Box>
       </Box>
-      <Box
-        sx={{
-          mt: 4,
-          display: "flex",         // لتفعيل Flexbox
-          justifyContent: "center", // لجعل المحتوى في الوسط
-        }}
-      >
+
+      {/* Button */}
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
         <Button
           onClick={handleSubmit}
           variant="contained"
           sx={{
-            px: 5,
-            py: 1.2,
+            px: 6,
+            py: 1.4,
             fontSize: "1rem",
             fontWeight: 700,
             fontFamily: TAJAWAL,
-            background: "linear-gradient(135deg,#023B4E 0%, #06f9f3 100%)",
+            background:
+              "linear-gradient(135deg,#023B4E 0%, #06f9f3 100%)",
             color: "#fff",
             borderRadius: 2,
             boxShadow: "0 8px 28px rgba(2,59,78,0.12)",
@@ -135,8 +141,6 @@ const Service05: React.FC<Props> = ({ onSubmit }) => {
           إرسال
         </Button>
       </Box>
-
- 
     </Container>
   );
 };
