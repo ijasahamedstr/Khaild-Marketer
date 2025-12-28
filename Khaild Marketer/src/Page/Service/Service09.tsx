@@ -111,6 +111,13 @@ const Service09: React.FC = () => {
 
   /* ---------- MEASURE CARD WIDTH ---------- */
 
+    React.useEffect(() => {
+      const t = setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }, 120);
+      return () => clearTimeout(t);
+    }, []);
+
   React.useEffect(() => {
     const calc = () => {
       const el = sliderRef.current;
