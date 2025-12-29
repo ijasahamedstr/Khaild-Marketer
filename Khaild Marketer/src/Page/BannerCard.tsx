@@ -14,18 +14,26 @@ const BannerCard: React.FC = () => {
     >
       <Container maxWidth="xl">
         {/* ===== صورة رئيسية Responsive في الأعلى ===== */}
-        <Box
-          component="img"
-          src="https://i.ibb.co/Zp0m4B0L/w-2.webp" // ضع رابط الصورة الفعلي هنا
-          alt="Banner"
-          sx={{
-            width: "95%",
-            height: "100%",
-            objectFit: "cover",
-            borderRadius: 2,
-            mb: { xs: 4, md: 6 },
-          }}
-        />
+            <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  mb: 4,
+                }}
+              >
+                <Box
+                  component="img"
+                  src="https://i.ibb.co/Zp0m4B0L/w-2.webp" // ضع رابط الصورة هنا
+                  alt="خدماتنا"
+                  sx={{
+                    width: { xs: "100%", md: 700 },
+                    height: { xs: "auto", md: 700 },
+                    // objectFit: "cover",
+                    borderRadius: 3,
+                    boxShadow: "0 10px 30px rgba(0,0,0,0.12)",
+                  }}
+                />
+              </Box>
 
         {/* المحتوى الرئيسي */}
         <Box

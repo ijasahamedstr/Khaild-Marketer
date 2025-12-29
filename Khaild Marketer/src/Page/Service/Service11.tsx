@@ -36,7 +36,7 @@ const Service11: React.FC = () => {
           mb: { xs: 6, md: 8 },
         }}
       >
-        محكم معتمد
+        محكّم معتمد
       </Typography>
 
       {/* Box يحتوي الفقرات */}
