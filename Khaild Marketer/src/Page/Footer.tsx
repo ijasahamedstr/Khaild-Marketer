@@ -161,7 +161,6 @@ const Footer: React.FC = () => {
                 <br />
                 مكتب الدوحة - قطر
               </Typography>
-
             </Box>
 
             <Divider
@@ -224,7 +223,6 @@ const Footer: React.FC = () => {
                 الجمعة: مغلق
               </Typography>
 
-              {/* Partners Section - always on one line (no wrap) */}
               <Typography
                 variant="h6"
                 sx={{ mt: 3, mb: 1.5, fontSize: "1.15rem", fontWeight: 700, fontFamily: "Tajawal, sans-serif" }}
@@ -236,17 +234,14 @@ const Footer: React.FC = () => {
                 role="list"
                 sx={{
                   display: "flex",
-                  flexWrap: "nowrap",    // يمنع الالتفاف لسطر ثاني
+                  flexWrap: "nowrap",
                   gap: 2,
                   alignItems: "center",
                   justifyContent: "center",
-                  overflowX: "auto",     // يتيح السحب أفقيًا على الشاشات الضيقة
+                  overflowX: "auto",
                   WebkitOverflowScrolling: "touch",
                   pb: 1,
-                  // إخفاء شريط التمرير في بعض المتصفحات (تجميل)
-                  "&::-webkit-scrollbar": {
-                    height: 6,
-                  },
+                  "&::-webkit-scrollbar": { height: 6 },
                   "&::-webkit-scrollbar-thumb": {
                     background: "rgba(255,255,255,0.14)",
                     borderRadius: 3,
@@ -268,7 +263,6 @@ const Footer: React.FC = () => {
                       minWidth: { xs: 70, sm: 80, md: 85 },
                       px: 0.5,
                       py: 0.5,
-                      backgroundColor: "transparent",
                       borderRadius: 1,
                       transition: "transform 0.22s, box-shadow 0.22s",
                       "&:hover": {
@@ -284,9 +278,7 @@ const Footer: React.FC = () => {
                       sx={{
                         width: { xs: 60, sm: 70, md: 85 },
                         height: "auto",
-                        opacity: 0.95,
                         objectFit: "contain",
-                        display: "block",
                       }}
                     />
                   </Box>
@@ -314,13 +306,7 @@ const Footer: React.FC = () => {
             Copyright © 2026 | Khalid Marketer All rights reserved
           </Typography>
 
-          <Box
-            sx={{
-              display: { xs: "none", md: "flex" },
-              gap: 1.3,
-              fontFamily: "Tajawal, sans-serif",
-            }}
-          >
+          <Box sx={{ display: { xs: "none", md: "flex" }, gap: 1.3 }}>
             {navLinks.map((text, index, array) => (
               <React.Fragment key={text}>
                 <Link
@@ -330,7 +316,6 @@ const Footer: React.FC = () => {
                     fontSize: "1rem",
                     color: "#FFF",
                     "&:hover": { color: "#9eefff" },
-                    fontFamily: "Tajawal, sans-serif",
                   }}
                 >
                   {text}

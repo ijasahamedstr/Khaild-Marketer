@@ -93,6 +93,7 @@ const Service03: React.FC<Props> = ({ onSubmit }) => {
     } else {
       setIsChecked1(false);
       setIsChecked2(true);
+      setDeveloper(""); // Clear developer when مستأجر is selected
     }
   };
 
@@ -244,14 +245,16 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
         <TextField fullWidth placeholder="المنطقة الوسطى - الرياض - شمال الرياض" value={location} onChange={(e) => setLocation(e.target.value)} sx={{ "& .MuiInputBase-input": { fontSize: "1.8rem", WebkitTextFillColor: "black" } }} />
       </Box>
 
-      {/* DEVELOPER */}
-      <Box sx={{ p: 2, borderRadius: 3, border: "1px solid #eef3f3", mt: 3 }}>
-        <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR }}>
-          <LocationCityIcon />
-          <Typography sx={{ fontWeight: 700, fontSize: { xs: "1rem", md: "1.3rem" }, fontFamily: TAJAWAL }}>اسم المطور العقاري</Typography>
+      {/* DEVELOPER - HIDE IF مستأجر */}
+      {!isChecked2 && (
+        <Box sx={{ p: 2, borderRadius: 3, border: "1px solid #eef3f3", mt: 3 }}>
+          <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR }}>
+            <LocationCityIcon />
+            <Typography sx={{ fontWeight: 700, fontSize: { xs: "1rem", md: "1.3rem" }, fontFamily: TAJAWAL }}>اسم المطور العقاري</Typography>
+          </Box>
+          <TextField fullWidth placeholder="اسم المطور العقاري" value={developer} onChange={(e) => setDeveloper(e.target.value)} />
         </Box>
-        <TextField fullWidth placeholder="اسم المطور العقاري" value={developer} onChange={(e) => setDeveloper(e.target.value)} />
-      </Box>
+      )}
 
       {/* AREA */}
       <Box sx={{ p: 2, borderRadius: 3, border: "1px solid #eef3f3", mt: 3 }}>
@@ -268,16 +271,34 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
           <AccountBalanceWalletIcon />
           <Typography sx={{ fontWeight: 700, fontSize: { xs: "1rem", md: "1.3rem" }, fontFamily: TAJAWAL }}>سعر البيع</Typography>
         </Box>
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 1.5 }}>
-          <Checkbox checked={checkboxValues[0]} onChange={(e) => handleCheckboxChange(0, e.target.checked)} />
-          <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL }}>حد</Typography>
-          <TextField size="small" value={priceLimit} onChange={(e) => setPriceLimit(e.target.value)} sx={{ width: 220 }} type="text" />
-        </Box>
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-          <Checkbox checked={checkboxValues[1]} onChange={(e) => handleCheckboxChange(1, e.target.checked)} />
-          <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL }}>على السوم</Typography>
-          <TextField size="small" value={priceOffer} onChange={(e) => setPriceOffer(e.target.value)} sx={{ width: 220 }} type="text" />
-        </Box>
+
+        {isChecked2 ? (
+          <Typography sx={{ fontFamily: TAJAWAL, fontSize: "1.2rem", color: "#555" }}>
+               <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 1.5 }}>
+              <Checkbox checked={checkboxValues[0]} onChange={(e) => handleCheckboxChange(0, e.target.checked)} />
+              <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL }}>حد</Typography>
+              <TextField size="small" value={priceLimit} onChange={(e) => setPriceLimit(e.target.value)} sx={{ width: 220 }} type="text" />
+            </Box>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+              <Checkbox checked={checkboxValues[1]} onChange={(e) => handleCheckboxChange(1, e.target.checked)} />
+              <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL }}>على السوم</Typography>
+              <TextField size="small" value={priceOffer} onChange={(e) => setPriceOffer(e.target.value)} sx={{ width: 220 }} type="text" />
+            </Box>
+          </Typography>
+        ) : (
+          <>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 1.5 }}>
+              <Checkbox checked={checkboxValues[0]} onChange={(e) => handleCheckboxChange(0, e.target.checked)} />
+              <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL }}>حد</Typography>
+              <TextField size="small" value={priceLimit} onChange={(e) => setPriceLimit(e.target.value)} sx={{ width: 220 }} type="text" />
+            </Box>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+              <Checkbox checked={checkboxValues[1]} onChange={(e) => handleCheckboxChange(1, e.target.checked)} />
+              <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL }}>على السوم</Typography>
+              <TextField size="small" value={priceOffer} onChange={(e) => setPriceOffer(e.target.value)} sx={{ width: 220 }} type="text" />
+            </Box>
+          </>
+        )}
       </Box>
 
       {/* NOTES */}
@@ -325,22 +346,24 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
 
         {/* NAME */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
-          <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 600, fontSize: '18px' }}> الاسم </Typography>
-          <TextField placeholder="ادخل الاسم" value={name} onChange={(e) => setName(e.target.value)} sx={{  flexGrow: 1,width: { xs: "100%", sm: "60%", md: "50%" }, }} />
+          <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL }}>الاسم</Typography>
+          <TextField fullWidth placeholder="أدخل اسمك" value={name} onChange={(e) => setName(e.target.value)} />
         </Box>
 
         {/* MOBILE */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-          <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 600, fontSize: '18px' }}> الجوال </Typography>
-          <TextField placeholder="ادخل الجوال" value={mobile} onChange={(e) => setMobile(e.target.value)} sx={{  flexGrow: 1,width: { xs: "100%", sm: "60%", md: "50%" }, }}/>
+          <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL }}>الجوال</Typography>
+          <TextField fullWidth placeholder="أدخل رقم الجوال" value={mobile} onChange={(e) => setMobile(e.target.value)} />
         </Box>
-
       </Box>
 
       {/* SUBMIT BUTTON */}
-      <Box sx={{ textAlign: "center", mt: 6, mb: 12 }}>
-        <Button variant="contained" onClick={handleSubmit} sx={{ fontSize: "1.4rem", px: 6, py: 1.5, borderRadius: 3, fontFamily: TAJAWAL, backgroundColor: "#1D4ED8" }}> ارسال </Button>
+      <Box sx={{ mt: 6, textAlign: "center" }}>
+        <Button variant="contained" color="primary" size="large" sx={{ fontFamily: TAJAWAL, fontWeight: 700, px: 8, py: 1.5, fontSize: "1.3rem" }} onClick={handleSubmit}>
+          إرسال الطلب
+        </Button>
       </Box>
+
     </Container>
   );
 };
