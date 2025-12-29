@@ -4,8 +4,6 @@ import {
   Box,
   Container,
   Typography,
-  FormControl,
-  Select,
   MenuItem,
   TextField,
   Button,
@@ -253,10 +251,10 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
             SelectProps={{ native: false }}
             sx={{ "& .MuiSelect-select": { fontSize: "1.2rem", color: "black", fontFamily: TAJAWAL, py: 1.5 } }}
           >
-            <MenuItem value="500,000 إلى 1,000,000" sx={{ fontFamily: TAJAWAL }}>من 500,000 إلى 1,000,000</MenuItem>
-            <MenuItem value="1,000,000 إلى 1,500,000" sx={{ fontFamily: TAJAWAL }}>من 1,000,000 إلى 1,500,000</MenuItem>
-            <MenuItem value="1,500,000 إلى 2,000,000" sx={{ fontFamily: TAJAWAL }}>من 1,500,000 إلى 2,000,000</MenuItem>
-            <MenuItem value="2,000,000 فأكثر" sx={{ fontFamily: TAJAWAL }}>من 2,000,000 فأكثر</MenuItem>
+            <MenuItem value="500,000 إلى 1,000,000" sx={{ fontFamily: TAJAWAL }}> <span style={{ marginRight: "0.5rem" }}>1,000,000</span> <span style={{ marginRight: "0.5rem" }}>إلى </span><span style={{ marginRight: "0.5rem" }}>500,000</span><span style={{ marginRight: "0.5rem" }}>من </span> </MenuItem>
+            <MenuItem value="1,000,000 إلى 1,500,000" sx={{ fontFamily: TAJAWAL }}><span style={{ marginRight: "0.5rem" }}>1,500,000</span> <span style={{ marginRight: "0.5rem" }}>إلى </span><span style={{ marginRight: "0.5rem" }}>1,000,000</span><span style={{ marginRight: "0.5rem" }}>من </span> </MenuItem>
+            <MenuItem value="1,500,000 إلى 2,000,000" sx={{ fontFamily: TAJAWAL }}><span style={{ marginRight: "0.5rem" }}>2,000,000</span> <span style={{ marginRight: "0.5rem" }}>إلى </span><span style={{ marginRight: "0.5rem" }}>1,500,000</span><span style={{ marginRight: "0.5rem" }}>من </span> </MenuItem>
+            <MenuItem value="2,000,000 فأكثر" sx={{ fontFamily: TAJAWAL }}><span style={{ marginRight: "0.5rem" }}>فأكثر</span><span style={{ marginRight: "0.5rem" }}>2,000,000</span><span style={{ marginRight: "0.5rem" }}>من </span> </MenuItem>
           </TextField>
         </Box>
       </Box>
