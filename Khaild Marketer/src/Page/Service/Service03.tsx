@@ -267,21 +267,25 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
 
       {/* PRICE */}
       <Box sx={{ p: 2, borderRadius: 3, border: "1px solid #eef3f3", mt: 3 }}>
-        <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR }}>
-          <AccountBalanceWalletIcon />
-          <Typography sx={{ fontWeight: 700, fontSize: { xs: "1rem", md: "1.3rem" }, fontFamily: TAJAWAL }}>سعر البيع</Typography>
-        </Box>
+      <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR }}>
+        <AccountBalanceWalletIcon />
+        <Typography sx={{ fontWeight: 700, fontSize: { xs: "1rem", md: "1.3rem" }, fontFamily: TAJAWAL }}>
+          {isChecked2 ? "سعر الإيجار" : "سعر البيع"}
+        </Typography>
+      </Box>
+
 
         {isChecked2 ? (
+          
           <Typography sx={{ fontFamily: TAJAWAL, fontSize: "1.2rem", color: "#555" }}>
                <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 1.5 }}>
               <Checkbox checked={checkboxValues[0]} onChange={(e) => handleCheckboxChange(0, e.target.checked)} />
-              <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL }}>حد</Typography>
+              <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL }}>من</Typography>
               <TextField size="small" value={priceLimit} onChange={(e) => setPriceLimit(e.target.value)} sx={{ width: 220 }} type="text" />
             </Box>
             <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
               <Checkbox checked={checkboxValues[1]} onChange={(e) => handleCheckboxChange(1, e.target.checked)} />
-              <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL }}>على السوم</Typography>
+              <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL }}>إلى</Typography>
               <TextField size="small" value={priceOffer} onChange={(e) => setPriceOffer(e.target.value)} sx={{ width: 220 }} type="text" />
             </Box>
           </Typography>
