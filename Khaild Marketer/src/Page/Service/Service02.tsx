@@ -4,9 +4,6 @@ import {
   Box,
   Container,
   Typography,
-  FormControl,
-  Select,
-  MenuItem,
   TextField,
   Button,
   Checkbox,
@@ -62,7 +59,7 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
   }, []);
 
   const [dropdownValues, setDropdownValues] =
-    React.useState<Record<number, string>>({});
+    React.useState<Record<number, string[]>>({});
   const [notes, setNotes] = React.useState("");
   const [search] = React.useState("");
 
@@ -86,10 +83,6 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
     false,
   ]);
 
-  const handleDropdownChange = (index: number, value: string) => {
-    setDropdownValues((prev) => ({ ...prev, [index]: value }));
-  };
-
   const handleCheckboxChange = (index: number, value: boolean) => {
     const updated = [...checkboxValues];
     updated[index] = value;
@@ -100,7 +93,7 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
     return `
 🛒 *طلب بيع عقار جديد*
 
-🏠 *نوع العقار:* ${dropdownValues[0] || "غير محدد"}
+🏠 *نوع العقار:* ${dropdownValues[0]?.join(", ") || "غير محدد"}
 📍 *الموقع:* ${location || "غير محدد"}
 🏗 *اسم المطور العقاري:* ${developer || "غير محدد"}
 📐 *المساحة:* ${area || "غير محدد"}
@@ -131,7 +124,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
     }
     if (onSubmit) {
       onSubmit({
-        dropdowns: DROPDOWN_FIELDS.map((_, i) => dropdownValues[i] || ""),
+        dropdowns: DROPDOWN_FIELDS.map((_, i) => dropdownValues[i]?.join(",") || ""),
         notes,
         search,
         channels,
@@ -145,17 +138,17 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
     window.open(whatsappURL, "_blank");
 
     // ---------------- RESET ALL FIELDS ----------------
-  setDropdownValues({});
-  setNotes("");
-  setChannels({ chat: true, whatsapp: true, call: false });
-  setName("");
-  setMobile("");
-  setLocation("");
-  setDeveloper("");
-  setArea("");
-  setPriceLimit("");
-  setPriceOffer("");
-  setCheckboxValues([false, false]);
+    setDropdownValues({});
+    setNotes("");
+    setChannels({ chat: true, whatsapp: true, call: false });
+    setName("");
+    setMobile("");
+    setLocation("");
+    setDeveloper("");
+    setArea("");
+    setPriceLimit("");
+    setPriceOffer("");
+    setCheckboxValues([false, false]);
   };
 
   return (
@@ -178,7 +171,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
             fontFamily: TAJAWAL,
           }}
         >
-           بيع العقار
+          بيع العقار
         </Typography>
       </Box>
 
@@ -193,7 +186,8 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
               border: "1px solid #eef3f3",
             }}
           >
-            <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR }}>
+            {/* Label + Icon */}
+            <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR }}>
               {field.icon}
               <Typography
                 sx={{
@@ -206,25 +200,44 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
               </Typography>
             </Box>
 
-            <FormControl fullWidth>
-              <Select
-                value={dropdownValues[i] || ""}
-                onChange={(e) =>
-                  handleDropdownChange(i, e.target.value as string)
-                }
-                displayEmpty
-                sx={{ fontFamily: TAJAWAL }}
-              >
-                <MenuItem value="">
-                  <em>{field.label}</em>
-                </MenuItem>
-                {field.options.map((opt, idx) => (
-                  <MenuItem key={idx} value={opt}>
-                    {opt}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            {/* Checkboxes Grid */}
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: "repeat(3, 1fr)",
+                gap: 1,
+              }}
+            >
+              {field.options.map((opt, idx) => (
+                <FormControlLabel
+                  key={idx}
+                  control={
+                    <Checkbox
+                      checked={dropdownValues[i]?.includes(opt) || false}
+                      onChange={(e) => {
+                        const prev = dropdownValues[i] || [];
+                        const newValues = [...prev];
+                        if (e.target.checked) {
+                          newValues.push(opt);
+                        } else {
+                          const index = newValues.indexOf(opt);
+                          if (index > -1) newValues.splice(index, 1);
+                        }
+                        setDropdownValues({ ...dropdownValues, [i]: newValues });
+                      }}
+                    />
+                  }
+                  label={opt}
+                  sx={{
+                    fontFamily: TAJAWAL,
+                    "& .MuiTypography-root": {
+                      fontSize: { xs: "1rem", sm: "1.2rem", md: "1.4rem" },
+                      fontFamily: TAJAWAL,
+                    },
+                  }}
+                />
+              ))}
+            </Box>
           </Box>
         ))}
       </Box>
@@ -236,7 +249,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
           <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR }}>
             <HomeWorkIcon />
             <Typography sx={{ fontWeight: 700, fontSize: { xs: "1rem", md: "1.3rem" }, fontFamily: TAJAWAL }}>
-                 الموقع
+              الموقع
             </Typography>
           </Box>
           <TextField
@@ -343,7 +356,22 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
             label={<Typography sx={{ fontFamily: TAJAWAL ,fontSize:'18px'}}> الرجاء التواصل على الرقم </Typography>}
           />
           <Box sx={{ flexGrow: 1, textAlign: "center", marginLeft: "150px" }}>
-            <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 800, fontSize: "17px", direction: "ltr", color: "#ffffff", background: "linear-gradient(135deg, #2563eb, #1e40af)", px:3, py:1, borderRadius:"999px", display:"inline-block", boxShadow:"0 6px 20px rgba(37,99,235,0.35)", letterSpacing:"0.5px"}}>
+            <Typography
+              sx={{
+                fontFamily: TAJAWAL,
+                fontWeight: 800,
+                fontSize: "20px",
+                direction: "ltr",
+                color: "#1D4ED8", // Blue text color
+                backgroundColor: "#F8FAFC", // Light gray background
+                px: 3,
+                py: 1,
+                borderRadius: "999px",
+                display: "inline-block",
+                boxShadow: "0 6px 20px rgba(37,99,235,0.35)",
+                letterSpacing: "0.5px",
+              }}
+            >
               📞 +966 00 000 0000
             </Typography>
           </Box>
