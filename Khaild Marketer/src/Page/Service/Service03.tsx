@@ -295,13 +295,20 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
         </Box>
       )}
 
-      {/* AREA */}
-      <Box sx={{ p: 2, borderRadius: 3, border: "1px solid #eef3f3", mt: 3 }}>
-        <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR }}>
-          <StraightenIcon />
-          <Typography sx={{ fontWeight: 700, fontSize: { xs: "1rem", md: "1.3rem" }, fontFamily: TAJAWAL }}>المساحة</Typography>
-        </Box>
-        <TextField fullWidth placeholder="المساحة" value={area} onChange={(e) => setArea(e.target.value)} 	   sx={{
+      
+      {/* AREA - HIDDEN IF مستأجر (isChecked2) */}
+      {!isChecked2 && dropdownValues[0] !== "شقة" && (
+        <Box sx={{ p: 2, borderRadius: 3, border: "1px solid #eef3f3", mt: 3 }}>
+          <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR }}>
+            <StraightenIcon />
+            <Typography>المساحة</Typography>
+          </Box>
+          <TextField
+            fullWidth
+            placeholder="المساحة"
+            value={area}
+            onChange={(e) => setArea(e.target.value)}
+            sx={{
               "& .MuiInputBase-input": {
                 fontSize: "1.8rem",
                 color: "black",
@@ -312,8 +319,10 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
                 opacity: 0.7,
               },
             }}
- />
-      </Box>
+          />
+        </Box>
+      )}
+
 
       {/* PRICE */}
       <Box sx={{ p: 2, borderRadius: 3, border: "1px solid #eef3f3", mt: 3 }}>
