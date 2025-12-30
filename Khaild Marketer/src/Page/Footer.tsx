@@ -10,12 +10,15 @@ import {
 } from "@mui/material";
 import { Facebook, Instagram, Email, Phone } from "@mui/icons-material";
 
+// تعريف متغير الخط
+const TAJAWAL = "'Tajawal', sans-serif";
+
 const Footer: React.FC = () => {
   const socialItems = [
-    { icon: <Phone sx={{ fontSize: 24 }} />, link: "#", label: "اتصال" },
-    { icon: <Email sx={{ fontSize: 24 }} />, link: "#", label: "بريد" },
-    { icon: <Facebook sx={{ fontSize: 24 }} />, link: "https://facebook.com", label: "فيسبوك" },
-    { icon: <Instagram sx={{ fontSize: 24 }} />, link: "https://instagram.com", label: "انستجرام" },
+    { icon: <Phone sx={{ fontSize: 28 }} />, link: "#", label: "اتصال" },
+    { icon: <Email sx={{ fontSize: 28 }} />, link: "#", label: "بريد" },
+    { icon: <Facebook sx={{ fontSize: 28 }} />, link: "https://facebook.com", label: "فيسبوك" },
+    { icon: <Instagram sx={{ fontSize: 28 }} />, link: "https://instagram.com", label: "انستجرام" },
   ];
 
   const partners = [
@@ -31,62 +34,24 @@ const Footer: React.FC = () => {
       href: "#",
       label: "شريك 2",
     },
-    // يمكن إضافة شركاء آخرين هنا إذا رغبت
   ];
 
   const navLinks = ["الرئيسية", "معرض المشاريع", "المشاريع", "الخبرات", "اتصل بنا"];
 
   return (
-    <Box
-      component="footer"
-      sx={{ direction: "rtl", fontFamily: "'Tajawal', sans-serif" }}
-    >
+    <Box component="footer" sx={{ direction: "rtl", fontFamily: TAJAWAL }}>
       {/* Main Footer Section */}
-      <Box
-        sx={{
-          background: "#023B4E",
-          color: "#fff",
-          py: { xs: 5, sm: 6 },
-          px: { xs: 2, sm: 4 },
-        }}
-      >
-        <Container maxWidth="lg">
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: { xs: "column", md: "row" },
-              justifyContent: "space-between",
-              alignItems: { xs: "center", md: "flex-start" },
-              gap: 4,
-              textAlign: { xs: "center", md: "right" },
-            }}
-          >
-            {/* Logo & Social Icons */}
-            <Box
-              sx={{
-                flexBasis: { xs: "100%", md: "25%" },
-                display: "flex",
-                flexDirection: "column",
-                alignItems: { xs: "center", md: "flex-end" },
-                gap: 2,
-              }}
-            >
-              <Box
-                component="img"
-                src="https://i.ibb.co/yn0gbKdZ/Gemini-Generated-Image-pua0mbpua0mbpua0-removebg-preview.png"
-                alt="شعار الشركة"
-                sx={{
-                  width: { xs: 180, sm: 200, md: 230 },
-                  height: "auto",
-                  mb: 1,
-                }}
-              />
-
-              <Typography variant="body2" sx={{ fontWeight: 600, fontSize: "1rem", fontFamily: "Tajawal, sans-serif" }}>
+      <Box sx={{ background: "#023B4E", color: "#fff", py: { xs: 6, sm: 8 }, px: { xs: 3, sm: 6 } }}>
+        <Container maxWidth="xl">
+          <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, justifyContent: "space-between", alignItems: { xs: "center", md: "flex-start" }, gap: 6, textAlign: { xs: "center", md: "right" } }}>
+            
+            {/* Column 1: Logo & Social */}
+            <Box sx={{ flexBasis: { xs: "100%", md: "22%" }, display: "flex", flexDirection: "column", alignItems: { xs: "center", md: "flex-end" }, gap: 3 }}>
+              <Box component="img" src="https://i.ibb.co/yn0gbKdZ/Gemini-Generated-Image-pua0mbpua0mbpua0-removebg-preview.png" alt="شعار الشركة" sx={{ width: { xs: 180, sm: 200, md: 240 }, height: "auto", mb: 2 }} />
+              <Typography variant="body1" sx={{ fontWeight: 700, fontSize: "1.1rem", fontFamily: TAJAWAL }}>
                 تواصل معنا
               </Typography>
-
-              <Box sx={{ display: "flex", gap: 1, justifyContent: "center" }}>
+              <Box sx={{ display: "flex", gap: 1.5, justifyContent: "center" }}>
                 {socialItems.map((item, index) => (
                   <IconButton
                     key={index}
@@ -94,15 +59,11 @@ const Footer: React.FC = () => {
                     target="_blank"
                     sx={{
                       color: "#fff",
-                      backgroundColor: "rgba(255,255,255,0.18)",
+                      backgroundColor: "rgba(255,255,255,0.2)",
                       transition: "0.3s",
-                      "&:hover": {
-                        backgroundColor: "#fff",
-                        color: "#023B4E",
-                        transform: "scale(1.15)",
-                      },
-                      width: 42,
-                      height: 42,
+                      "&:hover": { backgroundColor: "#fff", color: "#023B4E", transform: "scale(1.2)" },
+                      width: 48,
+                      height: 48,
                     }}
                     aria-label={item.label}
                   >
@@ -112,50 +73,19 @@ const Footer: React.FC = () => {
               </Box>
             </Box>
 
-            <Divider
-              orientation="vertical"
-              flexItem
-              sx={{
-                display: { xs: "none", md: "block" },
-                borderColor: "rgba(255,255,255,0.2)",
-              }}
-            />
+            <Divider orientation="vertical" flexItem sx={{ display: { xs: "none", md: "block" }, borderColor: "rgba(255,255,255,0.25)" }} />
 
-            {/* Address */}
-            <Box sx={{ flexBasis: { xs: "100%", md: "25%" } }}>
-              <Typography
-                variant="h6"
-                sx={{ mb: 1.5, fontSize: "1.15rem", fontWeight: 700, fontFamily: "Tajawal, sans-serif" }}
-              >
+            {/* Column 2: Address */}
+            <Box sx={{ flexBasis: { xs: "100%", md: "22%" } }}>
+              <Typography variant="h6" sx={{ mb: 2, fontSize: "1.2rem", fontWeight: 700, fontFamily: TAJAWAL }}>
                 العنوان
               </Typography>
-              <Typography
-                variant="body2"
-                sx={{
-                  lineHeight: 1.8,
-                  fontSize: "0.95rem",
-                  maxWidth: 260,
-                  fontFamily: "Tajawal, sans-serif",
-                  direction: "rtl",
-                }}
-              >
+              <Typography variant="body1" sx={{ lineHeight: 2, fontSize: "1rem", maxWidth: 280, direction: "rtl", fontFamily: TAJAWAL }}>
                 Khalid Marketer
                 <br />
                 ص.ب 23693
                 <br />
-                هاتف:{" "}
-                <Box
-                  component="span"
-                  sx={{
-                    direction: "ltr",
-                    unicodeBidi: "bidi-override",
-                    display: "inline-block",
-                    fontWeight: 600,
-                    letterSpacing: "0.5px",
-                  }}
-                >
-                  +974 000 000 0000
-                </Box>
+                هاتف: <Box component="span" sx={{ direction: "ltr", unicodeBidi: "bidi-override", fontWeight: 700, fontFamily: TAJAWAL }}>+974 000 000 0000</Box>
                 <br />
                 المنتزه، شارع الروابي، الدوحة
                 <br />
@@ -163,89 +93,48 @@ const Footer: React.FC = () => {
               </Typography>
             </Box>
 
-            <Divider
-              orientation="vertical"
-              flexItem
-              sx={{
-                display: { xs: "none", md: "block" },
-                borderColor: "rgba(255,255,255,0.2)",
-              }}
-            />
+            <Divider orientation="vertical" flexItem sx={{ display: { xs: "none", md: "block" }, borderColor: "rgba(255,255,255,0.25)" }} />
 
-            {/* Contact */}
-            <Box sx={{ flexBasis: { xs: "100%", md: "25%" } }}>
-              <Typography
-                variant="h6"
-                sx={{ mb: 1.5, fontSize: "1.15rem", fontWeight: 700, fontFamily: "Tajawal, sans-serif" }}
-              >
+            {/* Column 3: Contact */}
+            <Box sx={{ flexBasis: { xs: "100%", md: "18%" } }}>
+              <Typography variant="h6" sx={{ mb: 2, fontSize: "1.2rem", fontWeight: 700, fontFamily: TAJAWAL }}>
                 التواصل
               </Typography>
-              <Typography
-                variant="body2"
-                sx={{ lineHeight: 1.8, fontSize: "0.95rem", direction: "ltr", fontFamily: "Tajawal, sans-serif" }}
-              >
+              <Typography variant="body1" sx={{ lineHeight: 2, fontSize: "1rem", direction: "ltr", fontFamily: TAJAWAL }}>
                 +966 000 000 0000<br />
-                <Link
-                  href="mailto:info@almtcqatar.com"
-                  underline="hover"
-                  color="inherit"
-                  sx={{ "&:hover": { color: "#9eefff" }, fontSize: "0.95rem", fontFamily: "Tajawal, sans-serif" }}
-                >
+                <Link href="mailto:info@almtcqatar.com" underline="hover" color="inherit" sx={{ "&:hover": { color: "#9eefff" }, fontFamily: TAJAWAL }}>
                   info@almtcqatar.com
                 </Link>
               </Typography>
             </Box>
 
-            <Divider
-              orientation="vertical"
-              flexItem
-              sx={{
-                display: { xs: "none", md: "block" },
-                borderColor: "rgba(255,255,255,0.2)",
-              }}
-            />
+            <Divider orientation="vertical" flexItem sx={{ display: { xs: "none", md: "block" }, borderColor: "rgba(255,255,255,0.25)" }} />
 
-            {/* Opening Hours + Partners */}
-            <Box sx={{ flexBasis: { xs: "100%", md: "25%" } }}>
-              <Typography
-                variant="h6"
-                sx={{ mb: 1.5, fontSize: "1.15rem", fontWeight: 700, fontFamily: "Tajawal, sans-serif" }}
-              >
-                تغيير في ساعات العمل
+            {/* Column 4: Opening Hours */}
+            <Box sx={{ flexBasis: { xs: "100%", md: "18%" } }}>
+              <Typography variant="h6" sx={{ mb: 2, fontSize: "1.2rem", fontWeight: 700, fontFamily: TAJAWAL }}>
+                ساعات العمل
               </Typography>
-
-              <Typography
-                variant="body2"
-                sx={{ lineHeight: 1.8, fontSize: "0.95rem", fontFamily: "Tajawal, sans-serif" }}
-              >
+              <Typography variant="body1" sx={{ lineHeight: 2, fontSize: "1rem", fontFamily: TAJAWAL }}>
                 من السبت إلى الخميس<br />
                 ٨:٠٠ صباحًا – ٦:٠٠ مساءً<br />
                 الجمعة: مغلق
               </Typography>
+            </Box>
 
-              <Typography
-                variant="h6"
-                sx={{ mt: 3, mb: 1.5, fontSize: "1.15rem", fontWeight: 700, fontFamily: "Tajawal, sans-serif" }}
-              >
-                شركاؤنا
-              </Typography>
+            <Divider orientation="vertical" flexItem sx={{ display: { xs: "none", md: "block" }, borderColor: "rgba(255,255,255,0.25)" }} />
 
+            {/* Column 5: Partners */}
+            <Box sx={{ flexBasis: { xs: "100%", md: "20%" } }}>
               <Box
                 role="list"
                 sx={{
                   display: "flex",
                   flexWrap: "nowrap",
-                  gap: 2,
+                  gap: 3,
                   alignItems: "center",
-                  justifyContent: "center",
                   overflowX: "auto",
-                  WebkitOverflowScrolling: "touch",
-                  pb: 1,
-                  "&::-webkit-scrollbar": { height: 6 },
-                  "&::-webkit-scrollbar-thumb": {
-                    background: "rgba(255,255,255,0.14)",
-                    borderRadius: 3,
-                  },
+                  pb: 2,
                 }}
               >
                 {partners.map((p, idx) => (
@@ -256,30 +145,13 @@ const Footer: React.FC = () => {
                     target="_blank"
                     rel="noopener"
                     aria-label={p.label}
-                    sx={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      minWidth: { xs: 70, sm: 80, md: 85 },
-                      px: 0.5,
-                      py: 0.5,
-                      borderRadius: 1,
-                      transition: "transform 0.22s, box-shadow 0.22s",
-                      "&:hover": {
-                        transform: "translateY(-4px) scale(1.02)",
-                        boxShadow: "0 6px 18px rgba(0,0,0,0.25)",
-                      },
-                    }}
+                    sx={{ display: "inline-flex", alignItems: "center", justifyContent: "center" }}
                   >
                     <Box
                       component="img"
                       src={p.src}
                       alt={p.alt}
-                      sx={{
-                        width: { xs: 60, sm: 70, md: 85 },
-                        height: "auto",
-                        objectFit: "contain",
-                      }}
+                      sx={{ width: { xs: 100, sm: 130, md: 150 }, height: "auto", objectFit: "contain" }}
                     />
                   </Box>
                 ))}
@@ -290,41 +162,19 @@ const Footer: React.FC = () => {
       </Box>
 
       {/* Bottom Bar */}
-      <Box sx={{ backgroundColor: "#001f26", py: 2.5 }}>
-        <Container
-          maxWidth="lg"
-          sx={{
-            display: "flex",
-            flexDirection: { xs: "column", sm: "row" },
-            justifyContent: "space-between",
-            alignItems: "center",
-            gap: 1,
-            color: "#fff",
-          }}
-        >
-          <Typography variant="body2" sx={{ fontSize: "0.95rem", fontFamily: "Tajawal, sans-serif" }}>
+      <Box sx={{ backgroundColor: "#001f26", py: 3 }}>
+        <Container maxWidth="xl" sx={{ display: "flex", flexDirection: { xs: "column", sm: "row" }, justifyContent: "space-between", alignItems: "center", gap: 2, color: "#fff" }}>
+          <Typography variant="body1" sx={{ fontSize: "1rem", fontFamily: TAJAWAL }}>
             Copyright © 2026 | Khalid Marketer All rights reserved
           </Typography>
 
-          <Box sx={{ display: { xs: "none", md: "flex" }, gap: 1.3 }}>
+          <Box sx={{ display: { xs: "none", md: "flex" }, gap: 2 }}>
             {navLinks.map((text, index, array) => (
               <React.Fragment key={text}>
-                <Link
-                  href="#"
-                  underline="hover"
-                  sx={{
-                    fontSize: "1rem",
-                    color: "#FFF",
-                    "&:hover": { color: "#9eefff" },
-                  }}
-                >
+                <Link href="#" underline="hover" sx={{ fontSize: "1.05rem", color: "#FFF", "&:hover": { color: "#9eefff" }, fontFamily: TAJAWAL }}>
                   {text}
                 </Link>
-                {index < array.length - 1 && (
-                  <Typography component="span" sx={{ mx: 0.7 }}>
-                    |
-                  </Typography>
-                )}
+                {index < array.length - 1 && <Typography component="span" sx={{ mx: 1, fontFamily: TAJAWAL }}>|</Typography>}
               </React.Fragment>
             ))}
           </Box>
