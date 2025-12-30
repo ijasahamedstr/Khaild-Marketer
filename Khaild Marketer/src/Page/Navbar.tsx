@@ -116,7 +116,7 @@ export default function Navbar() {
           zIndex: 1201,
         }}
       >
-        <Container maxWidth={false} sx={{ px: 0 }}>
+        <Container maxWidth={false} sx={{ px: 0 ,gap: isDesktop ? 8 : 2,}}>
           <Toolbar
             disableGutters
             sx={{
@@ -147,7 +147,7 @@ export default function Navbar() {
 
             {/* DESKTOP MENU */}
             {isDesktop ? (
-              <Box sx={{ display: "flex", gap: 5 }}>
+              <Box sx={{ display: "flex", gap: 5,  paddingRight: "70px", }}>
                 {pages.map(({ label, path }) =>
                   label === "أقسامنا" ? (
                     <React.Fragment key={label}>
