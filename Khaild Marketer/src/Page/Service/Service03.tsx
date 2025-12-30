@@ -466,7 +466,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
         {/* NAME */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
           <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL }}>الاسم</Typography>
-          <TextField fullWidth placeholder="أدخل اسمك" value={name} onChange={(e) => setName(e.target.value)} 	   sx={{
+          <TextField fullWidth placeholder="أدخل الاسم" value={name} onChange={(e) => setName(e.target.value)} 	   sx={{
               "& .MuiInputBase-input": {
                 fontSize: "1.8rem",
                 color: "black",
