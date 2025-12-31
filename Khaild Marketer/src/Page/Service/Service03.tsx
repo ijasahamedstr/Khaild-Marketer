@@ -467,6 +467,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
         <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
           <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL }}>الاسم</Typography>
           <TextField fullWidth  value={name} onChange={(e) => setName(e.target.value)} 	   sx={{
+              width: "40%",
               "& .MuiInputBase-input": {
                 fontSize: "1.8rem",
                 color: "black",
@@ -483,6 +484,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
           <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL }}>الجوال</Typography>
           <TextField fullWidth value={mobile} onChange={(e) => setMobile(e.target.value)} 	   sx={{
+              width: "40%",
               "& .MuiInputBase-input": {
                 fontSize: "1.8rem",
                 color: "black",
