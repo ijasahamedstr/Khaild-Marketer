@@ -15,7 +15,15 @@ const Service11: React.FC = () => {
   }, []);
 
   return (
-    <Container
+        <Box
+        sx={{
+          width: "100%",
+          minHeight: "100vh",
+          backgroundColor: "#D1D5DC", // ← change color here
+          py: { xs: 2, md: 4 },
+        }}
+        >
+          <Container
       maxWidth="lg"
       sx={{
         mt: { xs: 8, md: 12 },
@@ -26,18 +34,7 @@ const Service11: React.FC = () => {
       }}
     >
       {/* Heading */}
-      <Typography
-        variant="h4"
-        sx={{
-          fontWeight: 800,
-          fontFamily: TAJAWAL,
-          color: "#023B4E",
-          textAlign: "center",
-          mb: { xs: 6, md: 8 },
-        }}
-      >
-        محكّم معتمد
-      </Typography>
+    
 
       {/* Box يحتوي الفقرات */}
       <Box
@@ -51,6 +48,18 @@ const Service11: React.FC = () => {
           backgroundColor: "#fff",
         }}
       >
+          <Typography
+        variant="h4"
+        sx={{
+          fontWeight: 800,
+          fontFamily: TAJAWAL,
+          color: "#023B4E",
+          textAlign: "center",
+          mb: { xs: 6, md: 8 },
+        }}
+      >
+        محكّم معتمد
+      </Typography>
         {/* Paragraphs / Points */}
         {[
           '١. نوفّر خدمة "محكّم معتمد" لحل النزاعات العقارية باحترافية وحيادية.',
@@ -74,6 +83,8 @@ const Service11: React.FC = () => {
         ))}
       </Box>
     </Container>
+        </Box>
+    
   );
 };
 

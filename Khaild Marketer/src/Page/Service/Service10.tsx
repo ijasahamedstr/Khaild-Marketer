@@ -15,7 +15,15 @@ const Service10: React.FC = () => {
   }, []);
 
   return (
-    <Container
+        <Box
+        sx={{
+          width: "100%",
+          minHeight: "100vh",
+          backgroundColor: "#D1D5DC", // ← change color here
+          py: { xs: 2, md: 4 },
+        }}
+        >
+          <Container
       maxWidth="lg"
       sx={{
         mt: { xs: 8, md: 12 },
@@ -26,18 +34,7 @@ const Service10: React.FC = () => {
       }}
     >
       {/* Heading */}
-      <Typography
-        variant="h4"
-        sx={{
-          fontWeight: 800,
-          fontFamily: TAJAWAL,
-          color: "#023B4E",
-          textAlign: "center",
-          mb: { xs: 6, md: 8 },
-        }}
-      >
-        قسم التمويل العقاري
-      </Typography>
+
 
       {/* Box يحتوي الفقرة */}
       <Box
@@ -52,6 +49,18 @@ const Service10: React.FC = () => {
           textAlign: "center",
         }}
       >
+      <Typography
+        variant="h4"
+        sx={{
+          fontWeight: 800,
+          fontFamily: TAJAWAL,
+          color: "#023B4E",
+          textAlign: "center",
+          mb: { xs: 6, md: 8 },
+        }}
+      >
+        قسم التمويل العقاري
+      </Typography>
         <Typography
           sx={{
             fontWeight: 700,
@@ -68,6 +77,8 @@ const Service10: React.FC = () => {
         </Typography>
       </Box>
     </Container>
+  </Box>
+    
   );
 };
 

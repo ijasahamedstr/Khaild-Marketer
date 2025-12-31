@@ -15,7 +15,15 @@ const Service03: React.FC = () => {
   }, []);
 
   return (
-    <Container
+        <Box
+        sx={{
+          width: "100%",
+          minHeight: "100vh",
+          backgroundColor: "#D1D5DC", // ← change color here
+          py: { xs: 2, md: 4 },
+        }}
+        >
+      <Container
       maxWidth="lg"
       sx={{
         mt: { xs: 8, md: 12 },
@@ -26,19 +34,7 @@ const Service03: React.FC = () => {
       }}
     >
       {/* ===== Heading ===== */}
-      <Box sx={{ textAlign: "center", mb: { xs: 6, md: 10 } }}> {/* زيادة المسافة تحت العنوان */}
-        <Typography
-          variant="h4"
-          sx={{
-            fontWeight: 800,
-            fontFamily: TAJAWAL,
-            color: "#023B4E",
-          }}
-        >
-          النظام يجيب
-        </Typography>
-      </Box>
-
+      
       {/* ===== BOX يحتوي المحتوى ===== */}
       <Box
         sx={{
@@ -51,6 +47,19 @@ const Service03: React.FC = () => {
           backgroundColor: "#fff",
         }}
       >
+        <Box sx={{ textAlign: "center", mb: { xs: 6, md: 10 } }}> {/* زيادة المسافة تحت العنوان */}
+        <Typography
+          variant="h4"
+          sx={{
+            fontWeight: 800,
+            fontFamily: TAJAWAL,
+            color: "#023B4E",
+          }}
+        >
+          النظام يجيب
+        </Typography>
+      </Box>
+
         {/* Paragraph */}
         <Typography
           sx={{
@@ -67,6 +76,8 @@ const Service03: React.FC = () => {
         </Typography>
       </Box>
     </Container>
+  </Box>
+    
   );
 };
 

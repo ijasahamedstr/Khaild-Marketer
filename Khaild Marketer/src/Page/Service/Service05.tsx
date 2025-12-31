@@ -40,7 +40,15 @@ const Service05: React.FC<Props> = ({ onSubmit }) => {
   }, []);
 
   return (
-    <Container
+        <Box
+        sx={{
+          width: "100%",
+          minHeight: "100vh",
+          backgroundColor: "#D1D5DC", // ← change color here
+          py: { xs: 2, md: 4 },
+        }}
+        >
+           <Container
       maxWidth="lg"
       sx={{
         mt: { xs: 8, md: 12 },
@@ -51,7 +59,23 @@ const Service05: React.FC<Props> = ({ onSubmit }) => {
       }}
     >
       {/* ===== HEADING ===== */}
+     
+
+      {/* ===== BOX يحتوي النص + الرقم في مكان واحد ===== */}
       <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 4, // زيادة المسافة بين العناصر داخل البوكس
+          border: `2px solid ${BORDER_COLOR}`,
+          borderRadius: 3,
+          p: 5, // زيادة padding داخل البوكس
+          backgroundColor: "#fff",
+          textAlign: "center",
+        }}
+      >
+         <Box
         sx={{
           textAlign: "center",
           mb: 6, // زيادة المسافة بين العنوان والمحتوى
@@ -69,21 +93,6 @@ const Service05: React.FC<Props> = ({ onSubmit }) => {
           تسليم واستلام العقار
         </Typography>
       </Box>
-
-      {/* ===== BOX يحتوي النص + الرقم في مكان واحد ===== */}
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: 4, // زيادة المسافة بين العناصر داخل البوكس
-          border: `2px solid ${BORDER_COLOR}`,
-          borderRadius: 3,
-          p: 5, // زيادة padding داخل البوكس
-          backgroundColor: "#fff",
-          textAlign: "center",
-        }}
-      >
         {/* النص */}
         <Typography
           sx={{
@@ -156,6 +165,8 @@ const Service05: React.FC<Props> = ({ onSubmit }) => {
         </Button>
       </Box>
     </Container>
+        </Box>
+   
   );
 };
 

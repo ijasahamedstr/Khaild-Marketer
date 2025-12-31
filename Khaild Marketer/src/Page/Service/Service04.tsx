@@ -129,7 +129,16 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
   };
 
   return (
-    <Container
+        <Box
+        sx={{
+          width: "100%",
+          minHeight: "100vh",
+          backgroundColor: "#D1D5DC", // ← change color here
+          py: { xs: 2, md: 4 },
+        }}
+        >
+
+            <Container
       maxWidth="lg"
       sx={{
         mt: { xs: 4, md: 8 },
@@ -328,6 +337,8 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
         </FormControl>
       </Box>
     </Container>
+
+      </Box>
   );
 };
 
