@@ -203,16 +203,14 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
               </Typography>
 
               {r.hasInput && (
-                <TextField
+                  <DarkTextField
                   value={seventhText[i] ?? ""}
                   onChange={(e) => handleSeventhTextChange(i, e.target.value)}
                   variant="filled"
+                  fullWidth
                   hiddenLabel
-                  inputProps={{
-                    dir: "rtl",
-                    style: { fontFamily: TAJAWAL, color: "#000", fontSize: "14px" },
-                  }}
-                   sx={{
+                  inputProps={{ dir: "rtl", style: { fontFamily: TAJAWAL, color: "#000" } }}
+                  sx={{
                     width: "40%",
                     "& .MuiInputBase-input": {
                       fontSize: "1.8rem",
