@@ -353,6 +353,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
             value={area}
             onChange={(e) => setArea(e.target.value)}
              sx={{
+              width: "40%",
               "& .MuiInputBase-input": {
                 fontSize: "1.8rem",
                 color: "black",

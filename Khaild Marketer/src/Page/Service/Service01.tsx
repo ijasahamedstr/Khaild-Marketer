@@ -81,11 +81,35 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
   const [priceOffer, setPriceOffer] = React.useState("");
   const [checkboxValues, setCheckboxValues] = React.useState([false, false]);
 
+  const [isChecked1, setIsChecked1] = React.useState(false);
+  const [isChecked2, setIsChecked2] = React.useState(false);
+
+    const handleDeveloperCheckbox = (index: number) => {
+    if (index === 0) {
+      setIsChecked1(true);
+      setIsChecked2(false);
+    } else {
+      setIsChecked1(false);
+      setIsChecked2(true);
+      setDeveloper(""); // Clear developer when مستأجر is selected
+    }
+  };
+
+
   /* ---------------- HANDLERS ---------------- */
+
+   const propertyStatus = isChecked1
+  ? "جاهز"
+  : isChecked2
+  ? "على الخارطة"
+  : "غير محدد";
 
   /* ---------------- BUILD WHATSAPP MESSAGE ---------------- */
   const buildWhatsAppMessage = () => {
     return `
+
+🏷 *حالة العقار:* ${propertyStatus}
+
 🛒 *طلب شراء عقار جديد*
 
 🏠 *نوع العقار:* ${dropdownValues[0] || "غير محدد"}
@@ -169,6 +193,23 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
           شراء العقار
         </Typography>
       </Box>
+
+        <Box sx={{ display: "flex", gap: 2, mb: 4 }}>
+                    <Box sx={{ flex: 1, p: 2, borderRadius: 3, border: "1px solid #ADADAD", textAlign: "center" }}>
+                      <FormControlLabel
+                        sx={{ width: '50%' }}
+                        control={<Checkbox checked={isChecked1} onChange={() => handleDeveloperCheckbox(0)} sx={{ '& .MuiSvgIcon-root': { fontSize: 40 } }} />}
+                        label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: "1.5rem", fontWeight: 'bold' }}>جاهز</Typography>}
+                      />
+                    </Box>
+                    <Box sx={{ flex: 1, p: 2, borderRadius: 3, border: "1px solid #ADADAD", textAlign: "center" }}>
+                      <FormControlLabel
+                        sx={{ width: '50%' }}
+                        control={<Checkbox checked={isChecked2} onChange={() => handleDeveloperCheckbox(1)} sx={{ '& .MuiSvgIcon-root': { fontSize: 40 } }} />}
+                        label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: "1.5rem", fontWeight: 'bold' }}>على الخارطة</Typography>}
+                      />
+                    </Box>
+                  </Box>
 
       {/* ---------------- DROPDOWNS ---------------- */}
           <Box sx={{ display: "grid", gap: 3 }}>
@@ -258,6 +299,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
             </Typography>
           </Box>
           <TextField fullWidth  value={area} onChange={(e) => setArea(e.target.value)}    sx={{
+              width: "40%",
               "& .MuiInputBase-input": {
                 fontSize: "1.8rem",
                 color: "black",
