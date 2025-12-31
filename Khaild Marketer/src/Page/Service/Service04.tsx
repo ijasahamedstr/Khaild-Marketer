@@ -206,24 +206,23 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
                 <TextField
                   value={seventhText[i] ?? ""}
                   onChange={(e) => handleSeventhTextChange(i, e.target.value)}
-                  placeholder="أدخل قيمة..."
                   variant="filled"
                   hiddenLabel
                   inputProps={{
                     dir: "rtl",
                     style: { fontFamily: TAJAWAL, color: "#000", fontSize: "14px" },
                   }}
-                  sx={{
-                    width: "30%", // Textbox width
-                    "& .MuiInputBase-root": {
-                      backgroundColor: "rgba(255, 255, 255, 0.95)",
-                      transition: "none",
-                      "&:hover": { backgroundColor: "rgba(255, 255, 255, 0.95)" },
-                      "&.Mui-focused": { backgroundColor: "rgba(255, 255, 255, 0.95)", boxShadow: "none" },
+                   sx={{
+                    width: "40%",
+                    "& .MuiInputBase-input": {
+                      fontSize: "1.8rem",
+                      color: "black",
+                      WebkitTextFillColor: "black",
                     },
-                    "& .MuiInputBase-input": { padding: "12px 14px" },
-                    "& .MuiFilledInput-underline:before": { borderBottom: "none" },
-                    "& .MuiFilledInput-underline:after": { borderBottom: "none" },
+                    "& .MuiInputBase-input::placeholder": {
+                      fontSize: "1.8rem",
+                      opacity: 0.7,
+                    },
                   }}
                 />
               )}
@@ -276,11 +275,22 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
                 <DarkTextField
                   value={formData.name}
                   onChange={(e) => handleChange("name", e.target.value)}
-                  placeholder="أدخل الاسم"
                   fullWidth
                   variant="filled"
                   hiddenLabel
                   inputProps={{ dir: "rtl", style: { fontFamily: TAJAWAL, color: "#000" } }}
+                  sx={{
+                    width: "100%",
+                    "& .MuiInputBase-input": {
+                      fontSize: "1.8rem",
+                      color: "black",
+                      WebkitTextFillColor: "black",
+                    },
+                    "& .MuiInputBase-input::placeholder": {
+                      fontSize: "1.8rem",
+                      opacity: 0.7,
+                    },
+                  }}
                 />
               </Box>
             </Box>
@@ -302,11 +312,22 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
                 <DarkTextField
                   value={formData.mobile}
                   onChange={(e) => handleChange("mobile", e.target.value)}
-                  placeholder="أدخل رقم الجوال"
                   fullWidth
                   variant="filled"
                   hiddenLabel
                   inputProps={{ dir: "rtl", style: { fontFamily: TAJAWAL, color: "#000" } }}
+                  sx={{
+                    width: "100%",
+                    "& .MuiInputBase-input": {
+                      fontSize: "1.8rem",
+                      color: "black",
+                      WebkitTextFillColor: "black",
+                    },
+                    "& .MuiInputBase-input::placeholder": {
+                      fontSize: "1.8rem",
+                      opacity: 0.7,
+                    },
+                  }}
                 />
               </Box>
             </Box>
@@ -337,8 +358,7 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
         </FormControl>
       </Box>
     </Container>
-
-      </Box>
+  </Box>
   );
 };
 

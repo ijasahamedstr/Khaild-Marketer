@@ -81,6 +81,19 @@ const Service11: React.FC = () => {
             {text}
           </Typography>
         ))}
+
+                    <Box
+                      component="img"
+                      src="https://i.ibb.co/dJGXTPDR/2.jpg"
+                      alt="خدماتنا"
+                      sx={{
+                        width: { xs: "100%", md: "100%" }, // responsive width
+                        height: { xs: "100%", md: "100%" }, // responsive height
+                        borderRadius: 3,
+                        boxShadow: "0 10px 30px rgba(0,0,0,0.12)",
+                        objectFit: "cover", // ensures the image fills the box without distortion
+                      }}
+                    />
       </Box>
     </Container>
         </Box>

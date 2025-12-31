@@ -15,7 +15,7 @@ const Service07: React.FC = () => {
   }, []);
 
   return (
-        <Box
+      <Box
         sx={{
           width: "100%",
           minHeight: "100vh",
@@ -23,59 +23,70 @@ const Service07: React.FC = () => {
           py: { xs: 2, md: 4 },
         }}
         >
-          <Container
-      maxWidth="lg"
-      sx={{
-        mt: { xs: 8, md: 12 },
-        mb: { xs: 6, md: 12 },
-        direction: "rtl",
-        px: { xs: 2, md: 4 },
-        fontFamily: TAJAWAL,
-      }}
-    >
-      {/* Heading */}
-
-
-      {/* Box يحتوي الفقرة */}
-      <Box
+      <Container
+        maxWidth="lg"
         sx={{
-          border: `2px solid ${BORDER_COLOR}`, // حدود الصندوق
-          borderRadius: 3,
-          p: { xs: 5, md: 8 }, // padding داخلي
-          display: "flex",
-          flexDirection: "column",
-          gap: 3, // فجوة بين العنوان والفقرات
-          backgroundColor: "#fff",
-          textAlign: "right",
-        }}
-      >
-      <Typography
-        variant="h4"
-        sx={{
-          fontWeight: 800,
+          mt: { xs: 8, md: 12 },
+          mb: { xs: 6, md: 12 },
+          direction: "rtl",
+          px: { xs: 2, md: 4 },
           fontFamily: TAJAWAL,
-          color: "#023B4E",
-          textAlign: "center",
-          mb: { xs: 6, md: 8 },
         }}
       >
-        خدمات التوثيق
-      </Typography>
-        <Typography
+        {/* Heading */}
+
+
+        {/* Box يحتوي الفقرة */}
+        <Box
           sx={{
-            fontWeight: 700,
-            fontFamily: TAJAWAL,
-            fontSize: { xs: "1.5rem", md: "1.8rem" },
-            lineHeight: 1.6,
-            color: "#023B4E",
+            border: `2px solid ${BORDER_COLOR}`, // حدود الصندوق
+            borderRadius: 3,
+            p: { xs: 5, md: 8 }, // padding داخلي
+            display: "flex",
+            flexDirection: "column",
+            gap: 3, // فجوة بين العنوان والفقرات
+            backgroundColor: "#fff",
+            textAlign: "right",
           }}
         >
-          نوفر خدمات توثيق العقود والوكالات العقارية لضمان حقوق جميع الأطراف بسرعة
-          وموثوقية.
+        <Typography
+          variant="h4"
+          sx={{
+            fontWeight: 800,
+            fontFamily: TAJAWAL,
+            color: "#023B4E",
+            textAlign: "center",
+            mb: { xs: 6, md: 8 },
+          }}
+        >
+          خدمات التوثيق
         </Typography>
-      </Box>
-    </Container>
-
+          <Typography
+            sx={{
+              fontWeight: 700,
+              fontFamily: TAJAWAL,
+              fontSize: { xs: "1.5rem", md: "1.8rem" },
+              lineHeight: 1.6,
+              color: "#023B4E",
+            }}
+          >
+            نوفر خدمات توثيق العقود والوكالات العقارية لضمان حقوق جميع الأطراف بسرعة
+            وموثوقية.
+          </Typography>
+            <Box
+              component="img"
+              src="https://i.ibb.co/rK9kHFsR/image.jpg"
+              alt="خدماتنا"
+              sx={{
+                width: { xs: "100%", md: "100%" }, // responsive width
+                height: { xs: "100%", md: "100%" }, // responsive height
+                borderRadius: 3,
+                boxShadow: "0 10px 30px rgba(0,0,0,0.12)",
+                objectFit: "cover", // ensures the image fills the box without distortion
+              }}
+            />
+        </Box>   
+      </Container>
       </Box>
     
   );
