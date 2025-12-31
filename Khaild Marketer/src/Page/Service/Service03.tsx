@@ -253,7 +253,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
                             />
                           }
                           label={
-                            <Typography sx={{ fontFamily: TAJAWAL, fontSize: { xs: "1.6rem", md: "1.7rem" }, fontWeight: 600 }}>
+                            <Typography sx={{ fontFamily: TAJAWAL, fontSize: { xs: "1.6rem", md: "1.7rem" }, fontWeight: 500 }}>
                               {opt}
                             </Typography>
                           }
@@ -270,7 +270,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
           <HomeWorkIcon />
           <Typography sx={{ fontWeight: 700, fontSize: { xs: "1rem", md: "1.3rem" }, fontFamily: TAJAWAL }}>الموقع</Typography>
         </Box>
-        <TextField fullWidth placeholder="المنطقة الوسطى - الرياض - شمال الرياض" value={location} onChange={(e) => setLocation(e.target.value)} sx={{ "& .MuiInputBase-input": { fontSize: "1.8rem", WebkitTextFillColor: "black" } }} />
+        <TextField fullWidth  value={location} onChange={(e) => setLocation(e.target.value)} sx={{ "& .MuiInputBase-input": { fontSize: "1.8rem", WebkitTextFillColor: "black" } }} />
       </Box>
 
       {/* DEVELOPER - HIDE IF مستأجر */}
@@ -280,7 +280,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
             <LocationCityIcon />
             <Typography sx={{ fontWeight: 700, fontSize: { xs: "1rem", md: "1.3rem" }, fontFamily: TAJAWAL }}>اسم المطور العقاري</Typography>
           </Box>
-          <TextField fullWidth placeholder="اسم المطور العقاري" value={developer} onChange={(e) => setDeveloper(e.target.value)} 	   sx={{
+          <TextField fullWidth  value={developer} onChange={(e) => setDeveloper(e.target.value)} 	   sx={{
               "& .MuiInputBase-input": {
                 fontSize: "1.8rem",
                 color: "black",
@@ -301,11 +301,10 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
         <Box sx={{ p: 2, borderRadius: 3, border: "1px solid #eef3f3", mt: 3 }}>
           <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR }}>
             <StraightenIcon />
-            <Typography>المساحة</Typography>
+            <Typography sx={{ fontWeight: 700, fontSize: { xs: "1rem", md: "1.3rem" }, fontFamily: TAJAWAL }}>المساحة</Typography>
           </Box>
           <TextField
             fullWidth
-            placeholder="المساحة"
             value={area}
             onChange={(e) => setArea(e.target.value)}
             sx={{
@@ -466,7 +465,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
         {/* NAME */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
           <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL }}>الاسم</Typography>
-          <TextField fullWidth placeholder="أدخل الاسم" value={name} onChange={(e) => setName(e.target.value)} 	   sx={{
+          <TextField fullWidth  value={name} onChange={(e) => setName(e.target.value)} 	   sx={{
               "& .MuiInputBase-input": {
                 fontSize: "1.8rem",
                 color: "black",
@@ -482,7 +481,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
         {/* MOBILE */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
           <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL }}>الجوال</Typography>
-          <TextField fullWidth placeholder="أدخل رقم الجوال" value={mobile} onChange={(e) => setMobile(e.target.value)} 	   sx={{
+          <TextField fullWidth value={mobile} onChange={(e) => setMobile(e.target.value)} 	   sx={{
               "& .MuiInputBase-input": {
                 fontSize: "1.8rem",
                 color: "black",

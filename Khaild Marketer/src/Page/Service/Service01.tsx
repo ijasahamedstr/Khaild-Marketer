@@ -222,7 +222,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
                       />
                     }
                     label={
-                      <Typography sx={{ fontFamily: TAJAWAL, fontSize: { xs: "1.6rem", md: "1.7rem" }, fontWeight: 600 }}>
+                      <Typography sx={{ fontFamily: TAJAWAL, fontSize: { xs: "1.6rem", md: "1.7rem" }, fontWeight: 500 }}>
                         {opt}
                       </Typography>
                     }
@@ -244,7 +244,6 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
           </Box>
           <TextField
             fullWidth
-            placeholder=" المنطقة الوسطى - الرياض  - شمال الرياض "
             value={location}
             onChange={(e) => setLocation(e.target.value)}
             sx={{ "& .MuiInputBase-input": { fontSize: "1.8rem", color: "black", WebkitTextFillColor: "black" }, "& .MuiInputBase-input::placeholder": { fontSize: "1.8rem", opacity: 0.7 } }}
@@ -258,7 +257,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
               المساحة
             </Typography>
           </Box>
-          <TextField fullWidth placeholder="Enter Area" value={area} onChange={(e) => setArea(e.target.value)}    sx={{
+          <TextField fullWidth  value={area} onChange={(e) => setArea(e.target.value)}    sx={{
               "& .MuiInputBase-input": {
                 fontSize: "1.8rem",
                 color: "black",
@@ -358,7 +357,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
         {/* ---------------- NAME & MOBILE ---------------- */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
           <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 600, fontSize:'18px' }}>الاسم</Typography>
-          <TextField placeholder="أدخل الاسم" value={name} onChange={(e) => setName(e.target.value)} sx={{
+          <TextField  value={name} onChange={(e) => setName(e.target.value)} sx={{
               "& .MuiInputBase-input": {
                 fontSize: "1.8rem",
                 color: "black",
@@ -375,7 +374,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
 
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
           <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 600, fontSize:'18px' }}>الجوال</Typography>
-          <TextField placeholder="أدخل رقم الاتصال" value={mobile} onChange={(e) => setMobile(e.target.value)} sx={{
+          <TextField  value={mobile} onChange={(e) => setMobile(e.target.value)} sx={{
               "& .MuiInputBase-input": {
                 fontSize: "1.8rem",
                 color: "black",

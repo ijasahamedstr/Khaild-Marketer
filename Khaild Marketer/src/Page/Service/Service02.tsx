@@ -77,11 +77,24 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
   const [area, setArea] = React.useState("");
   const [priceLimit, setPriceLimit] = React.useState("");
   const [priceOffer, setPriceOffer] = React.useState("");
+  const [isChecked1, setIsChecked1] = React.useState(false);
+  const [isChecked2, setIsChecked2] = React.useState(false);
 
   const [checkboxValues, setCheckboxValues] = React.useState<boolean[]>([
     false,
     false,
   ]);
+
+    const handleDeveloperCheckbox = (index: number) => {
+    if (index === 0) {
+      setIsChecked1(true);
+      setIsChecked2(false);
+    } else {
+      setIsChecked1(false);
+      setIsChecked2(true);
+      setDeveloper(""); // Clear developer when مستأجر is selected
+    }
+  };
 
   const handleCheckboxChange = (index: number, value: boolean) => {
     const updated = [...checkboxValues];
@@ -89,8 +102,18 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
     setCheckboxValues(updated);
   };
 
+  const propertyStatus = isChecked1
+  ? "جاهز"
+  : isChecked2
+  ? "على الخارطة"
+  : "غير محدد";
+
+
   const buildWhatsAppMessage = () => {
     return `
+
+🏷 *حالة العقار:* ${propertyStatus}
+
 🛒 *طلب بيع عقار جديد*
 
 🏠 *نوع العقار:* ${dropdownValues[0] || "غير محدد"}
@@ -175,6 +198,23 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
         </Typography>
       </Box>
 
+         <Box sx={{ display: "flex", gap: 2, mb: 4 }}>
+              <Box sx={{ flex: 1, p: 2, borderRadius: 3, border: "1px solid #ADADAD", textAlign: "center" }}>
+                <FormControlLabel
+                  sx={{ width: '50%' }}
+                  control={<Checkbox checked={isChecked1} onChange={() => handleDeveloperCheckbox(0)} sx={{ '& .MuiSvgIcon-root': { fontSize: 40 } }} />}
+                  label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: "1.5rem", fontWeight: 'bold' }}>جاهز</Typography>}
+                />
+              </Box>
+              <Box sx={{ flex: 1, p: 2, borderRadius: 3, border: "1px solid #ADADAD", textAlign: "center" }}>
+                <FormControlLabel
+                  sx={{ width: '50%' }}
+                  control={<Checkbox checked={isChecked2} onChange={() => handleDeveloperCheckbox(1)} sx={{ '& .MuiSvgIcon-root': { fontSize: 40 } }} />}
+                  label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: "1.5rem", fontWeight: 'bold' }}>على الخارطة</Typography>}
+                />
+              </Box>
+            </Box>
+
       {/* ---------------- DROPDOWNS ---------------- */}
       <Box sx={{ display: "grid", gap: 3 }}>
       {DROPDOWN_FIELDS.map((field, i) => (
@@ -227,7 +267,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
                   />
                 }
                 label={
-                  <Typography sx={{ fontFamily: TAJAWAL, fontSize: { xs: "1.6rem", md: "1.7rem" }, fontWeight: 600 }}>
+                  <Typography sx={{ fontFamily: TAJAWAL, fontSize: { xs: "1.6rem", md: "1.7rem" }, fontWeight: 500 }}>
                     {opt}
                   </Typography>
                 }
@@ -251,7 +291,9 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
           </Box>
           <TextField
             fullWidth
-            placeholder=" المنطقة الوسطى - الرياض  - شمال الرياض "
+            multiline
+            minRows={3}
+            maxRows={6}
             value={location}
             onChange={(e) => setLocation(e.target.value)}
             sx={{
@@ -259,6 +301,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
                 fontSize: "1.8rem",
                 color: "black",
                 WebkitTextFillColor: "black",
+                lineHeight: 1.6,
               },
               "& .MuiInputBase-input::placeholder": {
                 fontSize: "1.8rem",
@@ -266,6 +309,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
               },
             }}
           />
+
         </Box>
 
         {/* Developer */}
@@ -278,7 +322,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
           </Box>
           <TextField
             fullWidth
-            placeholder="اسم المطور العقاري"
+            // placeholder="اسم المطور العقاري"
             value={developer}
             onChange={(e) => setDeveloper(e.target.value)}
              sx={{
@@ -305,7 +349,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
           </Box>
           <TextField
             fullWidth
-            placeholder="المساحة"
+            // placeholder="المساحة"
             value={area}
             onChange={(e) => setArea(e.target.value)}
              sx={{
@@ -437,7 +481,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
         {/* Name */}
         <Box sx={{ display:"flex", alignItems:"center", gap:2, mb:2 }}>
           <Typography sx={{ minWidth:120, fontFamily:TAJAWAL, fontWeight:600, fontSize:'18px'}}> الاسم </Typography>
-          <TextField placeholder="أدخل الاسم" value={name} onChange={(e)=>setName(e.target.value)} sx={{
+          <TextField  value={name} onChange={(e)=>setName(e.target.value)} sx={{
               "& .MuiInputBase-input": {
                 fontSize: "1.8rem",
                 color: "black",
@@ -455,7 +499,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
         {/* Mobile */}
         <Box sx={{ display:"flex", alignItems:"center", gap:2 }}>
           <Typography sx={{ minWidth:120, fontFamily:TAJAWAL, fontWeight:600, fontSize:'18px'}}> الجوال </Typography>
-          <TextField placeholder="أدخل رقم الاتصال" value={mobile} onChange={(e)=>setMobile(e.target.value)}  sx={{
+          <TextField  value={mobile} onChange={(e)=>setMobile(e.target.value)}  sx={{
               "& .MuiInputBase-input": {
                 fontSize: "1.8rem",
                 color: "black",

@@ -125,38 +125,45 @@ const Footer: React.FC = () => {
             <Divider orientation="vertical" flexItem sx={{ display: { xs: "none", md: "block" }, borderColor: "rgba(255,255,255,0.25)" }} />
 
             {/* Column 5: Partners */}
-            <Box sx={{ flexBasis: { xs: "100%", md: "20%" } }}>
-              <Box
-                role="list"
-                sx={{
-                  display: "flex",
-                  flexWrap: "nowrap",
-                  gap: 3,
-                  alignItems: "center",
-                  overflowX: "auto",
-                  pb: 2,
-                }}
-              >
-                {partners.map((p, idx) => (
+
+            <Box sx={{ flexBasis: { xs: "100%", md: "20%" }, mt: { xs: 0, md: "150px" } }}>
+            <Box
+              role="list"
+              sx={{
+                display: "flex",
+                flexWrap: "nowrap",
+                gap: 3,
+                alignItems: "center",
+                overflowX: "auto",
+                pb: 2,
+              }}
+            >
+              {partners.map((p, idx) => (
+                <Box
+                  component={Link}
+                  key={idx}
+                  href={p.href}
+                  target="_blank"
+                  rel="noopener"
+                  aria-label={p.label}
+                  sx={{ display: "inline-flex", alignItems: "center", justifyContent: "center" }}
+                >
                   <Box
-                    component={Link}
-                    key={idx}
-                    href={p.href}
-                    target="_blank"
-                    rel="noopener"
-                    aria-label={p.label}
-                    sx={{ display: "inline-flex", alignItems: "center", justifyContent: "center" }}
-                  >
-                    <Box
-                      component="img"
-                      src={p.src}
-                      alt={p.alt}
-                      sx={{ width: { xs: 100, sm: 130, md: 150 }, height: "auto", objectFit: "contain" }}
-                    />
-                  </Box>
-                ))}
-              </Box>
+                    component="img"
+                    src={p.src}
+                    alt={p.alt}
+                    sx={{
+                      width: { xs: 100, sm: 130, md: 150 },
+                      height: "auto",
+                      objectFit: "contain",
+                    }}
+                  />
+                </Box>
+              ))}
             </Box>
+          </Box>
+
+          
           </Box>
         </Container>
       </Box>
