@@ -3,7 +3,6 @@ import React from "react";
 import { Container, Typography, Box } from "@mui/material";
 
 const TAJAWAL = "'Tajawal', sans-serif";
-const BORDER_COLOR = "#E5E5E5";
 
 const Service11: React.FC = () => {
   // Scroll to top on mount
