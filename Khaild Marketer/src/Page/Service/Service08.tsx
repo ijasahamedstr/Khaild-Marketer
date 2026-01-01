@@ -38,13 +38,13 @@ const Service08: React.FC = () => {
       {/* Box يحتوي الفقرة */}
       <Box
         sx={{
-          border: `2px solid ${BORDER_COLOR}`,
+          
           borderRadius: 3,
           p: { xs: 5, md: 8 },
           display: "flex",
           flexDirection: "column",
           gap: 3,
-          backgroundColor: "#fff",
+          border: "1px solid #F5F5F4", background:'#F5F5F4',
           textAlign: "center",
         }}
       >

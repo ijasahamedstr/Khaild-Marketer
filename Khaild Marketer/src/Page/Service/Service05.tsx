@@ -68,10 +68,10 @@ const Service05: React.FC<Props> = ({ onSubmit }) => {
           flexDirection: "column",
           alignItems: "center",
           gap: 4, // زيادة المسافة بين العناصر داخل البوكس
-          border: `2px solid ${BORDER_COLOR}`,
+          border: "1px solid #F5F5F4", background:'#F5F5F4',
           borderRadius: 3,
           p: 5, // زيادة padding داخل البوكس
-          backgroundColor: "#fff",
+         
           textAlign: "center",
         }}
       >
@@ -102,7 +102,7 @@ const Service05: React.FC<Props> = ({ onSubmit }) => {
             color: "#023B4E",
           }}
         >
-          للتواصل مع قسم الاستلام والتسليم برجاء الاتصال على هذا الرقم
+        للتواصل مع قسم التسليم والاستلام برجاء الاتصال على هذا الرقم
         </Typography>
 
         {/* رقم الواتساب مع الأيقونة */}

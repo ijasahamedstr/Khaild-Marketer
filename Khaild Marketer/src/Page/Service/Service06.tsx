@@ -38,13 +38,13 @@ const Service03: React.FC = () => {
       {/* ===== BOX يحتوي المحتوى ===== */}
       <Box
         sx={{
-          border: `2px solid ${BORDER_COLOR}`,
+          
           borderRadius: 3,
           p: { xs: 5, md: 8 }, // padding أكبر
           display: "flex",
           flexDirection: "column",
           gap: 4, // فجوة بين الفقرات
-          backgroundColor: "#fff",
+         border: "1px solid #F5F5F4", background:'#F5F5F4',
         }}
       >
         <Box sx={{ textAlign: "center", mb: { xs: 6, md: 10 } }}> {/* زيادة المسافة تحت العنوان */}

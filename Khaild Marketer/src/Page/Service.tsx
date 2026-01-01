@@ -9,6 +9,11 @@ import {
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { keyframes } from "@mui/system";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
+import IconButton from "@mui/material/IconButton";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+
+
+
 
 /* ================= ANIMATIONS ================= */
 
@@ -31,6 +36,7 @@ interface ServiceCard {
   description: string;
   href?: string;
 }
+const TAJAWAL = "'Tajawal', sans-serif";
 
 /* ================= DATA ================= */
 
@@ -121,6 +127,80 @@ const Service: React.FC = () => {
   const sliderRef = React.useRef<HTMLDivElement | null>(null);
   const [cardWidth, setCardWidth] = React.useState(0);
   const navigate = useNavigate();
+  const [currentIndex, setCurrentIndex] = React.useState(0);
+
+  const scrollToIndex = (index: number) => {
+  const el = sliderRef.current;
+  if (!el || cardWidth === 0) return;
+
+  el.scrollTo({
+    left: index * cardWidth,
+    behavior: "smooth",
+  });
+
+  setCurrentIndex(index);
+};
+
+const scrollByCard = (direction: "left" | "right") => {
+  const nextIndex =
+    direction === "right"
+      ? Math.min(currentIndex + 1, serviceCards.length - 1)
+      : Math.max(currentIndex - 1, 0);
+
+  scrollToIndex(nextIndex);
+};
+
+React.useEffect(() => {
+  const el = sliderRef.current;
+  if (!el || !el.firstElementChild) return;
+
+  const child = el.firstElementChild as HTMLElement;
+  const gap = 16;
+  setCardWidth(child.offsetWidth + gap);
+}, [isMobile]);
+
+React.useEffect(() => {
+  const el = sliderRef.current;
+  if (!el || cardWidth === 0) return;
+
+  let rafId = 0;
+
+  const onScroll = () => {
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(() => {
+      const idx = Math.round(el.scrollLeft / cardWidth);
+      setCurrentIndex(
+        Math.max(0, Math.min(serviceCards.length - 1, idx))
+      );
+    });
+  };
+
+  el.addEventListener("scroll", onScroll, { passive: true });
+
+  return () => {
+    el.removeEventListener("scroll", onScroll);
+    if (rafId) cancelAnimationFrame(rafId);
+  };
+}, [cardWidth]);
+
+// AUTO SLIDE FOR MOBILE
+React.useEffect(() => {
+  if (!isMobile || cardWidth === 0) return;
+
+  const interval = setInterval(() => {
+    setCurrentIndex((prev) => {
+      const nextIndex = (prev + 1) % serviceCards.length;
+      // scroll to the next card
+      scrollToIndex(nextIndex);
+      return nextIndex;
+    });
+  }, 4000); // change 4000 to whatever speed in ms you want
+
+  return () => clearInterval(interval);
+}, [isMobile, cardWidth]);
+
+
+
 
   /* ---------- MEASURE CARD WIDTH ---------- */
 
@@ -396,11 +476,97 @@ const Service: React.FC = () => {
       )}
 
       {/* ================= MOBILE SLIDER (100% UNCHANGED) ================= */}
-      {isMobile && (
-        <Box sx={{ position: "relative", mt: 2 }}>
-          {/* your original mobile slider code stays exactly the same */}
+
+
+{isMobile && (
+  <Box sx={{ position: "relative", mt: 4 }}>
+    <IconButton
+      onClick={() => scrollByCard("right")}
+      disabled={currentIndex === 0}
+      sx={{ position: "absolute", right: 6, top: "40%", zIndex: 2 }}
+    >
+      <ArrowForwardIosIcon />
+    </IconButton>
+
+    <IconButton
+      onClick={() => scrollByCard("left")}
+      disabled={currentIndex === serviceCards.length - 1}
+      sx={{
+        position: "absolute",
+        left: 6,
+        top: "40%",
+        zIndex: 2,
+        transform: "rotate(180deg)",
+      }}
+    >
+      <ArrowForwardIosIcon />
+    </IconButton>
+
+    <Box
+      ref={sliderRef}
+      sx={{
+        display: "flex",
+        gap: 2,
+        overflowX: "auto",
+        scrollSnapType: "x mandatory",
+        "&::-webkit-scrollbar": { display: "none" },
+      }}
+    >
+      {serviceCards.map((card) => (
+        <Box
+          key={card.id}
+          sx={{
+            flex: "0 0 86%",
+            scrollSnapAlign: "center",
+            p: 3,
+            borderRadius: 2,
+            boxShadow:
+              "0 14px 34px rgba(2,59,78,0.14), 0 6px 16px rgba(2,59,78,0.10)",
+          }}
+        >
+          <Typography
+            variant="h6"
+            sx={{ mb: 2, fontFamily: TAJAWAL }} // Heading font
+          >
+            {card.title}
+          </Typography>
+
+          <Typography sx={{ mb: 3, fontFamily: TAJAWAL }}> {/* Description font */}
+            {card.description}
+          </Typography>
+
+          {card.href && (
+            <Button
+              variant="outlined"
+              component={RouterLink}
+              to={card.href}
+              sx={{ fontFamily: TAJAWAL }}
+            >
+              اكتشف المزيد
+            </Button>
+          )}
         </Box>
-      )}
+      ))}
+    </Box>
+
+    {/* Dots */}
+    <Box sx={{ display: "flex", justifyContent: "center", mt: 2, gap: 1 }}>
+      {serviceCards.map((_, i) => (
+        <Box
+          key={i}
+          onClick={() => scrollToIndex(i)}
+          sx={{
+            width: currentIndex === i ? 12 : 8,
+            height: currentIndex === i ? 12 : 8,
+            borderRadius: "50%",
+            background:
+              currentIndex === i ? "#023B4E" : "rgba(2,59,78,0.2)",
+          }}
+        />
+      ))}
+    </Box>
+  </Box>
+)}
     </Container>
   );
 };

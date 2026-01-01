@@ -13,61 +13,56 @@ const BannerCard: React.FC = () => {
       }}
     >
       <Container maxWidth="xl">
-        {/* ===== صورة رئيسية Responsive في الأعلى ===== */}
-        <Box
-  sx={{
-    display: "flex",
-    justifyContent: "center",
-    mb: 4,
-  }}
->
-  <Box
-    component="img"
-    src="https://i.ibb.co/Zp0m4B0L/w-2.webp"
-    alt="خدماتنا"
-    sx={{
-      width: { xs: "90%", md: "80%" }, // responsive width
-      height: { xs: "100%", md: "100%" }, // responsive height
-      borderRadius: 3,
-      boxShadow: "0 10px 30px rgba(0,0,0,0.12)",
-      objectFit: "cover", // ensures the image fills the box without distortion
-    }}
-  />
-</Box>
-
-        {/* المحتوى الرئيسي */}
+        {/* ===== صورة رئيسية ===== */}
         <Box
           sx={{
             display: "flex",
-            flexDirection: { xs: "column", md: "row" },
-            alignItems: "flex-start",
-            gap: { xs: 3, md: 6 },
-            textAlign: "right",
+            justifyContent: "center",
+            mb: 5,
           }}
         >
-          {/* العنوان – 20% */}
-          <Typography
-            variant="h3"
+          <Box
+            component="img"
+            src="https://i.ibb.co/Zp0m4B0L/w-2.webp"
+            alt="خدماتنا"
             sx={{
-              flexBasis: { md: "20%" },
-              fontWeight: 700,
-              color: "#004652",
-              lineHeight: 1.2,
-              fontFamily: "Tajawal, sans-serif",
+              width: { xs: "95%", md: "80%" },
+              borderRadius: 3,
+              boxShadow: "0 10px 30px rgba(0,0,0,0.12)",
+              objectFit: "cover",
             }}
-          >
-            من نحن
-          </Typography>
+          />
+        </Box>
 
-          {/* الوصف – 80% */}
+        {/* ===== المحتوى النصي ===== */}
+        <Box
+          sx={{
+            maxWidth: "1100px",
+            mx: "auto",
+            textAlign: { xs: "center", md: "right" },
+          }}
+        >
+          {/* العنوان */}
+        <Typography
+          variant="h3"
+          sx={{
+            fontWeight: 700,
+            color: "#004652",
+            mb: 2,
+            fontFamily: "Tajawal, sans-serif",
+            mr: { xs: 0, md: "-170px" }, // Desktop only
+          }}
+        >
+          من نحن
+        </Typography>
+
+          {/* الوصف أسفل العنوان */}
           <Typography
             sx={{
-              flexBasis: { md: "80%" },
-              fontSize: { xs: "1.1rem", md: "1.8rem" },
+              fontSize: { xs: "1.1rem", md: "1.6rem" },
               lineHeight: 1.9,
               color: "#004652",
-              textAlign: { xs: "center", md: "right" },
-              fontFamily: "Tajawal, sans-serif", // مركز على الموبايل، يمين على الديسكتوب
+              fontFamily: "Tajawal, sans-serif",
             }}
           >
             نحن متخصصون في تسويق منتجات المطورين العقاريين بمدينة الرياض، نُبرز
@@ -76,7 +71,7 @@ const BannerCard: React.FC = () => {
           </Typography>
         </Box>
 
-        {/* الخط السفلي */}
+        {/* ===== خط سفلي ===== */}
         <Box
           sx={{
             borderBottom: "2px solid #0c6b71",

@@ -193,14 +193,14 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
 
       {/* DEVELOPER CHECKBOXES */}
       <Box sx={{ display: "flex", gap: 2, mb: 4 }}>
-        <Box sx={{ flex: 1, p: 2, borderRadius: 3, border: "1px solid #f3f3f3ff", background:'#f3f3f3ff', textAlign: "center" }}>
+        <Box sx={{ flex: 1, p: 2, borderRadius: 3, border: "1px solid #E2E8F0", background:'#E2E8F0', textAlign: "center" }}>
           <FormControlLabel
             sx={{ width: '50%' }}
             control={<Checkbox checked={isChecked1} onChange={() => handleDeveloperCheckbox(0)} sx={{ '& .MuiSvgIcon-root': { fontSize: 40 } }} />}
             label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: "1.5rem", fontWeight: 'bold' }}>مؤجر</Typography>}
           />
         </Box>
-        <Box sx={{ flex: 1, p: 2, borderRadius: 3, border: "1px solid #f3f3f3ff", background:'#f3f3f3ff', textAlign: "center" }}>
+        <Box sx={{ flex: 1, p: 2, borderRadius: 3, border: "1px solid #E2E8F0", background:'#E2E8F0', textAlign: "center" }}>
           <FormControlLabel
             sx={{ width: '50%' }}
             control={<Checkbox checked={isChecked2} onChange={() => handleDeveloperCheckbox(1)} sx={{ '& .MuiSvgIcon-root': { fontSize: 40 } }} />}
@@ -217,7 +217,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
                     sx={{
                       p: 3, // slightly bigger padding
                       borderRadius: 3,
-                     border: "1px solid #f3f3f3ff", background:'#f3f3f3ff',
+                     border: "1px solid #E2E8F0", background:'#E2E8F0',
                     }}
                   >
                     {/* Field Label */}
@@ -273,7 +273,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
               </Box>
 
       {/* LOCATION */}
-      <Box sx={{ p: 2, borderRadius: 3, border: "1px solid #f3f3f3ff", background:'#f3f3f3ff', mt: 3 }}>
+      <Box sx={{ p: 2, borderRadius: 3, border: "1px solid #E2E8F0", background:'#E2E8F0', mt: 3 }}>
         <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR }}>
           <HomeWorkIcon />
           <Typography sx={{ fontWeight: 700, fontSize: { xs: "1rem", md: "1.3rem" }, fontFamily: TAJAWAL }}>الموقع</Typography>
@@ -283,7 +283,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
 
       {/* DEVELOPER - HIDE IF مستأجر */}
       {!isChecked2 && (
-        <Box sx={{ p: 2, borderRadius: 3, border: "1px solid #f3f3f3ff", background:'#f3f3f3ff', mt: 3 }}>
+        <Box sx={{ p: 2, borderRadius: 3, border: "1px solid #E2E8F0", background:'#E2E8F0', mt: 3 }}>
           <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR }}>
             <LocationCityIcon />
             <Typography sx={{ fontWeight: 700, fontSize: { xs: "1rem", md: "1.3rem" }, fontFamily: TAJAWAL }}>اسم المطور العقاري</Typography>
@@ -306,7 +306,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
       
       {/* AREA - HIDDEN IF مستأجر (isChecked2) */}
       {!isChecked2 && dropdownValues[0] !== "شقة" && (
-        <Box sx={{ p: 2, borderRadius: 3, border: "1px solid #f3f3f3ff", background:'#f3f3f3ff', mt: 3 }}>
+        <Box sx={{ p: 2, borderRadius: 3, border: "1px solid #E2E8F0", background:'#E2E8F0', mt: 3 }}>
           <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR }}>
             <StraightenIcon />
             <Typography sx={{ fontWeight: 700, fontSize: { xs: "1rem", md: "1.3rem" }, fontFamily: TAJAWAL }}>قيمة الإيجار</Typography>
@@ -333,7 +333,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
 
 
       {/* PRICE */}
-      <Box sx={{ p: 2, borderRadius: 3, border: "1px solid #f3f3f3ff", background:'#f3f3f3ff', mt: 3 }}>
+      <Box sx={{ p: 2, borderRadius: 3, border: "1px solid #E2E8F0", background:'#E2E8F0', mt: 3 }}>
       <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR }}>
         <AccountBalanceWalletIcon />
         <Typography sx={{ fontWeight: 700, fontSize: { xs: "1rem", md: "1.3rem" }, fontFamily: TAJAWAL }}>
@@ -416,7 +416,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
       </Box>
 
       {/* NOTES */}
-      <Box sx={{ mt: 5,border: "1px solid #f3f3f3ff", background:'#f3f3f3ff',    borderRadius: 3,  p: 3,}}>
+      <Box sx={{ mt: 5,border: "1px solid #E2E8F0", background:'#E2E8F0',   borderRadius: 3,  p: 3,}}>
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <EditNoteIcon sx={{ color: LABEL_COLOR }} />
           <Typography sx={{ fontWeight: 800, fontSize: { xs: "1.2rem", md: "1.6rem" }, color: LABEL_COLOR, fontFamily: TAJAWAL }}>تفاصيل إضافية</Typography>
@@ -439,7 +439,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
       </Box>
 
       {/* CONTACT CHANNELS */}
-      <Box sx={{ mt: 6, p: 3, borderRadius: 3, border: "1px solid #eef3f3", backgroundColor: "#fafafa" }}>
+      <Box sx={{ mt: 6, p: 3, borderRadius: 3, border: "1px solid #E2E8F0", background:'#E2E8F0', }}>
         <Typography sx={{ fontWeight: 800, fontSize: "1.3rem", mb: 0.5, color: LABEL_COLOR, fontFamily: TAJAWAL }}>قنوات التواصل</Typography>
         <Typography sx={{ fontSize: "1rem", mb: 3, color: "#242629ff", fontFamily: TAJAWAL,fontWeight:'bold' }}>وسائل التواصل المتعددة تتيح الرد السريع من الفريق المختص</Typography>
 

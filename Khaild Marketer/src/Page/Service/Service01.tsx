@@ -203,14 +203,14 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
       </Box>
 
         <Box sx={{ display: "flex", gap: 2, mb: 4 }}>
-                    <Box sx={{ flex: 1, p: 2, borderRadius: 3,  border: "1px solid #f3f3f3ff", background:'#f3f3f3ff', textAlign: "center" }}>
+                    <Box sx={{ flex: 1, p: 2, borderRadius: 3,  border: "1px solid #E2E8F0", background:'#E2E8F0', textAlign: "center" }}>
                       <FormControlLabel
                         sx={{ width: '50%' }}
                         control={<Checkbox checked={isChecked1} onChange={() => handleDeveloperCheckbox(0)} sx={{ '& .MuiSvgIcon-root': { fontSize: 40 } }} />}
                         label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: "1.5rem", fontWeight: 'bold' }}>جاهز</Typography>}
                       />
                     </Box>
-                    <Box sx={{ flex: 1, p: 2, borderRadius: 3,  border: "1px solid #f3f3f3ff", background:'#f3f3f3ff', textAlign: "center" }}>
+                    <Box sx={{ flex: 1, p: 2, borderRadius: 3,  border: "1px solid #E2E8F0", background:'#E2E8F0', textAlign: "center" }}>
                       <FormControlLabel
                         sx={{ width: '50%' }}
                         control={<Checkbox checked={isChecked2} onChange={() => handleDeveloperCheckbox(1)} sx={{ '& .MuiSvgIcon-root': { fontSize: 40 } }} />}
@@ -227,7 +227,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
               sx={{
                 p: 3, // slightly bigger padding
                 borderRadius: 3,
-                 border: "1px solid #f3f3f3ff", background:'#f3f3f3ff',
+                 border: "1px solid #E2E8F0", background:'#E2E8F0',
               }}
             >
               {/* Field Label */}
@@ -284,7 +284,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
 
       {/* ---------------- LOCATION & AREA ---------------- */}
       <Box sx={{ display: "grid", gap: 3, mt: 3 }}>
-        <Box sx={{ p: 2, borderRadius: 3,  border: "1px solid #f3f3f3ff", background:'#f3f3f3ff', }}>
+        <Box sx={{ p: 2, borderRadius: 3,  border: "1px solid #E2E8F0", background:'#E2E8F0', }}>
           <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR }}>
             <HomeWorkIcon />
             <Typography sx={{ fontWeight: 700, fontSize: { xs: "1rem", md: "1.3rem" }, fontFamily: TAJAWAL }}>
@@ -299,7 +299,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
           />
         </Box>
 
-        <Box sx={{ p: 2, borderRadius: 3,  border: "1px solid #f3f3f3ff", background:'#f3f3f3ff', }}>
+        <Box sx={{ p: 2, borderRadius: 3,  border: "1px solid #E2E8F0", background:'#E2E8F0', }}>
           <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR }}>
             <StraightenIcon />
             <Typography sx={{ fontWeight: 700, fontSize: { xs: "1rem", md: "1.3rem" }, fontFamily: TAJAWAL }}>
@@ -320,7 +320,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
             }} />
         </Box>
 
-        <Box sx={{ p: 2, borderRadius: 3,  border: "1px solid #f3f3f3ff", background:'#f3f3f3ff', }}>
+        <Box sx={{ p: 2, borderRadius: 3,  border: "1px solid #E2E8F0", background:'#E2E8F0', }}>
           <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR }}>
             <AccountBalanceWalletIcon />
             <Typography sx={{ fontWeight: 700, fontSize: { xs: "1rem", md: "1.3rem" }, fontFamily: TAJAWAL }}>
@@ -344,7 +344,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
       </Box>
 
       {/* ---------------- ADDITIONAL NOTES ---------------- */}
-      <Box sx={{ mt: 5,border: "1px solid #f3f3f3ff", background:'#f3f3f3ff',    borderRadius: 3,  p: 3,}}>
+      <Box sx={{ mt: 5,border: "1px solid #E2E8F0", background:'#E2E8F0',    borderRadius: 3,  p: 3,}}>
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <EditNoteIcon sx={{ color: LABEL_COLOR }} />
           <Typography sx={{ fontWeight: 800, fontSize: { xs: "1.2rem", md: "1.6rem" }, color: LABEL_COLOR, fontFamily: TAJAWAL }}>
@@ -370,7 +370,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
       </Box>
 
       {/* ---------------- CONTACT CHANNELS ---------------- */}
-      <Box sx={{ mt: 6, p: 3, borderRadius: 3, border: "1px solid #f3f3f3ff", background:'#f3f3f3ff', }}>
+      <Box sx={{ mt: 6, p: 3, borderRadius: 3, border: "1px solid #E2E8F0", background:'#E2E8F0', }}>
         <Typography sx={{ fontWeight: 800, fontSize: "1.3rem", mb: 0.5, color: LABEL_COLOR, fontFamily: TAJAWAL }}>
           قنوات التواصل
         </Typography>

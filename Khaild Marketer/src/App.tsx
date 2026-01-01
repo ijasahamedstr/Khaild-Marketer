@@ -39,7 +39,7 @@ function App() {
           setTimeout(() => {
             setShowConfetti(false);
             setLoading(false);
-          }, 10000);
+          }, 8000);
 
           return 100;
         }

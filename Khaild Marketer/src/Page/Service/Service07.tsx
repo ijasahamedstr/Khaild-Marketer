@@ -39,13 +39,13 @@ const Service07: React.FC = () => {
         {/* Box يحتوي الفقرة */}
         <Box
           sx={{
-            border: `2px solid ${BORDER_COLOR}`, // حدود الصندوق
+       
             borderRadius: 3,
             p: { xs: 5, md: 8 }, // padding داخلي
             display: "flex",
             flexDirection: "column",
             gap: 3, // فجوة بين العنوان والفقرات
-            backgroundColor: "#fff",
+            border: "1px solid #F5F5F4", background:'#F5F5F4',
             textAlign: "right",
           }}
         >
@@ -75,7 +75,7 @@ const Service07: React.FC = () => {
           </Typography>
             <Box
               component="img"
-              src="https://i.ibb.co/rK9kHFsR/image.jpg"
+              src="https://i.ibb.co/6JF88VfT/1.webp"
               alt="خدماتنا"
               sx={{
                 width: { xs: "100%", md: "100%" }, // responsive width

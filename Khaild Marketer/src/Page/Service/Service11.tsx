@@ -39,13 +39,13 @@ const Service11: React.FC = () => {
       {/* Box يحتوي الفقرات */}
       <Box
         sx={{
-          border: `2px solid ${BORDER_COLOR}`, // حدود الصندوق
+          
           borderRadius: 3,
           p: { xs: 5, md: 8 }, // padding داخلي
           display: "flex",
           flexDirection: "column",
           gap: 3, // فجوة بين الفقرات
-          backgroundColor: "#fff",
+          border: "1px solid #F5F5F4", background:'#F5F5F4',
         }}
       >
           <Typography

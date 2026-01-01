@@ -206,22 +206,95 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
         </Typography>
       </Box>
 
-         <Box sx={{ display: "flex", gap: 2, mb: 4 }}>
-              <Box sx={{ flex: 1, p: 2, borderRadius: 3, border: "1px solid #f3f3f3ff", background:'#f3f3f3ff', textAlign: "center" }}>
-                <FormControlLabel
-                  sx={{ width: '50%' }}
-                  control={<Checkbox checked={isChecked1} onChange={() => handleDeveloperCheckbox(0)} sx={{ '& .MuiSvgIcon-root': { fontSize: 40 } }} />}
-                  label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: "1.5rem", fontWeight: 'bold' }}>جاهز</Typography>}
-                />
-              </Box>
-              <Box sx={{ flex: 1, p: 2, borderRadius: 3, border: "1px solid #f3f3f3ff", background:'#f3f3f3ff', textAlign: "center" }}>
-                <FormControlLabel
-                  sx={{ width: '50%' }}
-                  control={<Checkbox checked={isChecked2} onChange={() => handleDeveloperCheckbox(1)} sx={{ '& .MuiSvgIcon-root': { fontSize: 40 } }} />}
-                  label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: "1.5rem", fontWeight: 'bold' }}>على الخارطة</Typography>}
-                />
-              </Box>
-            </Box>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row", // Always row, never stack
+          gap: { xs: 1, sm: 2 }, // smaller gap on tiny screens
+          mb: 4,
+          overflowX: "auto", // optional: allow horizontal scroll if very small screen
+        }}
+      >
+        {/* جاهز */}
+        <Box
+          sx={{
+            flex: 1,
+            minWidth: { xs: 120, sm: "auto" }, // ensures it doesn't shrink too much
+            p: { xs: 1, sm: 2 },
+            borderRadius: 3,
+            border: "1px solid #E2E8F0", background:'#E2E8F0',
+            textAlign: "center",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <FormControlLabel
+            sx={{ width: "100%", m: 0 }}
+            control={
+              <Checkbox
+                checked={isChecked1}
+                onChange={() => handleDeveloperCheckbox(0)}
+                sx={{
+                  "& .MuiSvgIcon-root": { fontSize: { xs: 28, sm: 40 } }, // smaller icon on mobile
+                }}
+              />
+            }
+            label={
+              <Typography
+                sx={{
+                  fontFamily: TAJAWAL,
+                  fontSize: { xs: "1rem", sm: "1.5rem" }, // smaller on mobile
+                  fontWeight: "bold",
+                }}
+              >
+                جاهز
+              </Typography>
+            }
+          />
+        </Box>
+
+        {/* على الخارطة */}
+        <Box
+          sx={{
+            flex: 1,
+            minWidth: { xs: 120, sm: "auto" },
+            p: { xs: 1, sm: 2 },
+            borderRadius: 3,
+            border: "1px solid #E2E8F0", background:'#E2E8F0',
+            textAlign: "center",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <FormControlLabel
+            sx={{ width: "100%", m: 0 }}
+            control={
+              <Checkbox
+                checked={isChecked2}
+                onChange={() => handleDeveloperCheckbox(1)}
+                sx={{
+                  "& .MuiSvgIcon-root": { fontSize: { xs: 28, sm: 40 } },
+                }}
+              />
+            }
+            label={
+              <Typography
+                sx={{
+                  fontFamily: TAJAWAL,
+                  fontSize: { xs: "1rem", sm: "1.5rem" },
+                  fontWeight: "bold",
+                }}
+              >
+                على الخارطة
+              </Typography>
+            }
+          />
+        </Box>
+      </Box>
+
+
 
       {/* ---------------- DROPDOWNS ---------------- */}
       <Box sx={{ display: "grid", gap: 3 }}>
@@ -231,7 +304,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
           sx={{
             p: 3, // slightly bigger padding
             borderRadius: 3,
-            border: "1px solid #f3f3f3ff", background:'#f3f3f3ff',
+           border: "1px solid #E2E8F0", background:'#E2E8F0',
           }}
         >
           {/* Field Label */}
@@ -290,7 +363,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
       {/* ---------------- OTHER INPUTS ---------------- */}
       <Box sx={{ display: "grid", gap: 3, mt: 3 }}>
         {/* Location */}
-        <Box sx={{ p: 2, borderRadius: 3, border: "1px solid #f3f3f3ff", background:'#f3f3f3ff',}}>
+        <Box sx={{ p: 2, borderRadius: 3, border: "1px solid #E2E8F0", background:'#E2E8F0',}}>
           <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR }}>
             <HomeWorkIcon />
             <Typography sx={{ fontWeight: 700, fontSize: { xs: "1rem", md: "1.3rem" }, fontFamily: TAJAWAL }}>
@@ -321,7 +394,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
         </Box>
 
         {/* Developer */}
-        <Box sx={{ p: 2, borderRadius: 3, border: "1px solid #f3f3f3ff", background:'#f3f3f3ff',}}>
+        <Box sx={{ p: 2, borderRadius: 3, border: "1px solid #E2E8F0", background:'#E2E8F0',}}>
           <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR }}>
             <LocationCityIcon />
             <Typography sx={{ fontWeight: 700, fontSize: { xs: "1rem", md: "1.3rem" }, fontFamily: TAJAWAL }}>
@@ -348,7 +421,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
         </Box>
 
         {/* Area */}
-        <Box sx={{ p: 2, borderRadius: 3, border: "1px solid #f3f3f3ff", background:'#f3f3f3ff', }}>
+        <Box sx={{ p: 2, borderRadius: 3, border: "1px solid #E2E8F0", background:'#E2E8F0', }}>
           <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR }}>
             <StraightenIcon />
             <Typography sx={{ fontWeight: 700, fontSize: { xs: "1rem", md: "1.3rem" }, fontFamily: TAJAWAL }}>
@@ -376,7 +449,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
         </Box>
 
         {/* Budget */}
-        <Box sx={{ p: 2, borderRadius: 3, border: "1px solid #f3f3f3ff", background:'#f3f3f3ff', }}>
+        <Box sx={{ p: 2, borderRadius: 3, border: "1px solid #E2E8F0", background:'#E2E8F0', }}>
           <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR }}>
             <AccountBalanceWalletIcon />
             <Typography sx={{ fontWeight: 700, fontSize: { xs: "1rem", md: "1.3rem" }, fontFamily: TAJAWAL }}>
@@ -399,7 +472,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
       </Box>
 
       {/* ---------------- TEXT AREA ---------------- */}
-      <Box sx={{ mt: 5,border: "1px solid #f3f3f3ff", background:'#f3f3f3ff',    borderRadius: 3,  p: 3,}}>
+      <Box sx={{ mt: 5,border: "1px solid #E2E8F0", background:'#E2E8F0',    borderRadius: 3,  p: 3,}}>
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <EditNoteIcon sx={{ color: LABEL_COLOR }} />
           <Typography sx={{ fontWeight: 800, fontSize: { xs: "1.2rem", md: "1.6rem" }, color: LABEL_COLOR, fontFamily: TAJAWAL }}>تفاصيل إضافية</Typography>
@@ -432,7 +505,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
       </Box>
 
       {/* ---------------- CONTACT CHANNELS ---------------- */}
-      <Box sx={{ mt: 6, p: 3, borderRadius: 3, border: "1px solid #f3f3f3ff", background:'#f3f3f3ff', }}>
+      <Box sx={{ mt: 6, p: 3, borderRadius: 3, border: "1px solid #E2E8F0", background:'#E2E8F0', }}>
         <Typography sx={{ fontWeight: 800, fontSize: "1.3rem", mb: 0.5, color: LABEL_COLOR, fontFamily: TAJAWAL }}>
           قنوات التواصل
         </Typography>

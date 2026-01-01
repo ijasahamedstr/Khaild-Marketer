@@ -133,12 +133,12 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
         sx={{
           width: "100%",
           minHeight: "100vh",
-          backgroundColor: "#D1D5DC", // ← change color here
+         border: "1px solid #E2E8F0", background:'#E2E8F0',
           py: { xs: 2, md: 4 },
         }}
         >
 
-            <Container
+    <Container
       maxWidth="lg"
       sx={{
         mt: { xs: 4, md: 8 },
@@ -174,7 +174,7 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
           p: 3,
           backgroundColor: "rgba(2, 59, 78, 0.05)",
           borderRadius: "12px",
-          border: "1px solid #E5E5E5", // ← OUTLINE
+          border: "1px solid #E2E8F0", background:'#E2E8F0',
         }}
       >
         <Box sx={{ display: "grid", gap: 3, maxWidth: 1100, mx: "auto" }}>
@@ -235,7 +235,7 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
           mt: 6,
           p: 4,
           borderRadius: "16px",
-          border: "1px solid #E5E5E5", // ← OUTLINE
+          border: "1px solid #E2E8F0", background:'#E2E8F0',
           animation: `${fadeUp} 1000ms 300ms backwards`,
         }}
       >

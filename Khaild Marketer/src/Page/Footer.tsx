@@ -122,7 +122,7 @@ const Footer: React.FC = () => {
               </Typography>
             </Box>
 
-            <Divider orientation="vertical" flexItem sx={{ display: { xs: "none", md: "block" }, borderColor: "rgba(255,255,255,0.25)" }} />
+            {/* <Divider orientation="vertical" flexItem sx={{ display: { xs: "none", md: "block" }, borderColor: "rgba(255,255,255,0.25)" }} /> */}
 
             {/* Column 5: Partners */}
 
