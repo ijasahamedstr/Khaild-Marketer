@@ -521,26 +521,42 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
             }
             label={<Typography sx={{ fontFamily: TAJAWAL ,fontSize:'18px'}}> الرجاء التواصل على الرقم </Typography>}
           />
-          <Box sx={{ flexGrow: 1, textAlign: "center", marginLeft: "150px" }}>
-            <Typography
-              sx={{
-                fontFamily: TAJAWAL,
-                fontWeight: 800,
-                fontSize: "20px",
-                direction: "ltr",
-                color: "#1D4ED8", // Blue text color
-                backgroundColor: "#F8FAFC", // Light gray background
-                px: 3,
-                py: 1,
-                borderRadius: "999px",
-                display: "inline-block",
-                boxShadow: "0 6px 20px rgba(37,99,235,0.35)",
-                letterSpacing: "0.5px",
-              }}
-            >
-              📞 +966 00 000 0000
-            </Typography>
-          </Box>
+
+        <Box
+          sx={{
+            flexGrow: 1,
+            display: "flex",
+            justifyContent: "center", // centers on all screens
+            mt: { xs: 1, sm: 2, md: 3 }, // optional top margin
+          }}
+        >
+          <Typography
+            sx={{
+              fontFamily: "TAJAWAL",
+              fontWeight: 800,
+              fontSize: { xs: "14px", sm: "16px", md: "20px" }, // smaller on phones
+              direction: "ltr",
+              color: "#1D4ED8",
+              backgroundColor: "#F8FAFC",
+              px: { xs: 2, sm: 3, md: 4 }, // responsive horizontal padding
+              py: { xs: 0.5, sm: 1, md: 1 }, // responsive vertical padding
+              borderRadius: "999px",
+              display: "inline-block",
+              boxShadow: "0 6px 20px rgba(37,99,235,0.35)",
+              letterSpacing: "0.5px",
+              cursor: "pointer",
+              transition: "all 0.3s ease",
+              "&:hover": {
+                boxShadow: "0 8px 25px rgba(37,99,235,0.5)",
+                transform: "translateY(-2px)",
+              },
+            }}
+          >
+            📞 +966 00 000 0000
+          </Typography>
+        </Box>
+
+
         </Box>
 
         {/* WhatsApp & Mobile */}

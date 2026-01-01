@@ -337,7 +337,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
           >
            <MenuItem value="500,000 إلى 1,000,000" sx={{ fontFamily: TAJAWAL, display: "flex", justifyContent: "flex-end", width: "100%" }}>
               <span style={{ marginRight: "0.5rem" }}>1,000,000</span>
-              <span style={{ marginRight: "0.5rem" }}>إلى</span>
+              <span style={{ marginRight: "1rem" }}>إلى</span>
               <span style={{ marginRight: "0.5rem" }}>500,000</span>
               <span style={{ marginRight: "0.5rem" }}>من</span>
             </MenuItem>
@@ -357,7 +357,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
             </MenuItem>
 
             <MenuItem value="2,000,000 فأكثر" sx={{ fontFamily: TAJAWAL, display: "flex", justifyContent: "flex-end", width: "100%" }}>
-              <span style={{ marginRight: "0.5rem" }}>فأكثر</span>
+              <span style={{ marginRight: "2.1rem" }}>فأكثر</span>
               <span style={{ marginRight: "0.5rem" }}>2,000,000</span>
               <span style={{ marginRight: "0.5rem" }}>من</span>
             </MenuItem>
