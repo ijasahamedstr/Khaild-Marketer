@@ -7,8 +7,10 @@ import {
   Link,
   IconButton,
   Divider,
+  Button,
 } from "@mui/material";
 import { Facebook, Instagram, Email, Phone } from "@mui/icons-material";
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 
 // تعريف متغير الخط
 const TAJAWAL = "'Tajawal', sans-serif";
@@ -85,11 +87,11 @@ const Footer: React.FC = () => {
                 <br />
                 ص.ب 23693
                 <br />
-                هاتف: <Box component="span" sx={{ direction: "ltr", unicodeBidi: "bidi-override", fontWeight: 700, fontFamily: TAJAWAL }}>+974 000 000 0000</Box>
+                هاتف: <Box component="span" sx={{ direction: "ltr", unicodeBidi: "bidi-override", fontWeight: 700, fontFamily: TAJAWAL }}>+966 000 000 0000</Box>
                 <br />
-                المنتزه، شارع الروابي، الدوحة
+                المنتزه، شارع الروابي، [المدينة]
                 <br />
-                مكتب الدوحة - قطر
+                مكتب [المدينة] - السعودية
               </Typography>
             </Box>
 
@@ -98,28 +100,38 @@ const Footer: React.FC = () => {
             {/* Column 3: Contact */}
             <Box sx={{ flexBasis: { xs: "100%", md: "18%" } }}>
               <Typography variant="h6" sx={{ mb: 2, fontSize: "1.2rem", fontWeight: 700, fontFamily: TAJAWAL }}>
-                التواصل
+                للشكاوى
               </Typography>
-              <Typography variant="body1" sx={{ lineHeight: 2, fontSize: "1rem", direction: "ltr", fontFamily: TAJAWAL }}>
-                +966 000 000 0000<br />
-                <Link href="mailto:info@almtcqatar.com" underline="hover" color="inherit" sx={{ "&:hover": { color: "#9eefff" }, fontFamily: TAJAWAL }}>
-                  info@almtcqatar.com
-                </Link>
-              </Typography>
+               <Button
+                variant="contained"
+                color="success"
+                startIcon={
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
+                    alt="WhatsApp"
+                    style={{ width: 24, height: 24 }}
+                  />
+                }
+                sx={{
+                  gap: 1.5,             // space between icon and text
+                  textTransform: "none", // keeps text normal
+                  fontSize: "1.5rem",
+                  fontFamily: TAJAWAL,
+                  width: 300,            // <-- increase button width here
+                }}
+                onClick={() =>
+                  window.open("https://wa.me/+966505868888?text=مرحبا", "_blank")
+                }
+              >
+                  اضغط هنا
+              </Button>
+
             </Box>
 
-            <Divider orientation="vertical" flexItem sx={{ display: { xs: "none", md: "block" }, borderColor: "rgba(255,255,255,0.25)" }} />
+            {/* <Divider orientation="vertical" flexItem sx={{ display: { xs: "none", md: "block" }, borderColor: "rgba(255,255,255,0.25)" }} /> */}
 
             {/* Column 4: Opening Hours */}
             <Box sx={{ flexBasis: { xs: "100%", md: "18%" } }}>
-              <Typography variant="h6" sx={{ mb: 2, fontSize: "1.2rem", fontWeight: 700, fontFamily: TAJAWAL }}>
-                ساعات العمل
-              </Typography>
-              <Typography variant="body1" sx={{ lineHeight: 2, fontSize: "1rem", fontFamily: TAJAWAL }}>
-                من السبت إلى الخميس<br />
-                ٨:٠٠ صباحًا – ٦:٠٠ مساءً<br />
-                الجمعة: مغلق
-              </Typography>
             </Box>
 
             {/* <Divider orientation="vertical" flexItem sx={{ display: { xs: "none", md: "block" }, borderColor: "rgba(255,255,255,0.25)" }} /> */}
