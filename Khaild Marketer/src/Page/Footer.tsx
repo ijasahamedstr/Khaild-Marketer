@@ -88,9 +88,9 @@ const Footer: React.FC = () => {
                 <br />
                 هاتف: <Box component="span" sx={{ direction: "ltr", unicodeBidi: "bidi-override", fontWeight: 700, fontFamily: TAJAWAL }}>+966 000 000 0000</Box>
                 <br />
-                المنتزه، شارع الروابي، [المدينة]
+               المملكة العربية السعودية - الدمام - حي البادية - شارع المستشفى
                 <br />
-                مكتب [المدينة] - السعودية
+               
               </Typography>
             </Box>
 
