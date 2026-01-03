@@ -10,7 +10,6 @@ import {
   Button,
 } from "@mui/material";
 import { Facebook, Instagram, Email, Phone } from "@mui/icons-material";
-import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 
 // تعريف متغير الخط
 const TAJAWAL = "'Tajawal', sans-serif";
