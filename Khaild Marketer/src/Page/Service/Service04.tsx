@@ -206,7 +206,6 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
                   <DarkTextField
                   value={seventhText[i] ?? ""}
                   onChange={(e) => handleSeventhTextChange(i, e.target.value)}
-                  variant="filled"
                   fullWidth
                   hiddenLabel
                   inputProps={{ dir: "rtl", style: { fontFamily: TAJAWAL, color: "#000" } }}
@@ -270,11 +269,10 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
                 الاسم
               </Typography>
               <Box sx={{ width: "40%" }}>
-                <DarkTextField
+                <TextField
                   value={formData.name}
                   onChange={(e) => handleChange("name", e.target.value)}
                   fullWidth
-                  variant="filled"
                   hiddenLabel
                   inputProps={{ dir: "rtl", style: { fontFamily: TAJAWAL, color: "#000" } }}
                   sx={{
@@ -307,11 +305,10 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
                 جوال
               </Typography>
               <Box sx={{ width: "40%" }}>
-                <DarkTextField
+                <TextField
                   value={formData.mobile}
                   onChange={(e) => handleChange("mobile", e.target.value)}
                   fullWidth
-                  variant="filled"
                   hiddenLabel
                   inputProps={{ dir: "rtl", style: { fontFamily: TAJAWAL, color: "#000" } }}
                   sx={{
