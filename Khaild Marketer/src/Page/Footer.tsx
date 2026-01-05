@@ -105,9 +105,19 @@ const Footer: React.FC = () => {
 
             {/* Column 3: Contact */}
             <Box sx={{ flexBasis: { xs: "100%", md: "18%" } }}>
-              <Typography variant="h6" sx={{ mb: 2, fontSize: "1.2rem", fontWeight: 700, fontFamily: TAJAWAL }}>
-                للشكاوى
-              </Typography>
+             <Typography
+              variant="h6"
+              sx={{
+                mb: 2,
+                fontSize: "2rem",     
+                fontWeight: 700,
+                fontFamily: TAJAWAL,
+                textAlign: "center",    
+              }}
+            >
+              للشكاوى
+            </Typography>
+
                <Button
                   variant="contained"
                   startIcon={
@@ -184,9 +194,7 @@ const Footer: React.FC = () => {
                 </Box>
               ))}
             </Box>
-          </Box>
-
-          
+          </Box>        
           </Box>
         </Container>
       </Box>
