@@ -24,6 +24,12 @@ const Footer: React.FC = () => {
 
   const partners = [
     {
+      src: "https://alrossais.com/wp-content/uploads/2025/09/ejar-4.png",
+      alt: "Partner 2",
+      href: "#",
+      label: "شريك 2",
+    },
+    {
       src: "https://alrossais.com/wp-content/uploads/2025/06/logo-5-150x150.png",
       alt: "Partner 1",
       href: "#",
@@ -43,7 +49,8 @@ const Footer: React.FC = () => {
     <Box component="footer" sx={{ direction: "rtl", fontFamily: TAJAWAL }}>
       {/* Main Footer Section */}
       <Box sx={{ background: "#023B4E", color: "#fff", py: { xs: 6, sm: 8 }, px: { xs: 3, sm: 6 } }}>
-        <Container maxWidth="xl">
+        <Container   maxWidth={false}
+          sx={{ maxWidth: 1700, px: { xs: 3, sm: 6 } }}>
           <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, justifyContent: "space-between", alignItems: { xs: "center", md: "flex-start" }, gap: 6, textAlign: { xs: "center", md: "right" } }}>
             
             {/* Column 1: Logo & Social */}
@@ -102,36 +109,41 @@ const Footer: React.FC = () => {
                 للشكاوى
               </Typography>
                <Button
-                variant="contained"
-                color="success"
-                startIcon={
-                  <img
-                    src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
-                    alt="WhatsApp"
-                    style={{ width: 24, height: 24 }}
-                  />
-                }
-                sx={{
-                  gap: 1.5,             // space between icon and text
-                  textTransform: "none", // keeps text normal
-                  fontSize: "1.5rem",
-                  fontFamily: TAJAWAL,
-                  width: 300,            // <-- increase button width here
-                }}
-                onClick={() =>
-                  window.open("https://wa.me/+966505868888?text=مرحبا", "_blank")
-                }
-              >
+                  variant="contained"
+                  startIcon={
+                    <img
+                      src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
+                      alt="WhatsApp"
+                      style={{ width: 24, height: 24 }}
+                    />
+                  }
+                  sx={{
+                    gap: 1.5,               // space between icon and text
+                    textTransform: "none",   // keeps text normal
+                    fontSize: "1.5rem",
+                    fontFamily: TAJAWAL,
+                    width: 300,              // increase button width
+                    background: "linear-gradient(135deg, #023B4E 0%, #06f9f3 100%)",
+                    "&:hover": {
+                      background: "linear-gradient(135deg, #06f9f3 0%, #023B4E 100%)", // hover effect
+                    },
+                    borderRadius: 3,         // rounded corners
+                    boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
+                  }}
+                  onClick={() =>
+                    window.open("https://wa.me/+966505868888?text=مرحبا", "_blank")
+                  }
+                >
                   اضغط هنا
-              </Button>
+                </Button>
 
             </Box>
 
             {/* <Divider orientation="vertical" flexItem sx={{ display: { xs: "none", md: "block" }, borderColor: "rgba(255,255,255,0.25)" }} /> */}
 
             {/* Column 4: Opening Hours */}
-            <Box sx={{ flexBasis: { xs: "100%", md: "18%" } }}>
-            </Box>
+            {/* <Box sx={{ flexBasis: { xs: "100%", md: "18%" } }}>
+            </Box> */}
 
             {/* <Divider orientation="vertical" flexItem sx={{ display: { xs: "none", md: "block" }, borderColor: "rgba(255,255,255,0.25)" }} /> */}
 
