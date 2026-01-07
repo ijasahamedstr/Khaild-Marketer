@@ -22,27 +22,6 @@ const Footer: React.FC = () => {
     { icon: <Instagram sx={{ fontSize: 28 }} />, link: "https://instagram.com", label: "انستجرام" },
   ];
 
-  const partners = [
-    {
-      src: "https://i.ibb.co/kgWvzCjz/freepik-br-dc43fdef-9a7a-4c2a-8a58-b83d925ea854.png",
-      alt: "Partner 2",
-      href: "#",
-      label: "شريك 2",
-    },
-    {
-      src: "https://alrossais.com/wp-content/uploads/2025/06/logo-5-150x150.png",
-      alt: "Partner 1",
-      href: "#",
-      label: "شريك 1",
-    },
-    {
-      src: "https://alrossais.com/wp-content/uploads/2025/09/ejar-4.png",
-      alt: "Partner 2",
-      href: "#",
-      label: "شريك 2",
-    },
-  ];
-
   const navLinks = ["الرئيسية", "معرض المشاريع", "المشاريع", "الخبرات", "اتصل بنا"];
 
   return (
