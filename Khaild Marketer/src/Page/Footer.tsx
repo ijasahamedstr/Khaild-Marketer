@@ -171,28 +171,66 @@ const Footer: React.FC = () => {
                 pb: 2,
               }}
             >
-              {partners.map((p, idx) => (
+             <Box
+                component={Link}
+                href="#"
+                target="_blank"
+                rel="noopener"
+                aria-label="Partner 1"
+                sx={{ display: "inline-flex", alignItems: "center", justifyContent: "center" }}
+              >
                 <Box
-                  component={Link}
-                  key={idx}
-                  href={p.href}
-                  target="_blank"
-                  rel="noopener"
-                  aria-label={p.label}
-                  sx={{ display: "inline-flex", alignItems: "center", justifyContent: "center" }}
-                >
-                  <Box
-                    component="img"
-                    src={p.src}
-                    alt={p.alt}
-                    sx={{
-                      width: { xs: 100, sm: 130, md: 150 },
-                      height: "auto",
-                      objectFit: "contain",
-                    }}
-                  />
-                </Box>
-              ))}
+                  component="img"
+                  src="https://i.ibb.co/kgWvzCjz/freepik-br-dc43fdef-9a7a-4c2a-8a58-b83d925ea854.png"
+                  alt="Partner 1 Logo"
+                  sx={{
+                    width: { xs: 100, sm: 130, md: 230 },
+                    height: "auto",
+                    objectFit: "contain",
+                  }}
+                />
+              </Box>
+
+              <Box
+                component={Link}
+                href="#"
+                target="_blank"
+                rel="noopener"
+                aria-label="Partner 2"
+                sx={{ display: "inline-flex", alignItems: "center", justifyContent: "center" }}
+              >
+                <Box
+                  component="img"
+                  src="https://alrossais.com/wp-content/uploads/2025/06/logo-5-150x150.png"
+                  alt="Partner 2 Logo"
+                  sx={{
+                    width: { xs: 100, sm: 130, md: 150 },
+                    height: "auto",
+                    objectFit: "contain",
+                  }}
+                />
+              </Box>
+
+              <Box
+                component={Link}
+                href="#"
+                target="_blank"
+                rel="noopener"
+                aria-label="Partner 3"
+                sx={{ display: "inline-flex", alignItems: "center", justifyContent: "center" }}
+              >
+                <Box
+                  component="img"
+                  src="https://alrossais.com/wp-content/uploads/2025/09/ejar-4.png"
+                  alt="Partner 3 Logo"
+                  sx={{
+                    width: { xs: 100, sm: 130, md: 150 },
+                    height: "auto",
+                    objectFit: "contain",
+                  }}
+                />
+              </Box>
+
             </Box>
           </Box>        
           </Box>
