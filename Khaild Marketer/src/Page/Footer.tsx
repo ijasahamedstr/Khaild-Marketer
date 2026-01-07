@@ -24,7 +24,7 @@ const Footer: React.FC = () => {
 
   const partners = [
     {
-      src: "https://alrossais.com/wp-content/uploads/2025/09/ejar-4.png",
+      src: "https://i.ibb.co/kgWvzCjz/freepik-br-dc43fdef-9a7a-4c2a-8a58-b83d925ea854.png",
       alt: "Partner 2",
       href: "#",
       label: "شريك 2",
