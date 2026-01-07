@@ -15,6 +15,7 @@ import Service08 from './Page/Service/Service08';
 import Service09 from './Page/Service/Service09';
 import Service10 from './Page/Service/Service10';
 import Service11 from './Page/Service/Service11';
+import Service12 from './Page/Service/Service12';
 
 
 
@@ -37,6 +38,7 @@ function App() {
         <Route path="/services/القسم النسائي" element={<Service09/>} />
         <Route path="/services/محكم معتمد" element={<Service11/>} />
         <Route path="/services/قسم التمويل العقاري" element={<Service10/>} />
+        <Route path="/services/التقييم العقاري" element={<Service12/>} />
         <Route path="/من نحن" element={<Whoweare/>} />
       </Routes>
       <Footer/>
