@@ -14,14 +14,20 @@ const Service08: React.FC = () => {
   }, []);
 
   return (
-        <Box
-        sx={{
-          width: "100%",
-          minHeight: "100vh",
-          backgroundColor: "#D1D5DC", // ← change color here
-          py: { xs: 2, md: 4 },
-        }}
-        >
+           <Box
+                sx={{
+                  width: "100%",
+                  minHeight: "100vh",
+                  backgroundImage: "url('https://i.ibb.co/F4rBMk3h/55-2-1.webp')",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
+                  position: "relative",
+          
+                  // 🔥 زيادة المسافة أعلى وأسفل
+                  py: { xs: 8, sm: 12, md: 3 }, // padding top & bottom
+                }}
+              >
            <Container
       maxWidth="lg"
       sx={{

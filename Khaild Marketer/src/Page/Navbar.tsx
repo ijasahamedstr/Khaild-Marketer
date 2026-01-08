@@ -47,6 +47,11 @@ const projectsSubMenu = [
   { label: "محكم معتمد", path: "/services/محكم معتمد" },
   { label: "خدمات التوثيق", path: "/services/خدمات التوثيق" },
   { label: "خدمات التصوير العقاري", path: "/services/خدمات التصوير العقاري" },
+
+ { label: "القسم النسائي", path: "/services/التقييم العقاري" },
+ { label: "قسم التمويل العقاري", path: "/services/تملّك الأجانب للعقارات" },
+ { label: "قسم التمويل العقاري", path: "/services/الوقف العقاري" },
+
   { label: "القسم النسائي", path: "/services/القسم النسائي" },
   { label: "قسم التمويل العقاري", path: "/services/قسم التمويل العقاري" },
 ];
