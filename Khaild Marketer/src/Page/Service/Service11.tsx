@@ -34,66 +34,84 @@ const Service11: React.FC = () => {
     >
       {/* Heading */}
     
+      <Box sx={{ position: "relative" }}>
+        
+        {/* --- GLOW EFFECT --- */}
+        <Box
+          sx={{
+            position: "absolute",
+            inset: "-2px",
+            borderRadius: "16px", // Matches the card radius
+            background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)",
+            filter: "blur(4px)",
+            zIndex: 0,
+          }}
+        />
 
-      {/* Box يحتوي الفقرات */}
-      <Box
-        sx={{
-          
-          borderRadius: 3,
-          p: { xs: 5, md: 8 }, // padding داخلي
-          display: "flex",
-          flexDirection: "column",
-          gap: 3, // فجوة بين الفقرات
-          border: "1px solid #F5F5F4", background:'#F5F5F4',
-        }}
-      >
+        {/* --- CONTENT CARD --- */}
+        <Box
+          sx={{
+            position: "relative",
+            zIndex: 10,
+            borderRadius: 3,
+            p: { xs: 5, md: 8 }, // padding داخلي
+            display: "flex",
+            flexDirection: "column",
+            gap: 3, // فجوة بين الفقرات
+            border: "1px solid #F5F5F4",
+            background: "#F5F5F4",
+          }}
+        >
           <Typography
-        variant="h4"
-        sx={{
-          fontWeight: 800,
-          fontFamily: TAJAWAL,
-          color: "#023B4E",
-          textAlign: "center",
-          mb: { xs: 6, md: 8 },
-        }}
-      >
-        محكّم معتمد
-      </Typography>
-        {/* Paragraphs / Points */}
-        {[
-          '١. نوفّر خدمة "محكّم معتمد" لحل النزاعات العقارية باحترافية وحيادية.',
-          '٢.  رأي قانوني من محامين ذوي الخبرة',
-          '٣. عند الخلاف… لا تحتار، معنا محكّم معتمد يفصل بوضوح وعدالة.',
-          '٤. نخدم عملائنا بخبرة تحكيم تجاري في القضايا العقارية',
-        ].map((text, index) => (
-          <Typography
-            key={index}
+            variant="h4"
             sx={{
-              fontWeight: 700,
+              fontWeight: 800,
               fontFamily: TAJAWAL,
-              fontSize: { xs: "1.5rem", md: "1.8rem" },
-              lineHeight: 1.8,
               color: "#023B4E",
-              textAlign: "right",
+              textAlign: "center",
+              mb: { xs: 6, md: 8 },
             }}
           >
-            {text}
+            محكّم معتمد
           </Typography>
-        ))}
 
-                    <Box
-                      component="img"
-                      src="https://i.ibb.co/dJGXTPDR/2.jpg"
-                      alt="خدماتنا"
-                      sx={{
-                        width: { xs: "100%", md: "100%" }, // responsive width
-                        height: { xs: "100%", md: "100%" }, // responsive height
-                        borderRadius: 3,
-                        boxShadow: "0 10px 30px rgba(0,0,0,0.12)",
-                        objectFit: "cover", // ensures the image fills the box without distortion
-                      }}
-                    />
+          {/* Paragraphs / Points */}
+          {[
+            '١. نوفّر خدمة "محكّم معتمد" لحل النزاعات العقارية باحترافية وحيادية.',
+            '٢.  رأي قانوني من محامين ذوي الخبرة',
+            '٣. عند الخلاف… لا تحتار، معنا محكّم معتمد يفصل بوضوح وعدالة.',
+            '٤. نخدم عملائنا بخبرة تحكيم تجاري في القضايا العقارية',
+          ].map((text, index) => (
+            <Typography
+              key={index}
+              sx={{
+                fontWeight: 700,
+                fontFamily: TAJAWAL,
+                fontSize: { xs: "1.5rem", md: "1.8rem" },
+                lineHeight: 1.8,
+                color: "#023B4E",
+                textAlign: "right",
+              }}
+            >
+              {text}
+            </Typography>
+          ))}
+
+          <Box
+            component="img"
+            src="https://i.ibb.co/dJGXTPDR/2.jpg"
+            alt="خدماتنا"
+            sx={{
+              width: { xs: "100%", md: "100%" }, // responsive width
+              height: { xs: "100%", md: "100%" }, // responsive height
+              borderRadius: 3,
+              boxShadow: "0 10px 30px rgba(0,0,0,0.12)",
+              objectFit: "cover", // ensures the image fills the box without distortion
+            }}
+          />
+        </Box>
       </Box>
+
     </Container>
         </Box>
     

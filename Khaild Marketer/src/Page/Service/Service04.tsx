@@ -130,13 +130,19 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
 
   return (
         <Box
-        sx={{
-          width: "100%",
-          minHeight: "100vh",
-         border: "1px solid #E2E8F0", background:'#E2E8F0',
-          py: { xs: 2, md: 4 },
-        }}
-        >
+               sx={{
+                 width: "100%",
+                 minHeight: "100vh",
+                 backgroundImage: "url('https://i.ibb.co/F4rBMk3h/55-2-1.webp')",
+                 backgroundSize: "cover",
+                 backgroundPosition: "center",
+                 backgroundRepeat: "no-repeat",
+                 position: "relative",
+         
+                 // 🔥 زيادة المسافة أعلى وأسفل
+                 py: { xs: 8, sm: 12, md: 3 }, // padding top & bottom
+               }}
+             >
 
     <Container
       maxWidth="lg"
@@ -167,191 +173,234 @@ const Service04: React.FC<Props> = ({ onSubmit }) => {
       </Box>
 
       {/* ---------------- SEVENTH GROUP ---------------- */}
-      <Box
-        sx={{
-          mt: 5,
-          mb: 4,
-          p: 3,
-          backgroundColor: "rgba(2, 59, 78, 0.05)",
-          borderRadius: "12px",
-          border: "1px solid #E2E8F0", background:'#E2E8F0',
-        }}
-      >
-        <Box sx={{ display: "grid", gap: 3, maxWidth: 1100, mx: "auto" }}>
-          {SEVENTH_ROWS.map((r, i) => (
-            <Box
-              key={`seventh-row-${i}`}
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: 2,
-                flexDirection: "row",
-                width: "100%",
-              }}
-            >
-              <Typography
+
+      <Box sx={{ mt: 5, mb: 4, position: "relative" }}>
+        
+        {/* --- GLOW EFFECT --- */}
+        <Box
+          sx={{
+            position: "absolute",
+            inset: "-2px",
+            borderRadius: "16px", // Matches card radius
+            background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)",
+            filter: "blur(4px)",
+            zIndex: 0,
+          }}
+        />
+
+        {/* --- CONTENT CARD --- */}
+        <Box
+          sx={{
+            position: "relative",
+            zIndex: 10,
+            p: 3,
+            borderRadius: "12px",
+            border: "1px solid #E2E8F0",
+            background: "#E2E8F0",
+          }}
+        >
+          <Box sx={{ display: "grid", gap: 3, maxWidth: 1100, mx: "auto" }}>
+            {SEVENTH_ROWS.map((r, i) => (
+              <Box
+                key={`seventh-row-${i}`}
                 sx={{
-                  fontWeight: 900,
-                  fontSize: { xs: "24px", sm: "27px" },
-                  fontFamily: TAJAWAL,
-                  color: "#000",
-                  lineHeight: 1.3,
-                  width: "35%", // Label takes 35%
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 2,
+                  flexDirection: "row",
+                  width: "100%",
                 }}
               >
-                {r.label}
-              </Typography>
-
-              {r.hasInput && (
-                  <DarkTextField
-                  value={seventhText[i] ?? ""}
-                  onChange={(e) => handleSeventhTextChange(i, e.target.value)}
-                  fullWidth
-                  hiddenLabel
-                  inputProps={{ dir: "rtl", style: { fontFamily: TAJAWAL, color: "#000" } }}
+                <Typography
                   sx={{
-                    width: "40%",
-                    "& .MuiInputBase-input": {
-                      fontSize: "1.8rem",
-                      color: "black",
-                      WebkitTextFillColor: "black",
-                    },
-                    "& .MuiInputBase-input::placeholder": {
-                      fontSize: "1.8rem",
-                      opacity: 0.7,
-                    },
+                    fontWeight: 900,
+                    fontSize: { xs: "24px", sm: "27px" },
+                    fontFamily: TAJAWAL,
+                    color: "#000",
+                    lineHeight: 1.3,
+                    width: "35%",
                   }}
-                />
-              )}
-            </Box>
-          ))}
+                >
+                  {r.label}
+                </Typography>
+
+                {r.hasInput && (
+                  <DarkTextField
+                    value={seventhText[i] ?? ""}
+                    onChange={(e) => handleSeventhTextChange(i, e.target.value)}
+                    fullWidth
+                    hiddenLabel
+                    inputProps={{ dir: "rtl", style: { fontFamily: TAJAWAL, color: "#000" } }}
+                    sx={{
+                      width: "40%",
+                      "& .MuiInputBase-input": {
+                        fontSize: "1.8rem",
+                        color: "black",
+                        WebkitTextFillColor: "black",
+                      },
+                      "& .MuiInputBase-input::placeholder": {
+                        fontSize: "1.8rem",
+                        opacity: 0.7,
+                      },
+                    }}
+                  />
+                )}
+              </Box>
+            ))}
+          </Box>
         </Box>
       </Box>
+  
 
       {/* ---------------- CONTACT FORM ---------------- */}
+
       <Box
         sx={{
           mt: 6,
-          p: 4,
-          borderRadius: "16px",
-          border: "1px solid #E2E8F0", background:'#E2E8F0',
+          position: "relative",
+          // Animation moved here so glow and content fade in together
           animation: `${fadeUp} 1000ms 300ms backwards`,
         }}
       >
-        <FormControl component="fieldset" sx={{ width: "100%", maxWidth: 1100, mx: "auto" }}>
-          <Box sx={{ mb: 4, textAlign: "right" }}>
-            <Typography
-              variant="h4"
-              sx={{
-                fontWeight: 800,
-                fontSize: { xs: "1.6rem", md: "2.2rem" },
-                color: "#023B4E",
-                fontFamily: TAJAWAL,
-                mb: 1,
-              }}
-            >
-              أو الرجاء ترك الإسم ورقم الجوال وسوف نعاود الإتصال بك
-            </Typography>
-          </Box>
+        {/* --- GLOW EFFECT --- */}
+        <Box
+          sx={{
+            position: "absolute",
+            inset: "-2px",
+            borderRadius: "16px",
+            background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)",
+            filter: "blur(4px)",
+            zIndex: 0,
+          }}
+        />
 
-          <Box sx={{ display: "grid", gap: 3, width: "100%", mx: "auto" }}>
-            {/* Name */}
-            <Box sx={{ display: "flex", gap: 2, alignItems: "top" }}>
+        {/* --- CONTENT CARD --- */}
+        <Box
+          sx={{
+            position: "relative",
+            zIndex: 10,
+            p: 4,
+            borderRadius: "16px",
+            border: "1px solid #E2E8F0",
+            background: "#E2E8F0",
+          }}
+        >
+          <FormControl component="fieldset" sx={{ width: "100%", maxWidth: 1100, mx: "auto" }}>
+            <Box sx={{ mb: 4, textAlign: "right" }}>
               <Typography
+                variant="h4"
                 sx={{
+                  fontWeight: 800,
+                  fontSize: { xs: "1.6rem", md: "2.2rem" },
+                  color: "#023B4E",
                   fontFamily: TAJAWAL,
-                  fontSize: "28px",
-                  fontWeight: 600,
-                  color: "#000",
-                  lineHeight: 1.5,
+                  mb: 1,
                 }}
               >
-                الاسم
+                أو الرجاء ترك الإسم ورقم الجوال وسوف نعاود الإتصال بك
               </Typography>
-              <Box sx={{ width: "40%" }}>
-                <TextField
-                  value={formData.name}
-                  onChange={(e) => handleChange("name", e.target.value)}
-                  fullWidth
-                  hiddenLabel
-                  inputProps={{ dir: "rtl", style: { fontFamily: TAJAWAL, color: "#000" } }}
+            </Box>
+
+            <Box sx={{ display: "grid", gap: 3, width: "100%", mx: "auto" }}>
+              {/* Name */}
+              <Box sx={{ display: "flex", gap: 2, alignItems: "top" }}>
+                <Typography
                   sx={{
-                    width: "100%",
-                    "& .MuiInputBase-input": {
-                      fontSize: "1.8rem",
-                      color: "black",
-                      WebkitTextFillColor: "black",
-                    },
-                    "& .MuiInputBase-input::placeholder": {
-                      fontSize: "1.8rem",
-                      opacity: 0.7,
-                    },
+                    fontFamily: TAJAWAL,
+                    fontSize: "28px",
+                    fontWeight: 600,
+                    color: "#000",
+                    lineHeight: 1.5,
                   }}
-                />
+                >
+                  الاسم
+                </Typography>
+                <Box sx={{ width: "40%" }}>
+                  <TextField
+                    value={formData.name}
+                    onChange={(e) => handleChange("name", e.target.value)}
+                    fullWidth
+                    hiddenLabel
+                    inputProps={{ dir: "rtl", style: { fontFamily: TAJAWAL, color: "#000" } }}
+                    sx={{
+                      width: "100%",
+                      "& .MuiInputBase-input": {
+                        fontSize: "1.8rem",
+                        color: "black",
+                        WebkitTextFillColor: "black",
+                      },
+                      "& .MuiInputBase-input::placeholder": {
+                        fontSize: "1.8rem",
+                        opacity: 0.7,
+                      },
+                    }}
+                  />
+                </Box>
+              </Box>
+
+              {/* Mobile */}
+              <Box sx={{ display: "flex", gap: 2, alignItems: "top" }}>
+                <Typography
+                  sx={{
+                    fontFamily: TAJAWAL,
+                    fontSize: "28px",
+                    fontWeight: 600,
+                    color: "#000",
+                    lineHeight: 1.5,
+                  }}
+                >
+                  جوال
+                </Typography>
+                <Box sx={{ width: "40%" }}>
+                  <TextField
+                    value={formData.mobile}
+                    onChange={(e) => handleChange("mobile", e.target.value)}
+                    fullWidth
+                    hiddenLabel
+                    inputProps={{ dir: "rtl", style: { fontFamily: TAJAWAL, color: "#000" } }}
+                    sx={{
+                      width: "100%",
+                      "& .MuiInputBase-input": {
+                        fontSize: "1.8rem",
+                        color: "black",
+                        WebkitTextFillColor: "black",
+                      },
+                      "& .MuiInputBase-input::placeholder": {
+                        fontSize: "1.8rem",
+                        opacity: 0.7,
+                      },
+                    }}
+                  />
+                </Box>
               </Box>
             </Box>
 
-            {/* Mobile */}
-            <Box sx={{ display: "flex", gap: 2, alignItems: "top" }}>
-              <Typography
+            {/* Submit */}
+            <Box sx={{ display: "flex", justifyContent: "center", mt: 6 }}>
+              <Button
+                variant="contained"
+                onClick={handleSubmit}
                 sx={{
+                  px: 6,
+                  py: 1.5,
+                  borderRadius: 3,
+                  fontWeight: 700,
                   fontFamily: TAJAWAL,
-                  fontSize: "28px",
-                  fontWeight: 600,
+                  fontSize: "1.2rem",
+                  textTransform: "none",
+                  background: GRADIENT1,
                   color: "#000",
-                  lineHeight: 1.5,
+                  boxShadow: "0 8px 28px rgba(6, 249, 243, 0.4)",
+                  "&:hover": { background: GRADIENT1, boxShadow: "0 8px 28px rgba(6, 249, 243, 0.4)" },
                 }}
               >
-                جوال
-              </Typography>
-              <Box sx={{ width: "40%" }}>
-                <TextField
-                  value={formData.mobile}
-                  onChange={(e) => handleChange("mobile", e.target.value)}
-                  fullWidth
-                  hiddenLabel
-                  inputProps={{ dir: "rtl", style: { fontFamily: TAJAWAL, color: "#000" } }}
-                  sx={{
-                    width: "100%",
-                    "& .MuiInputBase-input": {
-                      fontSize: "1.8rem",
-                      color: "black",
-                      WebkitTextFillColor: "black",
-                    },
-                    "& .MuiInputBase-input::placeholder": {
-                      fontSize: "1.8rem",
-                      opacity: 0.7,
-                    },
-                  }}
-                />
-              </Box>
+                إرسال
+              </Button>
             </Box>
-          </Box>
-
-          {/* Submit */}
-          <Box sx={{ display: "flex", justifyContent: "center", mt: 6 }}>
-            <Button
-              variant="contained"
-              onClick={handleSubmit}
-              sx={{
-                px: 6,
-                py: 1.5,
-                borderRadius: 3,
-                fontWeight: 700,
-                fontFamily: TAJAWAL,
-                fontSize: "1.2rem",
-                textTransform: "none",
-                background: GRADIENT1,
-                color: "#000",
-                boxShadow: "0 8px 28px rgba(6, 249, 243, 0.4)",
-                "&:hover": { background: GRADIENT1, boxShadow: "0 8px 28px rgba(6, 249, 243, 0.4)" },
-              }}
-            >
-              إرسال
-            </Button>
-          </Box>
-        </FormControl>
+          </FormControl>
+        </Box>
       </Box>
+
     </Container>
   </Box>
   );

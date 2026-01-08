@@ -150,25 +150,42 @@ const Footer: React.FC = () => {
                 pb: 2,
               }}
             >
-             <Box
-                component={Link}
-                href="#"
-                target="_blank"
-                rel="noopener"
-                aria-label="Partner 1"
-                sx={{ display: "inline-flex", alignItems: "center", justifyContent: "center" }}
-              >
-                <Box
-                  component="img"
-                  src="https://i.ibb.co/kgWvzCjz/freepik-br-dc43fdef-9a7a-4c2a-8a58-b83d925ea854.png"
-                  alt="Partner 1 Logo"
-                  sx={{
-                    width: { xs: 100, sm: 130, md: 230 },
-                    height: "auto",
-                    objectFit: "contain",
-                  }}
-                />
-              </Box>
+<Box
+  component={Link}
+  href="#"
+  target="_blank"
+  rel="noopener"
+  aria-label="Partner 1"
+  sx={{
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#FAFAF9",
+    borderRadius: 1.5,
+    boxShadow: 1,
+    p: 1,
+    width: { xs: 120, sm: 140, md: 220 },
+    height: { xs: 70, sm: 80, md: 90 },
+    transition: "all 0.25s ease",
+    "&:hover": {
+      boxShadow: 3,
+      transform: "translateY(-2px)",
+    },
+  }}
+>
+  <Box
+    component="img"
+    src="https://i.ibb.co/kgWvzCjz/freepik-br-dc43fdef-9a7a-4c2a-8a58-b83d925ea854.png"
+    alt="Partner 1 Logo"
+    sx={{
+      maxWidth: "100%",
+      maxHeight: "100%",
+      objectFit: "contain",
+    }}
+  />
+</Box>
+
+
 
               <Box
                 component={Link}

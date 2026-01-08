@@ -39,9 +39,26 @@ const Service14: React.FC = () => {
           fontFamily: TAJAWAL,
         }}
       >
-        {/* Content Box */}
+
+        <Box sx={{ position: "relative" }}>
+        
+        {/* --- GLOW EFFECT --- */}
         <Box
           sx={{
+            position: "absolute",
+            inset: "-2px",
+            borderRadius: "16px", // Matches the card radius
+            background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)",
+            filter: "blur(4px)",
+            zIndex: 0,
+          }}
+        />
+
+        {/* --- CONTENT CARD --- */}
+        <Box
+          sx={{
+            position: "relative",
+            zIndex: 10,
             borderRadius: 3,
             p: { xs: 5, md: 8 },
             display: "flex",
@@ -77,62 +94,64 @@ const Service14: React.FC = () => {
               textAlign: "right",
             }}
           >
-     منصة تجمع بين الخبرة العقارية والمعرفة الشرعية في مجال الوقف العقاري.
+            منصة تجمع بين الخبرة العقارية والمعرفة الشرعية في مجال الوقف العقاري.
           </Typography>
 
-      <List
-        sx={{
-            direction: "rtl",
-            textAlign: "right",
-            mt: 2,
-            fontFamily: TAJAWAL,
-        }}
-        >
-        {[
-            "نخدم المجتمع عبر تسهيل تداول عقارات الوقف وفق الأنظمة المعتمدة.",
-            "استفساراتك حول عقارات الوقف تجد إجابتها من أهل الخبرة.",
-            "عقارات الوقف... بين أيدٍ خبيرة، تُعرض وتُدار بثقة وشفافية.",
-        ].map((text, index) => (
-            <ListItem
-            key={index}
+          <List
             sx={{
-                justifyContent: "flex-start",
-                alignItems: "flex-start",
-                px: 0,
+              direction: "rtl",
+              textAlign: "right",
+              mt: 2,
+              fontFamily: TAJAWAL,
             }}
-            >
-            {/* Bullet */}
-            <Box
+          >
+            {[
+              "نخدم المجتمع عبر تسهيل تداول عقارات الوقف وفق الأنظمة المعتمدة.",
+              "استفساراتك حول عقارات الوقف تجد إجابتها من أهل الخبرة.",
+              "عقارات الوقف... بين أيدٍ خبيرة، تُعرض وتُدار بثقة وشفافية.",
+            ].map((text, index) => (
+              <ListItem
+                key={index}
                 sx={{
-                minWidth: 24,
-                textAlign: "center",
-                color: "#023B4E",
-                fontSize: "1.3rem",
-                ml: 1.5,
+                  justifyContent: "flex-start",
+                  alignItems: "flex-start",
+                  px: 0,
                 }}
-            >
-                •
-            </Box>
+              >
+                {/* Bullet */}
+                <Box
+                  sx={{
+                    minWidth: 24,
+                    textAlign: "center",
+                    color: "#023B4E",
+                    fontSize: "1.3rem",
+                    ml: 1.5,
+                  }}
+                >
+                  •
+                </Box>
 
-            {/* Text */}
-            <ListItemText
-                primary={text}
-                sx={{
-                textAlign: "right",
-                margin: 0,
-                }}
-                primaryTypographyProps={{
-                fontFamily: TAJAWAL,
-                fontSize: "1.2rem",
-                fontWeight: 600,
-                lineHeight: 1.8,
-                color: "#023B4E",
-                }}
-            />
-            </ListItem>
-        ))}
-        </List>
+                {/* Text */}
+                <ListItemText
+                  primary={text}
+                  sx={{
+                    textAlign: "right",
+                    margin: 0,
+                  }}
+                  primaryTypographyProps={{
+                    fontFamily: TAJAWAL,
+                    fontSize: "1.2rem",
+                    fontWeight: 600,
+                    lineHeight: 1.8,
+                    color: "#023B4E",
+                  }}
+                />
+              </ListItem>
+            ))}
+          </List>
         </Box>
+      </Box>
+
       </Container>
     </Box>
   );

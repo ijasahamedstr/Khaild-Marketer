@@ -20,6 +20,8 @@ import EditNoteIcon from "@mui/icons-material/EditNote";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import PhoneIcon from "@mui/icons-material/Phone";
 
+const BORDER_THICKNESS = 4;
+
 /* ---------------- TYPES ---------------- */
 
 type Props = {
@@ -176,13 +178,20 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
 
   return (
     <Box
-    sx={{
-      width: "100%",
-      minHeight: "100vh",
-      backgroundColor: "#D1D5DC", // ← change color here
-      py: { xs: 2, md: 4 },
-    }}
+      sx={{
+        width: "100%",
+        minHeight: "100vh",
+        backgroundImage: "url('https://i.ibb.co/F4rBMk3h/55-2-1.webp')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        position: "relative",
+
+        // 🔥 زيادة المسافة أعلى وأسفل
+        py: { xs: 8, sm: 12, md: 3 }, // padding top & bottom
+      }}
     >
+
        <Container
       maxWidth="md"
       sx={{
@@ -209,88 +218,146 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
       <Box
         sx={{
           display: "flex",
-          flexDirection: "row", // Always row, never stack
-          gap: { xs: 1, sm: 2 }, // smaller gap on tiny screens
+          flexDirection: "row",
+          gap: { xs: 2, sm: 3 },
           mb: 4,
-          overflowX: "auto", // optional: allow horizontal scroll if very small screen
+          overflowX: "visible",
+          p: 2,
+          perspective: "1000px",
         }}
       >
-        {/* جاهز */}
-        <Box
-          sx={{
-            flex: 1,
-            minWidth: { xs: 120, sm: "auto" }, // ensures it doesn't shrink too much
-            p: { xs: 1, sm: 2 },
-            borderRadius: 3,
-            border: "1px solid #E2E8F0", background:'#E2E8F0',
-            textAlign: "center",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <FormControlLabel
-            sx={{ width: "100%", m: 0 }}
-            control={
-              <Checkbox
-                checked={isChecked1}
-                onChange={() => handleDeveloperCheckbox(0)}
-                sx={{
-                  "& .MuiSvgIcon-root": { fontSize: { xs: 28, sm: 40 } }, // smaller icon on mobile
-                }}
-              />
-            }
-            label={
-              <Typography
-                sx={{
-                  fontFamily: TAJAWAL,
-                  fontSize: { xs: "1rem", sm: "1.5rem" }, // smaller on mobile
-                  fontWeight: "bold",
-                }}
-              >
-                جاهز
-              </Typography>
-            }
-          />
-        </Box>
-
-        {/* على الخارطة */}
+        {/* ===================== ITEM 1: JAHIZ (READY) ===================== */}
         <Box
           sx={{
             flex: 1,
             minWidth: { xs: 120, sm: "auto" },
-            p: { xs: 1, sm: 2 },
-            borderRadius: 3,
-            border: "1px solid #E2E8F0", background:'#E2E8F0',
-            textAlign: "center",
+            position: "relative",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
           }}
         >
-          <FormControlLabel
-            sx={{ width: "100%", m: 0 }}
-            control={
-              <Checkbox
-                checked={isChecked2}
-                onChange={() => handleDeveloperCheckbox(1)}
-                sx={{
-                  "& .MuiSvgIcon-root": { fontSize: { xs: 28, sm: 40 } },
-                }}
-              />
-            }
-            label={
-              <Typography
-                sx={{
-                  fontFamily: TAJAWAL,
-                  fontSize: { xs: "1rem", sm: "1.5rem" },
-                  fontWeight: "bold",
-                }}
-              >
-                على الخارطة
-              </Typography>
-            }
+          {/* --- EXTRA SMALL GLOW EFFECT --- */}
+          <Box
+            sx={{
+              position: "absolute",
+              // Very tight inset
+              inset: "-2px", 
+              borderRadius: "28px",
+              background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)",
+              // Very sharp blur
+              filter: "blur(4px)", 
+              transform: `translateZ(-${BORDER_THICKNESS}px)`,
+              zIndex: 6,
+            }}
           />
+
+          {/* --- CONTENT CARD --- */}
+          <Box
+            onClick={() => handleDeveloperCheckbox(0)}
+            sx={{
+              width: "100%",
+              p: { xs: 1, sm: 2 },
+              borderRadius: 3,
+              border: "1px solid #E2E8F0",
+              background: "#E2E8F0",
+              textAlign: "center",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              cursor: "pointer",
+              position: "relative",
+              zIndex: 10,
+            }}
+          >
+            <FormControlLabel
+              sx={{ width: "100%", m: 0, pointerEvents: "none" }}
+              control={
+                <Checkbox
+                  checked={isChecked1}
+                  sx={{ "& .MuiSvgIcon-root": { fontSize: { xs: 28, sm: 40 } } }}
+                />
+              }
+              label={
+                <Typography
+                  sx={{
+                    fontFamily: TAJAWAL,
+                    fontSize: { xs: "1rem", sm: "1.5rem" },
+                    fontWeight: "bold",
+                  }}
+                >
+                  جاهز
+                </Typography>
+              }
+            />
+          </Box>
+        </Box>
+
+        {/* ===================== ITEM 2: ON MAP (ALA AL KHARITA) ===================== */}
+        <Box
+          sx={{
+            flex: 1,
+            minWidth: { xs: 120, sm: "auto" },
+            position: "relative",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {/* --- EXTRA SMALL GLOW EFFECT --- */}
+          <Box
+            sx={{
+              position: "absolute",
+              // Very tight inset
+              inset: "-2px",
+              borderRadius: "28px",
+              background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)",
+              // Very sharp blur
+              filter: "blur(4px)",
+              transform: `translateZ(-${BORDER_THICKNESS}px)`,
+              zIndex: 6,
+            }}
+          />
+
+          {/* --- CONTENT CARD --- */}
+          <Box
+            onClick={() => handleDeveloperCheckbox(1)}
+            sx={{
+              width: "100%",
+              p: { xs: 1, sm: 2 },
+              borderRadius: 3,
+              border: "1px solid #E2E8F0",
+              background: "#E2E8F0",
+              textAlign: "center",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              cursor: "pointer",
+              position: "relative",
+              zIndex: 10,
+            }}
+          >
+            <FormControlLabel
+              sx={{ width: "100%", m: 0, pointerEvents: "none" }}
+              control={
+                <Checkbox
+                  checked={isChecked2}
+                  sx={{ "& .MuiSvgIcon-root": { fontSize: { xs: 28, sm: 40 } } }}
+                />
+              }
+              label={
+                <Typography
+                  sx={{
+                    fontFamily: TAJAWAL,
+                    fontSize: { xs: "1rem", sm: "1.5rem" },
+                    fontWeight: "bold",
+                  }}
+                >
+                  على الخارطة
+                </Typography>
+              }
+            />
+          </Box>
         </Box>
       </Box>
 
@@ -299,61 +366,80 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
       {/* ---------------- DROPDOWNS ---------------- */}
       <Box sx={{ display: "grid", gap: 3 }}>
       {DROPDOWN_FIELDS.map((field, i) => (
-        <Box
-          key={i}
-          sx={{
-            p: 3, // slightly bigger padding
-            borderRadius: 3,
-           border: "1px solid #E2E8F0", background:'#E2E8F0',
-          }}
-        >
-          {/* Field Label */}
-          <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR, alignItems: 'center' }}>
-            {field.icon}
-            <Typography
-              sx={{
-                fontWeight: 800,
-                fontSize: { xs: "1.2rem", md: "1.6rem" }, // bigger font
-                fontFamily: TAJAWAL,
-              }}
-            >
-              {field.label}
-            </Typography>
-          </Box>
-
-          {/* Single-select Checkboxes */}
+        // Wrapper Box needed for relative positioning
+        <Box key={i} sx={{ position: "relative" }}>
+          
+          {/* --- GLOW EFFECT (Always Visible) --- */}
           <Box
             sx={{
-              display: "grid",
-              gridTemplateColumns: {
-                xs: "1fr",
-                sm: "repeat(2, 1fr)",
-                md: "repeat(3, 1fr)",
-              },
-              gap: 2, // more gap between checkboxes
+              position: "absolute",
+              inset: "-2px", // Tight small border effect
+              borderRadius: "16px", // Matches the card radius + padding
+              background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)",
+              filter: "blur(4px)", // Sharp small blur
+              zIndex: 0, // Behind content
+            }}
+          />
+
+          {/* --- CONTENT CARD --- */}
+          <Box
+            sx={{
+              position: "relative",
+              zIndex: 10, // Sits on top of glow
+              p: 3, 
+              borderRadius: 3,
+              border: "1px solid #E2E8F0",
+              background: "#E2E8F0",
             }}
           >
-            {field.options.map((opt, idx) => (
-              <FormControlLabel
-                key={idx}
-                control={
-                  <Checkbox
-                    checked={dropdownValues[i] === opt}
-                    onChange={(e) =>
-                      setDropdownValues({
-                        ...dropdownValues,
-                        [i]: e.target.checked ? opt : "",
-                      })
-                    }
-                  />
-                }
-                label={
-                  <Typography sx={{ fontFamily: TAJAWAL, fontSize: { xs: "1.6rem", md: "1.7rem" }, fontWeight: 500 }}>
-                    {opt}
-                  </Typography>
-                }
-              />
-            ))}
+            {/* Field Label */}
+            <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR, alignItems: 'center' }}>
+              {field.icon}
+              <Typography
+                sx={{
+                  fontWeight: 800,
+                  fontSize: { xs: "1.2rem", md: "1.6rem" }, 
+                  fontFamily: TAJAWAL,
+                }}
+              >
+                {field.label}
+              </Typography>
+            </Box>
+
+            {/* Checkboxes Grid */}
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: {
+                  xs: "1fr",
+                  sm: "repeat(2, 1fr)",
+                  md: "repeat(3, 1fr)",
+                },
+                gap: 2, 
+              }}
+            >
+              {field.options.map((opt, idx) => (
+                <FormControlLabel
+                  key={idx}
+                  control={
+                    <Checkbox
+                      checked={dropdownValues[i] === opt}
+                      onChange={(e) =>
+                        setDropdownValues({
+                          ...dropdownValues,
+                          [i]: e.target.checked ? opt : "",
+                        })
+                      }
+                    />
+                  }
+                  label={
+                    <Typography sx={{ fontFamily: TAJAWAL, fontSize: { xs: "1.6rem", md: "1.7rem" }, fontWeight: 500 }}>
+                      {opt}
+                    </Typography>
+                  }
+                />
+              ))}
+            </Box>
           </Box>
         </Box>
       ))}
@@ -361,258 +447,435 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
 
 
       {/* ---------------- OTHER INPUTS ---------------- */}
+
       <Box sx={{ display: "grid", gap: 3, mt: 3 }}>
-        {/* Location */}
-        <Box sx={{ p: 2, borderRadius: 3, border: "1px solid #E2E8F0", background:'#E2E8F0',}}>
-          <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR }}>
-            <HomeWorkIcon />
-            <Typography sx={{ fontWeight: 700, fontSize: { xs: "1rem", md: "1.3rem" }, fontFamily: TAJAWAL }}>
-              الموقع
-            </Typography>
-          </Box>
-          <TextField
-            fullWidth
-            multiline
-            minRows={3}
-            maxRows={6}
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
+  
+  {/* ==================== 1. LOCATION ==================== */}
+  <Box sx={{ position: "relative" }}>
+    {/* Glow Effect */}
+    <Box
+      sx={{
+        position: "absolute",
+        inset: "-2px",
+        borderRadius: "16px",
+        background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)",
+        filter: "blur(4px)",
+        zIndex: 0,
+      }}
+    />
+    
+    {/* Content Card */}
+    <Box
+      sx={{
+        position: "relative",
+        zIndex: 10,
+        p: 2,
+        borderRadius: 3,
+        border: "1px solid #E2E8F0",
+        background: "#E2E8F0",
+      }}
+    >
+      <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR }}>
+        <HomeWorkIcon />
+        <Typography sx={{ fontWeight: 700, fontSize: { xs: "1rem", md: "1.3rem" }, fontFamily: TAJAWAL }}>
+          الموقع
+        </Typography>
+      </Box>
+      <TextField
+        fullWidth
+        multiline
+        minRows={3}
+        maxRows={6}
+        value={location}
+        onChange={(e) => setLocation(e.target.value)}
+        sx={{
+          "& .MuiInputBase-input": {
+            fontSize: "1.8rem",
+            color: "black",
+            WebkitTextFillColor: "black",
+            lineHeight: 1.6,
+          },
+          "& .MuiInputBase-input::placeholder": {
+            fontSize: "1.8rem",
+            opacity: 0.7,
+          },
+        }}
+      />
+    </Box>
+  </Box>
+
+  {/* ==================== 2. DEVELOPER ==================== */}
+  <Box sx={{ position: "relative" }}>
+    {/* Glow Effect */}
+    <Box
+      sx={{
+        position: "absolute",
+        inset: "-2px",
+        borderRadius: "16px",
+        background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)",
+        filter: "blur(4px)",
+        zIndex: 0,
+      }}
+    />
+
+    {/* Content Card */}
+    <Box
+      sx={{
+        position: "relative",
+        zIndex: 10,
+        p: 2,
+        borderRadius: 3,
+        border: "1px solid #E2E8F0",
+        background: "#E2E8F0",
+      }}
+    >
+      <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR }}>
+        <LocationCityIcon />
+        <Typography sx={{ fontWeight: 700, fontSize: { xs: "1rem", md: "1.3rem" }, fontFamily: TAJAWAL }}>
+          اسم المطور العقاري
+        </Typography>
+      </Box>
+      <TextField
+        fullWidth
+        value={developer}
+        onChange={(e) => setDeveloper(e.target.value)}
+        sx={{
+          "& .MuiInputBase-input": {
+            fontSize: "1.8rem",
+            color: "black",
+            WebkitTextFillColor: "black",
+          },
+          "& .MuiInputBase-input::placeholder": {
+            fontSize: "1.8rem",
+            opacity: 0.7,
+          },
+        }}
+      />
+    </Box>
+  </Box>
+
+  {/* ==================== 3. AREA ==================== */}
+  <Box sx={{ position: "relative" }}>
+    {/* Glow Effect */}
+    <Box
+      sx={{
+        position: "absolute",
+        inset: "-2px",
+        borderRadius: "16px",
+        background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)",
+        filter: "blur(4px)",
+        zIndex: 0,
+      }}
+    />
+
+    {/* Content Card */}
+    <Box
+      sx={{
+        position: "relative",
+        zIndex: 10,
+        p: 2,
+        borderRadius: 3,
+        border: "1px solid #E2E8F0",
+        background: "#E2E8F0",
+      }}
+    >
+      <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR }}>
+        <StraightenIcon />
+        <Typography sx={{ fontWeight: 700, fontSize: { xs: "1rem", md: "1.3rem" }, fontFamily: TAJAWAL }}>
+          المساحة
+        </Typography>
+      </Box>
+      <TextField
+        fullWidth
+        value={area}
+        onChange={(e) => setArea(e.target.value)}
+        sx={{
+          width: "40%",
+          "& .MuiInputBase-input": {
+            fontSize: "1.8rem",
+            color: "black",
+            WebkitTextFillColor: "black",
+          },
+          "& .MuiInputBase-input::placeholder": {
+            fontSize: "1.8rem",
+            opacity: 0.7,
+          },
+        }}
+      />
+    </Box>
+  </Box>
+
+  {/* ==================== 4. BUDGET ==================== */}
+        <Box sx={{ position: "relative" }}>
+          {/* Glow Effect */}
+          <Box
             sx={{
-              "& .MuiInputBase-input": {
-                fontSize: "1.8rem",
-                color: "black",
-                WebkitTextFillColor: "black",
-                lineHeight: 1.6,
-              },
-              "& .MuiInputBase-input::placeholder": {
-                fontSize: "1.8rem",
-                opacity: 0.7,
-              },
+              position: "absolute",
+              inset: "-2px",
+              borderRadius: "16px",
+              background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)",
+              filter: "blur(4px)",
+              zIndex: 0,
             }}
           />
 
-        </Box>
-
-        {/* Developer */}
-        <Box sx={{ p: 2, borderRadius: 3, border: "1px solid #E2E8F0", background:'#E2E8F0',}}>
-          <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR }}>
-            <LocationCityIcon />
-            <Typography sx={{ fontWeight: 700, fontSize: { xs: "1rem", md: "1.3rem" }, fontFamily: TAJAWAL }}>
-              اسم المطور العقاري 
-            </Typography>
-          </Box>
-          <TextField
-            fullWidth
-            // placeholder="اسم المطور العقاري"
-            value={developer}
-            onChange={(e) => setDeveloper(e.target.value)}
-             sx={{
-              "& .MuiInputBase-input": {
-                fontSize: "1.8rem",
-                color: "black",
-                WebkitTextFillColor: "black",
-              },
-              "& .MuiInputBase-input::placeholder": {
-                fontSize: "1.8rem",
-                opacity: 0.7,
-              },
+          {/* Content Card */}
+          <Box
+            sx={{
+              position: "relative",
+              zIndex: 10,
+              p: 2,
+              borderRadius: 3,
+              border: "1px solid #E2E8F0",
+              background: "#E2E8F0",
             }}
-          />
-        </Box>
+          >
+            <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR }}>
+              <AccountBalanceWalletIcon />
+              <Typography sx={{ fontWeight: 700, fontSize: { xs: "1rem", md: "1.3rem" }, fontFamily: TAJAWAL }}>
+                سعر البيع
+              </Typography>
+            </Box>
 
-        {/* Area */}
-        <Box sx={{ p: 2, borderRadius: 3, border: "1px solid #E2E8F0", background:'#E2E8F0', }}>
-          <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR }}>
-            <StraightenIcon />
-            <Typography sx={{ fontWeight: 700, fontSize: { xs: "1rem", md: "1.3rem" }, fontFamily: TAJAWAL }}>
-              المساحة
-            </Typography>
-          </Box>
-          <TextField
-            fullWidth
-            // placeholder="المساحة"
-            value={area}
-            onChange={(e) => setArea(e.target.value)}
-             sx={{
-              width: "40%",
-              "& .MuiInputBase-input": {
-                fontSize: "1.8rem",
-                color: "black",
-                WebkitTextFillColor: "black",
-              },
-              "& .MuiInputBase-input::placeholder": {
-                fontSize: "1.8rem",
-                opacity: 0.7,
-              },
-            }}
-          />
-        </Box>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 1.5 }}>
+              <Checkbox
+                checked={checkboxValues[0]}
+                onChange={(e) => handleCheckboxChange(0, e.target.checked)}
+              />
+              <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL }}>حد</Typography>
+              <TextField
+                size="small"
+                value={priceLimit}
+                onChange={(e) => setPriceLimit(e.target.value)}
+                sx={{ width: { xs: 120, sm: 160, md: 220 } }}
+                type="text"
+              />
+            </Box>
 
-        {/* Budget */}
-        <Box sx={{ p: 2, borderRadius: 3, border: "1px solid #E2E8F0", background:'#E2E8F0', }}>
-          <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR }}>
-            <AccountBalanceWalletIcon />
-            <Typography sx={{ fontWeight: 700, fontSize: { xs: "1rem", md: "1.3rem" }, fontFamily: TAJAWAL }}>
-              سعر البيع
-            </Typography>
-          </Box>
-
-          <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 1.5 }}>
-            <Checkbox checked={checkboxValues[0]} onChange={(e)=>handleCheckboxChange(0, e.target.checked)} />
-            <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL }}>حد</Typography>
-            <TextField size="small"  value={priceLimit} onChange={(e)=>setPriceLimit(e.target.value)} sx={{width:{xs:120, sm:160, md:220}}} type="text"/>
-          </Box>
-
-          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-            <Checkbox checked={checkboxValues[1]} onChange={(e)=>handleCheckboxChange(1, e.target.checked)} />
-            <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL }}>على السوم</Typography>
-            <TextField size="small"  value={priceOffer} onChange={(e)=>setPriceOffer(e.target.value)} sx={{width:{xs:120, sm:160, md:220}}} type="text"/>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+              <Checkbox
+                checked={checkboxValues[1]}
+                onChange={(e) => handleCheckboxChange(1, e.target.checked)}
+              />
+              <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL }}>على السوم</Typography>
+              <TextField
+                size="small"
+                value={priceOffer}
+                onChange={(e) => setPriceOffer(e.target.value)}
+                sx={{ width: { xs: 120, sm: 160, md: 220 } }}
+                type="text"
+              />
+            </Box>
           </Box>
         </Box>
       </Box>
+   
 
-      {/* ---------------- TEXT AREA ---------------- */}
-      <Box sx={{ mt: 5,border: "1px solid #E2E8F0", background:'#E2E8F0',    borderRadius: 3,  p: 3,}}>
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          <EditNoteIcon sx={{ color: LABEL_COLOR }} />
-          <Typography sx={{ fontWeight: 800, fontSize: { xs: "1.2rem", md: "1.6rem" }, color: LABEL_COLOR, fontFamily: TAJAWAL }}>تفاصيل إضافية</Typography>
-        </Box>
-        <Typography sx={{ mt: 0.5, mb: 1.5, fontSize: "0.95rem", color: "#222324ff", fontFamily: TAJAWAL ,fontWeight:'bold'}}>
-          اذكر أي ملاحظات أو متطلبات خاصة تساعدنا في خدمتك بشكل أفضل
-        </Typography>
-        <TextField
-          multiline
-          minRows={4}
-          fullWidth
-          placeholder="اكتب ملاحظاتك هنا..."
-          value={notes}
-          onChange={(e) => setNotes(e.target.value)}
+ {/* ---------------- TEXT AREA ---------------- */}
+      <Box sx={{ mt: 5, position: "relative" }}>
+        
+        {/* --- GLOW EFFECT --- */}
+        <Box
           sx={{
-            "& .MuiInputBase-input": {
-              fontSize: "1.8rem",
-              color: "black",
-              WebkitTextFillColor: "black",
-              fontFamily: TAJAWAL, // moved here
-            },
-            "& .MuiInputBase-input::placeholder": {
-              fontSize: "1.8rem",
-              opacity: 0.7,
-              fontFamily: TAJAWAL, // placeholder font
-            },
+            position: "absolute",
+            inset: "-2px",
+            borderRadius: "16px", // Matches the curve of the content box
+            background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)",
+            filter: "blur(4px)",
+            zIndex: 0,
           }}
         />
 
+        {/* --- CONTENT BOX --- */}
+        <Box
+          sx={{
+            position: "relative",
+            zIndex: 10,
+            border: "1px solid #E2E8F0",
+            background: "#E2E8F0",
+            borderRadius: 3,
+            p: 3,
+          }}
+        >
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+            <EditNoteIcon sx={{ color: LABEL_COLOR }} />
+            <Typography sx={{ fontWeight: 800, fontSize: { xs: "1.2rem", md: "1.6rem" }, color: LABEL_COLOR, fontFamily: TAJAWAL }}>
+              تفاصيل إضافية
+            </Typography>
+          </Box>
+          
+          <Typography sx={{ mt: 0.5, mb: 1.5, fontSize: "0.95rem", color: "#222324ff", fontFamily: TAJAWAL, fontWeight: 'bold' }}>
+            اذكر أي ملاحظات أو متطلبات خاصة تساعدنا في خدمتك بشكل أفضل
+          </Typography>
+          
+          <TextField
+            multiline
+            minRows={4}
+            fullWidth
+            placeholder="اكتب ملاحظاتك هنا..."
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            sx={{
+              "& .MuiInputBase-input": {
+                fontSize: "1.8rem",
+                color: "black",
+                WebkitTextFillColor: "black",
+                fontFamily: TAJAWAL,
+              },
+              "& .MuiInputBase-input::placeholder": {
+                fontSize: "1.8rem",
+                opacity: 0.7,
+                fontFamily: TAJAWAL,
+              },
+            }}
+          />
+        </Box>
       </Box>
 
       {/* ---------------- CONTACT CHANNELS ---------------- */}
-      <Box sx={{ mt: 6, p: 3, borderRadius: 3, border: "1px solid #E2E8F0", background:'#E2E8F0', }}>
-        <Typography sx={{ fontWeight: 800, fontSize: "1.3rem", mb: 0.5, color: LABEL_COLOR, fontFamily: TAJAWAL }}>
-          قنوات التواصل
-        </Typography>
-        <Typography sx={{ fontSize: "1rem", mb: 3, color: "#242629ff", fontFamily: TAJAWAL,fontWeight:'bold' }}>
-          وسائل التواصل المتعددة تتيح الرد السريع من الفريق المختص
-        </Typography>
-
-        {/* Call */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
-          <FormControlLabel
-            control={
-              <Checkbox checked={channels.call} onChange={(e)=>setChannels({...channels, call:e.target.checked})} />
-            }
-            label={<Typography sx={{ fontFamily: TAJAWAL ,fontSize:'18px'}}> الرجاء التواصل على الرقم </Typography>}
-          />
-
+      <Box sx={{ mt: 6, position: "relative" }}>
+        
+        {/* --- GLOW EFFECT --- */}
         <Box
           sx={{
-            flexGrow: 1,
-            display: "flex",
-            justifyContent: "center", // centers on all screens
-            mt: { xs: 1, sm: 2, md: 3 }, // optional top margin
+            position: "absolute",
+            inset: "-2px",
+            borderRadius: "16px",
+            background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)",
+            filter: "blur(4px)",
+            zIndex: 0,
+          }}
+        />
+
+        {/* --- CONTENT CARD --- */}
+        <Box
+          sx={{
+            position: "relative",
+            zIndex: 10,
+            p: 3,
+            borderRadius: 3,
+            border: "1px solid #E2E8F0",
+            background: "#E2E8F0",
           }}
         >
-          <Typography
-            sx={{
-              fontFamily: "TAJAWAL",
-              fontWeight: 800,
-              fontSize: { xs: "14px", sm: "16px", md: "20px" }, // smaller on phones
-              direction: "ltr",
-              color: "#1D4ED8",
-              backgroundColor: "#F8FAFC",
-              px: { xs: 2, sm: 3, md: 4 }, // responsive horizontal padding
-              py: { xs: 0.5, sm: 1, md: 1 }, // responsive vertical padding
-              borderRadius: "999px",
-              display: "inline-block",
-              boxShadow: "0 6px 20px rgba(37,99,235,0.35)",
-              letterSpacing: "0.5px",
-              cursor: "pointer",
-              transition: "all 0.3s ease",
-              "&:hover": {
-                boxShadow: "0 8px 25px rgba(37,99,235,0.5)",
-                transform: "translateY(-2px)",
-              },
-            }}
-          >
-            📞 +966 00 000 0000
+          <Typography sx={{ fontWeight: 800, fontSize: "1.3rem", mb: 0.5, color: LABEL_COLOR, fontFamily: TAJAWAL }}>
+            قنوات التواصل
           </Typography>
-        </Box>
+          <Typography sx={{ fontSize: "1rem", mb: 3, color: "#242629ff", fontFamily: TAJAWAL, fontWeight: 'bold' }}>
+            وسائل التواصل المتعددة تتيح الرد السريع من الفريق المختص
+          </Typography>
 
+          {/* Call */}
+          <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
+            <FormControlLabel
+              control={
+                <Checkbox checked={channels.call} onChange={(e) => setChannels({ ...channels, call: e.target.checked })} />
+              }
+              label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: '18px' }}> الرجاء التواصل على الرقم </Typography>}
+            />
 
-        </Box>
-
-        {/* WhatsApp & Mobile */}
-        <Box sx={{ display:"flex", justifyContent:"flex-start", gap:8, alignItems:"center", mb:3, marginRight:'27px'}}>
-          <Box sx={{ display:"flex", alignItems:"center", gap:1 }}>
-            <WhatsAppIcon sx={{ color:"#25D366" }}/>
-            <Typography sx={{ fontFamily: TAJAWAL }}>واتساب</Typography>
+            <Box
+              sx={{
+                flexGrow: 1,
+                display: "flex",
+                justifyContent: "center",
+                mt: { xs: 1, sm: 2, md: 3 },
+              }}
+            >
+              <Typography
+                sx={{
+                  fontFamily: "TAJAWAL",
+                  fontWeight: 800,
+                  fontSize: { xs: "14px", sm: "16px", md: "20px" },
+                  direction: "ltr",
+                  color: "#1D4ED8",
+                  backgroundColor: "#F8FAFC",
+                  px: { xs: 2, sm: 3, md: 4 },
+                  py: { xs: 0.5, sm: 1, md: 1 },
+                  borderRadius: "999px",
+                  display: "inline-block",
+                  boxShadow: "0 6px 20px rgba(37,99,235,0.35)",
+                  letterSpacing: "0.5px",
+                  cursor: "pointer",
+                  transition: "all 0.3s ease",
+                  "&:hover": {
+                    boxShadow: "0 8px 25px rgba(37,99,235,0.5)",
+                    transform: "translateY(-2px)",
+                  },
+                }}
+              >
+                📞 +966 00 000 0000
+              </Typography>
+            </Box>
           </Box>
-          <Box sx={{ display:"flex", alignItems:"center", gap:1 }}>
-            <PhoneIcon/>
-            <Typography sx={{ fontFamily: TAJAWAL }}>جوال</Typography>
+
+          {/* WhatsApp & Mobile */}
+          <Box sx={{ display: "flex", justifyContent: "flex-start", gap: 8, alignItems: "center", mb: 3, marginRight: '27px' }}>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+              <WhatsAppIcon sx={{ color: "#25D366" }} />
+              <Typography sx={{ fontFamily: TAJAWAL }}>واتساب</Typography>
+            </Box>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+              <PhoneIcon />
+              <Typography sx={{ fontFamily: TAJAWAL }}>جوال</Typography>
+            </Box>
           </Box>
-        </Box>
 
-        <Divider sx={{ my:3, borderColor:"#1f2937", borderBottomWidth:"2px"}}/>
+          <Divider sx={{ my: 3, borderColor: "#1f2937", borderBottomWidth: "2px" }} />
 
-        {/* Chat checkbox */}
-        <FormControlLabel sx={{ mb:3 }} control={<Checkbox checked={channels.chat} onChange={(e)=>setChannels({...channels, chat:e.target.checked})}/>} label={<Typography sx={{ fontFamily:TAJAWAL,fontSize:'18px',fontWeight:'bold'}}> اترك اسمك وجوالك للتواصل معك لاحقًا </Typography>}/>
+          {/* Chat checkbox */}
+          <FormControlLabel
+            sx={{ mb: 3 }}
+            control={<Checkbox checked={channels.chat} onChange={(e) => setChannels({ ...channels, chat: e.target.checked })} />}
+            label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: '18px', fontWeight: 'bold' }}> اترك اسمك وجوالك للتواصل معك لاحقًا </Typography>}
+          />
 
-        {/* Name */}
-        <Box sx={{ display:"flex", alignItems:"center", gap:2, mb:2 }}>
-          <Typography sx={{ minWidth:120, fontFamily:TAJAWAL, fontWeight:600, fontSize:'18px'}}> الاسم </Typography>
-          <TextField  value={name} onChange={(e)=>setName(e.target.value)} sx={{
-              "& .MuiInputBase-input": {
-                fontSize: "1.8rem",
-                color: "black",
-                WebkitTextFillColor: "black",
-                width:{ xs:"100%", sm:"60%", md:"50%"}
-              },
-              "& .MuiInputBase-input::placeholder": {
-                fontSize: "1.8rem",
-                opacity: 0.7,
-                width:{ xs:"100%", sm:"60%", md:"50%"}
-              },
-            }}/>
-        </Box>
+          {/* Name */}
+          <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
+            <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 600, fontSize: '18px' }}> الاسم </Typography>
+            <TextField
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              sx={{
+                "& .MuiInputBase-input": {
+                  fontSize: "1.8rem",
+                  color: "black",
+                  WebkitTextFillColor: "black",
+                  width: { xs: "100%", sm: "60%", md: "50%" }
+                },
+                "& .MuiInputBase-input::placeholder": {
+                  fontSize: "1.8rem",
+                  opacity: 0.7,
+                  width: { xs: "100%", sm: "60%", md: "50%" }
+                },
+              }}
+            />
+          </Box>
 
-        {/* Mobile */}
-        <Box sx={{ display:"flex", alignItems:"center", gap:2 }}>
-          <Typography sx={{ minWidth:120, fontFamily:TAJAWAL, fontWeight:600, fontSize:'18px'}}> الجوال </Typography>
-          <TextField  value={mobile} onChange={(e)=>setMobile(e.target.value)}  sx={{
-              "& .MuiInputBase-input": {
-                fontSize: "1.8rem",
-                color: "black",
-                WebkitTextFillColor: "black",
-                width:{ xs:"100%", sm:"60%", md:"50%"}
-              },
-              "& .MuiInputBase-input::placeholder": {
-                fontSize: "1.8rem",
-                opacity: 0.7,
-                width:{ xs:"100%", sm:"60%", md:"50%"}
-              },
-            }}/>
+          {/* Mobile */}
+          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+            <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 600, fontSize: '18px' }}> الجوال </Typography>
+            <TextField
+              value={mobile}
+              onChange={(e) => setMobile(e.target.value)}
+              sx={{
+                "& .MuiInputBase-input": {
+                  fontSize: "1.8rem",
+                  color: "black",
+                  WebkitTextFillColor: "black",
+                  width: { xs: "100%", sm: "60%", md: "50%" }
+                },
+                "& .MuiInputBase-input::placeholder": {
+                  fontSize: "1.8rem",
+                  opacity: 0.7,
+                  width: { xs: "100%", sm: "60%", md: "50%" }
+                },
+              }}
+            />
+          </Box>
         </Box>
       </Box>
-
+      
       {/* ---------------- SUBMIT ---------------- */}
       <Box sx={{ mt: 5, textAlign: "center" }}>
         <Button variant="contained" onClick={handleSubmit} sx={{px:5, py:1.4, fontSize:"18px", fontWeight:800, background:GRADIENT, fontFamily:TAJAWAL}}>
@@ -621,7 +884,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
       </Box>
     </Container>
   </Box>
-   
+    
   );
 };
 

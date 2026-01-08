@@ -40,8 +40,26 @@ const Service13: React.FC = () => {
         }}
       >
         {/* Content Box */}
+
+        <Box sx={{ position: "relative" }}>
+
+        {/* --- GLOW EFFECT --- */}
         <Box
           sx={{
+            position: "absolute",
+            inset: "-2px",
+            borderRadius: "16px", // Matches or slightly exceeds card radius for soft edge
+            background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)",
+            filter: "blur(4px)",
+            zIndex: 0,
+          }}
+        />
+
+        {/* --- CONTENT CARD --- */}
+        <Box
+          sx={{
+            position: "relative",
+            zIndex: 10,
             borderRadius: 3,
             p: { xs: 5, md: 8 },
             display: "flex",
@@ -77,89 +95,7 @@ const Service13: React.FC = () => {
               textAlign: "right",
             }}
           >
-          خلال السنوات الماضية، شهدت المملكة العربية السعودية تغييرات كبيرة في سياساتها العقارية من أجل جذب المزيد من الاستثمار الأجنبي وتفعيل دور السوق العقاري في دعم الاقتصاد وفق رؤية 2030. جزء مهم من هذه التغييرات هو نظام تملّك غير السعوديين للعقار الذي أُقرّ حديثًا، ويعد من أهم التطورات التشريعية في سوق العقار السعودي. 
-          </Typography>
-
-           <Typography
-            sx={{
-              fontWeight: 700,
-              fontFamily: TAJAWAL,
-              fontSize: { xs: "1.5rem", md: "1.8rem" },
-              lineHeight: 1.6,
-              color: "#023B4E",
-              textAlign: "right",
-            }}
-          >
-         📌 ما الذي ينص عليه القانون الجديد؟  
-          </Typography>
-          
-
-   <List
-        sx={{
-            direction: "rtl",
-            textAlign: "right",
-            mt: 2,
-            fontFamily: TAJAWAL,
-        }}
-        >
-        {[
-            "يسمح القانون لغير السعودي تملّك عقار أو اكتساب الحقوق العينية داخل المملكة في النطاق الجغرافي الذي يحدده مجلس الوزراء.",
-            "المقيمون نظاميًا يحق لهم تملّك عقار للسكن الخاص بعد الحصول على الترخيص اللازم من الجهات الرسمية.",
-            "بالنسبة للعقارات في مكة المكرّمة والمدينة المنوّرة، فإن التملك متاح فقط للأشخاص ذوي الصفة الطبيعية من المسلمين وفق ضوابط مُحددة.",
-            "تسمح اللائحة التنفيذية أيضًا بتملك الحقوق العينية الأخرى مثل الانتفاع والإيجار طويل الأمد بعد التسجيل لدى السجل العقاري",
-            "ستعلن الوثيقة الرسمية لاحقًا المناطق الجغرافية المسموح فيها بالملكية الأجنبية*وتفاصيل نسب الملكية",
-        ].map((text, index) => (
-            <ListItem
-            key={index}
-            sx={{
-                justifyContent: "flex-start",
-                alignItems: "flex-start",
-                px: 0,
-            }}
-            >
-            {/* Bullet */}
-            <Box
-                sx={{
-                minWidth: 24,
-                textAlign: "center",
-                color: "#023B4E",
-                fontSize: "1.3rem",
-                ml: 1.5,
-                }}
-            >
-                •
-            </Box>
-
-            {/* Text */}
-            <ListItemText
-                primary={text}
-                sx={{
-                textAlign: "right",
-                margin: 0,
-                }}
-                primaryTypographyProps={{
-                fontFamily: TAJAWAL,
-                fontSize: "1.2rem",
-                fontWeight: 600,
-                lineHeight: 1.8,
-                color: "#023B4E",
-                }}
-            />
-            </ListItem>
-        ))}
-        </List>
-
-           <Typography
-            sx={{
-              fontWeight: 700,
-              fontFamily: TAJAWAL,
-              fontSize: { xs: "1.5rem", md: "1.8rem" },
-              lineHeight: 1.6,
-              color: "#023B4E",
-              textAlign: "right",
-            }}
-          >
-         📌 لماذا هذا النظام مهم؟ 
+            خلال السنوات الماضية، شهدت المملكة العربية السعودية تغييرات كبيرة في سياساتها العقارية من أجل جذب المزيد من الاستثمار الأجنبي وتفعيل دور السوق العقاري في دعم الاقتصاد وفق رؤية 2030. جزء مهم من هذه التغييرات هو نظام تملّك غير السعوديين للعقار الذي أُقرّ حديثًا، ويعد من أهم التطورات التشريعية في سوق العقار السعودي.
           </Typography>
 
           <Typography
@@ -172,10 +108,94 @@ const Service13: React.FC = () => {
               textAlign: "right",
             }}
           >
-         يأتي القانون الجديد في إطار جهود المملكة لتوسيع دور الاستثمار الأجنبي في قطاع العقار، وتنويع مصادر الدخل الوطني وتعزيز النمو الاقتصادي في قطاعات غير النفط، وهو ما يتماشى مع برامج رؤية السعودية 2030.
+            📌 ما الذي ينص عليه القانون الجديد؟
+          </Typography>
+
+
+          <List
+            sx={{
+              direction: "rtl",
+              textAlign: "right",
+              mt: 2,
+              fontFamily: TAJAWAL,
+            }}
+          >
+            {[
+              "يسمح القانون لغير السعودي تملّك عقار أو اكتساب الحقوق العينية داخل المملكة في النطاق الجغرافي الذي يحدده مجلس الوزراء.",
+              "المقيمون نظاميًا يحق لهم تملّك عقار للسكن الخاص بعد الحصول على الترخيص اللازم من الجهات الرسمية.",
+              "بالنسبة للعقارات في مكة المكرّمة والمدينة المنوّرة، فإن التملك متاح فقط للأشخاص ذوي الصفة الطبيعية من المسلمين وفق ضوابط مُحددة.",
+              "تسمح اللائحة التنفيذية أيضًا بتملك الحقوق العينية الأخرى مثل الانتفاع والإيجار طويل الأمد بعد التسجيل لدى السجل العقاري",
+              "ستعلن الوثيقة الرسمية لاحقًا المناطق الجغرافية المسموح فيها بالملكية الأجنبية*وتفاصيل نسب الملكية",
+            ].map((text, index) => (
+              <ListItem
+                key={index}
+                sx={{
+                  justifyContent: "flex-start",
+                  alignItems: "flex-start",
+                  px: 0,
+                }}
+              >
+                {/* Bullet */}
+                <Box
+                  sx={{
+                    minWidth: 24,
+                    textAlign: "center",
+                    color: "#023B4E",
+                    fontSize: "1.3rem",
+                    ml: 1.5,
+                  }}
+                >
+                  •
+                </Box>
+
+                {/* Text */}
+                <ListItemText
+                  primary={text}
+                  sx={{
+                    textAlign: "right",
+                    margin: 0,
+                  }}
+                  primaryTypographyProps={{
+                    fontFamily: TAJAWAL,
+                    fontSize: "1.2rem",
+                    fontWeight: 600,
+                    lineHeight: 1.8,
+                    color: "#023B4E",
+                  }}
+                />
+              </ListItem>
+            ))}
+          </List>
+
+          <Typography
+            sx={{
+              fontWeight: 700,
+              fontFamily: TAJAWAL,
+              fontSize: { xs: "1.5rem", md: "1.8rem" },
+              lineHeight: 1.6,
+              color: "#023B4E",
+              textAlign: "right",
+            }}
+          >
+            📌 لماذا هذا النظام مهم؟
+          </Typography>
+
+          <Typography
+            sx={{
+              fontWeight: 700,
+              fontFamily: TAJAWAL,
+              fontSize: { xs: "1.5rem", md: "1.8rem" },
+              lineHeight: 1.6,
+              color: "#023B4E",
+              textAlign: "right",
+            }}
+          >
+            يأتي القانون الجديد في إطار جهود المملكة لتوسيع دور الاستثمار الأجنبي في قطاع العقار، وتنويع مصادر الدخل الوطني وتعزيز النمو الاقتصادي في قطاعات غير النفط، وهو ما يتماشى مع برامج رؤية السعودية 2030.
           </Typography>
 
         </Box>
+      </Box>
+
       </Container>
 
 
@@ -193,8 +213,25 @@ const Service13: React.FC = () => {
         }}
       >
         {/* Content Box */}
+      <Box sx={{ position: "relative" }}>
+        
+        {/* --- GLOW EFFECT --- */}
         <Box
           sx={{
+            position: "absolute",
+            inset: "-2px",
+            borderRadius: "16px", // Matches the card radius
+            background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)",
+            filter: "blur(4px)",
+            zIndex: 0,
+          }}
+        />
+
+        {/* --- CONTENT CARD --- */}
+        <Box
+          sx={{
+            position: "relative",
+            zIndex: 10,
             borderRadius: 3,
             p: { xs: 5, md: 8 },
             display: "flex",
@@ -216,7 +253,7 @@ const Service13: React.FC = () => {
               mb: { xs: 6, md: 8 },
             }}
           >
-            📌 *بعض الشروط العامة التي تهم المتملك الأجنبي: 
+            📌 *بعض الشروط العامة التي تهم المتملك الأجنبي:
           </Typography>
 
           {/* Paragraph */}
@@ -230,62 +267,62 @@ const Service13: React.FC = () => {
               textAlign: "right",
             }}
           >
-         يجب أن يكون لدى غير السعودي إقامة نظامية أو تصريح قانوني بحسب نوع التملك والغرض منه.  
+            يجب أن يكون لدى غير السعودي إقامة نظامية أو تصريح قانوني بحسب نوع التملك والغرض منه.
           </Typography>
 
-      <List
-        sx={{
-            direction: "rtl",
-            textAlign: "right",
-            mt: 2,
-            fontFamily: TAJAWAL,
-        }}
-        >
-        {[
-            "يمكن أن تُطبّق ضوابط إضافية على العقارات التجارية أو الاستثمارية، وقد تتطلب موافقات خاصة من وزارة الداخلية أو الجهات المختصة",
-            "في بعض الحالات يتعين على المستثمر تقديم دليل على قدرته المالية أو الالتزام بالشروط النظامية لتسجيل الملكية",
-
-        ].map((text, index) => (
-            <ListItem
-            key={index}
+          <List
             sx={{
-                justifyContent: "flex-start",
-                alignItems: "flex-start",
-                px: 0,
+              direction: "rtl",
+              textAlign: "right",
+              mt: 2,
+              fontFamily: TAJAWAL,
             }}
-            >
-            {/* Bullet */}
-            <Box
+          >
+            {[
+              "يمكن أن تُطبّق ضوابط إضافية على العقارات التجارية أو الاستثمارية، وقد تتطلب موافقات خاصة من وزارة الداخلية أو الجهات المختصة",
+              "في بعض الحالات يتعين على المستثمر تقديم دليل على قدرته المالية أو الالتزام بالشروط النظامية لتسجيل الملكية",
+            ].map((text, index) => (
+              <ListItem
+                key={index}
                 sx={{
-                minWidth: 24,
-                textAlign: "center",
-                color: "#023B4E",
-                fontSize: "1.3rem",
-                ml: 1.5,
+                  justifyContent: "flex-start",
+                  alignItems: "flex-start",
+                  px: 0,
                 }}
-            >
-                •
-            </Box>
+              >
+                {/* Bullet */}
+                <Box
+                  sx={{
+                    minWidth: 24,
+                    textAlign: "center",
+                    color: "#023B4E",
+                    fontSize: "1.3rem",
+                    ml: 1.5,
+                  }}
+                >
+                  •
+                </Box>
 
-            {/* Text */}
-            <ListItemText
-                primary={text}
-                sx={{
-                textAlign: "right",
-                margin: 0,
-                }}
-                primaryTypographyProps={{
-                fontFamily: TAJAWAL,
-                fontSize: "1.2rem",
-                fontWeight: 600,
-                lineHeight: 1.8,
-                color: "#023B4E",
-                }}
-            />
-            </ListItem>
-        ))}
-        </List>
-        <Typography
+                {/* Text */}
+                <ListItemText
+                  primary={text}
+                  sx={{
+                    textAlign: "right",
+                    margin: 0,
+                  }}
+                  primaryTypographyProps={{
+                    fontFamily: TAJAWAL,
+                    fontSize: "1.2rem",
+                    fontWeight: 600,
+                    lineHeight: 1.8,
+                    color: "#023B4E",
+                  }}
+                />
+              </ListItem>
+            ))}
+          </List>
+          
+          <Typography
             sx={{
               fontWeight: 700,
               fontFamily: TAJAWAL,
@@ -295,63 +332,62 @@ const Service13: React.FC = () => {
               textAlign: "right",
             }}
           >
-         📌 فرص ومزايا التملك:  
+            📌 فرص ومزايا التملك:
           </Typography>
 
-             <List
-        sx={{
-            direction: "rtl",
-            textAlign: "right",
-            mt: 2,
-            fontFamily: TAJAWAL,
-        }}
-        >
-        {[
-            "تتيح هذه السياسة الجديدة غير السعوديين فرصة الاستقرار السكني أو الاستثمار العقاري في السعودية في مناطق محددة",
-            "توضح التشريعات أن السوق سيكون أكثر انفتاحًا مع تنظيمات واضحة ومدروسة.",
-
-        ].map((text, index) => (
-            <ListItem
-            key={index}
+          <List
             sx={{
-                justifyContent: "flex-start",
-                alignItems: "flex-start",
-                px: 0,
+              direction: "rtl",
+              textAlign: "right",
+              mt: 2,
+              fontFamily: TAJAWAL,
             }}
-            >
-            {/* Bullet */}
-            <Box
+          >
+            {[
+              "تتيح هذه السياسة الجديدة غير السعوديين فرصة الاستقرار السكني أو الاستثمار العقاري في السعودية في مناطق محددة",
+              "توضح التشريعات أن السوق سيكون أكثر انفتاحًا مع تنظيمات واضحة ومدروسة.",
+            ].map((text, index) => (
+              <ListItem
+                key={index}
                 sx={{
-                minWidth: 24,
-                textAlign: "center",
-                color: "#023B4E",
-                fontSize: "1.3rem",
-                ml: 1.5,
+                  justifyContent: "flex-start",
+                  alignItems: "flex-start",
+                  px: 0,
                 }}
-            >
-                •
-            </Box>
+              >
+                {/* Bullet */}
+                <Box
+                  sx={{
+                    minWidth: 24,
+                    textAlign: "center",
+                    color: "#023B4E",
+                    fontSize: "1.3rem",
+                    ml: 1.5,
+                  }}
+                >
+                  •
+                </Box>
 
-            {/* Text */}
-            <ListItemText
-                primary={text}
-                sx={{
-                textAlign: "right",
-                margin: 0,
-                }}
-                primaryTypographyProps={{
-                fontFamily: TAJAWAL,
-                fontSize: "1.2rem",
-                fontWeight: 600,
-                lineHeight: 1.8,
-                color: "#023B4E",
-                }}
-            />
-            </ListItem>
-        ))}
-        </List>
-          
+                {/* Text */}
+                <ListItemText
+                  primary={text}
+                  sx={{
+                    textAlign: "right",
+                    margin: 0,
+                  }}
+                  primaryTypographyProps={{
+                    fontFamily: TAJAWAL,
+                    fontSize: "1.2rem",
+                    fontWeight: 600,
+                    lineHeight: 1.8,
+                    color: "#023B4E",
+                  }}
+                />
+              </ListItem>
+            ))}
+          </List>
         </Box>
+      </Box>
       </Container>
     </Box>
   );

@@ -40,8 +40,26 @@ const Service12: React.FC = () => {
         }}
       >
         {/* Content Box */}
+
+        <Box sx={{ position: "relative" }}>
+        
+        {/* --- GLOW EFFECT --- */}
         <Box
           sx={{
+            position: "absolute",
+            inset: "-2px",
+            borderRadius: "16px", // Matches the card radius
+            background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)",
+            filter: "blur(4px)",
+            zIndex: 0,
+          }}
+        />
+
+        {/* --- CONTENT CARD --- */}
+        <Box
+          sx={{
+            position: "relative",
+            zIndex: 10,
             borderRadius: 3,
             p: { xs: 5, md: 8 },
             display: "flex",
@@ -84,62 +102,62 @@ const Service12: React.FC = () => {
             مثل:
           </Typography>
 
-      <List
-        sx={{
-            direction: "rtl",
-            textAlign: "right",
-            mt: 2,
-            fontFamily: TAJAWAL,
-        }}
-        >
-        {[
-            "الموقع الجغرافي وأهميته في السوق",
-            "مساحة العقار وتصميمه",
-            "عمر العقار وحالته الإنشائية",
-            "البيئة المحيطة والخدمات المتاحة",
-            "الأسعار الحديثة لعقارات مماثلة في المنطقة",
-        ].map((text, index) => (
-            <ListItem
-            key={index}
+          <List
             sx={{
-                justifyContent: "flex-start",
-                alignItems: "flex-start",
-                px: 0,
+              direction: "rtl",
+              textAlign: "right",
+              mt: 2,
+              fontFamily: TAJAWAL,
             }}
-            >
-            {/* Bullet */}
-            <Box
+          >
+            {[
+              "الموقع الجغرافي وأهميته في السوق",
+              "مساحة العقار وتصميمه",
+              "عمر العقار وحالته الإنشائية",
+              "البيئة المحيطة والخدمات المتاحة",
+              "الأسعار الحديثة لعقارات مماثلة في المنطقة",
+            ].map((text, index) => (
+              <ListItem
+                key={index}
                 sx={{
-                minWidth: 24,
-                textAlign: "center",
-                color: "#023B4E",
-                fontSize: "1.3rem",
-                ml: 1.5,
+                  justifyContent: "flex-start",
+                  alignItems: "flex-start",
+                  px: 0,
                 }}
-            >
-                •
-            </Box>
+              >
+                {/* Bullet */}
+                <Box
+                  sx={{
+                    minWidth: 24,
+                    textAlign: "center",
+                    color: "#023B4E",
+                    fontSize: "1.3rem",
+                    ml: 1.5,
+                  }}
+                >
+                  •
+                </Box>
 
-            {/* Text */}
-            <ListItemText
-                primary={text}
-                sx={{
-                textAlign: "right",
-                margin: 0,
-                }}
-                primaryTypographyProps={{
-                fontFamily: TAJAWAL,
-                fontSize: "1.2rem",
-                fontWeight: 600,
-                lineHeight: 1.8,
-                color: "#023B4E",
-                }}
-            />
-            </ListItem>
-        ))}
-        </List>
+                {/* Text */}
+                <ListItemText
+                  primary={text}
+                  sx={{
+                    textAlign: "right",
+                    margin: 0,
+                  }}
+                  primaryTypographyProps={{
+                    fontFamily: TAJAWAL,
+                    fontSize: "1.2rem",
+                    fontWeight: 600,
+                    lineHeight: 1.8,
+                    color: "#023B4E",
+                  }}
+                />
+              </ListItem>
+            ))}
+          </List>
 
-         <Typography
+          <Typography
             sx={{
               fontWeight: 700,
               fontFamily: TAJAWAL,
@@ -149,10 +167,10 @@ const Service12: React.FC = () => {
               textAlign: "right",
             }}
           >
-           في قسم التقييم العقاري بالموقع، ستجد فريق من المقيمين العقاريين المعتمدين الذين يمتلكون خبرة واسعة في السوق المحلي. خبراؤنا مجهزون بأدوات وتقنيات التقييم المعاصرة، ويستند عملهم إلى مصادر موثوقة وإحصاءات السوق الحالية، لضمان أن تكون تقديراتهم دقيقة ومحايدة.
+            في قسم التقييم العقاري بالموقع، ستجد فريق من المقيمين العقاريين المعتمدين الذين يمتلكون خبرة واسعة في السوق المحلي. خبراؤنا مجهزون بأدوات وتقنيات التقييم المعاصرة، ويستند عملهم إلى مصادر موثوقة وإحصاءات السوق الحالية، لضمان أن تكون تقديراتهم دقيقة ومحايدة.
           </Typography>
 
-           <Typography
+          <Typography
             sx={{
               fontWeight: 700,
               fontFamily: TAJAWAL,
@@ -162,64 +180,64 @@ const Service12: React.FC = () => {
               textAlign: "right",
             }}
           >
-         هذا القسم صُمم ليساعدك في:
+            هذا القسم صُمم ليساعدك في:
           </Typography>
 
-            <List
-        sx={{
-            direction: "rtl",
-            textAlign: "right",
-            mt: 2,
-            fontFamily: TAJAWAL,
-        }}
-        >
-        {[
-            "تحديد سعر عرض العقار للبيع بشكل صحيح",
-            "فهم القيمة الاستثمارية للعقار",
-            "اتخاذ قرارات شرائية سليمة عند البحث عن منزل أو عقار استثماري",
-            "تقييم العقار قبل التأجير أو إعادة التقييم حسب تغيّر السوق",
-        ].map((text, index) => (
-            <ListItem
-            key={index}
+          <List
             sx={{
-                justifyContent: "flex-start",
-                alignItems: "flex-start",
-                px: 0,
+              direction: "rtl",
+              textAlign: "right",
+              mt: 2,
+              fontFamily: TAJAWAL,
             }}
-            >
-            {/* Bullet */}
-            <Box
+          >
+            {[
+              "تحديد سعر عرض العقار للبيع بشكل صحيح",
+              "فهم القيمة الاستثمارية للعقار",
+              "اتخاذ قرارات شرائية سليمة عند البحث عن منزل أو عقار استثماري",
+              "تقييم العقار قبل التأجير أو إعادة التقييم حسب تغيّر السوق",
+            ].map((text, index) => (
+              <ListItem
+                key={index}
                 sx={{
-                minWidth: 24,
-                textAlign: "center",
-                color: "#023B4E",
-                fontSize: "1.3rem",
-                ml: 1.5,
+                  justifyContent: "flex-start",
+                  alignItems: "flex-start",
+                  px: 0,
                 }}
-            >
-                •
-            </Box>
+              >
+                {/* Bullet */}
+                <Box
+                  sx={{
+                    minWidth: 24,
+                    textAlign: "center",
+                    color: "#023B4E",
+                    fontSize: "1.3rem",
+                    ml: 1.5,
+                  }}
+                >
+                  •
+                </Box>
 
-            {/* Text */}
-            <ListItemText
-                primary={text}
-                sx={{
-                textAlign: "right",
-                margin: 0,
-                }}
-                primaryTypographyProps={{
-                fontFamily: TAJAWAL,
-                fontSize: "1.2rem",
-                fontWeight: 600,
-                lineHeight: 1.8,
-                color: "#023B4E",
-                }}
-            />
-            </ListItem>
-        ))}
-        </List>
+                {/* Text */}
+                <ListItemText
+                  primary={text}
+                  sx={{
+                    textAlign: "right",
+                    margin: 0,
+                  }}
+                  primaryTypographyProps={{
+                    fontFamily: TAJAWAL,
+                    fontSize: "1.2rem",
+                    fontWeight: 600,
+                    lineHeight: 1.8,
+                    color: "#023B4E",
+                  }}
+                />
+              </ListItem>
+            ))}
+          </List>
 
-         <Typography
+          <Typography
             sx={{
               fontWeight: 700,
               fontFamily: TAJAWAL,
@@ -229,11 +247,11 @@ const Service12: React.FC = () => {
               textAlign: "center",
             }}
           >
-          في النهاية التقييم الجيد يعني قرارًا أكثر حكمة، وسوقًا أكثر شفافية وثقة
+            في النهاية التقييم الجيد يعني قرارًا أكثر حكمة، وسوقًا أكثر شفافية وثقة
           </Typography>
-
-
         </Box>
+      </Box>
+
       </Container>
     </Box>
   );
