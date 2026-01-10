@@ -475,12 +475,23 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
         background: "#E2E8F0",
       }}
     >
-      <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR }}>
-        <HomeWorkIcon />
-        <Typography sx={{ fontWeight: 700, fontSize: { xs: "1rem", md: "1.3rem" }, fontFamily: TAJAWAL }}>
-          الموقع
-        </Typography>
-      </Box>
+    <Box sx={{ display: "flex", gap: 1, mb: 0.5, color: LABEL_COLOR }}>
+      <HomeWorkIcon />
+      <Typography
+        sx={{
+          fontWeight: 700,
+          fontSize: { xs: "1rem", md: "1.3rem" },
+          fontFamily: TAJAWAL,
+        }}
+      >
+        الموقع
+      </Typography>
+    </Box>
+
+    <Typography sx={{ fontSize: "1rem", mb: 3, color: "#242629ff", fontFamily: TAJAWAL, fontWeight: 'bold' }}>
+      الرجاء كتابة موقع العقار المراد بيعه بالتفصيل
+    </Typography>
+
       <TextField
         fullWidth
         multiline
@@ -535,6 +546,9 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
           اسم المطور العقاري
         </Typography>
       </Box>
+       <Typography sx={{ fontSize: "1rem", mb: 3, color: "#242629ff", fontFamily: TAJAWAL, fontWeight: 'bold' }}>
+      الرجاء كتابة اسم المطور العقاري إن أمكن
+    </Typography>
       <TextField
         fullWidth
         value={developer}
@@ -585,6 +599,9 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
           المساحة
         </Typography>
       </Box>
+       <Typography sx={{ fontSize: "1rem", mb: 3, color: "#242629ff", fontFamily: TAJAWAL, fontWeight: 'bold' }}>
+      الرجاء كتابة المساحة
+    </Typography>
       <TextField
         fullWidth
         value={area}
@@ -636,6 +653,10 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
                 سعر البيع
               </Typography>
             </Box>
+
+             <Typography sx={{ fontSize: "1rem", mb: 3, color: "#242629ff", fontFamily: TAJAWAL, fontWeight: 'bold' }}>
+             الرجاء اختيار أحد الطرق لتقييم سعر البيع
+            </Typography>
 
             <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 1.5 }}>
               <Checkbox

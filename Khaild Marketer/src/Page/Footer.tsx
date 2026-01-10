@@ -160,7 +160,7 @@ const Footer: React.FC = () => {
     display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#FAFAF9",
+    backgroundColor: "#D4D4D8",
     borderRadius: 1.5,
     boxShadow: 1,
     p: 1,
