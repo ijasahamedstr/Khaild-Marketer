@@ -81,6 +81,8 @@ const Service03: React.FC<Props> = ({ onSubmit }) => {
   const [isChecked2, setIsChecked2] = React.useState(false);
   const [checkboxValues, setCheckboxValues] = React.useState<boolean[]>([false, false]);
 
+    const shouldShowCard = isChecked2 || checkboxValues[0];
+
   /* ---------------- HANDLERS ---------------- */
   const handleCheckboxChange = (index: number, value: boolean) => {
     const updated = [...checkboxValues];
@@ -179,7 +181,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
                 sx={{
                   width: "100%",
                   minHeight: "100vh",
-                  backgroundImage: "url('https://i.ibb.co/spMDSGQR/3.webp')",
+                  backgroundImage: "url('https://i.ibb.co/cq3Fj2K/000.webp')",
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                   backgroundRepeat: "no-repeat",
@@ -539,137 +541,191 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
         </Box>
       )}
 
+        {shouldShowCard && (
+        <Box sx={{ mt: 3, position: "relative" }}>
+          {/* --- Glow Effect --- */}
+          <Box
+            sx={{
+              position: "absolute",
+              inset: "-2px",
+              borderRadius: "16px",
+              background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)",
+              filter: "blur(4px)",
+              zIndex: 0,
+            }}
+          />
 
-      {/* PRICE */}
-<Box sx={{ mt: 3, position: "relative" }}>
-        
-        {/* --- GLOW EFFECT --- */}
-        <Box
-          sx={{
-            position: "absolute",
-            inset: "-2px",
-            borderRadius: "16px",
-            background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)",
-            filter: "blur(4px)",
-            zIndex: 0,
-          }}
-        />
-
-        {/* --- CONTENT CARD --- */}
-        <Box
-          sx={{
-            position: "relative",
-            zIndex: 10,
-            p: 2,
-            borderRadius: 3,
-            border: "1px solid #E2E8F0",
-            background: "#E2E8F0",
-          }}
-        >
-          <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR }}>
-            <AccountBalanceWalletIcon />
-            <Typography sx={{ fontWeight: 700, fontSize: { xs: "1rem", md: "1.3rem" }, fontFamily: TAJAWAL }}>
-              {isChecked2 ? "سعر الإيجار" : "سعر البيع"}
-            </Typography>
-          </Box>
-
-          {isChecked2 ? (
-            /* ---------------- RENT VIEW (From/To) ---------------- */
-            <Box>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 1.5 }}>
-                <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontSize: { xs: "1.5rem", md: "1.8rem" } }}>من</Typography>
-                <TextField
-                  size="small"
-                  value={priceLimit}
-                  onChange={(e) => setPriceLimit(e.target.value)}
-                  type="text"
-                  sx={{
-                    "& .MuiInputBase-input": {
-                      fontSize: "1.8rem",
-                      color: "black",
-                      WebkitTextFillColor: "black",
-                      width: 220
-                    },
-                    "& .MuiInputBase-input::placeholder": {
-                      fontSize: "1.8rem",
-                      opacity: 0.7,
-                    },
-                  }}
-                />
-              </Box>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontSize: { xs: "1.5rem", md: "1.8rem" } }}>إلى</Typography>
-                <TextField
-                  size="small"
-                  value={priceOffer}
-                  onChange={(e) => setPriceOffer(e.target.value)}
-                  type="text"
-                  sx={{
-                    "& .MuiInputBase-input": {
-                      fontSize: "1.8rem",
-                      color: "black",
-                      WebkitTextFillColor: "black",
-                      width: 220
-                    },
-                    "& .MuiInputBase-input::placeholder": {
-                      fontSize: "1.8rem",
-                      opacity: 0.7,
-                    },
-                  }}
-                />
-              </Box>
+          {/* --- Content Card --- */}
+          <Box
+            sx={{
+              position: "relative",
+              zIndex: 10,
+              p: 2,
+              borderRadius: 3,
+              border: "1px solid #E2E8F0",
+              background: "#E2E8F0",
+            }}
+          >
+            {/* Header */}
+            <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR }}>
+              <AccountBalanceWalletIcon />
+              <Typography
+                sx={{
+                  fontWeight: 700,
+                  fontSize: { xs: "1rem", md: "1.3rem" },
+                  fontFamily: TAJAWAL,
+                }}
+              >
+                {isChecked2 ? "سعر الإيجار" : "سعر البيع"}
+              </Typography>
             </Box>
-          ) : (
-            /* ---------------- SALE VIEW (Limit/Offer) ---------------- */
-            <>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 1.5 }}>
-                <Checkbox checked={checkboxValues[0]} onChange={(e) => handleCheckboxChange(0, e.target.checked)} />
-                <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontSize: { xs: "1.5rem", md: "1.8rem" } }}>حد</Typography>
-                <TextField
-                  size="small"
-                  value={priceLimit}
-                  onChange={(e) => setPriceLimit(e.target.value)}
-                  type="text"
-                  sx={{
-                    "& .MuiInputBase-input": {
-                      fontSize: "1.8rem",
-                      color: "black",
-                      WebkitTextFillColor: "black",
-                      width: 220
-                    },
-                    "& .MuiInputBase-input::placeholder": {
-                      fontSize: "1.8rem",
-                      opacity: 0.7,
-                    },
-                  }}
-                />
+
+            {isChecked2 ? (
+              /* ---------------- RENT VIEW ---------------- */
+              <Box>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 1.5 }}>
+                  <Typography
+                    sx={{
+                      minWidth: 120,
+                      fontFamily: TAJAWAL,
+                      fontSize: { xs: "1.5rem", md: "1.8rem" },
+                    }}
+                  >
+                    من
+                  </Typography>
+                  <TextField
+                    size="small"
+                    value={priceLimit}
+                    onChange={(e) => setPriceLimit(e.target.value)}
+                    type="text"
+                    sx={{
+                      "& .MuiInputBase-input": {
+                        fontSize: "1.8rem",
+                        color: "black",
+                        WebkitTextFillColor: "black",
+                        width: 220,
+                      },
+                      "& .MuiInputBase-input::placeholder": {
+                        fontSize: "1.8rem",
+                        opacity: 0.7,
+                      },
+                    }}
+                  />
+                </Box>
+
+                <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                  <Typography
+                    sx={{
+                      minWidth: 120,
+                      fontFamily: TAJAWAL,
+                      fontSize: { xs: "1.5rem", md: "1.8rem" },
+                    }}
+                  >
+                    إلى
+                  </Typography>
+                  <TextField
+                    size="small"
+                    value={priceOffer}
+                    onChange={(e) => setPriceOffer(e.target.value)}
+                    type="text"
+                    sx={{
+                      "& .MuiInputBase-input": {
+                        fontSize: "1.8rem",
+                        color: "black",
+                        WebkitTextFillColor: "black",
+                        width: 220,
+                      },
+                      "& .MuiInputBase-input::placeholder": {
+                        fontSize: "1.8rem",
+                        opacity: 0.7,
+                      },
+                    }}
+                  />
+                </Box>
               </Box>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                <Checkbox checked={checkboxValues[1]} onChange={(e) => handleCheckboxChange(1, e.target.checked)} />
-                <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontSize: { xs: "1.5rem", md: "1.8rem" } }}>على السوم</Typography>
-                <TextField
-                  size="small"
-                  value={priceOffer}
-                  onChange={(e) => setPriceOffer(e.target.value)}
-                  type="text"
-                  sx={{
-                    "& .MuiInputBase-input": {
-                      fontSize: "1.8rem",
-                      color: "black",
-                      WebkitTextFillColor: "black",
-                      width: 220
-                    },
-                    "& .MuiInputBase-input::placeholder": {
-                      fontSize: "1.8rem",
-                      opacity: 0.7,
-                    },
-                  }}
-                />
-              </Box>
-            </>
-          )}
+            ) : (
+              /* ---------------- SALE VIEW ---------------- */
+              <>
+                {/* حد row */}
+                {checkboxValues[0] && (
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 1.5 }}>
+                    <Checkbox
+                      checked={checkboxValues[0]}
+                      onChange={(e) => handleCheckboxChange(0, e.target.checked)}
+                    />
+                    <Typography
+                      sx={{
+                        minWidth: 120,
+                        fontFamily: TAJAWAL,
+                        fontSize: { xs: "1.5rem", md: "1.8rem" },
+                      }}
+                    >
+                      حد
+                    </Typography>
+                    <TextField
+                      size="small"
+                      value={priceLimit}
+                      onChange={(e) => setPriceLimit(e.target.value)}
+                      type="text"
+                      placeholder="أدخل الحد"
+                      sx={{
+                        "& .MuiInputBase-input": {
+                          fontSize: "1.8rem",
+                          color: "black",
+                          WebkitTextFillColor: "black",
+                          width: 220,
+                        },
+                        "& .MuiInputBase-input::placeholder": {
+                          fontSize: "1.8rem",
+                          opacity: 0.7,
+                        },
+                      }}
+                    />
+                  </Box>
+                )}
+
+                {/* على السوم row */}
+                {checkboxValues[1] && (
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                    <Checkbox
+                      checked={checkboxValues[1]}
+                      onChange={(e) => handleCheckboxChange(1, e.target.checked)}
+                    />
+                    <Typography
+                      sx={{
+                        minWidth: 120,
+                        fontFamily: TAJAWAL,
+                        fontSize: { xs: "1.5rem", md: "1.8rem" },
+                      }}
+                    >
+                      على السوم
+                    </Typography>
+                    <TextField
+                      size="small"
+                      value={priceOffer}
+                      onChange={(e) => setPriceOffer(e.target.value)}
+                      type="text"
+                      placeholder="أدخل العرض"
+                      sx={{
+                        "& .MuiInputBase-input": {
+                          fontSize: "1.8rem",
+                          color: "black",
+                          WebkitTextFillColor: "black",
+                          width: 220,
+                        },
+                        "& .MuiInputBase-input::placeholder": {
+                          fontSize: "1.8rem",
+                          opacity: 0.7,
+                        },
+                      }}
+                    />
+                  </Box>
+                )}
+              </>
+            )}
+          </Box>
         </Box>
-      </Box>
+      )}
 
       {/* NOTES */}
 {/* ---------------- ADDITIONAL NOTES ---------------- */}

@@ -424,6 +424,9 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
                 الموقع
               </Typography>
             </Box>
+                <Typography sx={{ fontSize: "1rem", mb: 3, color: "#242629ff", fontFamily: TAJAWAL, fontWeight: 'bold' }}>
+                  الرجاء كتابة موقع العقار المراد شرائه بالتفصيل
+                </Typography>
             <TextField
               fullWidth
               value={location}
@@ -474,6 +477,9 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
                 المساحة
               </Typography>
             </Box>
+             <Typography sx={{ fontSize: "1rem", mb: 3, color: "#242629ff", fontFamily: TAJAWAL, fontWeight: 'bold' }}>
+                 الرجاء كتابة المساحة التقريبية
+              </Typography>
             <TextField
               fullWidth
               value={area}
@@ -525,6 +531,9 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
                 الميزانية
               </Typography>
             </Box>
+            <Typography sx={{ fontSize: "1rem", mb: 3, color: "#242629ff", fontFamily: TAJAWAL, fontWeight: 'bold' }}>
+                 الرجاء اختيار الميزانية المتاحة
+              </Typography>
             <TextField
               select
               fullWidth
