@@ -179,7 +179,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
                 sx={{
                   width: "100%",
                   minHeight: "100vh",
-                  backgroundImage: "url('https://i.ibb.co/cq3Fj2K/000.webp')",
+                  backgroundImage: "url('https://i.ibb.co/spMDSGQR/3.webp')",
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                   backgroundRepeat: "no-repeat",
