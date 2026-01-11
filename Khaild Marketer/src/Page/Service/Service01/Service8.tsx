@@ -4,7 +4,7 @@ import { Container, Typography, Box } from "@mui/material";
 
 const TAJAWAL = "'Tajawal', sans-serif";
 
-const Service03: React.FC = () => {
+const Service8: React.FC = () => {
   // Scroll to top on mount
   React.useEffect(() => {
     const t = setTimeout(() => {
@@ -14,11 +14,11 @@ const Service03: React.FC = () => {
   }, []);
 
   return (
-         <Box
+           <Box
                 sx={{
                   width: "100%",
                   minHeight: "100vh",
-                  backgroundImage: "url('https://i.ibb.co/r2xHZ6jg/Gemini-Generated-Image-ane99qane99qane9-1.webp')",
+                  backgroundImage: "url('https://i.ibb.co/cq3Fj2K/000.webp')",
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                   backgroundRepeat: "no-repeat",
@@ -28,7 +28,7 @@ const Service03: React.FC = () => {
                   py: { xs: 8, sm: 12, md: 3 }, // padding top & bottom
                 }}
               >
-      <Container
+           <Container
       maxWidth="lg"
       sx={{
         mt: { xs: 8, md: 12 },
@@ -38,9 +38,9 @@ const Service03: React.FC = () => {
         fontFamily: TAJAWAL,
       }}
     >
-      {/* ===== Heading ===== */}
-      
-      {/* ===== BOX يحتوي المحتوى ===== */}
+ 
+
+      {/* Box يحتوي الفقرة */}
 
       <Box sx={{ position: "relative" }}>
         
@@ -62,28 +62,28 @@ const Service03: React.FC = () => {
             position: "relative",
             zIndex: 10,
             borderRadius: 3,
-            p: { xs: 5, md: 8 }, // padding أكبر
+            p: { xs: 5, md: 8 },
             display: "flex",
             flexDirection: "column",
-            gap: 4, // فجوة بين الفقرات
+            gap: 3,
             border: "1px solid #F5F5F4",
             background: "#F5F5F4",
+            textAlign: "center",
           }}
         >
-          <Box sx={{ textAlign: "center", mb: { xs: 6, md: 10 } }}> {/* زيادة المسافة تحت العنوان */}
-            <Typography
-              variant="h4"
-              sx={{
-                fontWeight: 800,
-                fontFamily: TAJAWAL,
-                color: "#023B4E",
-              }}
-            >
-              النظام يجيب
-            </Typography>
-          </Box>
-
-          {/* Paragraph */}
+          {/* Heading */}
+          <Typography
+            variant="h4"
+            sx={{
+              fontWeight: 800,
+              fontFamily: TAJAWAL,
+              color: "#023B4E",
+              textAlign: "center",
+              mb: { xs: 6, md: 8 },
+            }}
+          >
+            خدمات التصوير العقاري
+          </Typography>
           <Typography
             sx={{
               fontWeight: 700,
@@ -91,19 +91,17 @@ const Service03: React.FC = () => {
               fontSize: { xs: "1.5rem", md: "1.8rem" },
               lineHeight: 1.6,
               color: "#023B4E",
-              textAlign: "right",
             }}
           >
-            في هذا القسم، نسلّط الضوء بشكل دوري على أبرز الأنظمة واللوائح العقارية،
-            لنقدّم لمتابعينا محتوى توعوي يُثري معرفتهم ويعزز وعيهم قبل اتخاذ أي قرار.
+            للتواصل مع قسم التصوير العقاري برجاء الاتصال على هذا الرقم
           </Typography>
         </Box>
       </Box>
-  
+   
     </Container>
-  </Box>
-    
+        </Box>
+   
   );
 };
 
-export default Service03;
+export default Service8;

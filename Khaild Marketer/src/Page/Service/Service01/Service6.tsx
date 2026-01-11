@@ -4,7 +4,7 @@ import { Container, Typography, Box } from "@mui/material";
 
 const TAJAWAL = "'Tajawal', sans-serif";
 
-const Service03: React.FC = () => {
+const Service6: React.FC = () => {
   // Scroll to top on mount
   React.useEffect(() => {
     const t = setTimeout(() => {
@@ -106,4 +106,4 @@ const Service03: React.FC = () => {
   );
 };
 
-export default Service03;
+export default Service6;
