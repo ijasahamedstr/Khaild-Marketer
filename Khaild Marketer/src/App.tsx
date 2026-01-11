@@ -32,6 +32,7 @@ import Service12new from './Page/Service/Service01/Service12new';
 import Service13new from './Page/Service/Service01/Service13new';
 import Service14new from './Page/Service/Service01/Service14new';
 import Service9 from './Page/Service/Service01/Service9';
+import Login from './Page/Admin/Login';
 
 
 
@@ -76,6 +77,7 @@ function App() {
          <Route path="/services1/خدمات المحاماة" element={<Service9/>} />
 
         <Route path="/من نحن" element={<Whoweare/>} />
+        <Route path="/login" element={<Login/>} />
       </Routes>
       <Footer/>
     </Router>

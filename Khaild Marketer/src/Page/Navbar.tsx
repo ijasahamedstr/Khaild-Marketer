@@ -1,4 +1,3 @@
-// Navbar.tsx
 import * as React from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
@@ -18,6 +17,7 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import LoginIcon from "@mui/icons-material/Login"; // Added for Login
 
 import {
   FaInstagram,
@@ -47,11 +47,9 @@ const projectsSubMenu = [
   { label: "محكم معتمد", path: "/services/محكم معتمد" },
   { label: "خدمات التوثيق", path: "/services/خدمات التوثيق" },
   { label: "خدمات التصوير العقاري", path: "/services/خدمات التصوير العقاري" },
-
- { label: "التقييم العقاري", path: "/services/التقييم العقاري" },
- { label: "تملّك الأجانب للعقارات", path: "/services/تملّك الأجانب للعقارات" },
- { label: "الوقف العقاري", path: "/services/الوقف العقاري" },
-
+  { label: "التقييم العقاري", path: "/services/التقييم العقاري" },
+  { label: "تملّك الأجانب للعقارات", path: "/services/تملّك الأجانب للعقارات" },
+  { label: "الوقف العقاري", path: "/services/الوقف العقاري" },
   { label: "القسم النسائي", path: "/services/القسم النسائي" },
   { label: "قسم التمويل العقاري", path: "/services/قسم التمويل العقاري" },
 ];
@@ -121,106 +119,147 @@ export default function Navbar() {
           zIndex: 1201,
         }}
       >
-        <Container maxWidth={false} sx={{ px: 0 ,gap: isDesktop ? 8 : 2,}}>
+        <Container maxWidth={false} sx={{ px: 0 }}>
           <Toolbar
             disableGutters
             sx={{
               px: 3,
-              justifyContent: isDesktop ? "flex-start" : "space-between",
-              gap: isDesktop ? 6 : 2,
+              justifyContent: "space-between", 
               alignItems: "center",
+              gap: 2,
             }}
           >
-            {/* LOGO */}
-            <Box
-              component={Link}
-              to="/"
-              sx={{
-                textDecoration: "none",
-                mr: isDesktop ? 6 : 0,
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
+            {/* RIGHT SIDE: LOGO + DESKTOP MENU */}
+            <Box sx={{ display: "flex", alignItems: "center", gap: isDesktop ? 6 : 2 }}>
+              {/* LOGO */}
               <Box
-                component="img"
-                src="https://i.ibb.co/yn0gbKdZ/Gemini-Generated-Image-pua0mbpua0mbpua0-removebg-preview.png"
-                alt="Logo"
-                sx={{ maxHeight: 90 }}
-              />
-            </Box>
+                component={Link}
+                to="/"
+                sx={{
+                  textDecoration: "none",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <Box
+                  component="img"
+                  src="https://i.ibb.co/yn0gbKdZ/Gemini-Generated-Image-pua0mbpua0mbpua0-removebg-preview.png"
+                  alt="Logo"
+                  sx={{ maxHeight: 90 }}
+                />
+              </Box>
 
-            {/* DESKTOP MENU */}
-            {isDesktop ? (
-              <Box sx={{ display: "flex", gap: 5,  paddingRight: "70px", }}>
-                {pages.map(({ label, path }) =>
-                  label === "أقسامنا" ? (
-                    <React.Fragment key={label}>
+              {/* DESKTOP MENU */}
+              {isDesktop && (
+                <Box sx={{ display: "flex", gap: 3 }}>
+                  {pages.map(({ label, path }) =>
+                    label === "أقسامنا" ? (
+                      <React.Fragment key={label}>
+                        <Button
+                          onClick={(e) => setProjectsMenuAnchor(e.currentTarget)}
+                          sx={{
+                            fontSize: "20px",
+                            fontFamily: menuFont,
+                            color: isProjectParentActive() ? activeColor : "white",
+                          }}
+                        >
+                          {label}
+                          <KeyboardArrowDownIcon />
+                        </Button>
+                        <Menu
+                          anchorEl={projectsMenuAnchor}
+                          open={Boolean(projectsMenuAnchor)}
+                          onClose={() => setProjectsMenuAnchor(null)}
+                          MenuListProps={{ sx: { direction: "rtl" } }}
+                        >
+                          {projectsSubMenu.map((item) => (
+                            <MenuItem
+                              key={item.label}
+                              component={Link}
+                              to={item.path}
+                              onClick={() => setProjectsMenuAnchor(null)}
+                              sx={{
+                                fontFamily: menuFont,
+                                fontSize: "18px",
+                                backgroundColor: isActive(item.path) ? activeBg : "transparent",
+                                color: isActive(item.path) ? activeColor : "black",
+                              }}
+                            >
+                              {item.label}
+                            </MenuItem>
+                          ))}
+                        </Menu>
+                      </React.Fragment>
+                    ) : (
                       <Button
-                        onClick={(e) => setProjectsMenuAnchor(e.currentTarget)}
+                        key={label}
+                        component={Link}
+                        to={path}
                         sx={{
                           fontSize: "20px",
                           fontFamily: menuFont,
-                          color: isProjectParentActive() ? activeColor : "white",
+                          color: isActive(path) ? activeColor : "white",
                         }}
                       >
                         {label}
-                        <KeyboardArrowDownIcon />
                       </Button>
-                      <Menu
-                        anchorEl={projectsMenuAnchor}
-                        open={Boolean(projectsMenuAnchor)}
-                        onClose={() => setProjectsMenuAnchor(null)}
-                        MenuListProps={{ sx: { direction: "rtl" } }}
-                      >
-                        {projectsSubMenu.map((item) => (
-                          <MenuItem
-                            key={item.label}
-                            component={Link}
-                            to={item.path}
-                            onClick={() => setProjectsMenuAnchor(null)}
-                            sx={{
-                              fontFamily: menuFont,
-                              fontSize: "18px",
-                              backgroundColor: isActive(item.path) ? activeBg : "transparent",
-                              color: isActive(item.path) ? activeColor : "black",
-                            }}
-                          >
-                            {item.label}
-                          </MenuItem>
-                        ))}
-                      </Menu>
-                    </React.Fragment>
-                  ) : (
-                    <Button
-                      key={label}
-                      component={Link}
-                      to={path}
-                      sx={{
-                        fontSize: "20px",
-                        fontFamily: menuFont,
-                        color: isActive(path) ? activeColor : "white",
-                      }}
-                    >
-                      {label}
-                    </Button>
-                  )
-                )}
-              </Box>
-            ) : (
-              <IconButton
-                onClick={() => setDrawerOpen(true)}
-                sx={{ color: "#fff", ml: 1 }}
+                    )
+                  )}
+                </Box>
+              )}
+            </Box>
+
+            {/* LEFT SIDE: LOGIN BUTTON + MOBILE ICON */}
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+              <Button
+                component={Link}
+                to="/login"
+                variant="outlined"
+                startIcon={
+                  <LoginIcon 
+                    sx={{ 
+                      transform: "rotate(180deg)",
+                      ml: 1.5 // Adds space between icon and text in RTL
+                    }} 
+                  />
+                }
+                sx={{
+                  color: "white",
+                  borderColor: activeColor,
+                  fontFamily: menuFont,
+                  borderRadius: "25px",
+                  fontSize: isDesktop ? "18px" : "14px",
+                  px: isDesktop ? 4 : 2, // Increased horizontal padding
+                  display: "flex",
+                  alignItems: "center",
+                  "& .MuiButton-startIcon": {
+                    marginRight: "0px", // Reset MUI default for RTL control
+                    marginLeft: "8px"   // Explicit space for Arabic text
+                  },
+                  "&:hover": {
+                    borderColor: "white",
+                    backgroundColor: activeBg,
+                  },
+                }}
               >
-                <MenuIcon />
-              </IconButton>
-            )}
+                دخول
+              </Button>
+
+              {!isDesktop && (
+                <IconButton
+                  onClick={() => setDrawerOpen(true)}
+                  sx={{ color: "#fff" }}
+                >
+                  <MenuIcon />
+                </IconButton>
+              )}
+            </Box>
           </Toolbar>
         </Container>
       </AppBar>
 
       {/* OFFSET */}
-      <Toolbar />
+      <Toolbar sx={{ height: 90 }} />
 
       {/* ================= MOBILE DRAWER ================= */}
       <Drawer
@@ -268,7 +307,7 @@ export default function Navbar() {
           transform: "translateY(-50%)",
           display: { xs: "none", md: "flex" },
           flexDirection: "column",
-          gap: 2,
+          gap: 1,
           zIndex: 1200,
           pl: 2,
         }}
