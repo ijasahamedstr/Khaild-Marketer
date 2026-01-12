@@ -33,14 +33,20 @@ import Service13new from './Page/Service/Service01/Service13new';
 import Service14new from './Page/Service/Service01/Service14new';
 import Service9 from './Page/Service/Service01/Service9';
 import Login from './Page/Admin/Login';
+import Dashboard from './Page/Admin/Dashboard';
 
 
 
 
 function App() {
+  // Define paths where Footer should be HIDDEN
+  const hideFooterPaths = ["/login", "/dashboard"];
+  const shouldHideFooter = hideFooterPaths.includes(location.pathname);
+  const hideNavnarPaths = ["/login", "/dashboard"];
+  const shouldNavnarPaths = hideNavnarPaths.includes(location.pathname);
   return (
-    <Router>
-      <Navbar/>     
+    <Router>   
+      {!shouldNavnarPaths && <Navbar />} 
       <Routes>
         <Route path="/" element={< Home/>} />
         <Route path="/إتصل بنا" element={<Contactus/>} />
@@ -77,9 +83,9 @@ function App() {
          <Route path="/services1/خدمات المحاماة" element={<Service9/>} />
 
         <Route path="/من نحن" element={<Whoweare/>} />
-        <Route path="/login" element={<Login/>} />
+        <Route path="/login" element={<Dashboard/>} />
       </Routes>
-      <Footer/>
+      {!shouldHideFooter && <Footer />}
     </Router>
   );
 }

@@ -542,6 +542,12 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
               SelectProps={{ native: false }}
               sx={{ "& .MuiSelect-select": { fontSize: "1.2rem", color: "black", fontFamily: TAJAWAL, py: 1.5 } }}
             >
+                <MenuItem value="500,000 إلى 1,000,000" sx={{ fontFamily: TAJAWAL, display: "flex", justifyContent: "flex-end", width: "100%" }}>
+                <span style={{ marginRight: "0.5rem" }}></span>
+                <span style={{ marginRight: "1rem" }}></span>
+                <span style={{ marginRight: "0.5rem" }}>500,000</span>
+                <span style={{ marginRight: "0.5rem" }}>أقل من</span>
+              </MenuItem>
               <MenuItem value="500,000 إلى 1,000,000" sx={{ fontFamily: TAJAWAL, display: "flex", justifyContent: "flex-end", width: "100%" }}>
                 <span style={{ marginRight: "0.5rem" }}>1,000,000</span>
                 <span style={{ marginRight: "1rem" }}>إلى</span>
