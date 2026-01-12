@@ -1,26 +1,16 @@
-// Import required modules
-import express from "express";
-import { AccountCreatAdmin, AccountDelete, AccountIndex, AccountSingleDetails, AccountUpdateAdmin } from "../controller/AccountRegisterAdmin.Controller.js";
+import express from 'express';
+import { createAdmin, getAllAdmins, login, setup2FA, verify2FA } from '../controller/AccountRegisterAdmin.Controller.js';
 
+const Adminrouter = express.Router();
 
-const AccountAdminrouter = express.Router()
+Adminrouter.post('/create', createAdmin);
 
-//CURD Functionality of Registertion
+Adminrouter.post('/setup-2fa', setup2FA);
 
-// Create the Data Register
-AccountAdminrouter.post('/',AccountCreatAdmin);
+Adminrouter.post('/verify-2fa', verify2FA);
 
-// View the Data Register
-AccountAdminrouter.get('/',AccountIndex);
+Adminrouter.get('/all', getAllAdmins);
 
-// View the Single Data Register
-AccountAdminrouter.get("/:id",AccountSingleDetails);
+Adminrouter.post('/login', login);
 
-//Delete Data Register
-AccountAdminrouter.delete('/:id',AccountDelete);
-
-//Update Data Register
-AccountAdminrouter.put('/:id',AccountUpdateAdmin);
-
-
-export default AccountAdminrouter;
+export default Adminrouter;

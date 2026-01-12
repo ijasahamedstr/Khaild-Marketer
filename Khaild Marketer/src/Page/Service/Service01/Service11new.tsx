@@ -105,7 +105,7 @@ const Service11new: React.FC = () => {
 
           <Box
             component="img"
-            src="https://i.ibb.co/ksP4rCmr/2-1.webp"
+            src="https://i.ibb.co/dJGXTPDR/2.jpg"
             alt="خدماتنا"
             sx={{
               width: { xs: "100%", md: "100%" }, // responsive width

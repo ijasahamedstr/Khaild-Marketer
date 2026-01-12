@@ -12,7 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^1.7.7",
+    "axios": "^1.13.2",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
@@ -33,6 +33,8 @@
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
     "progress-stream": "^2.0.0",
+    "qrcode": "^1.5.4",
+    "speakeasy": "^2.0.0",
     "twilio": "^5.2.2",
     "twitter-api-v2": "^1.17.2",
     "validator": "^13.12.0"

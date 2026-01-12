@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom"; 
+import { Link, useNavigate } from "react-router-dom"; 
+import axios from "axios";
 import { 
   Box, 
   Container, 
@@ -9,27 +10,133 @@ import {
   IconButton, 
   InputAdornment, 
   Paper,
-  Divider
+  Divider,
+  CircularProgress,
+  Alert,
+  Fade
 } from "@mui/material";
-import { Visibility, VisibilityOff, LockOutlined, PersonOutline } from "@mui/icons-material";
+import { 
+  Visibility, 
+  VisibilityOff, 
+  LockOutlined, 
+  PersonOutline, 
+  GppGoodOutlined,
+  ShieldOutlined,
+  ArrowForward
+} from "@mui/icons-material";
 
+/**
+ * LOGIN COMPONENT
+ * Handles secure authentication with Google Authenticator (2FA) support.
+ * Synchronizes user profile data (Name & Image) with LocalStorage for the Top Bar.
+ */
 const Login: React.FC = () => {
+  const navigate = useNavigate();
+  
+  // UI & Flow States
+  const [step, setStep] = useState<"password" | "otp">("password");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  // Form Data States
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [otp, setOtp] = useState("");
+  const [adminId, setAdminId] = useState("");
+
+  // Design Constants
+  const menuFont = "Tajawal, sans-serif";
+  const primaryTeal = "#004652";
+  const accentGold = "#CC9D2F";
+  const BASE_URL = "http://localhost:8001/api/admin";
 
   useEffect(() => {
+    // Scroll to top on load
     window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
+    
+    // Check if user is already logged in
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/dashboard");
+    }
+  }, [navigate]);
 
   const handleTogglePassword = () => setShowPassword(!showPassword);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  /**
+   * STEP 1: INITIAL LOGIN
+   * Sends Email/Password to Backend. 
+   * If 2FA is required, switches UI. If not, redirects to Dashboard.
+   */
+  const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Secure Login Attempt:", { email, password });
+    if (!email || !password) {
+      setError("يرجى إدخال البريد الإلكتروني وكلمة المرور");
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+
+    try {
+      const response = await axios.post(`${BASE_URL}/login`, { email, password });
+      
+      if (response.data.requires2FA) {
+        // Prepare for OTP Verification
+        setAdminId(response.data.adminId);
+        setStep("otp"); 
+      } else {
+        // ✅ SUCCESS: Save session data
+        localStorage.setItem("token", response.data.token);
+        // ✅ SAVE USER PROFILE (NAME & IMAGE) FOR TOP BAR
+        localStorage.setItem("adminData", JSON.stringify(response.data.admin));
+        
+        // Force immediate redirect to dashboard
+        window.location.href = "/dashboard";
+      }
+    } catch (err: any) {
+      setError(err.response?.data?.message || "خطأ في تسجيل الدخول، تأكد من البيانات");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const menuFont = "Tajawal, sans-serif";
+  /**
+   * STEP 2: 2FA VERIFICATION
+   * Sends 6-digit Google Authenticator code to Backend.
+   */
+  const handleOtpSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (otp.length !== 6) {
+      setError("يرجى إدخال الرمز المكون من 6 أرقام");
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+
+    try {
+      const response = await axios.post(`${BASE_URL}/verify-2fa`, { 
+        adminId, 
+        token: otp 
+      });
+
+      if (response.data.success) {
+        // ✅ SUCCESS: Save session data
+        localStorage.setItem("token", response.data.token || "logged_in_token");
+        // ✅ SAVE USER PROFILE (NAME & IMAGE) FOR TOP BAR
+        localStorage.setItem("adminData", JSON.stringify(response.data.admin));
+        
+        // Force immediate redirect to dashboard
+        window.location.href = "/dashboard";
+      }
+    } catch (err: any) {
+      setError("رمز التحقق غير صحيح، يرجى المحاولة مرة أخرى");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Box
@@ -37,221 +144,195 @@ const Login: React.FC = () => {
       sx={{
         minHeight: "100vh",
         bgcolor: "#E2E8F0",
-        py: { xs: 6, md: 10 },
+        py: { xs: 4, md: 10 },
         display: "flex",
         alignItems: "center",
         direction: "rtl", 
       }}
     >
       <Container maxWidth="sm">
-        <Paper
-          elevation={24}
-          sx={{
-            p: { xs: 3, md: 6 },
-            borderRadius: 5,
-            textAlign: "center",
-            background: "rgba(255, 255, 255, 0.95)",
-            backdropFilter: "blur(10px)",
-            boxShadow: "0 20px 50px rgba(0, 70, 82, 0.15)",
-          }}
-        >
-          {/* Header Icon */}
-          <Box
+        <Fade in={true} timeout={800}>
+          <Paper
+            elevation={24}
             sx={{
-              width: 80,
-              height: 80,
-              bgcolor: "#004652",
-              borderRadius: "50%",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              margin: "0 auto 20px",
-              boxShadow: "0 8px 20px rgba(0, 70, 82, 0.3)",
+              p: { xs: 4, md: 7 },
+              borderRadius: 10,
+              textAlign: "right",
+              background: "rgba(255, 255, 255, 0.98)",
+              backdropFilter: "blur(12px)",
+              boxShadow: "0 25px 60px rgba(0, 70, 82, 0.18)",
+              border: "1px solid rgba(255,255,255,0.3)"
             }}
           >
-            <LockOutlined sx={{ color: "#CC9D2F", fontSize: 40 }} />
-          </Box>
-
-          <Typography
-            variant="h4"
-            sx={{
-              fontWeight: 800,
-              color: "#004652",
-              mb: 1,
-              fontFamily: menuFont,
-            }}
-          >
-            تسجيل الدخول
-          </Typography>
-          <Typography
-            variant="body1"
-            sx={{ color: "#64748B", mb: 4, fontFamily: menuFont, fontSize: "1.1rem" }}
-          >
-            الرجاء إدخال بياناتك للوصول الآمن
-          </Typography>
-
-          <Box component="form" onSubmit={handleSubmit} noValidate>
-            {/* Email Field */}
-            <TextField
-              fullWidth
-              label="المستخدم أو البريد الإلكتروني"
-              variant="outlined"
-              margin="normal"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              InputLabelProps={{
-                sx: {
-                  fontFamily: menuFont,
-                  fontSize: "1.2rem", // Made Label Big
-                  right: 28, 
-                  left: "auto",
-                  transformOrigin: "right",
-                  "&.Mui-focused, &.MuiInputLabel-shrink": {
-                    transform: "translate(14px, -12px) scale(0.75)",
-                  },
-                },
-              }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <PersonOutline sx={{ color: "#004652", ml: 1, fontSize: "1.5rem" }} />
-                  </InputAdornment>
-                ),
-              }}
+            {/* --- BRANDING ICON --- */}
+            <Box
               sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: 3,
-                  fontSize: "1.1rem", // Made Typed Text Big
-                  "& fieldset": { borderColor: "#CBD5E1", textAlign: "right" },
-                  "&:hover fieldset": { borderColor: "#004652" },
-                  "&.Mui-focused fieldset": { borderColor: "#CC9D2F" },
-                },
+                width: 90,
+                height: 90,
+                bgcolor: primaryTeal,
+                borderRadius: "30px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                margin: "0 auto 30px",
+                boxShadow: "0 10px 25px rgba(0, 70, 82, 0.3)",
+                transform: "rotate(-4deg)"
               }}
-            />
-
-            {/* Password Field */}
-            <TextField
-              fullWidth
-              label="كلمة المرور"
-              type={showPassword ? "text" : "password"}
-              variant="outlined"
-              margin="normal"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              InputLabelProps={{
-                sx: {
-                  fontFamily: menuFont,
-                  fontSize: "1.2rem", // Made Label Big
-                  right: 28,
-                  left: "auto",
-                  transformOrigin: "right",
-                  "&.Mui-focused, &.MuiInputLabel-shrink": {
-                    transform: "translate(14px, -12px) scale(0.75)",
-                  },
-                },
-              }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <LockOutlined sx={{ color: "#004652", ml: 1, fontSize: "1.5rem" }} />
-                  </InputAdornment>
-                ),
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton onClick={handleTogglePassword} edge="end">
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: 3,
-                  fontSize: "1.1rem", // Made Typed Text Big
-                  "& fieldset": { borderColor: "#CBD5E1", textAlign: "right" },
-                  "&:hover fieldset": { borderColor: "#004652" },
-                  "&.Mui-focused fieldset": { borderColor: "#CC9D2F" },
-                },
-              }}
-            />
-
-            <Box sx={{ textAlign: "left", mt: 1, mb: 3 }}>
-              <Typography
-                component={Link}
-                to="/forgot-password"
-                sx={{
-                  color: "#CC9D2F",
-                  textDecoration: "none",
-                  fontSize: "1rem",
-                  fontWeight: 600,
-                  fontFamily: menuFont,
-                  "&:hover": { textDecoration: "underline" },
-                }}
-              >
-                نسيت كلمة المرور؟
-              </Typography>
+            >
+              {step === "password" ? (
+                <LockOutlined sx={{ color: accentGold, fontSize: 48 }} />
+              ) : (
+                <ShieldOutlined sx={{ color: "#10B981", fontSize: 48 }} />
+              )}
             </Box>
 
-            <Button
-              fullWidth
-              type="submit"
-              variant="contained"
-              sx={{
-                py: 1.8,
-                borderRadius: 3,
-                bgcolor: "#004652",
-                fontSize: "1.2rem",
-                fontWeight: 700,
-                fontFamily: menuFont,
-                boxShadow: "0 10px 20px rgba(0, 70, 82, 0.2)",
-                "&:hover": {
-                  bgcolor: "#065f6e",
-                  transform: "translateY(-2px)",
-                },
-                transition: "0.3s",
-              }}
+            {/* --- TEXT TITLES --- */}
+            <Typography
+              variant="h4"
+              sx={{ fontWeight: 900, color: primaryTeal, mb: 1.5, fontFamily: menuFont, textAlign: 'center' }}
             >
-              دخول آمن
-            </Button>
-          </Box>
-
-          <Divider sx={{ my: 4 }}>
-            <Typography sx={{ px: 2, color: "#94A3B8", fontSize: "0.9rem", fontFamily: menuFont }}>
-              أو
+              {step === "password" ? "تسجيل الدخول" : "تحقق الأمان (2FA)"}
             </Typography>
-          </Divider>
-
-          <Box sx={{ display: "flex", justifyContent: "center", gap: 1, flexDirection: { xs: "column", sm: "row" } }}>
-             <Typography sx={{ color: "#64748B", fontFamily: menuFont, fontSize: "1.1rem" }}>
-                ليس لديك حساب؟
-             </Typography>
-             <Typography
-              component={Link}
-              to="/register"
-              sx={{
-                color: "#CC9D2F",
-                fontWeight: 700,
-                textDecoration: "none",
-                fontFamily: menuFont,
-                fontSize: "1.1rem",
-                "&:hover": { textDecoration: "underline" },
-              }}
+            
+            <Typography
+              variant="body1"
+              sx={{ color: "#64748B", mb: 5, fontFamily: menuFont, fontSize: "1.15rem", textAlign: 'center', lineHeight: 1.6 }}
             >
-              إنشاء حساب جديد
+              {step === "password" 
+                ? "مرحباً بك مجدداً، يرجى إدخال بياناتك للوصول إلى لوحة التحكم" 
+                : "تم تفعيل حماية Authenticator. يرجى إدخال الرمز من تطبيقك"}
             </Typography>
-          </Box>
-        </Paper>
 
-        <Typography
-          sx={{
-            mt: 4,
-            textAlign: "center",
-            color: "#64748B",
-            fontSize: "0.9rem",
-            fontFamily: menuFont,
-          }}
-        >
-          جميع الحقوق محفوظة © {new Date().getFullYear()} ديجي ليزر العقارية | نظام مشفر
+            {/* --- ERROR ALERT --- */}
+            {error && (
+              <Alert 
+                severity="error" 
+                variant="filled"
+                sx={{ mb: 4, fontFamily: menuFont, borderRadius: 3, fontWeight: 700 }}
+              >
+                {error}
+              </Alert>
+            )}
+
+            {/* --- FORM SECTION --- */}
+            <Box 
+              component="form" 
+              onSubmit={step === "password" ? handleLoginSubmit : handleOtpSubmit} 
+              noValidate
+            >
+              {step === "password" ? (
+                <>
+                  <TextField
+                    fullWidth
+                    label="البريد الإلكتروني"
+                    variant="outlined"
+                    margin="normal"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    InputLabelProps={{ sx: { fontFamily: menuFont, right: 30, left: "auto", transformOrigin: "right", fontWeight: 700 } }}
+                    InputProps={{
+                      startAdornment: <InputAdornment position="start"><PersonOutline sx={{ color: primaryTeal, ml: 1 }} /></InputAdornment>,
+                    }}
+                    sx={{ 
+                      "& .MuiOutlinedInput-root": { borderRadius: 4, bgcolor: "#F8FAFC", height: 65 },
+                      "& input": { textAlign: 'right', fontFamily: menuFont }
+                    }}
+                  />
+
+                  <TextField
+                    fullWidth
+                    label="كلمة المرور"
+                    type={showPassword ? "text" : "password"}
+                    variant="outlined"
+                    margin="normal"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    InputLabelProps={{ sx: { fontFamily: menuFont, right: 30, left: "auto", transformOrigin: "right", fontWeight: 700 } }}
+                    InputProps={{
+                      startAdornment: <InputAdornment position="start"><LockOutlined sx={{ color: primaryTeal, ml: 1 }} /></InputAdornment>,
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton onClick={handleTogglePassword} edge="end" sx={{ p: 2 }}>
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                    sx={{ 
+                      "& .MuiOutlinedInput-root": { borderRadius: 4, bgcolor: "#F8FAFC", height: 65 },
+                      "& input": { textAlign: 'right', fontFamily: menuFont }
+                    }}
+                  />
+                  
+                  <Box sx={{ textAlign: "left", mt: 1, mb: 4 }}>
+                    <Typography
+                      component={Link}
+                      to="/forgot-password"
+                      sx={{ color: accentGold, textDecoration: "none", fontSize: "1rem", fontWeight: 800, fontFamily: menuFont }}
+                    >
+                      نسيت كلمة المرور؟
+                    </Typography>
+                  </Box>
+                </>
+              ) : (
+                <TextField
+                  fullWidth
+                  label="رمز التحقق"
+                  placeholder="000 000"
+                  variant="outlined"
+                  margin="normal"
+                  autoFocus
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                  inputProps={{ maxLength: 6, style: { textAlign: 'center', fontSize: '2.5rem', letterSpacing: '12px', fontWeight: 900, color: primaryTeal } }}
+                  InputLabelProps={{ sx: { fontFamily: menuFont, right: 30, left: "auto", transformOrigin: "right", fontWeight: 700 } }}
+                  sx={{ "& .MuiOutlinedInput-root": { borderRadius: 5, bgcolor: "#F8FAFC", py: 2 }, mb: 5 }}
+                />
+              )}
+
+              {/* --- ACTION BUTTON --- */}
+              <Button
+                fullWidth
+                type="submit"
+                variant="contained"
+                disabled={loading}
+                sx={{
+                  py: 2.2,
+                  borderRadius: 5,
+                  bgcolor: primaryTeal,
+                  fontSize: "1.3rem",
+                  fontWeight: 900,
+                  fontFamily: menuFont,
+                  boxShadow: "0 12px 30px rgba(0, 70, 82, 0.25)",
+                  transition: "0.3s",
+                  "&:hover": { bgcolor: "#065f6e", transform: "translateY(-2px)" },
+                }}
+              >
+                {loading ? (
+                  <CircularProgress size={28} sx={{ color: "#fff" }} />
+                ) : (
+                  step === "password" ? "دخول آمن للنظام" : "تأكيد والذهاب للوحة التحكم"
+                )}
+              </Button>
+
+              {/* --- BACK BUTTON (For OTP Step) --- */}
+              {step === "otp" && (
+                <Button 
+                  fullWidth 
+                  onClick={() => setStep("password")}
+                  startIcon={<ArrowForward sx={{ ml: 1, fontSize: '1.2rem' }} />}
+                  sx={{ mt: 3, color: "#64748B", fontFamily: menuFont, fontWeight: 800, fontSize: '1rem' }}
+                >
+                  العودة لتعديل بيانات الدخول
+                </Button>
+              )}
+            </Box>
+          </Paper>
+        </Fade>
+
+        {/* --- FOOTER --- */}
+        <Typography sx={{ mt: 5, textAlign: "center", color: "#64748B", fontSize: "1rem", fontFamily: menuFont, fontWeight: 600 }}>
+          ديجي ليزر العقارية © {new Date().getFullYear()} | نظام محمي ومشفر
         </Typography>
       </Container>
     </Box>

@@ -1,132 +1,89 @@
-import bcrypt from 'bcrypt'; // Make sure bcrypt is imported
-import AccountRegisterAdmin from '../models/AccountRegisterAdmin.models.js';
+import speakeasy from 'speakeasy';
+import QRCode from 'qrcode';
+import AccountRegisterAdminModels from '../models/AccountRegisterAdmin.models.js';
 
-export const AccountCreatAdmin = async (req, res) => {
-  const { name, email, password } = req.body;
-
-  // Check if all required fields are provided
-  if (!name || !email || !password) {
-    return res.status(400).json({ message: 'Please provide all required fields.' });
-  }
-
-  // Simple email validation (you can use a more complex regex or a validation library)
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
-    return res.status(400).json({ message: 'Invalid email format.' });
-  }
-
-  // Check if user already exists
-  const existingUser = await AccountRegisterAdmin.findOne({ email });
-  if (existingUser) {
-    return res.status(400).json({ message: 'User with this email already exists.' });
-  }
-
+// Create New Admin
+export const createAdmin = async (req, res) => {
   try {
-    // Prepare the data object for the new user
-    const newUserData = {
-      name,
-      email,
-    };
-
-    // Check if a password is provided and hash it before saving
-    if (password) {
-      const salt = await bcrypt.genSalt(10);
-      newUserData.password = await bcrypt.hash(password, salt);
-    }
-
-    // Create a new user
-    const newUser = new AccountRegisterAdmin(newUserData);
-
-    // Save the new user to the database
-    await newUser.save();
-    res.status(201).json({ message: 'User registered successfully!' });
+    const admin = new AccountRegisterAdminModels(req.body);
+    await admin.save();
+    res.status(201).json(admin);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Server error during registration.' });
+    res.status(400).json({ message: error.message });
   }
 };
 
-
-// All Acccount View 
-export const AccountIndex = async (req, res) => {
-  try {
-      const AccountIndex = await AccountRegisterAdmin.find();
-      res.json(AccountIndex);
-  } catch (error) {
-      res.status(500).json({ message: error.message });
-  }
-};
-
-// single Acccount View 
-export const AccountSingleDetails = async (req, res) => {
-  try {
-      const AccountsSingleView = await AccountRegisterAdmin.findById(req.params.id);
-      if (AccountsSingleView == null) {
-          return res.status(404).json({ message: "Cannot Find The User Acoount" });
-      }
-      else {
-          res.json(AccountsSingleView);
-      }
-  } catch (error) {
-      return res.status(500).json({ message: error.message });
-  }
-};
-
-// All Acccount Delete
-export const AccountDelete = async (req, res) => {
-  const AccountId =  req.params.id;
+// Generate 2FA QR Code
+export const setup2FA = async (req, res) => {
+  const { adminId } = req.body;
+  const secret = speakeasy.generateSecret({ name: `RealEstate (${adminId})` });
   
-  try {
-       await AccountRegisterAdmin.deleteOne({_id: AccountId})
-       res.json({message:"User Acoount deleted!"});
-  } catch (error) {
-   res.status(500).json({message:error.message})
+  await AccountRegisterAdminModels.findByIdAndUpdate(adminId, { twoFASecret: secret.base32 });
+
+  QRCode.toDataURL(secret.otpauth_url, (err, data_url) => {
+    res.json({ qrCode: data_url });
+  });
+};
+
+// Verify 2FA and Enable
+export const verify2FA = async (req, res) => {
+  const { adminId, token } = req.body;
+  const admin = await AccountRegisterAdminModels.findById(adminId);
+
+  const verified = speakeasy.totp.verify({
+    secret: admin.twoFASecret,
+    encoding: 'base32',
+    token
+  });
+
+  if (verified) {
+    admin.twoFAEnabled = true;
+    await admin.save();
+    res.json({ success: true });
+  } else {
+    res.status(400).json({ success: false });
   }
 };
 
-// Account Update 
-export const AccountUpdateAdmin = async (req, res) => {
-  const { id } = req.params;
-  const { name, email, password, username } = req.body;
 
-  try {
-    // Validate the incoming data (you can add your validation here)
-    if (!id) {
-      return res.status(400).json({ status: 400, message: "User ID is required" });
+
+// Fetch all admins from MongoDB
+export const getAllAdmins = async (req, res) => {
+    try {
+        // .select('-password') ensures we don't send sensitive passwords to the frontend
+        const admins = await AccountRegisterAdminModels.find().select('-password');
+        res.status(200).json(admins);
+    } catch (error) {
+        res.status(500).json({ message: "Error fetching data", error: error.message });
     }
+};
 
-    // Find the user by ID
-    const user = await AccountRegisterAdmin.findById(id);
-    if (!user) {
-      return res.status(404).json({ status: 404, message: "User not found" });
+
+// server/controller/AccountRegisterAdmin.Controller.js
+
+export const login = async (req, res) => {
+    const { email, password } = req.body;
+    try {
+        const admin = await AccountRegisterAdminModels.findOne({ email });
+        if (!admin || admin.password !== password) {
+            return res.status(401).json({ message: "بيانات الدخول غير صحيحة" });
+        }
+
+        if (admin.twoFAEnabled) {
+            return res.json({ requires2FA: true, adminId: admin._id });
+        }
+
+        // Return user data for top bar
+        res.json({ 
+            success: true, 
+            token: "JWT_TOKEN_HERE", 
+            admin: { 
+                name: admin.name, 
+                profileImage: admin.profileImage 
+            } 
+        });
+    } catch (error) {
+        res.status(500).json({ message: "خطأ في الخادم" });
     }
-
-    // Update user details only if provided
-    const updates = {};
-
-    if (name) updates.name = name;
-    if (username) updates.username = username;
-    if (email) updates.email = email;
-
-    // If password is provided, hash it before saving
-    if (password) {
-      const salt = await bcrypt.genSalt(10);
-      updates.password = await bcrypt.hash(password, salt);
-    }
-
-    // Use the updates object to update the user
-    await user.set(updates); // More efficient way to update fields
-
-    // Save the updated user data
-    const updatedUser = await user.save();
-
-    // Return the updated user
-    res.status(200).json({ status: 200, updatedUser });
-
-  } catch (error) {
-    // Handle unexpected errors
-    console.error(error);
-    res.status(500).json({ status: 500, message: "Internal server error" });
-  }
 };
 

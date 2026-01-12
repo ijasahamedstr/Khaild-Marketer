@@ -1,16 +1,14 @@
-import { model, Schema } from "mongoose";
-import dotenv from 'dotenv';
+import mongoose from 'mongoose';
 
-dotenv.config();
+const adminSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  profileImage: { type: String, default: "" }, // Added this line for Image URL/Base64
+  role: { type: String, default: "مدير نظام" },
+  twoFASecret: { type: String }, 
+  twoFAEnabled: { type: Boolean, default: false },
+  createdAt: { type: Date, default: Date.now }
+});
 
-// Define the schema
-const AccountRegisterAdminSchema = new Schema({
-    name: String,
-    email: { type: String, unique: true },
-    password: String,
-}, { timestamps: true });
-
-// Create the model
-const AccountRegisterAdmin = model("AccountRegisterAdmin", AccountRegisterAdminSchema);
-
-export default AccountRegisterAdmin;
+export default mongoose.model('Admin', adminSchema);

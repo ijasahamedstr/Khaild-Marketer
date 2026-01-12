@@ -1,14 +1,9 @@
-// Import required modules
-import express from "express";
-import { AccountLoginAdmin } from "../controller/AccountLoginAdmin.Controller.js";
+import express from 'express';
+import { login, verifyLoginOTP } from '../controller/AccountLoginAdmin.Controller.js';
 
+const Loginrouter = express.Router();
 
-const AccountAdminloginrouter = express.Router()
+Loginrouter.post('/login', login);
+Loginrouter.post('/verify-otp', verifyLoginOTP);
 
-//CURD Functionality of Registertion
-
-// Create the Data Register
-AccountAdminloginrouter.post('/',AccountLoginAdmin);
-
-
-export default AccountAdminloginrouter;
+export default Loginrouter;
