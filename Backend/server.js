@@ -4,6 +4,7 @@ import connectDB from "./lib/db.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import Adminrouter from "./routes/AccountRegisterAdmin.route.js";
+import Propertyfinishingrouter from "./routes/Propertyfinishing.route.js";
 
 // Create an instance of Express
 const app = express();
@@ -37,6 +38,8 @@ app.get("/", (req, res) => {
 //ADMIN -> MIDDLEWARE -> SERVER
 // app.use('/Adminlogin', AccountAdminloginrouter);
 app.use('/api/admin',Adminrouter);
+
+app.use('/api/admin', Propertyfinishingrouter);
 
 
 
