@@ -47,7 +47,8 @@ const Login: React.FC = () => {
   const menuFont = "Tajawal, sans-serif";
   const primaryTeal = "#004652";
   const accentGold = "#CC9D2F";
-  const BASE_URL = "http://localhost:8001/api/admin";
+  const BASE_URL = import.meta.env.VITE_API_ADMIN_BASE_URL;
+
 
   useEffect(() => {
     // Scroll to top on load
