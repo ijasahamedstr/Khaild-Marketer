@@ -1,6 +1,6 @@
 import React from "react";
-import { Box, Typography, Stack, Paper, Fade, Button, Chip } from "@mui/material";
-import { HomeWorkOutlined, LocationOnOutlined, AddHomeWork } from "@mui/icons-material";
+import { Box, Typography, Stack, Paper, Fade, Button } from "@mui/material";
+import { HomeWorkOutlined, AddHomeWork } from "@mui/icons-material";
 
 const menuFont = "Tajawal, sans-serif";
 const primaryTeal = "#004652";
