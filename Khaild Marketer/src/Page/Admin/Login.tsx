@@ -10,7 +10,6 @@ import {
   IconButton, 
   InputAdornment, 
   Paper,
-  Divider,
   CircularProgress,
   Alert,
   Fade
@@ -20,7 +19,6 @@ import {
   VisibilityOff, 
   LockOutlined, 
   PersonOutline, 
-  GppGoodOutlined,
   ShieldOutlined,
   ArrowForward
 } from "@mui/icons-material";

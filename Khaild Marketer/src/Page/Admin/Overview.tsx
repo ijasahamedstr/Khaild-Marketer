@@ -6,13 +6,9 @@ import {
   Paper,
   IconButton,
   Badge,
-  Divider,
-  useTheme,
-  useMediaQuery,
 } from "@mui/material";
 import {
   ArrowBackIosNew,
-  AutoGraph,
   HomeWorkOutlined,
   ShoppingBagOutlined,
   VpnKeyOutlined,
