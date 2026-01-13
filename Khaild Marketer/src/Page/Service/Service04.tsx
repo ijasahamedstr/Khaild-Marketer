@@ -42,15 +42,11 @@ const float = keyframes`
   50% { transform: translateY(-10px); }
 `;
 
-const pulseGlow = keyframes`
-  0% { box-shadow: 0 0 5px rgba(6, 249, 243, 0.2); }
-  50% { box-shadow: 0 0 20px rgba(6, 249, 243, 0.6); }
-  100% { box-shadow: 0 0 5px rgba(6, 249, 243, 0.2); }
-`;
+
 
 // ---------------- STYLED COMPONENTS ----------------
 
-const GlassCard = styled(Box)(({ theme }) => ({
+const GlassCard = styled(Box)(({  }) => ({
   position: "relative",
   background: "rgba(255, 255, 255, 0.85)",
   backdropFilter: "blur(12px)",
@@ -114,7 +110,7 @@ const SubmitButton = styled(Button)({
 
 // ---------------- COMPONENT ----------------
 
-const Service04: React.FC<Props> = ({ onSubmit }) => {
+const Service04: React.FC<Props> = ({  }) => {
   const [openSuccess, setOpenSuccess] = useState(false);
   const [formData, setFormData] = useState<FormData>({ name: "", mobile: "" });
   const [directPhone, setDirectPhone] = useState("");
