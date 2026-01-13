@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
     origin: [
-      "http://localhost:5173",
+      "https://www.waseetaqary.com",
       "http://localhost:3002",
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
