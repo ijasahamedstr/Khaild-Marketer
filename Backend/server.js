@@ -5,6 +5,9 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import Adminrouter from "./routes/AccountRegisterAdmin.route.js";
 import Propertyfinishingrouter from "./routes/Propertyfinishing.route.js";
+import Propertyforsalerouter from "./routes/Propertyforsale.route.js";
+import Buyingpropertyrouter from "./routes/Buyingproperty.route.js";
+import Propertyrentalrouter from "./routes/Propertyrental.route.js";
 
 // Create an instance of Express
 const app = express();
@@ -39,8 +42,13 @@ app.get("/", (req, res) => {
 // app.use('/Adminlogin', AccountAdminloginrouter);
 app.use('/api/admin',Adminrouter);
 
-app.use('/api/admin', Propertyfinishingrouter);
+app.use('/api', Propertyfinishingrouter);
 
+app.use('/api',Propertyforsalerouter);
+
+app.use('/api', Buyingpropertyrouter);
+
+app.use('/api',Propertyrentalrouter);
 
 
 // Start server

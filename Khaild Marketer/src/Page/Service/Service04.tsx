@@ -28,7 +28,7 @@ type Props = {
 const COLOR_PRIMARY_CYAN = "#06f9f3";
 const COLOR_DEEP_BLUE = "#023B4E";
 const TAJAWAL = "'Tajawal', sans-serif"; 
-const BASE_URL = import.meta.env.VITE_API_ADMIN_BASE_URL;
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 // ---------------- ANIMATIONS ----------------
 
@@ -126,7 +126,7 @@ const Service04: React.FC<Props> = ({  }) => {
     const message = `🛠️ *طلب تشطيب عقار*\n\n👤 الاسم: ${formData.name}\n📱 الجوال: ${formData.mobile}\n📞 رقم التواصل المباشر: ${directPhone || "غير متوفر"}`;
     
     try {
-      await fetch(`${BASE_URL}/save-service-contact`, {
+      await fetch(`${BASE_URL}/api/save-service-contact`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...formData, directPhone }),
