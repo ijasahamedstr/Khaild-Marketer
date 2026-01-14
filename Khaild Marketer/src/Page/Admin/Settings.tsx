@@ -45,7 +45,7 @@ import {
 const primaryTeal = "#004652";
 const accentGold = "#CC9D2F";
 const menuFont = "Tajawal, sans-serif";
-const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 const AdminManagement: React.FC = () => {
   const [view, setView] = useState<"list" | "form" | "details">("list");
@@ -63,7 +63,7 @@ const AdminManagement: React.FC = () => {
   const fetchAdmins = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${BASE_URL}/all`);
+      const response = await axios.get(`${BASE_URL}/api/all`);
       setAdmins(response.data);
       setFilteredAdmins(response.data); // Initialize filtered list
     } catch (error) {
@@ -101,7 +101,7 @@ const AdminManagement: React.FC = () => {
 
   const handleFormSubmit = async (formData: any) => {
     try {
-      await axios.post(`${BASE_URL}/create`, formData);
+      await axios.post(`${BASE_URL}/api/create`, formData);
       fetchAdmins();
       setView("list");
       setSearchQuery(""); // Clear search on return
@@ -331,7 +331,7 @@ const AdminDetails = ({ admin, onEdit }: any) => {
 
   const handleSetup2FA = async () => {
     try {
-      const res = await axios.post(`${BASE_URL}/setup-2fa`, { adminId: admin._id, email: admin.email });
+      const res = await axios.post(`${BASE_URL}/api/setup-2fa`, { adminId: admin._id, email: admin.email });
       setQrCode(res.data.qrCode);
       setIsVerifying(true);
     } catch (error) {
@@ -341,7 +341,7 @@ const AdminDetails = ({ admin, onEdit }: any) => {
 
   const handleVerify2FA = async () => {
     try {
-      const res = await axios.post(`${BASE_URL}/verify-2fa`, { adminId: admin._id, token });
+      const res = await axios.post(`${BASE_URL}/api/verify-2fa`, { adminId: admin._id, token });
       if (res.data.success) {
         alert("2FA Enabled Successfully!");
         window.location.reload();
