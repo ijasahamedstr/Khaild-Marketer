@@ -79,7 +79,7 @@ const Login: React.FC = () => {
     setError("");
 
     try {
-      const response = await axios.post(`${BASE_URL}/login`, { email, password });
+      const response = await axios.post(`${BASE_URL}/api/login`, { email, password });
       
       if (response.data.requires2FA) {
         // Prepare for OTP Verification

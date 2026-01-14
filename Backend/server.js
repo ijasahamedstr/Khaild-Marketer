@@ -40,7 +40,7 @@ app.get("/", (req, res) => {
 
 //ADMIN -> MIDDLEWARE -> SERVER
 // app.use('/Adminlogin', AccountAdminloginrouter);
-app.use('/api/admin',Adminrouter);
+app.use('/api',Adminrouter);
 
 app.use('/api',Propertyfinishingrouter);
 
