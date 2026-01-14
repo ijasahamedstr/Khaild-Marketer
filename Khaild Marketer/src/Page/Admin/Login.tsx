@@ -116,7 +116,7 @@ const Login: React.FC = () => {
     setError("");
 
     try {
-      const response = await axios.post(`${BASE_URL}/verify-2fa`, { 
+      const response = await axios.post(`${BASE_URL}/api/verify-2fa`, { 
         adminId, 
         token: otp 
       });
