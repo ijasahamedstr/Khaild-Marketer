@@ -12,7 +12,8 @@ import {
   Paper,
   CircularProgress,
   Alert,
-  Fade
+  Fade,
+  Collapse // Added for smooth alert transition
 } from "@mui/material";
 import { 
   Visibility, 
@@ -20,14 +21,10 @@ import {
   LockOutlined, 
   PersonOutline, 
   ShieldOutlined,
-  ArrowForward
+  ArrowForward,
+  InfoOutlined // Added for the alert icon
 } from "@mui/icons-material";
 
-/**
- * LOGIN COMPONENT
- * Handles secure authentication with Google Authenticator (2FA) support.
- * Synchronizes user profile data (Name & Image) with LocalStorage for the Top Bar.
- */
 const Login: React.FC = () => {
   const navigate = useNavigate();
   
@@ -36,6 +33,7 @@ const Login: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showForgotAlert, setShowForgotAlert] = useState(false); // New State for Alert
 
   // Form Data States
   const [email, setEmail] = useState("");
@@ -43,18 +41,13 @@ const Login: React.FC = () => {
   const [otp, setOtp] = useState("");
   const [adminId, setAdminId] = useState("");
 
-  // Design Constants
   const menuFont = "Tajawal, sans-serif";
   const primaryTeal = "#004652";
   const accentGold = "#CC9D2F";
   const BASE_URL = import.meta.env.VITE_API_URL;
 
-
   useEffect(() => {
-    // Scroll to top on load
     window.scrollTo({ top: 0, behavior: "smooth" });
-    
-    // Check if user is already logged in
     const token = localStorage.getItem("token");
     if (token) {
       navigate("/dashboard");
@@ -63,13 +56,9 @@ const Login: React.FC = () => {
 
   const handleTogglePassword = () => setShowPassword(!showPassword);
 
-  /**
-   * STEP 1: INITIAL LOGIN
-   * Sends Email/Password to Backend. 
-   * If 2FA is required, switches UI. If not, redirects to Dashboard.
-   */
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setShowForgotAlert(false); // Hide alert if user tries to login again
     if (!email || !password) {
       setError("يرجى إدخال البريد الإلكتروني وكلمة المرور");
       return;
@@ -82,16 +71,11 @@ const Login: React.FC = () => {
       const response = await axios.post(`${BASE_URL}/api/login`, { email, password });
       
       if (response.data.requires2FA) {
-        // Prepare for OTP Verification
         setAdminId(response.data.adminId);
         setStep("otp"); 
       } else {
-        // ✅ SUCCESS: Save session data
         localStorage.setItem("token", response.data.token);
-        // ✅ SAVE USER PROFILE (NAME & IMAGE) FOR TOP BAR
         localStorage.setItem("adminData", JSON.stringify(response.data.admin));
-        
-        // Force immediate redirect to dashboard
         window.location.href = "/dashboard";
       }
     } catch (err: any) {
@@ -101,10 +85,6 @@ const Login: React.FC = () => {
     }
   };
 
-  /**
-   * STEP 2: 2FA VERIFICATION
-   * Sends 6-digit Google Authenticator code to Backend.
-   */
   const handleOtpSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (otp.length !== 6) {
@@ -122,12 +102,8 @@ const Login: React.FC = () => {
       });
 
       if (response.data.success) {
-        // ✅ SUCCESS: Save session data
         localStorage.setItem("token", response.data.token || "logged_in_token");
-        // ✅ SAVE USER PROFILE (NAME & IMAGE) FOR TOP BAR
         localStorage.setItem("adminData", JSON.stringify(response.data.admin));
-        
-        // Force immediate redirect to dashboard
         window.location.href = "/dashboard";
       }
     } catch (err: any) {
@@ -163,7 +139,6 @@ const Login: React.FC = () => {
               border: "1px solid rgba(255,255,255,0.3)"
             }}
           >
-            {/* --- BRANDING ICON --- */}
             <Box
               sx={{
                 width: 90,
@@ -185,7 +160,6 @@ const Login: React.FC = () => {
               )}
             </Box>
 
-            {/* --- TEXT TITLES --- */}
             <Typography
               variant="h4"
               sx={{ fontWeight: 900, color: primaryTeal, mb: 1.5, fontFamily: menuFont, textAlign: 'center' }}
@@ -213,7 +187,26 @@ const Login: React.FC = () => {
               </Alert>
             )}
 
-            {/* --- FORM SECTION --- */}
+            {/* --- FORGOT PASSWORD INFO ALERT --- */}
+            <Collapse in={showForgotAlert}>
+              <Alert 
+                severity="info" 
+                icon={<InfoOutlined fontSize="inherit" />}
+                onClose={() => setShowForgotAlert(false)}
+                sx={{ 
+                  mb: 4, 
+                  fontFamily: menuFont, 
+                  borderRadius: 3, 
+                  fontWeight: 600,
+                  bgcolor: "#f0f9ff",
+                  color: "#0369a1",
+                  "& .MuiAlert-icon": { color: "#0369a1" }
+                }}
+              >
+                لاستعادة كلمة المرور، يرجى التواصل مع مسؤول النظام (Administrator).
+              </Alert>
+            </Collapse>
+
             <Box 
               component="form" 
               onSubmit={step === "password" ? handleLoginSubmit : handleOtpSubmit} 
@@ -265,9 +258,21 @@ const Login: React.FC = () => {
                   
                   <Box sx={{ textAlign: "left", mt: 1, mb: 4 }}>
                     <Typography
-                      component={Link}
-                      to="/forgot-password"
-                      sx={{ color: accentGold, textDecoration: "none", fontSize: "1rem", fontWeight: 800, fontFamily: menuFont }}
+                      component="button"
+                      type="button"
+                      onClick={() => setShowForgotAlert(true)}
+                      sx={{ 
+                        background: "none",
+                        border: "none",
+                        cursor: "pointer",
+                        color: accentGold, 
+                        textDecoration: "none", 
+                        fontSize: "1rem", 
+                        fontWeight: 800, 
+                        fontFamily: menuFont,
+                        padding: 0,
+                        "&:hover": { textDecoration: "underline" }
+                      }}
                     >
                       نسيت كلمة المرور؟
                     </Typography>
@@ -289,7 +294,6 @@ const Login: React.FC = () => {
                 />
               )}
 
-              {/* --- ACTION BUTTON --- */}
               <Button
                 fullWidth
                 type="submit"
@@ -314,7 +318,6 @@ const Login: React.FC = () => {
                 )}
               </Button>
 
-              {/* --- BACK BUTTON (For OTP Step) --- */}
               {step === "otp" && (
                 <Button 
                   fullWidth 
@@ -329,7 +332,6 @@ const Login: React.FC = () => {
           </Paper>
         </Fade>
 
-        {/* --- FOOTER --- */}
         <Typography sx={{ mt: 5, textAlign: "center", color: "#64748B", fontSize: "1rem", fontFamily: menuFont, fontWeight: 600 }}>
           ديجي ليزر العقارية © {new Date().getFullYear()} | نظام محمي ومشفر
         </Typography>
