@@ -87,3 +87,46 @@ export const login = async (req, res) => {
     }
 };
 
+// --- UPDATE (EDIT) ADMIN ---
+export const updateAdmin = async (req, res) => {
+  const { id } = req.params; // Get ID from URL parameters
+  try {
+    // findByIdAndUpdate with { new: true } returns the updated document
+    const updatedAdmin = await AccountRegisterAdminModels.findByIdAndUpdate(
+      id, 
+      req.body, 
+      { new: true, runValidators: true }
+    ).select('-password');
+
+    if (!updatedAdmin) {
+      return res.status(404).json({ message: "المسؤول غير موجود" });
+    }
+
+    res.status(200).json({ 
+      success: true, 
+      message: "تم تحديث البيانات بنجاح", 
+      admin: updatedAdmin 
+    });
+  } catch (error) {
+    res.status(400).json({ message: "خطأ في تحديث البيانات", error: error.message });
+  }
+};
+
+// --- DELETE ADMIN ---
+export const deleteAdmin = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const admin = await AccountRegisterAdminModels.findByIdAndDelete(id);
+
+    if (!admin) {
+      return res.status(404).json({ message: "المسؤول غير موجود بالفعل" });
+    }
+
+    res.status(200).json({ 
+      success: true, 
+      message: "تم حذف الحساب بنجاح" 
+    });
+  } catch (error) {
+    res.status(500).json({ message: "خطأ في عملية الحذف", error: error.message });
+  }
+};
