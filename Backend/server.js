@@ -18,17 +18,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // CORS setup
-app.use(
-  cors({
-    origin: [
-      "https://www.waseetaqary.com",
-      "http://localhost:3002",
-    ],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+app.use(cors({
+  origin: ["https://www.waseetaqary.com", "https://khaild-marketer.vercel.app"],
+  methods: ["GET","POST","PUT","DELETE"],
+  credentials: true
+}));
 
 // Connect DB
 connectDB();
