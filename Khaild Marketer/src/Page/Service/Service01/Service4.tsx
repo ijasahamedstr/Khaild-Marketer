@@ -163,13 +163,13 @@ const Service4: React.FC<Props> = ({  }) => {
           <Typography sx={{ 
             fontWeight: 900, 
             fontSize: { xs: "2.5rem", md: "4rem" }, 
-            color: COLOR_PRIMARY_CYAN, 
+            color: COLOR_DEEP_BLUE, 
             fontFamily: TAJAWAL,
             textShadow: "0 10px 20px rgba(0,0,0,0.3)"
           }}>
             تشطيب العقار <Sparkles style={{ verticalAlign: 'middle' }} />
           </Typography>
-          <Typography sx={{ color: "#fff", opacity: 0.9, fontSize: "1.2rem", mt: 1, fontFamily: TAJAWAL }}>
+          <Typography sx={{ color: "#000000", opacity: 0.9, fontSize: "1.2rem", mt: 1, fontFamily: TAJAWAL }}>
             نحول رؤيتك إلى واقع ملموس بدقة واحترافية
           </Typography>
         </Box>
