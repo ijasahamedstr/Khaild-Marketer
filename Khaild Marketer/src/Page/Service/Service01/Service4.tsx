@@ -1,5 +1,5 @@
 // src/Page/Service/Service04.tsx
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Container,
@@ -7,9 +7,12 @@ import {
   TextField,
   Button,
   styled,
-  FormControl,
+  Snackbar,
+  Alert,
+  InputAdornment,
 } from "@mui/material";
 import { keyframes } from "@mui/system";
+import { User, Phone, CheckCircle, Send, Sparkles, ArrowRight } from "lucide-react";
 
 // ---------------- CONSTANTS & TYPES ----------------
 
@@ -19,390 +22,254 @@ type FormData = {
 };
 
 type Props = {
-  onSubmit?: (selectedItems: {
-    seventhRows?: string[];
-  }) => void;
+  onSubmit?: (selectedItems: { seventhRows?: string[] }) => void;
 };
 
-const FORM_BACKGROUND_COLOR = "#fff";
-const COLOR_PRIMARY_CYAN = "#E7E5E4";
-const GRADIENT1 = "linear-gradient(135deg, #023B4E 0%, #06f9f3 100%)";
-const TAJAWAL = "'Tajawal', sans-serif";
+const COLOR_PRIMARY_CYAN = "#06f9f3";
+const COLOR_DEEP_BLUE = "#023B4E";
+const TAJAWAL = "'Tajawal', sans-serif"; 
+const BASE_URL = import.meta.env.VITE_API_URL;
 
-// ---------------- STYLED COMPONENT ----------------
+// ---------------- ANIMATIONS ----------------
 
-const DarkTextField = styled(TextField)(({}) => ({
-  "& .MuiFilledInput-root": {
-    borderRadius: "12px",
-    backgroundColor: "rgba(255, 255, 255, 0.9)",
-    color: "#000",
-    border: `1px solid ${COLOR_PRIMARY_CYAN}`,
-    transition: "none",
-    "&:hover": { backgroundColor: "rgba(255, 255, 255, 0.9)" },
-    "&.Mui-focused": {
-      backgroundColor: "rgba(255, 255, 255, 0.9)",
+const shimmer = keyframes`
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+`;
+
+const float = keyframes`
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+`;
+
+
+
+// ---------------- STYLED COMPONENTS ----------------
+
+const GlassCard = styled(Box)(({  }) => ({
+  position: "relative",
+  background: "rgba(255, 255, 255, 0.85)",
+  backdropFilter: "blur(12px)",
+  borderRadius: "30px",
+  border: "1px solid rgba(255, 255, 255, 0.3)",
+  boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.15)",
+  overflow: "hidden",
+  transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+  "&:hover": {
+    transform: "translateY(-5px)",
+    boxShadow: "0 30px 60px -12px rgba(0, 0, 0, 0.2)",
+    borderColor: COLOR_PRIMARY_CYAN,
+  },
+}));
+
+const StyledTextField = styled(TextField)({
+  "& .MuiOutlinedInput-root": {
+    borderRadius: "16px",
+    backgroundColor: "#f8fafc",
+    transition: "all 0.3s ease",
+    fontFamily: TAJAWAL,
+    "& fieldset": { borderColor: "#E2E8F0" },
+    "&:hover fieldset": { borderColor: COLOR_PRIMARY_CYAN },
+    "&.Mui-focused fieldset": {
       borderColor: COLOR_PRIMARY_CYAN,
-      boxShadow: "none",
+      borderWidth: "2px",
     },
   },
   "& .MuiInputBase-input": {
-    padding: "16px 12px",
-    color: "#000",
-    "&::placeholder": { color: "rgba(0, 0, 0, 0.5)", opacity: 1 },
+    fontFamily: TAJAWAL,
+    fontSize: "1.1rem",
+    fontWeight: 600,
   },
-  "& .MuiInputLabel-filled": { color: "#000" },
-}));
+});
 
-// ---------------- ANIMATION ----------------
-
-const fadeUp = keyframes`
-  0% { opacity: 0; transform: translateY(18px) scale(0.995); }
-  60% { opacity: 1; transform: translateY(0) scale(1); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
-`;
-
-// ---------------- SEVENTH ROWS ----------------
-
-const SEVENTH_ROWS = [
-  { label: " التواصل مباشرةعلى هذا الرقم", hasInput: true },
-  { label: "", hasInput: false },
-];
+const SubmitButton = styled(Button)({
+  background: `linear-gradient(45deg, ${COLOR_DEEP_BLUE} 30%, #086d8d 90%)`,
+  color: "white",
+  padding: "16px 48px",
+  borderRadius: "50px",
+  fontSize: "1.3rem",
+  fontWeight: 800,
+  fontFamily: TAJAWAL,
+  textTransform: "none",
+  transition: "all 0.3s ease",
+  position: "relative",
+  overflow: "hidden",
+  "&:hover": {
+    transform: "scale(1.05)",
+    boxShadow: "0 10px 25px rgba(6, 249, 243, 0.4)",
+  },
+  "&::after": {
+    content: '""',
+    position: "absolute",
+    top: 0, left: "-100%",
+    width: "100%", height: "100%",
+    background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)",
+    animation: `${shimmer} 3s infinite`,
+  },
+});
 
 // ---------------- COMPONENT ----------------
 
-const Service4: React.FC<Props> = ({ onSubmit }) => {
-  const topRef = React.useRef<HTMLDivElement | null>(null);
+const Service4: React.FC<Props> = ({  }) => {
+  const [openSuccess, setOpenSuccess] = useState(false);
+  const [formData, setFormData] = useState<FormData>({ name: "", mobile: "" });
+  const [directPhone, setDirectPhone] = useState("");
 
-  React.useEffect(() => {
-    const t = setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }, 120);
-    return () => clearTimeout(t);
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
-  const [seventhText, setSeventhText] = React.useState<Record<number, string>>({});
-  const [formData, setFormData] = React.useState<FormData>({
-    name: "",
-    mobile: "",
-  });
-
-  const handleSeventhTextChange = (i: number, val: string) =>
-    setSeventhText((s) => ({ ...s, [i]: val }));
   const handleChange = (field: keyof FormData, value: string) =>
     setFormData((prev) => ({ ...prev, [field]: value }));
 
-  // ---------------- WHATSAPP MESSAGE BUILDER ----------------
-  const buildWhatsAppMessage = () => {
-    const seventhRowsArr = SEVENTH_ROWS.map((r, i) =>
-      r.hasInput ? seventhText[i] ?? "" : r.label
-    );
-
-    return `
-🛠️ *تشطيب العقار* 🏠
-
-📞 التواصل: ${seventhRowsArr[0] || "لم يتم إدخال رقم"}
-👤 الاسم: ${formData.name || "غير محدد"}
-📱 الجوال: ${formData.mobile || "غير محدد"}
-    `;
-  };
-
-  const handleSubmit = () => {
-    const seventhRowsArr = SEVENTH_ROWS.map((r, i) =>
-      r.hasInput ? (seventhText[i] ?? "").trim() : r.label
-    );
-
-    console.log("Contact Form Data:", formData);
-
-    if (onSubmit) {
-      onSubmit({ seventhRows: seventhRowsArr });
+  const handleSubmit = async () => {
+    const message = `🛠️ *طلب تشطيب عقار*\n\n👤 الاسم: ${formData.name}\n📱 الجوال: ${formData.mobile}\n📞 رقم التواصل المباشر: ${directPhone || "غير متوفر"}`;
+    
+    try {
+      await fetch(`${BASE_URL}/api/save-service-contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...formData, directPhone }),
+      });
+      setOpenSuccess(true);
+      
+      setTimeout(() => {
+        const whatsappURL = `https://wa.me/966509855666?text=${encodeURIComponent(message)}`;
+        window.open(whatsappURL, "_blank");
+      }, 1500);
+    } catch (error) {
+      console.error("Submission Error:", error);
     }
-
-    // ---------------- OPEN WHATSAPP ----------------
-    const phoneNumber = "966509855666"; // Replace with your WhatsApp number
-    const message = buildWhatsAppMessage();
-    const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-    window.open(whatsappURL, "_blank");
-
-    // ---------------- RESET FORM ----------------
-    setFormData({ name: "", mobile: "" });
-    setSeventhText({});
   };
 
   return (
-        <Box
-               sx={{
-                 width: "100%",
-                 minHeight: "100vh",
-                 backgroundImage: "url('https://i.ibb.co/hxkmfnF6/4.webp')",
-                 backgroundSize: "cover",
-                 backgroundPosition: "center",
-                 backgroundRepeat: "no-repeat",
-                 position: "relative",
-         
-                 // 🔥 زيادة المسافة أعلى وأسفل
-                 py: { xs: 8, sm: 12, md: 3 }, // padding top & bottom
-               }}
-             >
+    <Box sx={{ 
+      minHeight: "100vh", 
+      background: `linear-gradient(rgba(244, 123, 112, 0.45), rgba(244, 123, 112, 0.45)), url('https://i.ibb.co/hxkmfnF6/4.webp')`,
+      backgroundSize: "cover",
+      backgroundAttachment: "fixed",
+      py: 8,
+      direction: "rtl"
+    }}>
+      <Snackbar open={openSuccess} autoHideDuration={5000} onClose={() => setOpenSuccess(false)} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+        <Alert severity="success" variant="filled" icon={<CheckCircle size={24} />} sx={{ borderRadius: "15px", fontFamily: TAJAWAL, fontSize: "1.1rem" }}>
+          تم استلام طلبك! جاري تحويلك لواتساب...
+        </Alert>
+      </Snackbar>
 
-    <Container
-      maxWidth="lg"
-      sx={{
-        mt: { xs: 4, md: 8 },
-        mb: { xs: 6, md: 12 },
-        direction: "rtl",
-        px: { xs: 2, md: 4 },
-        fontFamily: TAJAWAL,
-        backgroundColor: FORM_BACKGROUND_COLOR,
-        borderRadius: "16px",
-        py: { xs: 4, md: 8 },
-      }}
-    >
-      <div ref={topRef} />
-
-      <Box sx={{ textAlign: "center", mb: 4 }}>
-        <Typography
-          sx={{
-            fontWeight: 800,
-            fontSize: { xs: "1.6rem", md: "2.4rem" },
-            color: "#023B4E",
+      <Container maxWidth="md">
+        {/* Header Section */}
+        <Box sx={{ textAlign: "center", mb: 8, animation: `${float} 4s ease-in-out infinite` }}>
+          <Typography sx={{ 
+            fontWeight: 900, 
+            fontSize: { xs: "2.5rem", md: "4rem" }, 
+            color: COLOR_PRIMARY_CYAN, 
             fontFamily: TAJAWAL,
-          }}
-        >
-          تشطيب العقار
-        </Typography>
-      </Box>
-
-      {/* ---------------- SEVENTH GROUP ---------------- */}
-
-      <Box sx={{ mt: 5, mb: 4, position: "relative" }}>
-        
-        {/* --- GLOW EFFECT --- */}
-        <Box
-          sx={{
-            position: "absolute",
-            inset: "-2px",
-            borderRadius: "16px", // Matches card radius
-            background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)",
-            filter: "blur(4px)",
-            zIndex: 0,
-          }}
-        />
-
-        {/* --- CONTENT CARD --- */}
-        <Box
-          sx={{
-            position: "relative",
-            zIndex: 10,
-            p: 3,
-            borderRadius: "12px",
-            border: "1px solid #E2E8F0",
-            background: "#E2E8F0",
-          }}
-        >
-          <Box sx={{ display: "grid", gap: 3, maxWidth: 1100, mx: "auto" }}>
-            {SEVENTH_ROWS.map((r, i) => (
-              <Box
-                key={`seventh-row-${i}`}
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 2,
-                  flexDirection: "row",
-                  width: "100%",
-                }}
-              >
-                <Typography
-                  sx={{
-                    fontWeight: 900,
-                    fontSize: { xs: "24px", sm: "27px" },
-                    fontFamily: TAJAWAL,
-                    color: "#000",
-                    lineHeight: 1.3,
-                    width: "35%",
-                  }}
-                >
-                  {r.label}
-                </Typography>
-
-                {r.hasInput && (
-                  <DarkTextField
-                    value={seventhText[i] ?? ""}
-                    onChange={(e) => handleSeventhTextChange(i, e.target.value)}
-                    fullWidth
-                    hiddenLabel
-                    inputProps={{ dir: "rtl", style: { fontFamily: TAJAWAL, color: "#000" } }}
-                    sx={{
-                      width: "40%",
-                      "& .MuiInputBase-input": {
-                        fontSize: "1.8rem",
-                        color: "black",
-                        WebkitTextFillColor: "black",
-                      },
-                      "& .MuiInputBase-input::placeholder": {
-                        fontSize: "1.8rem",
-                        opacity: 0.7,
-                      },
-                    }}
-                  />
-                )}
-              </Box>
-            ))}
-          </Box>
+            textShadow: "0 10px 20px rgba(0,0,0,0.3)"
+          }}>
+            تشطيب العقار <Sparkles style={{ verticalAlign: 'middle' }} />
+          </Typography>
+          <Typography sx={{ color: "#fff", opacity: 0.9, fontSize: "1.2rem", mt: 1, fontFamily: TAJAWAL }}>
+            نحول رؤيتك إلى واقع ملموس بدقة واحترافية
+          </Typography>
         </Box>
-      </Box>
-  
 
-      {/* ---------------- CONTACT FORM ---------------- */}
+        {/* Direct Contact Card */}
+        <GlassCard sx={{ p: { xs: 3, md: 5 }, mb: 4, borderLeft: `6px solid ${COLOR_PRIMARY_CYAN}` }}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 3 }}>
+            <Phone size={32} color={COLOR_DEEP_BLUE} />
+            <Typography sx={{ fontWeight: 800, fontSize: { xs: "1.4rem", md: "1.8rem" }, color: COLOR_DEEP_BLUE, fontFamily: TAJAWAL }}>
+              اتصال مباشر سريع
+            </Typography>
+          </Box>
+          <StyledTextField
+            fullWidth
+            placeholder="أدخل رقمك للتواصل الفوري"
+            value={directPhone}
+            onChange={(e) => setDirectPhone(e.target.value)}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <ArrowRight size={20} color={COLOR_PRIMARY_CYAN} />
+                </InputAdornment>
+              ),
+            }}
+          />
+        </GlassCard>
 
-      <Box
-        sx={{
-          mt: 6,
-          position: "relative",
-          // Animation moved here so glow and content fade in together
-          animation: `${fadeUp} 1000ms 300ms backwards`,
-        }}
-      >
-        {/* --- GLOW EFFECT --- */}
-        <Box
-          sx={{
-            position: "absolute",
-            inset: "-2px",
-            borderRadius: "16px",
-            background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)",
-            filter: "blur(4px)",
-            zIndex: 0,
-          }}
-        />
+        {/* Full Form Card */}
+        <GlassCard sx={{ p: { xs: 3, md: 6 } }}>
+          <Typography sx={{ 
+            textAlign: "center", 
+            fontWeight: 800, 
+            fontSize: "1.8rem", 
+            mb: 5, 
+            color: COLOR_DEEP_BLUE,
+            fontFamily: TAJAWAL 
+          }}>
+            سجل بياناتك وسنتواصل معك
+          </Typography>
 
-        {/* --- CONTENT CARD --- */}
-        <Box
-          sx={{
-            position: "relative",
-            zIndex: 10,
-            p: 4,
-            borderRadius: "16px",
-            border: "1px solid #E2E8F0",
-            background: "#E2E8F0",
-          }}
-        >
-          <FormControl component="fieldset" sx={{ width: "100%", maxWidth: 1100, mx: "auto" }}>
-            <Box sx={{ mb: 4, textAlign: "right" }}>
-              <Typography
-                variant="h4"
-                sx={{
-                  fontWeight: 800,
-                  fontSize: { xs: "1.6rem", md: "2.2rem" },
-                  color: "#023B4E",
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 4 }}>
+            <Box>
+              <Typography 
+                sx={{ 
+                  mb: 1.5, 
+                  px: 1, 
+                  fontWeight: 700, 
                   fontFamily: TAJAWAL,
-                  mb: 1,
+                  // Mobile size: 1.2rem, Desktop size: 2rem
+                  fontSize: { xs: '1.2rem', md: '1.5rem' } 
                 }}
               >
-                أو الرجاء ترك الإسم ورقم الجوال وسوف نعاود الإتصال بك
+                الاسم بالكامل
+              </Typography>
+              <StyledTextField
+                fullWidth
+                value={formData.name}
+                onChange={(e) => handleChange("name", e.target.value)}
+                placeholder="مثال: محمد أحمد"
+                InputProps={{
+                  startAdornment: <InputAdornment position="start"><User size={20} /></InputAdornment>
+                }}
+              />
+            </Box>
+
+            <Box>
+              <Typography  sx={{ 
+                  mb: 1.5, 
+                  px: 1, 
+                  fontWeight: 700, 
+                  fontFamily: TAJAWAL,
+                  // Mobile size: 1.2rem, Desktop size: 2rem
+                  fontSize: { xs: '1.2rem', md: '1.5rem' } 
+                }}>رقم الجوال</Typography>
+              <StyledTextField
+                fullWidth
+                value={formData.mobile}
+                onChange={(e) => handleChange("mobile", e.target.value)}
+                placeholder="05xxxxxxxx"
+                InputProps={{
+                  startAdornment: <InputAdornment position="start"><Phone size={20} /></InputAdornment>
+                }}
+              />
+            </Box>
+
+            <Box sx={{ textAlign: "center", mt: 4 }}>
+              <SubmitButton 
+                onClick={handleSubmit} 
+                endIcon={<Send size={24} style={{ marginRight: '8px' }} />}
+              >
+                تأكيد وإرسال الطلب
+              </SubmitButton>
+              <Typography sx={{ mt: 3, color: "#64748b", fontSize: "0.9rem", fontFamily: TAJAWAL }}>
+                * سيتم فتح واتساب تلقائياً بعد الإرسال
               </Typography>
             </Box>
-
-            <Box sx={{ display: "grid", gap: 3, width: "100%", mx: "auto" }}>
-              {/* Name */}
-              <Box sx={{ display: "flex", gap: 2, alignItems: "top" }}>
-                <Typography
-                  sx={{
-                    fontFamily: TAJAWAL,
-                    fontSize: "28px",
-                    fontWeight: 600,
-                    color: "#000",
-                    lineHeight: 1.5,
-                  }}
-                >
-                  الاسم
-                </Typography>
-                <Box sx={{ width: "40%" }}>
-                  <TextField
-                    value={formData.name}
-                    onChange={(e) => handleChange("name", e.target.value)}
-                    fullWidth
-                    hiddenLabel
-                    inputProps={{ dir: "rtl", style: { fontFamily: TAJAWAL, color: "#000" } }}
-                    sx={{
-                      width: "100%",
-                      "& .MuiInputBase-input": {
-                        fontSize: "1.8rem",
-                        color: "black",
-                        WebkitTextFillColor: "black",
-                      },
-                      "& .MuiInputBase-input::placeholder": {
-                        fontSize: "1.8rem",
-                        opacity: 0.7,
-                      },
-                    }}
-                  />
-                </Box>
-              </Box>
-
-              {/* Mobile */}
-              <Box sx={{ display: "flex", gap: 2, alignItems: "top" }}>
-                <Typography
-                  sx={{
-                    fontFamily: TAJAWAL,
-                    fontSize: "28px",
-                    fontWeight: 600,
-                    color: "#000",
-                    lineHeight: 1.5,
-                  }}
-                >
-                  جوال
-                </Typography>
-                <Box sx={{ width: "40%" }}>
-                  <TextField
-                    value={formData.mobile}
-                    onChange={(e) => handleChange("mobile", e.target.value)}
-                    fullWidth
-                    hiddenLabel
-                    inputProps={{ dir: "rtl", style: { fontFamily: TAJAWAL, color: "#000" } }}
-                    sx={{
-                      width: "100%",
-                      "& .MuiInputBase-input": {
-                        fontSize: "1.8rem",
-                        color: "black",
-                        WebkitTextFillColor: "black",
-                      },
-                      "& .MuiInputBase-input::placeholder": {
-                        fontSize: "1.8rem",
-                        opacity: 0.7,
-                      },
-                    }}
-                  />
-                </Box>
-              </Box>
-            </Box>
-
-            {/* Submit */}
-            <Box sx={{ display: "flex", justifyContent: "center", mt: 6 }}>
-              <Button
-                variant="contained"
-                onClick={handleSubmit}
-                sx={{
-                  px: 6,
-                  py: 1.5,
-                  borderRadius: 3,
-                  fontWeight: 700,
-                  fontFamily: TAJAWAL,
-                  fontSize: "1.2rem",
-                  textTransform: "none",
-                  background: GRADIENT1,
-                  color: "#000",
-                  boxShadow: "0 8px 28px rgba(6, 249, 243, 0.4)",
-                  "&:hover": { background: GRADIENT1, boxShadow: "0 8px 28px rgba(6, 249, 243, 0.4)" },
-                }}
-              >
-                إرسال
-              </Button>
-            </Box>
-          </FormControl>
-        </Box>
-      </Box>
-
-    </Container>
-  </Box>
+          </Box>
+        </GlassCard>
+      </Container>
+    </Box>
   );
 };
 

@@ -287,7 +287,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
     <Box
       sx={{ 
       minHeight: "100vh", 
-      background: `linear-gradient(rgba(164, 175, 167, 0.85), rgba(164, 175, 167, 0.85)), url('https://i.ibb.co/hxkmfnF6/4.webp')`,
+      background: `linear-gradient(rgba(203, 242, 239, 0.85), rgba(203, 242, 239, 0.85)), url('https://i.ibb.co/hxkmfnF6/4.webp')`,
       backgroundSize: "cover",
       backgroundAttachment: "fixed",
       py: 2,
@@ -316,7 +316,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
             sx={{ 
               fontWeight: 900, 
               fontSize: { xs: "2.5rem", md: "4rem" }, 
-              color: COLOR_PRIMARY_CYAN, 
+              color: COLOR_DEEP_BLUE, 
               fontFamily: TAJAWAL,
               textShadow: "0 10px 20px rgba(0,0,0,0.3)",
               display: 'flex',
@@ -324,12 +324,12 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
               gap: 1
             }}
           >
-            بيع العقار <Sparkles size={32} style={{ color: COLOR_PRIMARY_CYAN }} />
+            بيع العقار <Sparkles size={32} style={{ color: COLOR_DEEP_BLUE }} />
           </Typography>
 
           <Typography 
             sx={{ 
-              color: "#fff", 
+              color: "#000000", 
               opacity: 0.9, 
               fontSize: "1.2rem", 
               mt: 2, 
