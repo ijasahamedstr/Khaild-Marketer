@@ -67,7 +67,6 @@ const AdminManagement: React.FC = () => {
   const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "success" as "success" | "error" });
 
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const fetchAdmins = async () => {
     setLoading(true);
@@ -331,7 +330,6 @@ const AdminForm = ({ admin, isEditing, onSave, loading }: any) => {
 /* --- DETAILS VIEW --- */
 const AdminDetails = ({ admin, onEdit, onDelete }: any) => {
   const [qrCode, setQrCode] = useState("");
-  const [token, setToken] = useState("");
   const [isVerifying, setIsVerifying] = useState(false);
 
   const handleSetup2FA = async () => {
