@@ -6,9 +6,17 @@ import {
   DialogContent, DialogContentText, DialogActions, Button 
 } from "@mui/material";
 import { 
-  DashboardOutlined, HomeWorkOutlined, PeopleOutline, 
-  AccountBalanceWalletOutlined, SettingsOutlined, LogoutOutlined, 
-  MenuOpen, LockOutlined, ArrowForwardIos, Close 
+  DashboardOutlined, 
+  ShoppingBagOutlined, // بيع
+  HomeWorkOutlined,    // شراء
+  VpnKeyOutlined,      // إيجار
+  FormatPaintOutlined, // تشطيب
+  SettingsOutlined, 
+  LogoutOutlined, 
+  MenuOpen, 
+  LockOutlined, 
+  ArrowForwardIos, 
+  Close 
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
@@ -25,7 +33,6 @@ const Dashboard: React.FC = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
   
-  // ✅ DYNAMIC USER DATA
   const [userData, setUserData] = useState({ name: "", profileImage: "", role: "مدير نظام" });
 
   const theme = useTheme();
@@ -34,7 +41,6 @@ const Dashboard: React.FC = () => {
   const accentGold = "#CC9D2F";
   const menuFont = "Tajawal, sans-serif";
 
-  // ✅ LOAD USER DATA FROM SESSION
   useEffect(() => {
     const savedData = localStorage.getItem("adminData");
     if (savedData) {
@@ -53,33 +59,65 @@ const Dashboard: React.FC = () => {
   const renderActivePage = () => {
     switch (activeTab) {
       case "لوحة التحكم": return <Overview />;
-      case "العقارات المتاحة": return <Properties />;
+      case "بيع العقار": return <Properties />;
       case "الإعدادات": return <CreateAdmin />;
       default: return <Overview />;
     }
   };
 
+  // ✅ القائمة المحدثة بالأيقونات الصحيحة
   const menuItems = [
     { text: "لوحة التحكم", icon: <DashboardOutlined /> },
-    { text: "العقارات المتاحة", icon: <HomeWorkOutlined /> },
-    { text: "إدارة العملاء", icon: <PeopleOutline /> },
-    { text: "التقارير المالية", icon: <AccountBalanceWalletOutlined /> },
+    { text: "بيع العقار", icon: <HomeWorkOutlined /> },
+    { text: "شراء العقار", icon: <ShoppingBagOutlined/> },
+    { text: "إيجار العقار", icon: <VpnKeyOutlined /> },
+    { text: "تشطيب العقار", icon: <FormatPaintOutlined /> },
     { text: "الإعدادات", icon: <SettingsOutlined /> },
   ];
 
   const sidebarContent = (
     <Box sx={{ height: "100%", display: "flex", flexDirection: "column", bgcolor: primaryTeal, color: "white" }}>
       <Box sx={{ pt: { xs: 12, md: 8 }, pb: 6, px: 4, textAlign: "center", position: "relative" }}>
-        {isMobile && <IconButton onClick={() => setMobileOpen(false)} sx={{ position: "absolute", left: 20, top: 30, color: "white" }}><Close /></IconButton>}
-        <Box sx={{ width: 80, height: 80, bgcolor: "rgba(255,255,255,0.08)", borderRadius: "28px", display: "flex", justifyContent: "center", alignItems: "center", margin: "0 auto 25px", border: `1.5px solid ${accentGold}` }}><LockOutlined sx={{ color: accentGold, fontSize: 40 }} /></Box>
-        <Typography variant="h5" sx={{ fontFamily: menuFont, fontWeight: 900 }}>ديجي ليزر <span style={{ color: accentGold }}>العقارية</span></Typography>
+        {isMobile && (
+          <IconButton onClick={() => setMobileOpen(false)} sx={{ position: "absolute", left: 20, top: 30, color: "white" }}>
+            <Close />
+          </IconButton>
+        )}
+        <Box sx={{ 
+          width: 80, height: 80, 
+          bgcolor: "rgba(255,255,255,0.08)", 
+          borderRadius: "28px", 
+          display: "flex", justifyContent: "center", alignItems: "center", 
+          margin: "0 auto 25px", border: `1.5px solid ${accentGold}` 
+        }}>
+          <LockOutlined sx={{ color: accentGold, fontSize: 40 }} />
+        </Box>
+        <Typography variant="h5" sx={{ fontFamily: menuFont, fontWeight: 900 }}>
+          ديجي ليزر <span style={{ color: accentGold }}>العقارية</span>
+        </Typography>
       </Box>
 
       <List sx={{ px: 3, flexGrow: 1 }}>
         {menuItems.map((item) => (
-          <ListItemButton key={item.text} onClick={() => { setActiveTab(item.text); setMobileOpen(false); }} sx={{ borderRadius: "20px", mb: 2, bgcolor: activeTab === item.text ? accentGold : "transparent", color: activeTab === item.text ? primaryTeal : "rgba(255,255,255,0.6)", py: 1.8 }}>
-            <ListItemIcon sx={{ color: "inherit", minWidth: 45 }}>{item.icon}</ListItemIcon>
-            <ListItemText primary={item.text} primaryTypographyProps={{ fontFamily: menuFont, fontWeight: activeTab === item.text ? 800 : 500 }} />
+          <ListItemButton 
+            key={item.text} 
+            onClick={() => { setActiveTab(item.text); setMobileOpen(false); }} 
+            sx={{ 
+              borderRadius: "20px", 
+              mb: 1.5, 
+              bgcolor: activeTab === item.text ? accentGold : "transparent", 
+              color: activeTab === item.text ? primaryTeal : "rgba(255,255,255,0.6)", 
+              py: 1.8,
+              "&:hover": { bgcolor: activeTab === item.text ? accentGold : "rgba(255,255,255,0.05)" }
+            }}
+          >
+            <ListItemIcon sx={{ color: "inherit", minWidth: 45, "& svg": { fontSize: 26 } }}>
+              {item.icon}
+            </ListItemIcon>
+            <ListItemText 
+              primary={item.text} 
+              primaryTypographyProps={{ fontFamily: menuFont, fontWeight: activeTab === item.text ? 900 : 500 }} 
+            />
             {activeTab === item.text && <ArrowForwardIos sx={{ fontSize: 14 }} />}
           </ListItemButton>
         ))}
@@ -87,7 +125,7 @@ const Dashboard: React.FC = () => {
 
       <Box sx={{ px: 3, pb: 4 }}>
         <Divider sx={{ bgcolor: "rgba(255,255,255,0.1)", mb: 2 }} />
-        <ListItemButton onClick={() => setLogoutDialogOpen(true)} sx={{ borderRadius: "18px", color: "#FF7070" }}>
+        <ListItemButton onClick={() => setLogoutDialogOpen(true)} sx={{ borderRadius: "18px", color: "#FF7070", "&:hover": { bgcolor: "rgba(255,112,112,0.1)" } }}>
           <ListItemIcon sx={{ color: "inherit", minWidth: 45 }}><LogoutOutlined /></ListItemIcon>
           <ListItemText primary="تسجيل الخروج" primaryTypographyProps={{ fontFamily: menuFont, fontWeight: 800 }} />
         </ListItemButton>
@@ -97,21 +135,49 @@ const Dashboard: React.FC = () => {
 
   return (
     <Box sx={{ display: "flex", direction: "rtl", bgcolor: "#F8FAFC", minHeight: "100vh" }}>
-      {/* --- TOP BAR --- */}
-      <AppBar position="fixed" elevation={0} sx={{ width: { md: `calc(100% - ${drawerWidth}px)` }, mr: { md: `${drawerWidth}px` }, bgcolor: "rgba(255, 255, 255, 0.9)", backdropFilter: "blur(15px)", borderBottom: "1px solid #E2E8F0", zIndex: (theme) => isMobile ? theme.zIndex.drawer - 1 : theme.zIndex.drawer + 1 }}>
+      <AppBar 
+        position="fixed" 
+        elevation={0} 
+        sx={{ 
+          width: { md: `calc(100% - ${drawerWidth}px)` }, 
+          mr: { md: `${drawerWidth}px` }, 
+          bgcolor: "rgba(255, 255, 255, 0.9)", 
+          backdropFilter: "blur(15px)", 
+          borderBottom: "1px solid #E2E8F0", 
+          zIndex: (theme) => isMobile ? theme.zIndex.drawer - 1 : theme.zIndex.drawer + 1 
+        }}
+      >
         <Toolbar sx={{ justifyContent: "space-between", height: { xs: 90, md: 110 }, px: { xs: 3, md: 6 } }}>
           <Stack direction="row" alignItems="center" spacing={3}>
-            <IconButton onClick={() => setMobileOpen(true)} sx={{ display: { md: "none" }, color: primaryTeal, bgcolor: "#F1F5F9" }}><MenuOpen fontSize="large" /></IconButton>
-            <Typography variant="h5" sx={{ fontFamily: menuFont, fontWeight: 900, color: primaryTeal }}>{activeTab}</Typography>
+            <IconButton 
+              onClick={() => setMobileOpen(true)} 
+              sx={{ display: { md: "none" }, color: primaryTeal, bgcolor: "#F1F5F9" }}
+            >
+              <MenuOpen fontSize="large" />
+            </IconButton>
+            <Typography variant="h5" sx={{ fontFamily: menuFont, fontWeight: 900, color: primaryTeal }}>
+              {activeTab}
+            </Typography>
           </Stack>
 
-          {/* ✅ USER DATA IN TOP BAR */}
           <Stack direction="row" alignItems="center" spacing={2.5}>
             <Box sx={{ textAlign: "left", display: { xs: "none", sm: "block" } }}>
-              <Typography sx={{ fontFamily: menuFont, fontWeight: 900, color: primaryTeal, fontSize: "1.1rem" }}>{userData.name || "جاري التحميل..."}</Typography>
-              <Typography sx={{ fontFamily: menuFont, fontWeight: 500, color: "#94A3B8", fontSize: "0.85rem" }}>{userData.role}</Typography>
+              <Typography sx={{ fontFamily: menuFont, fontWeight: 900, color: primaryTeal, fontSize: "1.1rem" }}>
+                {userData.name || "المدير"}
+              </Typography>
+              <Typography sx={{ fontFamily: menuFont, fontWeight: 500, color: "#94A3B8", fontSize: "0.85rem" }}>
+                {userData.role}
+              </Typography>
             </Box>
-            <Avatar sx={{ width: 55, height: 55, border: `2px solid ${accentGold}`, bgcolor: primaryTeal, boxShadow: "0 4px 12px rgba(0,0,0,0.1)" }} src={userData.profileImage}>
+            <Avatar 
+              sx={{ 
+                width: 55, height: 55, 
+                border: `2px solid ${accentGold}`, 
+                bgcolor: primaryTeal, 
+                boxShadow: "0 4px 12px rgba(0,0,0,0.1)" 
+              }} 
+              src={userData.profileImage}
+            >
               {!userData.profileImage && (userData.name ? userData.name[0] : "A")}
             </Avatar>
           </Stack>
@@ -119,11 +185,28 @@ const Dashboard: React.FC = () => {
       </AppBar>
 
       <Box component="nav" sx={{ width: { md: drawerWidth } }}>
-        <Drawer variant="temporary" open={mobileOpen} onClose={() => setMobileOpen(false)} anchor="right" sx={{ display: { xs: "block", md: "none" }, "& .MuiDrawer-paper": { width: drawerWidth } }}>{sidebarContent}</Drawer>
-        <Drawer variant="permanent" anchor="right" sx={{ display: { xs: "none", md: "block" }, "& .MuiDrawer-paper": { width: drawerWidth, border: "none", boxShadow: "-15px 0 35px rgba(0,70,82,0.12)" } }} open>{sidebarContent}</Drawer>
+        <Drawer 
+          variant="temporary" 
+          open={mobileOpen} 
+          onClose={() => setMobileOpen(false)} 
+          anchor="right" 
+          sx={{ display: { xs: "block", md: "none" }, "& .MuiDrawer-paper": { width: drawerWidth } }}
+        >
+          {sidebarContent}
+        </Drawer>
+        <Drawer 
+          variant="permanent" 
+          anchor="right" 
+          sx={{ display: { xs: "none", md: "block" }, "& .MuiDrawer-paper": { width: drawerWidth, border: "none", boxShadow: "-15px 0 35px rgba(0,70,82,0.12)" } }} 
+          open
+        >
+          {sidebarContent}
+        </Drawer>
       </Box>
 
-      <Box component="main" sx={{ flexGrow: 1, p: { xs: 3, md: 8 }, mt: { xs: "110px", md: "130px" } }}>{renderActivePage()}</Box>
+      <Box component="main" sx={{ flexGrow: 1, p: { xs: 3, md: 8 }, mt: { xs: "110px", md: "130px" }, width: "100%" }}>
+        {renderActivePage()}
+      </Box>
 
       {/* ✅ LOGOUT DIALOG */}
       <Dialog open={logoutDialogOpen} onClose={() => setLogoutDialogOpen(false)} dir="rtl" PaperProps={{ sx: { borderRadius: "20px" } }}>
@@ -137,4 +220,5 @@ const Dashboard: React.FC = () => {
     </Box>
   );
 };
+
 export default Dashboard;

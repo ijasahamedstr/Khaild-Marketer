@@ -42,7 +42,7 @@ import Service11new from './Page/Service/Service01/Service11new';
 import Service12new from './Page/Service/Service01/Service12new';
 import Service13new from './Page/Service/Service01/Service13new';
 import Service14new from './Page/Service/Service01/Service14new';
-
+import ServiceDetail from './Page/Admin/ServiceDetail';
 
 // ✅ --- PROTECTED ROUTE COMPONENT ---
 // Ensures users cannot type "/dashboard" in the URL without a token
@@ -105,6 +105,7 @@ function Layout() {
 
         {/* admin */}
         <Route path="/login" element={<Login />} />
+        <Route path="/service-detail/:serviceId" element={<ServiceDetail/>} />
         
         {/* ✅ NEW SECURE DASHBOARD ROUTE */}
         <Route 
