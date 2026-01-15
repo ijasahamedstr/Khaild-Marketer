@@ -17,8 +17,6 @@ import {
   TableHead,
   TableRow,
   Chip,
-  useTheme,
-  useMediaQuery,
   CircularProgress,
   Dialog,
   DialogTitle,
@@ -66,7 +64,6 @@ const AdminManagement: React.FC = () => {
   const [adminToDelete, setAdminToDelete] = useState<string | null>(null);
   const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "success" as "success" | "error" });
 
-  const theme = useTheme();
 
   const fetchAdmins = async () => {
     setLoading(true);
