@@ -1,5 +1,5 @@
 // src/Page/Service/Service01.tsx
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Container,
@@ -11,9 +11,10 @@ import {
   Divider,
   Snackbar,
   Alert,
-  styled 
+  styled,
+  IconButton
 } from "@mui/material";
-import { Send } from "lucide-react";
+import { Send, CloudUpload, X, FileText, Video } from "lucide-react";
 
 /* ---------------- ICONS ---------------- */
 import HomeWorkIcon from "@mui/icons-material/HomeWork";
@@ -97,6 +98,20 @@ const StyledTextField = styled(TextField)({
   },
 });
 
+const UploadBox = styled(Box)({
+  border: `2px dashed ${COLOR_DEEP_BLUE}`,
+  borderRadius: "16px",
+  padding: "30px 20px",
+  textAlign: "center",
+  cursor: "pointer",
+  backgroundColor: "rgba(6, 249, 243, 0.05)",
+  transition: "all 0.3s ease",
+  "&:hover": {
+    backgroundColor: "rgba(6, 249, 243, 0.1)",
+    borderColor: COLOR_PRIMARY_CYAN
+  }
+});
+
 const SubmitButton = styled(Button)({
   background: `linear-gradient(45deg, ${COLOR_DEEP_BLUE} 30%, #086d8d 90%)`,
   color: "white",
@@ -159,11 +174,25 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
   const [isChecked1, setIsChecked1] = React.useState(false);
   const [isChecked2, setIsChecked2] = React.useState(false);
   const [checkboxValues, setCheckboxValues] = React.useState<boolean[]>([false, false]);
+  
+  // File State
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
   // --- POPUP ALERT STATES ---
   const [openPopup, setOpenPopup] = React.useState(false);
   const [alertSeverity, setAlertSeverity] = React.useState<"success" | "error">("success");
   const [alertMessage, setAlertMessage] = React.useState("");
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const filesArray = Array.from(e.target.files);
+      setSelectedFiles((prev) => [...prev, ...filesArray]);
+    }
+  };
+
+  const removeFile = (index: number) => {
+    setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
+  };
 
   const handleDeveloperCheckbox = (index: number) => {
     if (index === 0) {
@@ -197,6 +226,7 @@ ${checkboxValues[0] ? `- حد: ${priceLimit || "غير محدد"}` : ""}
 ${checkboxValues[1] ? `- على السوم: ${priceOffer || "غير محدد"}` : ""}
 📝 *تفاصيل إضافية:*
 ${notes || "لا يوجد"}
+📎 *المرفقات:* ${selectedFiles.length} ملف/فيديو
 📞 *قنوات التواصل:*
 ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- واتساب\n" : ""}${channels.chat ? "- اترك اسمك وجوالك\n" : ""}
 👤 *الاسم:* ${name || "غير مدخل"}
@@ -218,7 +248,9 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
       return;
     }
 
-    const payload = {
+    // Creating FormData to handle files and JSON data
+    const formData = new FormData();
+    formData.append("payload", JSON.stringify({
       propertyStatus,
       propertyType: dropdownValues[0] || "",
       location,
@@ -231,18 +263,21 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
       clientName: name,
       clientMobile: mobile,
       date: new Date().toISOString(),
-    };
+    }));
+
+    selectedFiles.forEach((file) => {
+      formData.append("files", file);
+    });
 
     try {
-        const response = await fetch(`${API_BASE_URL}/api/save-request`, {
+      const response = await fetch(`${API_BASE_URL}/api/save-request`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: formData, // Sending multipart/form-data
       });
 
       if (response.ok) {
         setAlertSeverity("success");
-        setAlertMessage("تم حفظ البيانات بنجاح!");
+        setAlertMessage("تم حفظ البيانات والملفات بنجاح!");
         setOpenPopup(true);
 
         const phoneNumber = "966509855666";
@@ -264,6 +299,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
         setIsChecked1(false);
         setIsChecked2(false);
         setCheckboxValues([false, false]);
+        setSelectedFiles([]);
 
         if (onSubmit) {
           onSubmit({
@@ -294,12 +330,13 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
       direction: "rtl"
     }}
     >
-           {/* MATERIAL UI POPUP ALERT */}
-        <Snackbar open={openPopup} autoHideDuration={6000} onClose={() => setOpenPopup(false)} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
-          <Alert onClose={() => setOpenPopup(false)} severity={alertSeverity} variant="filled" sx={{ width: '100%', fontSize: '1.2rem', fontFamily: TAJAWAL }}>
-            {alertMessage}
-          </Alert>
-        </Snackbar>
+      {/* MATERIAL UI POPUP ALERT */}
+      <Snackbar open={openPopup} autoHideDuration={6000} onClose={() => setOpenPopup(false)} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
+        <Alert onClose={() => setOpenPopup(false)} severity={alertSeverity} variant="filled" sx={{ width: '100%', fontSize: '1.2rem', fontFamily: TAJAWAL }}>
+          {alertMessage}
+        </Alert>
+      </Snackbar>
+
       <Container maxWidth="md" sx={{ mt: { xs: 4, md: 8 }, mb: { xs: 6, md: 12 }, direction: "rtl", fontFamily: TAJAWAL }}>
         <Box 
           sx={{ 
@@ -438,8 +475,66 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
               <StyledTextField multiline minRows={4} fullWidth placeholder="اكتب ملاحظاتك هنا..." value={notes} onChange={(e) => setNotes(e.target.value)} />
             </Box>
           </Box>
-          {/* CONTACT CHANNELS FIELD */}
-          <Box sx={{ mt: 6, position: "relative" }}>
+
+               {/* FILE & VIDEO UPLOAD SECTION (NEW) */}
+      {/* FILE & VIDEO UPLOAD SECTION */}
+          <Box sx={{ mt: 4, mb: 4, position: "relative" }}> {/* Added mt: 8 for more top space */}
+            <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
+            <Box sx={{ position: "relative", zIndex: 10, p: 3, borderRadius: 3, background: "#E2E8F0", border: "1px solid #E2E8F0" }}>
+              <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR }}>
+                <CloudUpload />
+                <Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>
+                  إرفاق الصور والفيديو
+                </Typography>
+              </Box>
+              <Typography sx={{ fontSize: "0.9rem", mb: 2, color: "#475569", fontFamily: TAJAWAL }}>
+                يمكنك رفع صور العقار ومقاطع الفيديو التوضيحية
+              </Typography>
+              
+              <input 
+                type="file" 
+                multiple 
+                id="file-upload" 
+                style={{ display: 'none' }} 
+                onChange={handleFileChange} 
+                accept="image/*,video/*,.pdf,.doc,.docx" 
+              />
+              <label htmlFor="file-upload">
+                <UploadBox>
+                  <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mb: 1 }}>
+                    <CloudUpload size={32} color={COLOR_DEEP_BLUE} />
+                    <Video size={32} color={COLOR_DEEP_BLUE} />
+                  </Box>
+                  <Typography sx={{ fontWeight: 700, fontFamily: TAJAWAL }}>
+                    اضغط هنا لرفع الصور أو الفيديو
+                  </Typography>
+                </UploadBox>
+              </label>
+
+              {selectedFiles.length > 0 && (
+                <Box sx={{ mt: 2, display: "flex", flexWrap: "wrap", gap: 1 }}>
+                  {selectedFiles.map((file, idx) => (
+                    <Box key={idx} sx={{ display: "flex", alignItems: "center", p: 1, borderRadius: "10px", border: "1px solid #cbd5e1", background: "#fff" }}>
+                      {file.type.startsWith('video/') ? (
+                        <Video size={16} style={{ marginLeft: '8px', color: '#023B4E' }} />
+                      ) : (
+                        <FileText size={16} style={{ marginLeft: '8px' }} />
+                      )}
+                      <Typography sx={{ fontSize: "0.75rem", maxWidth: "120px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                        {file.name}
+                      </Typography>
+                      <IconButton size="small" onClick={() => removeFile(idx)} sx={{ color: "red" }}>
+                        <X size={14} />
+                      </IconButton>
+                    </Box>
+                  ))}
+                </Box>
+              )}
+            </Box>
+          </Box>
+
+           {/* CONTACT CHANNELS SECTION (MOVED TO TOP) */}
+          <Box sx={{ mb: 6, position: "relative" }}>
             <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
             <Box sx={{ position: "relative", zIndex: 10, p: 3, borderRadius: 3, border: "1px solid #E2E8F0", background: "#E2E8F0" }}>
               <Typography sx={{ fontWeight: 800, fontSize: "1.3rem", mb: 0.5, color: LABEL_COLOR, fontFamily: TAJAWAL }}>قنوات التواصل</Typography>
@@ -447,24 +542,24 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
               <Box 
                 sx={{ 
                   display: "flex", 
-                  flexDirection: "row", // Force same row on all screens
+                  flexDirection: "row", 
                   alignItems: "center", 
                   justifyContent: "space-between",
                   gap: 1, 
                   mb: 2,
                   width: "100%",
-                  flexWrap: "nowrap" // Prevents wrapping to a new line
+                  flexWrap: "nowrap" 
                 }}
               >
                 <FormControlLabel 
                   sx={{ 
                     mr: 0, 
-                    flexShrink: 0, // Prevents the label from shrinking too much
+                    flexShrink: 0, 
                     '& .MuiFormControlLabel-label': { width: 'auto' } 
                   }}
                   control={
                     <Checkbox 
-                      size="small" // Smaller checkbox helps fit on one row
+                      size="small" 
                       checked={channels.call} 
                       onChange={(e) => setChannels({ ...channels, call: e.target.checked })} 
                     />
@@ -473,7 +568,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
                     <Typography 
                       sx={{ 
                         fontFamily: TAJAWAL, 
-                        fontSize: { xs: '12px', sm: '16px', md: '18px' }, // Slightly smaller on mobile
+                        fontSize: { xs: '12px', sm: '16px', md: '18px' }, 
                         whiteSpace: "nowrap"
                       }}
                     > 
@@ -482,22 +577,15 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
                   } 
                 />
 
-                <Box 
-                  sx={{ 
-                    display: "flex", 
-                    justifyContent: "flex-end",
-                    minWidth: 0, // Important for flex children with text-overflow
-                    flexShrink: 1 
-                  }}
-                >
+                <Box sx={{ display: "flex", justifyContent: "flex-end", minWidth: 0, flexShrink: 1 }}>
                   <Typography 
                     sx={{ 
                       fontFamily: "TAJAWAL", 
                       fontWeight: 800, 
-                      fontSize: { xs: "11px", sm: "16px", md: "20px" }, // Scaled down for mobile fit
+                      fontSize: { xs: "11px", sm: "16px", md: "20px" }, 
                       color: "#1D4ED8", 
                       backgroundColor: "#F8FAFC", 
-                      px: { xs: 1, md: 3 }, // Reduced padding on mobile
+                      px: { xs: 1, md: 3 }, 
                       py: 0.5, 
                       borderRadius: "999px", 
                       boxShadow: "0 4px 12px rgba(37,99,235,0.25)", 
@@ -519,11 +607,11 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
               <FormControlLabel sx={{ mb: 3 }} control={<Checkbox checked={channels.chat} onChange={(e) => setChannels({ ...channels, chat: e.target.checked })} />} label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: '18px', fontWeight: 'bold' }}> اترك اسمك وجوالك للتواصل معك لاحقًا </Typography>} />
               <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
                 <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 600, fontSize: '18px' }}> الاسم </Typography>
-                <StyledTextField value={name} onChange={(e) => setName(e.target.value)} />
+                <StyledTextField fullWidth value={name} onChange={(e) => setName(e.target.value)} />
               </Box>
               <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                 <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 600, fontSize: '18px' }}> الجوال </Typography>
-                <StyledTextField value={mobile} onChange={(e) => setMobile(e.target.value)} />
+                <StyledTextField fullWidth value={mobile} onChange={(e) => setMobile(e.target.value)} />
               </Box>
             </Box>
           </Box>

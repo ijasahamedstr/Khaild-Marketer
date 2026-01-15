@@ -1,4 +1,5 @@
 import express from 'express';
+import multer from 'multer'; // 1. Added missing import
 import { 
     saveServiceRequest, 
     getAllServiceRequests, 
@@ -9,21 +10,29 @@ import {
 
 const Propertyforsalerouter = express.Router();
 
+// 2. Configure Multer Storage
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, 'uploads/'),
+  filename: (req, file, cb) => cb(null, `${Date.now()}-${file.originalname}`)
+});
+const upload = multer({ storage });
+
 /**
  * @description Routes for handling the collection of property requests
  * URL: /api/save-request
  */
 Propertyforsalerouter.route('/save-request')
-    .post(saveServiceRequest)      // CREATE: Save a new request
-    .get(getAllServiceRequests);   // VIEW ALL: Get list of all requests
+    // Added upload.array('files') to process the multipart form data
+    .post(upload.array('files'), saveServiceRequest) 
+    .get(getAllServiceRequests);
 
 /**
  * @description Routes for handling specific property requests by ID
  * URL: /api/save-request/:id
  */
 Propertyforsalerouter.route('/save-request/:id')
-    .get(getServiceRequestById)    // SINGLE VIEW: Get one request details
-    .put(updateServiceRequest)     // UPDATE: Edit an existing request
-    .delete(deleteServiceRequest); // DELETE: Remove a request
+    .get(getServiceRequestById)
+    .put(upload.array('files'), updateServiceRequest) // Put middleware here too if editing files
+    .delete(deleteServiceRequest);
 
 export default Propertyforsalerouter;

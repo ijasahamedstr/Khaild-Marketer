@@ -2,11 +2,18 @@ import Servicerequestsale from "../models/Propertyforsale.models.js";
 
 export const saveServiceRequest = async (req, res) => {
   try {
-    const newRequest = new Servicerequestsale(req.body);
+    const data = JSON.parse(req.body.payload);
+    const filePaths = req.files.map(file => file.path);
+
+    const newRequest = new Servicerequestsale({
+      ...data,
+      files: filePaths
+    });
+
     await newRequest.save();
-    res.status(201).json({ message: "تم حفظ البيانات بنجاح" });
+    res.status(201).json({ success: true, message: "Saved Successfully" });
   } catch (error) {
-    res.status(500).json({ message: "خطأ في خادم البيانات", error: error.message });
+    res.status(500).json({ success: false, error: error.message });
   }
 };
 

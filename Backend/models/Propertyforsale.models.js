@@ -16,6 +16,7 @@ const ServicerequestsaleSchema = new mongoose.Schema({
   },
   clientName: String,
   clientMobile: String,
+  files: [String], 
   createdAt: { type: Date, default: Date.now }
 });
 
