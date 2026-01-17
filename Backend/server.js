@@ -1,6 +1,4 @@
 import express from "express";
-import fs from "fs"; // Added to handle directory creation
-import path from "path";
 import connectDB from "./lib/db.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
