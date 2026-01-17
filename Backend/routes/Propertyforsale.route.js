@@ -4,17 +4,21 @@ import { deleteServiceRequest, getAllServiceRequests, getServiceRequestById, sav
 
 const Propertyforsalerouter = express.Router();
 
-// Configure Multer Storage
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/"); // Ensure this folder exists
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + "-" + file.originalname);
-  },
-});
+// // Configure Multer Storage
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, "uploads/"); // Ensure this folder exists
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, Date.now() + "-" + file.originalname);
+//   },
+// });
 
-const upload = multer({ storage });
+// const upload = multer({ storage });
+
+// Using Memory Storage to avoid "Read-only file system" error
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 // Routes
 Propertyforsalerouter.route('/save-request')
