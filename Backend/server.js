@@ -14,7 +14,7 @@ const app = express();
 
 // 3. CORS setup
 app.use(cors({
-  origin: ["https://www.waseetaqary.com", "https://khaild-marketer.vercel.app"],
+  origin: ["http://localhost:5173", "https://khaild-marketer.vercel.app"],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
@@ -22,10 +22,6 @@ app.use(cors({
 app.use(express.json());
 app.use("/uploads", express.static("uploads")); 
 
-// Ensure upload directory exists
-if (!fs.existsSync("./uploads")) {
-  fs.mkdirSync("./uploads");
-}
 
 // 5. Connect Database
 connectDB();
@@ -38,9 +34,8 @@ app.get("/", (req, res) => {
 app.use('/api', Adminrouter);
 app.use('/api', Propertyfinishingrouter);
 app.use('/api', Propertyforsalerouter);
-
-app.use('/api', Buyingpropertyrouter); // Suggested: unique prefix to avoid conflicts
-app.use('/api/rental', Propertyrentalrouter); // Suggested: unique prefix to avoid conflicts
+app.use('/api', Buyingpropertyrouter); 
+app.use('/api/rental', Propertyrentalrouter); 
 
 // 7. Start server
 const port = 8001;
