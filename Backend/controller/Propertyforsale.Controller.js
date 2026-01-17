@@ -2,20 +2,17 @@ import Servicerequestsale from "../models/Propertyforsale.models.js";
 
 export const saveServiceRequest = async (req, res) => {
     try {
-        const formData = req.body;
-        const uploadedFiles = req.files; // Array of buffers
-
-        console.log("Data received:", formData);
+        const { body, files } = req; // files is an array of buffers
         
-        // If you need to save images, you would send uploadedFiles[i].buffer 
-        // to a cloud storage provider here.
+        // Since Vercel deletes memory after the request, 
+        // you MUST upload these buffers to a service like Cloudinary or S3 here.
+        
+        console.log("Received data:", body);
+        console.log("Received files count:", files ? files.length : 0);
 
-        res.status(201).json({
-            success: true,
-            message: "Request processed successfully (Memory Mode)"
-        });
+        res.status(201).json({ success: true, message: "Request received successfully" });
     } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
+        res.status(500).json({ success: false, message: error.message });
     }
 };
 

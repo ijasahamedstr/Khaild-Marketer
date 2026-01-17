@@ -10,16 +10,17 @@ import {
 
 const Propertyforsalerouter = express.Router();
 
-// 3. FIXED: Use memoryStorage to avoid EROFS error
+/**
+ * FIXED: Multer Storage Configuration
+ * Changed from diskStorage to memoryStorage to avoid EROFS error.
+ */
 const storage = multer.memoryStorage();
 const upload = multer({ 
     storage,
-    limits: { fileSize: 5 * 1024 * 1024 } // 5MB Limit
+    limits: { fileSize: 5 * 1024 * 1024 } // Limit files to 5MB
 });
 
-/**
- * @description Routes for handling property requests
- */
+// Routes
 Propertyforsalerouter.route('/save-request')
     .post(upload.array('files'), saveServiceRequest) 
     .get(getAllServiceRequests);

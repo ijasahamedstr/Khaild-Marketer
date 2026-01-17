@@ -14,28 +14,21 @@ import Propertyrentalrouter from "./routes/Propertyrental.route.js";
 
 const app = express();
 
-// 1. Ensure 'uploads' directory exists before the server starts
-// This prevents errors when the first user tries to upload a file
-const uploadDir = './uploads';
-if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir);
-}
-
 // 2. Middlewares
 app.use(cookieParser());
 app.use(express.json());
-// extended: true allows for nested objects in the URL encoding
 app.use(express.urlencoded({ extended: true })); 
 
-// --- FIXED: CORS CONFIGURATION ---
+// 3. CORS setup
 app.use(cors({
-    origin: 'https://www.waseetaqary.com', 
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true
+  origin: ["https://www.waseetaqary.com", "https://khaild-marketer.vercel.app"],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
 }));
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// 4. Static Files
+// This allows your frontend to access images via http://localhost:8001/uploads/filename.jpg
+app.use('/uploads', express.static('uploads'));
 
 // 5. Connect Database
 connectDB();
