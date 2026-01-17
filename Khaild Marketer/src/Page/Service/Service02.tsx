@@ -455,7 +455,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
                 <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 1.5 }}>
                   <Checkbox checked={checkboxValues[0]} onChange={(e) => handleCheckboxChange(0, e.target.checked)} />
                   <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL }}>حد</Typography>
-                  <StyledTextField size="small" value={priceLimit} onChange={(e) => setPriceLimit(e.target.value)} />
+                  <StyledTextField size="small" value={priceLimit} onChange={(e) => setPriceLimit(e.target.value)} placeholder="اكتب سعر البيع" />
                 </Box>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                   <Checkbox checked={checkboxValues[1]} onChange={(e) => handleCheckboxChange(1, e.target.checked)} />

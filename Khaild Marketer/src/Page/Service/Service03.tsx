@@ -406,7 +406,13 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
                 <StraightenIcon />
                 <Typography sx={{ fontWeight: 700, fontSize: { xs: "1rem", md: "1.3rem" }, fontFamily: TAJAWAL }}>قيمة الإيجار</Typography>
               </Box>
-              <StyledTextField fullWidth value={area} onChange={(e) => setArea(e.target.value)} sx={{ width: "40%" }} />
+              <StyledTextField fullWidth value={area} onChange={(e) => setArea(e.target.value)} sx={{ width: "40%" }} placeholder={
+              isChecked1 
+                ? "اكتب سعر الإيجار" 
+                : isChecked2 
+                  ? "" 
+                  : ""
+            } />
             </GlassCard>
           </Box>
         )}
