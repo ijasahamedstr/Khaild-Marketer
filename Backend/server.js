@@ -27,16 +27,15 @@ app.use(express.json());
 // extended: true allows for nested objects in the URL encoding
 app.use(express.urlencoded({ extended: true })); 
 
-// 3. CORS setup
+// --- FIXED: CORS CONFIGURATION ---
 app.use(cors({
-  origin: ["https://www.waseetaqary.com", "https://khaild-marketer.vercel.app"],
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
+    origin: 'https://www.waseetaqary.com', 
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true
 }));
 
-// 4. Static Files
-// This allows your frontend to access images via http://localhost:8001/uploads/filename.jpg
-app.use('/uploads', express.static('uploads'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // 5. Connect Database
 connectDB();
