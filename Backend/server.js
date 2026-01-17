@@ -1,5 +1,4 @@
 import express from "express";
-import fs from "fs"; // Added to handle directory creation
 import connectDB from "./lib/db.js";
 import cors from "cors";
 
@@ -14,7 +13,7 @@ const app = express();
 
 // 3. CORS setup
 app.use(cors({
-  origin: ["http://localhost:5173", "https://khaild-marketer.vercel.app"],
+  origin: ["https://www.waseetaqary.com", "https://khaild-marketer.vercel.app"],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
