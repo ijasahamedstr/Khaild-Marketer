@@ -1,25 +1,54 @@
-import Servicerequestsale from "../models/Propertyforsale.models.js";
+import Propertyforsale from "../models/Propertyforsale.models.js";
 
-export const saveServiceRequest = async (req, res) => {
-    try {
-        const { body, files } = req; // files is an array of buffers
-        
-        // Since Vercel deletes memory after the request, 
-        // you MUST upload these buffers to a service like Cloudinary or S3 here.
-        
-        console.log("Received data:", body);
-        console.log("Received files count:", files ? files.length : 0);
 
-        res.status(201).json({ success: true, message: "Request received successfully" });
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
-    }
+export const savePropertyRequest = async (req, res) => {
+  try {
+    // Parse the JSON string from the FormData 'payload' field
+    const data = JSON.parse(req.body.payload);
+
+    // Map uploaded files from Multer
+    const fileData = req.files ? req.files.map(file => ({
+      fileName: file.originalname,
+      path: file.path,
+      mimetype: file.mimetype
+    })) : [];
+
+    const newRequest = new Propertyforsale({
+      propertyStatus: data.propertyStatus,
+      propertyType: data.propertyType,
+      location: data.location,
+      developer: data.developer,
+      area: data.area,
+      rooms: data.rooms,
+      bathrooms: data.bathrooms,
+      propertyAge: data.propertyAge,
+      priceLimit: data.priceLimit,
+      priceOffer: data.priceOffer,
+      isNegotiable: data.isNegotiable,
+      notes: data.notes,
+      clientName: data.clientName,
+      clientMobile: data.clientMobile,
+      contactChannels: data.contactChannels,
+      files: fileData
+    });
+
+    await newRequest.save();
+
+    res.status(201).json({
+      success: true,
+      message: "تم حفظ البيانات بنجاح",
+      data: newRequest
+    });
+  } catch (error) {
+    console.error("Save Error:", error);
+    res.status(500).json({ success: false, error: error.message });
+  }
 };
 
 // 2. VIEW ALL: Get all requests
 export const getAllServiceRequests = async (req, res) => {
   try {
-    const requests = await Servicerequestsale.find().sort({ createdAt: -1 });
+    const requests = await Propertyforsale.find().sort({ createdAt: -1 });
     res.status(200).json({ success: true, data: requests });
   } catch (error) {
     res.status(500).json({ success: false, message: "خطأ في جلب البيانات", error: error.message });
@@ -29,7 +58,7 @@ export const getAllServiceRequests = async (req, res) => {
 // 3. SINGLE VIEW: Get one request by ID
 export const getServiceRequestById = async (req, res) => {
   try {
-    const request = await Servicerequestsale.findById(req.params.id);
+    const request = await Propertyforsale.findById(req.params.id);
     if (!request) {
       return res.status(404).json({ success: false, message: "الطلب غير موجود" });
     }
@@ -42,7 +71,7 @@ export const getServiceRequestById = async (req, res) => {
 // 4. UPDATE: Update a request by ID
 export const updateServiceRequest = async (req, res) => {
   try {
-    const updatedRequest = await Servicerequestsale.findByIdAndUpdate(
+    const updatedRequest = await Propertyforsale.findByIdAndUpdate(
       req.params.id,
       req.body,
       { new: true, runValidators: true }
@@ -61,7 +90,7 @@ export const updateServiceRequest = async (req, res) => {
 // 5. DELETE: Remove a request by ID
 export const deleteServiceRequest = async (req, res) => {
   try {
-    const deletedRequest = await Servicerequestsale.findByIdAndDelete(req.params.id);
+    const deletedRequest = await Propertyforsale.findByIdAndDelete(req.params.id);
     if (!deletedRequest) {
       return res.status(404).json({ success: false, message: "الطلب غير موجود" });
     }

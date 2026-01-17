@@ -1,5 +1,6 @@
 // src/Page/Service/Service01.tsx
 import React, { useEffect, useState } from "react";
+import axios from "axios"; 
 import {
   Box,
   Container,
@@ -12,7 +13,9 @@ import {
   Snackbar,
   Alert,
   styled,
-  IconButton
+  IconButton,
+  CircularProgress,
+  LinearProgress
 } from "@mui/material";
 import { Send, CloudUpload, X, FileText, Video } from "lucide-react";
 
@@ -24,6 +27,7 @@ import StraightenIcon from "@mui/icons-material/Straighten";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import PhoneIcon from "@mui/icons-material/Phone";
+import HandshakeIcon from '@mui/icons-material/Handshake';
 import { keyframes } from "@mui/system";
 import { Sparkles } from "lucide-react";
 
@@ -48,7 +52,7 @@ const COLOR_DEEP_BLUE = "#023B4E";
 const LABEL_COLOR = "#023B4E";
 
 // VITE ENVIRONMENT VARIABLE
-const API_BASE_URL = import.meta.env.VITE_API_URL;
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 /* ---------------- ANIMATIONS ---------------- */
 const shimmer = keyframes`
@@ -157,6 +161,8 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
   const [dropdownValues, setDropdownValues] = React.useState<Record<number, string>>({});
   const [notes, setNotes] = React.useState("");
   const [search] = React.useState("");
+  const [loading, setLoading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   const [channels, setChannels] = React.useState({
     chat: true,
@@ -169,11 +175,18 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
   const [location, setLocation] = React.useState("");
   const [developer, setDeveloper] = React.useState("");
   const [area, setArea] = React.useState("");
+  const [rooms, setRooms] = React.useState("");
+  const [bathrooms, setBathrooms] = React.useState("");
+  const [propertyAgeSelection, setPropertyAgeSelection] = React.useState(""); 
+  const [customAgeInput, setCustomAgeInput] = React.useState("");
+
   const [priceLimit, setPriceLimit] = React.useState("");
   const [priceOffer, setPriceOffer] = React.useState("");
   const [isChecked1, setIsChecked1] = React.useState(false);
   const [isChecked2, setIsChecked2] = React.useState(false);
   const [checkboxValues, setCheckboxValues] = React.useState<boolean[]>([false, false]);
+
+  const [isNegotiable, setIsNegotiable] = useState<'yes' | 'no' | null>(null); 
   
   // File State
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
@@ -182,6 +195,13 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
   const [openPopup, setOpenPopup] = React.useState(false);
   const [alertSeverity, setAlertSeverity] = React.useState<"success" | "error">("success");
   const [alertMessage, setAlertMessage] = React.useState("");
+
+  const handleAgeCheckboxChange = (value: string) => {
+    setPropertyAgeSelection(value);
+    if (value !== "custom") {
+      setCustomAgeInput("");
+    }
+  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -214,6 +234,9 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
   const propertyStatus = isChecked1 ? "جاهز" : isChecked2 ? "على الخارطة" : "غير محدد";
 
   const buildWhatsAppMessage = () => {
+    const negotiableText = isNegotiable === 'yes' ? "نعم" : isNegotiable === 'no' ? "لا" : "غير محدد";
+    const ageText = propertyAgeSelection === "new" ? "جديد" : propertyAgeSelection === "custom" ? customAgeInput : "غير محدد";
+    
     return `
 🏷 *حالة العقار:* ${propertyStatus}
 🛒 *طلب بيع عقار جديد*
@@ -221,14 +244,16 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
 📍 *الموقع:* ${location || "غير محدد"}
 🏗 *اسم المطور العقاري:* ${developer || "غير محدد"}
 📐 *المساحة:* ${area || "غير محدد"}
+🛏 *عدد الغرف:* ${rooms || "غير محدد"}
+🚿 *دورات المياه:* ${bathrooms || "غير محدد"}
+⏳ *عمر العقار:* ${ageText}
 💰 *سعر البيع:*
 ${checkboxValues[0] ? `- حد: ${priceLimit || "غير محدد"}` : ""}
 ${checkboxValues[1] ? `- على السوم: ${priceOffer || "غير محدد"}` : ""}
+🤝 *قابل للتفاوض:* ${negotiableText}
 📝 *تفاصيل إضافية:*
 ${notes || "لا يوجد"}
 📎 *المرفقات:* ${selectedFiles.length} ملف/فيديو
-📞 *قنوات التواصل:*
-${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- واتساب\n" : ""}${channels.chat ? "- اترك اسمك وجوالك\n" : ""}
 👤 *الاسم:* ${name || "غير مدخل"}
 📱 *الجوال:* ${mobile || "غير مدخل"}
 `;
@@ -248,16 +273,22 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
       return;
     }
 
-    // Creating FormData to handle files and JSON data
+    setLoading(true);
+    setUploadProgress(0);
+
     const formData = new FormData();
     formData.append("payload", JSON.stringify({
       propertyStatus,
-      propertyType: dropdownValues[0] || "",
+      propertyType: dropdownValues[0] || "غير محدد",
       location,
       developer,
       area,
+      rooms,
+      bathrooms,
+      propertyAge: propertyAgeSelection === "new" ? "جديد" : customAgeInput,
       priceLimit,
       priceOffer,
+      isNegotiable: isNegotiable === 'yes' ? "نعم" : isNegotiable === 'no' ? "لا" : "غير محدد",
       notes,
       contactChannels: channels,
       clientName: name,
@@ -270,22 +301,24 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
     });
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/save-request`, {
-        method: "POST",
-        body: formData, // Sending multipart/form-data
+      const response = await axios.post(`${API_BASE_URL}/api/save-request`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+        onUploadProgress: (progressEvent) => {
+          const percentCompleted = Math.round((progressEvent.loaded * 100) / (progressEvent.total || 100));
+          setUploadProgress(percentCompleted);
+        }
       });
 
-      if (response.ok) {
+      if (response.status === 201 || response.status === 200) {
         setAlertSeverity("success");
         setAlertMessage("تم حفظ البيانات والملفات بنجاح!");
         setOpenPopup(true);
 
         const phoneNumber = "966509855666";
         const message = buildWhatsAppMessage();
-        const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-        window.open(whatsappURL, "_blank");
+        window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, "_blank");
 
-        // RESET FORM
+        // --- CLEAR ALL DATA AFTER SAVE ---
         setDropdownValues({});
         setNotes("");
         setChannels({ chat: true, whatsapp: true, call: false });
@@ -294,12 +327,18 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
         setLocation("");
         setDeveloper("");
         setArea("");
+        setRooms("");
+        setBathrooms("");
+        setPropertyAgeSelection("");
+        setCustomAgeInput("");
         setPriceLimit("");
         setPriceOffer("");
         setIsChecked1(false);
         setIsChecked2(false);
         setCheckboxValues([false, false]);
         setSelectedFiles([]);
+        setIsNegotiable(null);
+        setUploadProgress(0);
 
         if (onSubmit) {
           onSubmit({
@@ -309,13 +348,13 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
             channels,
           });
         }
-      } else {
-        throw new Error("Server Response Failed");
       }
     } catch (error) {
       setAlertSeverity("error");
       setAlertMessage("حدث خطأ في حفظ البيانات، يرجى المحاولة لاحقاً");
       setOpenPopup(true);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -330,7 +369,6 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
       direction: "rtl"
     }}
     >
-      {/* MATERIAL UI POPUP ALERT */}
       <Snackbar open={openPopup} autoHideDuration={6000} onClose={() => setOpenPopup(false)} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
         <Alert onClose={() => setOpenPopup(false)} severity={alertSeverity} variant="filled" sx={{ width: '100%', fontSize: '1.2rem', fontFamily: TAJAWAL }}>
           {alertMessage}
@@ -379,7 +417,8 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
         </Box>
 
         <GlassCard sx={{ p: { xs: 2, md: 4 } }}>
-          {/* STATUS SELECTION CARDS */}
+          
+          {/* STATUS SELECTION CARDS - OLD DESIGN RESTORED */}
           <Box sx={{ display: "flex", flexDirection: "row", gap: { xs: 2, sm: 3 }, mb: 4, overflowX: "visible", p: 2, perspective: "1000px" }}>
             <Box sx={{ flex: 1, minWidth: { xs: 120, sm: "auto" }, position: "relative", display: "flex", justifyContent: "center", alignItems: "center" }}>
               <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "28px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 6 }} />
@@ -395,7 +434,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
             </Box>
           </Box>
 
-          {/* DROPDOWN OPTIONS GRID */}
+          {/* DROPDOWN OPTIONS GRID - OLD DESIGN RESTORED */}
           <Box sx={{ display: "grid", gap: 3 }}>
             {DROPDOWN_FIELDS.map((field, i) => (
               <Box key={i} sx={{ position: "relative" }}>
@@ -415,7 +454,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
             ))}
           </Box>
 
-          {/* LOCATION FIELD */}
+          {/* LOCATION FIELD - OLD DESIGN RESTORED */}
           <Box sx={{ display: "grid", gap: 3, mt: 3 }}>
             <Box sx={{ position: "relative" }}>
               <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
@@ -426,7 +465,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
               </Box>
             </Box>
 
-            {/* DEVELOPER FIELD */}
+            {/* DEVELOPER FIELD - OLD DESIGN RESTORED */}
             <Box sx={{ position: "relative" }}>
               <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
               <Box sx={{ position: "relative", zIndex: 10, p: 2, borderRadius: 3, border: "1px solid #E2E8F0", background: "#E2E8F0" }}>
@@ -436,17 +475,93 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
               </Box>
             </Box>
 
-            {/* AREA FIELD */}
-            <Box sx={{ position: "relative" }}>
-              <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
-              <Box sx={{ position: "relative", zIndex: 10, p: 2, borderRadius: 3, border: "1px solid #E2E8F0", background: "#E2E8F0" }}>
-                <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR }}><StraightenIcon /><Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>المساحة</Typography></Box>
-                <Typography sx={{ fontSize: "1rem", mb: 3, color: "#242629ff", fontFamily: TAJAWAL, fontWeight: 'bold' }}>الرجاء كتابة المساحة</Typography>
-                <StyledTextField sx={{ width: "40%" }} value={area} onChange={(e) => setArea(e.target.value)} />
+            {/* AREA, ROOMS, AND AGE SECTION - UPDATED DESIGN */}
+            <Box sx={{ position: "relative", borderRadius: 4 }}>
+              <Box
+                sx={{
+                  position: "absolute",
+                  inset: "-2px",
+                  borderRadius: 4,
+                  background: "linear-gradient(135deg, #06f9f3, #00b3ff, #06f9f3)",
+                  filter: "blur(6px)",
+                  zIndex: 0,
+                }}
+              />
+              <Box
+                sx={{
+                  position: "relative",
+                  zIndex: 1,
+                  p: 3,
+                  borderRadius: 4,
+                  border: "1px solid #CBD5E1",
+                  backgroundColor: "#E2E8F0",
+                }}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1, color: LABEL_COLOR }}>
+                  <StraightenIcon />
+                  <Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>المساحة</Typography>
+                </Box>
+                <Typography sx={{ fontSize: "1rem", mb: 2, color: "#242629", fontFamily: TAJAWAL, fontWeight: "bold" }}>الرجاء كتابة المساحة</Typography>
+                
+                {/* Area input */}
+                <Box sx={{ mb: 3 }}>
+                  <StyledTextField
+                    type="text"
+                    fullWidth
+                    value={area}
+                    onChange={(e) => setArea(e.target.value)}
+                  />
+                </Box>
+
+                {/* Rooms Count */}
+                <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
+                  <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 600 }}>عدد الغرف</Typography>
+                  <StyledTextField
+                    size="small"
+                    type="text"
+                    placeholder="عدد الغرف"
+                    value={rooms}
+                    onChange={(e) => setRooms(e.target.value)}
+                    sx={{ width: "40%" }}
+                  />              
+                </Box>
+
+                <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
+                  <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 600 }}>عدد دورات المياه</Typography>
+                  <StyledTextField
+                    size="small"
+                    type="text"
+                    placeholder="عدد دورات المياه"
+                    value={bathrooms}
+                    onChange={(e) => setBathrooms(e.target.value)}
+                    sx={{ width: "40%" }}
+                  />              
+                </Box>
+
+                {/* Property Age with Checkboxes */}
+                <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 3 }}>
+                  <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 600 }}>عمر العقار</Typography>
+                  <FormControlLabel
+                    control={<Checkbox checked={propertyAgeSelection === "new"} onChange={() => handleAgeCheckboxChange("new")} />}
+                    label={<Typography sx={{ fontFamily: TAJAWAL }}>جديد</Typography>}
+                  />
+                  <FormControlLabel
+                    control={<Checkbox checked={propertyAgeSelection === "custom"} onChange={() => handleAgeCheckboxChange("custom")} />}
+                    label={<Typography sx={{ fontFamily: TAJAWAL }}>أكثر من سنة</Typography>}
+                  />
+                  {propertyAgeSelection === "custom" && (
+                    <TextField
+                      size="small"
+                      value={customAgeInput}
+                      onChange={(e) => setCustomAgeInput(e.target.value)}
+                      sx={{ width: 120, backgroundColor: "white", borderRadius: "8px" }}
+                    />
+                  )}
+                </Box>
               </Box>
             </Box>
 
-            {/* BUDGET/PRICE FIELD */}
+            {/* BUDGET/PRICE FIELD - OLD DESIGN RESTORED */}
             <Box sx={{ position: "relative" }}>
               <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
               <Box sx={{ position: "relative", zIndex: 10, p: 2, borderRadius: 3, border: "1px solid #E2E8F0", background: "#E2E8F0" }}>
@@ -464,9 +579,27 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
                 </Box>
               </Box>
             </Box>
+
+            {/* NEGOTIABLE FIELD - INTEGRATED WITH PAYLOAD */}
+            <Box sx={{ position: "relative" }}>
+              <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
+              <Box sx={{ position: "relative", zIndex: 10, p: 3, borderRadius: 3, border: "1px solid #E2E8F0", background: "#E2E8F0" }}>
+                <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR }}><HandshakeIcon /><Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>هل السعر قابل للتفاوض؟</Typography></Box>
+                <Box sx={{ display: "flex", gap: 2 }}>
+                  <Box onClick={() => setIsNegotiable('yes')} sx={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", p: 1.5, cursor: "pointer", borderRadius: "12px", border: "2px solid", borderColor: isNegotiable === 'yes' ? '#2e7d32' : '#cbd5e1', backgroundColor: isNegotiable === 'yes' ? '#f1f8e9' : '#fff', transition: "0.2s" }}>
+                    <Checkbox checked={isNegotiable === 'yes'} sx={{ color: '#2e7d32', '&.Mui-checked': { color: '#2e7d32' } }} />
+                    <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 600, color: isNegotiable === 'yes' ? '#2e7d32' : '#64748B' }}>نعم</Typography>
+                  </Box>
+                  <Box onClick={() => setIsNegotiable('no')} sx={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", p: 1.5, cursor: "pointer", borderRadius: "12px", border: "2px solid", borderColor: isNegotiable === 'no' ? '#d32f2f' : '#cbd5e1', backgroundColor: isNegotiable === 'no' ? '#ffebee' : '#fff', transition: "0.2s" }}>
+                    <Checkbox checked={isNegotiable === 'no'} sx={{ color: '#d32f2f', '&.Mui-checked': { color: '#d32f2f' } }} />
+                    <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 600, color: isNegotiable === 'no' ? '#d32f2f' : '#64748B' }}>لا</Typography>
+                  </Box>
+                </Box>
+              </Box>
+            </Box>
           </Box>
 
-          {/* ADDITIONAL NOTES FIELD */}
+          {/* ADDITIONAL NOTES FIELD - OLD DESIGN RESTORED */}
           <Box sx={{ mt: 5, position: "relative" }}>
             <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
             <Box sx={{ position: "relative", zIndex: 10, border: "1px solid #E2E8F0", background: "#E2E8F0", borderRadius: 3, p: 3 }}>
@@ -476,56 +609,50 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
             </Box>
           </Box>
 
-               {/* FILE & VIDEO UPLOAD SECTION (NEW) */}
-      {/* FILE & VIDEO UPLOAD SECTION */}
-          <Box sx={{ mt: 4, mb: 4, position: "relative" }}> {/* Added mt: 8 for more top space */}
+          {/* FILE & VIDEO UPLOAD SECTION - NEON PROGRESS RESTORED */}
+          <Box sx={{ mt: 4, mb: 4, position: "relative" }}>
             <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
             <Box sx={{ position: "relative", zIndex: 10, p: 3, borderRadius: 3, background: "#E2E8F0", border: "1px solid #E2E8F0" }}>
-              <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR }}>
-                <CloudUpload />
-                <Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>
-                  إرفاق الصور والفيديو
-                </Typography>
-              </Box>
-              <Typography sx={{ fontSize: "0.9rem", mb: 2, color: "#475569", fontFamily: TAJAWAL }}>
-                يمكنك رفع صور العقار ومقاطع الفيديو التوضيحية
-              </Typography>
-              
-              <input 
-                type="file" 
-                multiple 
-                id="file-upload" 
-                style={{ display: 'none' }} 
-                onChange={handleFileChange} 
-                accept="image/*,video/*,.pdf,.doc,.docx" 
-              />
+              <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR }}><CloudUpload /><Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>إرفاق الصور والفيديو</Typography></Box>
+              <Typography sx={{ fontSize: "0.9rem", mb: 2, color: "#475569", fontFamily: TAJAWAL }}>يمكنك رفع صور العقار ومقاطع الفيديو التوضيحية</Typography>
+              <input type="file" multiple id="file-upload" style={{ display: 'none' }} onChange={handleFileChange} accept="image/*,video/*,.pdf,.doc,.docx" />
               <label htmlFor="file-upload">
                 <UploadBox>
-                  <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mb: 1 }}>
-                    <CloudUpload size={32} color={COLOR_DEEP_BLUE} />
-                    <Video size={32} color={COLOR_DEEP_BLUE} />
-                  </Box>
-                  <Typography sx={{ fontWeight: 700, fontFamily: TAJAWAL }}>
-                    اضغط هنا لرفع الصور أو الفيديو
-                  </Typography>
+                  <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mb: 1 }}><CloudUpload size={32} color={COLOR_DEEP_BLUE} /><Video size={32} color={COLOR_DEEP_BLUE} /></Box>
+                  <Typography sx={{ fontWeight: 700, fontFamily: TAJAWAL }}>اضغط هنا لرفع الصور أو الفيديو</Typography>
                 </UploadBox>
               </label>
+
+              {/* UPLOAD PROGRESS BAR */}
+              {loading && (
+                <Box sx={{ mt: 2, width: '100%' }}>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                    <Typography sx={{ color: COLOR_DEEP_BLUE, fontWeight: 'bold', fontSize: '0.8rem' }}>جاري التحميل...</Typography>
+                    <Typography sx={{ color: COLOR_DEEP_BLUE, fontWeight: 'bold', fontSize: '0.8rem' }}>{uploadProgress}%</Typography>
+                  </Box>
+                  <LinearProgress 
+                    variant="determinate" 
+                    value={uploadProgress} 
+                    sx={{ 
+                      height: 10, 
+                      borderRadius: 5, 
+                      backgroundColor: '#CBD5E1',
+                      '& .MuiLinearProgress-bar': {
+                        backgroundColor: COLOR_PRIMARY_CYAN,
+                        boxShadow: `0 0 10px ${COLOR_PRIMARY_CYAN}`
+                      }
+                    }} 
+                  />
+                </Box>
+              )}
 
               {selectedFiles.length > 0 && (
                 <Box sx={{ mt: 2, display: "flex", flexWrap: "wrap", gap: 1 }}>
                   {selectedFiles.map((file, idx) => (
                     <Box key={idx} sx={{ display: "flex", alignItems: "center", p: 1, borderRadius: "10px", border: "1px solid #cbd5e1", background: "#fff" }}>
-                      {file.type.startsWith('video/') ? (
-                        <Video size={16} style={{ marginLeft: '8px', color: '#023B4E' }} />
-                      ) : (
-                        <FileText size={16} style={{ marginLeft: '8px' }} />
-                      )}
-                      <Typography sx={{ fontSize: "0.75rem", maxWidth: "120px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                        {file.name}
-                      </Typography>
-                      <IconButton size="small" onClick={() => removeFile(idx)} sx={{ color: "red" }}>
-                        <X size={14} />
-                      </IconButton>
+                      {file.type.startsWith('video/') ? <Video size={16} style={{ marginLeft: '8px', color: '#023B4E' }} /> : <FileText size={16} style={{ marginLeft: '8px' }} />}
+                      <Typography sx={{ fontSize: "0.75rem", maxWidth: "120px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{file.name}</Typography>
+                      <IconButton size="small" onClick={() => removeFile(idx)} sx={{ color: "red" }}><X size={14} /></IconButton>
                     </Box>
                   ))}
                 </Box>
@@ -533,71 +660,26 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
             </Box>
           </Box>
 
-           {/* CONTACT CHANNELS SECTION (MOVED TO TOP) */}
+          {/* CONTACT CHANNELS SECTION - OLD DESIGN RESTORED */}
           <Box sx={{ mb: 6, position: "relative" }}>
             <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
             <Box sx={{ position: "relative", zIndex: 10, p: 3, borderRadius: 3, border: "1px solid #E2E8F0", background: "#E2E8F0" }}>
               <Typography sx={{ fontWeight: 800, fontSize: "1.3rem", mb: 0.5, color: LABEL_COLOR, fontFamily: TAJAWAL }}>قنوات التواصل</Typography>
               <Typography sx={{ fontSize: "1rem", mb: 3, color: "#242629ff", fontFamily: TAJAWAL, fontWeight: 'bold' }}>وسائل التواصل المتعددة تتيح الرد السريع من الفريق المختص</Typography>
-              <Box 
-                sx={{ 
-                  display: "flex", 
-                  flexDirection: "row", 
-                  alignItems: "center", 
-                  justifyContent: "space-between",
-                  gap: 1, 
-                  mb: 2,
-                  width: "100%",
-                  flexWrap: "nowrap" 
-                }}
-              >
+              
+              <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 1, mb: 2, width: "100%", flexWrap: "nowrap" }}>
                 <FormControlLabel 
-                  sx={{ 
-                    mr: 0, 
-                    flexShrink: 0, 
-                    '& .MuiFormControlLabel-label': { width: 'auto' } 
-                  }}
-                  control={
-                    <Checkbox 
-                      size="small" 
-                      checked={channels.call} 
-                      onChange={(e) => setChannels({ ...channels, call: e.target.checked })} 
-                    />
-                  } 
-                  label={
-                    <Typography 
-                      sx={{ 
-                        fontFamily: TAJAWAL, 
-                        fontSize: { xs: '12px', sm: '16px', md: '18px' }, 
-                        whiteSpace: "nowrap"
-                      }}
-                    > 
-                      الرجاء التواصل على الرقم 
-                    </Typography>
-                  } 
+                  sx={{ mr: 0, flexShrink: 0 }} 
+                  control={<Checkbox size="small" checked={channels.call} onChange={(e) => setChannels({ ...channels, call: e.target.checked })} />} 
+                  label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: { xs: '12px', sm: '16px', md: '18px' }, whiteSpace: "nowrap" }}>الرجاء التواصل على الرقم</Typography>} 
                 />
-
                 <Box sx={{ display: "flex", justifyContent: "flex-end", minWidth: 0, flexShrink: 1 }}>
-                  <Typography 
-                    sx={{ 
-                      fontFamily: "TAJAWAL", 
-                      fontWeight: 800, 
-                      fontSize: { xs: "11px", sm: "16px", md: "20px" }, 
-                      color: "#1D4ED8", 
-                      backgroundColor: "#F8FAFC", 
-                      px: { xs: 1, md: 3 }, 
-                      py: 0.5, 
-                      borderRadius: "999px", 
-                      boxShadow: "0 4px 12px rgba(37,99,235,0.25)", 
-                      cursor: "pointer",
-                      whiteSpace: "nowrap",
-                      border: "1px solid rgba(29, 78, 216, 0.1)"
-                    }}
-                  >
+                  <Typography sx={{ fontFamily: "TAJAWAL", fontWeight: 800, fontSize: { xs: "11px", sm: "16px", md: "20px" }, color: "#1D4ED8", backgroundColor: "#F8FAFC", px: { xs: 1, md: 3 }, py: 0.5, borderRadius: "999px", boxShadow: "0 4px 12px rgba(37,99,235,0.25)", cursor: "pointer", whiteSpace: "nowrap", border: "1px solid rgba(29, 78, 216, 0.1)" }}>
                     📞 +966 50 985 5666
                   </Typography>
                 </Box>
-              </Box>             
+              </Box>
+
               <Box sx={{ display: "flex", justifyContent: "flex-start", gap: 8, alignItems: "center", mb: 3, marginRight: '27px' }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}><WhatsAppIcon sx={{ color: "#25D366" }} /><Typography sx={{ fontFamily: TAJAWAL }}>واتساب</Typography></Box>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}><PhoneIcon /><Typography sx={{ fontFamily: TAJAWAL }}>جوال</Typography></Box>
@@ -616,10 +698,14 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
             </Box>
           </Box>
 
-          {/* SUBMIT BUTTON */}
+          {/* SUBMIT BUTTON - OLD DESIGN RESTORED */}
           <Box sx={{ mt: 5, textAlign: "center" }}>
-            <SubmitButton onClick={handleSubmit} endIcon={<Send size={24} style={{ marginRight: '8px' }} />}>
-              ارسال الطلب وحفظ البيانات
+            <SubmitButton 
+              onClick={handleSubmit} 
+              disabled={loading}
+              endIcon={loading ? <CircularProgress size={24} color="inherit" /> : <Send size={24} style={{ marginRight: '8px' }} />}
+            >
+              {loading ? `جاري الحفظ ${uploadProgress}%` : "ارسال الطلب وحفظ البيانات"}
             </SubmitButton>
           </Box>
         </GlassCard>

@@ -1,7 +1,7 @@
 import express from "express";
+import fs from "fs"; // Added to handle directory creation
 import connectDB from "./lib/db.js";
 import cors from "cors";
-import cookieParser from "cookie-parser";
 
 // Route Imports
 import Adminrouter from "./routes/AccountRegisterAdmin.route.js";
@@ -12,11 +12,6 @@ import Propertyrentalrouter from "./routes/Propertyrental.route.js";
 
 const app = express();
 
-// 2. Middlewares
-app.use(cookieParser());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true })); 
-
 // 3. CORS setup
 app.use(cors({
   origin: ["https://www.waseetaqary.com", "https://khaild-marketer.vercel.app"],
@@ -24,7 +19,13 @@ app.use(cors({
   credentials: true
 }));
 
-app.use('/uploads', express.static('uploads'));
+app.use(express.json());
+app.use("/uploads", express.static("uploads")); 
+
+// Ensure upload directory exists
+if (!fs.existsSync("./uploads")) {
+  fs.mkdirSync("./uploads");
+}
 
 // 5. Connect Database
 connectDB();
@@ -37,7 +38,8 @@ app.get("/", (req, res) => {
 app.use('/api', Adminrouter);
 app.use('/api', Propertyfinishingrouter);
 app.use('/api', Propertyforsalerouter);
-app.use('/api/buying', Buyingpropertyrouter); // Suggested: unique prefix to avoid conflicts
+
+app.use('/api', Buyingpropertyrouter); // Suggested: unique prefix to avoid conflicts
 app.use('/api/rental', Propertyrentalrouter); // Suggested: unique prefix to avoid conflicts
 
 // 7. Start server

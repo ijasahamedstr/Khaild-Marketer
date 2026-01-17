@@ -1,28 +1,24 @@
-import express from 'express';
-import multer from 'multer';
-import { 
-    saveServiceRequest, 
-    getAllServiceRequests, 
-    getServiceRequestById, 
-    updateServiceRequest, 
-    deleteServiceRequest 
-} from '../controller/Propertyforsale.Controller.js';
+import express from "express";
+import multer from "multer";
+import { deleteServiceRequest, getAllServiceRequests, getServiceRequestById, savePropertyRequest, updateServiceRequest } from "../controller/Propertyforsale.Controller.js";
 
 const Propertyforsalerouter = express.Router();
 
-/**
- * FIXED: Multer Storage Configuration
- * Changed from diskStorage to memoryStorage to avoid EROFS error.
- */
-const storage = multer.memoryStorage();
-const upload = multer({ 
-    storage,
-    limits: { fileSize: 5 * 1024 * 1024 } // Limit files to 5MB
+// Configure Multer Storage
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/"); // Ensure this folder exists
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "-" + file.originalname);
+  },
 });
+
+const upload = multer({ storage });
 
 // Routes
 Propertyforsalerouter.route('/save-request')
-    .post(upload.array('files'), saveServiceRequest) 
+    .post(upload.array('files'), savePropertyRequest) 
     .get(getAllServiceRequests);
 
 Propertyforsalerouter.route('/save-request/:id')

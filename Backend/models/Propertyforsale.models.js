@@ -1,24 +1,32 @@
 import mongoose from 'mongoose';
 
-const ServicerequestsaleSchema = new mongoose.Schema({
-  propertyStatus: String,
+const PropertyforsaleSchema = new mongoose.Schema({
+propertyStatus: String,
   propertyType: String,
   location: String,
   developer: String,
   area: String,
+  rooms: String,
+  bathrooms: String, // Added
+  propertyAge: String, // Value from logic
   priceLimit: String,
   priceOffer: String,
+  isNegotiable: String,
   notes: String,
+  clientName: String,
+  clientMobile: String,
   contactChannels: {
     chat: Boolean,
     whatsapp: Boolean,
     call: Boolean
   },
-  clientName: String,
-  clientMobile: String,
-  files: [String], 
+  files: [{
+    fileName: String,
+    path: String,
+    mimetype: String
+  }],
   createdAt: { type: Date, default: Date.now }
 });
 
-const servicerequestsale = mongoose.model('servicerequestsale', ServicerequestsaleSchema);
-export default servicerequestsale;
+const Propertyforsale = mongoose.model('Propertyforsale', PropertyforsaleSchema);
+export default Propertyforsale;
