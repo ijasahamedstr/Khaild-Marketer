@@ -1,23 +1,20 @@
 import Servicerequestsale from "../models/Propertyforsale.models.js";
 
 export const saveServiceRequest = async (req, res) => {
-    try {
-        const files = req.files; // This is now an array of objects containing 'buffer'
-        
-        if (files && files.length > 0) {
-            // EXAMPLE: To get the data of the first file
-            const fileBuffer = files[0].buffer;
-            const fileName = files[0].originalname;
-            
-            // Logic to upload this buffer to Cloudinary, AWS S3, or Supabase goes here
+    try {    
+        console.log("Body:", req.body);
+        console.log("Files received:", req.files?.length);
+
+        if (!req.files || req.files.length === 0) {
+            // Logic if no files are uploaded
         }
 
-        // ... rest of your saving logic
+        res.status(201).json({ success: true, message: "Request received!" });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        console.error("Error:", error);
+        res.status(500).json({ success: false, error: error.message });
     }
 };
-
 
 // 2. VIEW ALL: Get all requests
 export const getAllServiceRequests = async (req, res) => {
