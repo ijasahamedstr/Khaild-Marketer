@@ -10,16 +10,16 @@ import {
 
 const Propertyforsalerouter = express.Router();
 
-/**
- * FIXED: Using memoryStorage because Vercel/Serverless 
- * does not allow writing to './uploads'
- */
+// 3. FIXED: Use memoryStorage to avoid EROFS error
 const storage = multer.memoryStorage();
 const upload = multer({ 
     storage,
-    limits: { fileSize: 7 * 1024 * 1024 } // 7MB limit
+    limits: { fileSize: 5 * 1024 * 1024 } // 5MB Limit
 });
 
+/**
+ * @description Routes for handling property requests
+ */
 Propertyforsalerouter.route('/save-request')
     .post(upload.array('files'), saveServiceRequest) 
     .get(getAllServiceRequests);

@@ -1,17 +1,20 @@
 import Servicerequestsale from "../models/Propertyforsale.models.js";
 
 export const saveServiceRequest = async (req, res) => {
-    try {    
-        console.log("Body:", req.body);
-        console.log("Files received:", req.files?.length);
+    try {
+        const formData = req.body;
+        const uploadedFiles = req.files; // Array of buffers
 
-        if (!req.files || req.files.length === 0) {
-            // Logic if no files are uploaded
-        }
+        console.log("Data received:", formData);
+        
+        // If you need to save images, you would send uploadedFiles[i].buffer 
+        // to a cloud storage provider here.
 
-        res.status(201).json({ success: true, message: "Request received!" });
+        res.status(201).json({
+            success: true,
+            message: "Request processed successfully (Memory Mode)"
+        });
     } catch (error) {
-        console.error("Error:", error);
         res.status(500).json({ success: false, error: error.message });
     }
 };
