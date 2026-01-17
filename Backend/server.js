@@ -26,8 +26,6 @@ app.use(cors({
   credentials: true
 }));
 
-// 4. Static Files
-// This allows your frontend to access images via http://localhost:8001/uploads/filename.jpg
 app.use('/uploads', express.static('uploads'));
 
 // 5. Connect Database
