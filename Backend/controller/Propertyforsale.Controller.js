@@ -1,20 +1,21 @@
 import Servicerequestsale from "../models/Propertyforsale.models.js";
 
 export const saveServiceRequest = async (req, res) => {
-  try {
-    const data = JSON.parse(req.body.payload);
-    const filePaths = req.files.map(file => file.path);
+    try {
+        const files = req.files; // This is now an array of objects containing 'buffer'
+        
+        if (files && files.length > 0) {
+            // EXAMPLE: To get the data of the first file
+            const fileBuffer = files[0].buffer;
+            const fileName = files[0].originalname;
+            
+            // Logic to upload this buffer to Cloudinary, AWS S3, or Supabase goes here
+        }
 
-    const newRequest = new Servicerequestsale({
-      ...data,
-      files: filePaths
-    });
-
-    await newRequest.save();
-    res.status(201).json({ success: true, message: "Saved Successfully" });
-  } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
-  }
+        // ... rest of your saving logic
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 };
 
 

@@ -1,5 +1,5 @@
 import express from 'express';
-import multer from 'multer'; // 1. Added missing import
+import multer from 'multer';
 import { 
     saveServiceRequest, 
     getAllServiceRequests, 
@@ -10,19 +10,26 @@ import {
 
 const Propertyforsalerouter = express.Router();
 
-// 2. Configure Multer Storage
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, 'uploads/'),
-  filename: (req, file, cb) => cb(null, `${Date.now()}-${file.originalname}`)
+/**
+ * 1. Configure Multer for Memory Storage
+ * This avoids the 'EROFS: read-only file system' error because
+ * it doesn't try to write to the server's restricted disk.
+ */
+const storage = multer.memoryStorage();
+
+const upload = multer({ 
+    storage,
+    limits: {
+        fileSize: 5 * 1024 * 1024, // Limit files to 5MB
+    }
 });
-const upload = multer({ storage });
 
 /**
  * @description Routes for handling the collection of property requests
  * URL: /api/save-request
  */
 Propertyforsalerouter.route('/save-request')
-    // Added upload.array('files') to process the multipart form data
+    // Process files in memory
     .post(upload.array('files'), saveServiceRequest) 
     .get(getAllServiceRequests);
 
@@ -32,7 +39,7 @@ Propertyforsalerouter.route('/save-request')
  */
 Propertyforsalerouter.route('/save-request/:id')
     .get(getServiceRequestById)
-    .put(upload.array('files'), updateServiceRequest) // Put middleware here too if editing files
+    .put(upload.array('files'), updateServiceRequest) 
     .delete(deleteServiceRequest);
 
 export default Propertyforsalerouter;
