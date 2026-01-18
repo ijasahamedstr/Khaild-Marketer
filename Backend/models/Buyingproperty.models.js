@@ -6,12 +6,20 @@ const BuyingpropertySchema = new mongoose.Schema({
   location: String,
   developer: String,
   area: String,
+  rooms: String,
+  bathrooms: String,
+  propertyAge: String,
   priceLimit: String,
   priceOffer: String,
+  paymentMethod: String,
   notes: String,
   name: String,
   mobile: String,
-  channels: Object,
+  channels: {
+    chat: Boolean,
+    whatsapp: Boolean,
+    call: Boolean
+  },
   createdAt: { type: Date, default: Date.now }
 });
 

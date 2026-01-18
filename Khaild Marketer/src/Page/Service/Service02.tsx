@@ -1,4 +1,17 @@
 // src/Page/Service/Service01.tsx
+/**
+ * Service01 Component
+ * * This component provides a comprehensive form for real estate listing submissions.
+ * It is specifically designed for users in the Saudi Arabian market, utilizing
+ * the Tajawal font and right-to-left (RTL) layout.
+ * * Tech Stack:
+ * - React (Functional Components & Hooks)
+ * - Material UI (MUI) for UI Components
+ * - Axios for API Communication
+ * - Lucide-React for Modern Iconography
+ * - Framer Motion / CSS Keyframes for Animations
+ */
+
 import React, { useEffect, useState } from "react";
 import axios from "axios"; 
 import {
@@ -29,11 +42,14 @@ import EditNoteIcon from "@mui/icons-material/EditNote";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import PhoneIcon from "@mui/icons-material/Phone";
 import HandshakeIcon from '@mui/icons-material/Handshake';
-import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import { keyframes } from "@mui/system";
 import { Sparkles } from "lucide-react";
 
-/* ---------------- TYPES ---------------- */
+/* ---------------- TYPES & INTERFACES ---------------- */
+/**
+ * Props for the Service01 component.
+ * @property {Function} onSubmit - Optional callback triggered after successful data submission.
+ */
 type Props = {
   onSubmit?: (data: {
     dropdowns: string[];
@@ -47,26 +63,65 @@ type Props = {
   }) => void;
 };
 
-/* ---------------- CONSTANTS ---------------- */
+/**
+ * Interface for the structured form payload.
+ */
+interface FormPayload {
+  propertyStatus: string;
+  propertyType: string;
+  location: string;
+  developer: string;
+  area: string;
+  rooms: string;
+  bathrooms: string;
+  propertyAge: string;
+  priceLimit: string;
+  priceOffer: string;
+  isNegotiable: string;
+  notes: string;
+  contactChannels: {
+    chat: boolean;
+    whatsapp: boolean;
+    call: boolean;
+  };
+  clientName: string;
+  clientMobile: string;
+  date: string;
+}
+
+/* ---------------- CONSTANTS & THEME ---------------- */
 const TAJAWAL = "'Tajawal', sans-serif";
 const COLOR_PRIMARY_CYAN = "#06f9f3";
 const COLOR_DEEP_BLUE = "#023B4E";
 const LABEL_COLOR = "#023B4E";
 
+/**
+ * Base URL for the backend API.
+ * Defaults to localhost if the environment variable is not set.
+ */
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 /* ---------------- ANIMATIONS ---------------- */
+/**
+ * Shimmer animation for the submit button highlight effect.
+ */
 const shimmer = keyframes`
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
 `;
 
+/**
+ * Floating animation for header text.
+ */
 const float = keyframes`
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
 `;
 
 /* ---------------- STYLED COMPONENTS ---------------- */
+/**
+ * GlassCard: A translucent container with backdrop filter.
+ */
 const GlassCard = styled(Box)(({ }) => ({
   position: "relative",
   background: "rgba(255, 255, 255, 0.85)",
@@ -83,6 +138,9 @@ const GlassCard = styled(Box)(({ }) => ({
   },
 }));
 
+/**
+ * StyledTextField: Custom Material UI TextField with themed borders and Tajawal font.
+ */
 const StyledTextField = styled(TextField)({
   "& .MuiOutlinedInput-root": {
     borderRadius: "16px",
@@ -103,6 +161,9 @@ const StyledTextField = styled(TextField)({
   },
 });
 
+/**
+ * UploadBox: Area for file drag-and-drop or selection.
+ */
 const UploadBox = styled(Box)({
   border: `2px dashed ${COLOR_DEEP_BLUE}`,
   borderRadius: "16px",
@@ -117,6 +178,9 @@ const UploadBox = styled(Box)({
   }
 });
 
+/**
+ * SubmitButton: Gradient action button with shimmer effect.
+ */
 const SubmitButton = styled(Button)({
   background: `linear-gradient(45deg, ${COLOR_DEEP_BLUE} 30%, #086d8d 90%)`,
   color: "white",
@@ -143,6 +207,10 @@ const SubmitButton = styled(Button)({
   },
 });
 
+/* ---------------- FORM DATA ---------------- */
+/**
+ * Configuration for the property type selection.
+ */
 const DROPDOWN_FIELDS = [
   {
     label: "نوع العقار",
@@ -151,25 +219,32 @@ const DROPDOWN_FIELDS = [
   },
 ];
 
+/* ---------------- COMPONENT LOGIC ---------------- */
 const Service02: React.FC<Props> = ({ onSubmit }) => {
+  // Ensure the page starts at the top
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
+  /* --- State Management --- */
   const [dropdownValues, setDropdownValues] = React.useState<Record<number, string>>({});
   const [notes, setNotes] = React.useState("");
   const [search] = React.useState("");
   const [loading, setLoading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
 
+  // Contact Channels State
   const [channels, setChannels] = React.useState({
     chat: true,
     whatsapp: true,
     call: false,
   });
 
+  // Client Details
   const [name, setName] = React.useState("");
   const [mobile, setMobile] = React.useState("");
+  
+  // Property Details
   const [location, setLocation] = React.useState("");
   const [developer, setDeveloper] = React.useState("");
   const [area, setArea] = React.useState("");
@@ -178,30 +253,43 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
   const [propertyAgeSelection, setPropertyAgeSelection] = React.useState(""); 
   const [customAgeInput, setCustomAgeInput] = React.useState("");
 
+  // Financial Details
   const [priceLimit, setPriceLimit] = React.useState("");
   const [priceOffer, setPriceOffer] = React.useState("");
   const [isChecked1, setIsChecked1] = React.useState(false);
   const [isChecked2, setIsChecked2] = React.useState(false);
   const [checkboxValues, setCheckboxValues] = React.useState<boolean[]>([false, false]);
   const [isNegotiable, setIsNegotiable] = useState<'yes' | 'no' | null>(null); 
-  const [isPaymentmethod, setisPaymentmethod] = useState<'yes' | 'no' | null>(null); 
+  
+  // Files
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
+  // Feedback State
   const [openPopup, setOpenPopup] = React.useState(false);
   const [alertSeverity, setAlertSeverity] = React.useState<"success" | "error">("success");
   const [alertMessage, setAlertMessage] = React.useState("");
 
+  /* --- Event Handlers --- */
+
+  /**
+   * Handles the selection logic for property age.
+   * Ensures only one checkbox is active at a time.
+   */
   const handleAgeCheckboxChange = (value: string) => {
     if (propertyAgeSelection === value || value === "") {
       setPropertyAgeSelection("");
     } else {
       setPropertyAgeSelection(value);
     }
+
     if (value === "new") {
       setCustomAgeInput("");
     }
   };
 
+  /**
+   * Manages file uploads, adding new selections to the state.
+   */
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const filesArray = Array.from(e.target.files);
@@ -209,10 +297,16 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
     }
   };
 
+  /**
+   * Removes a specific file from the selected files list.
+   */
   const removeFile = (index: number) => {
     setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
+  /**
+   * Toggles between "Ready" and "Under Construction" status.
+   */
   const handleDeveloperCheckbox = (index: number) => {
     if (index === 0) {
       setIsChecked1(true);
@@ -224,40 +318,23 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
     }
   };
 
+  /**
+   * Manages the check state for pricing methods.
+   */
   const handleCheckboxChange = (index: number, value: boolean) => {
     const updated = [...checkboxValues];
     updated[index] = value;
     setCheckboxValues(updated);
   };
 
+  // Derived property status string
   const propertyStatus = isChecked1 ? "جاهز" : isChecked2 ? "على الخارطة" : "غير محدد";
 
-  const resetForm = () => {
-    setDropdownValues({});
-    setNotes("");
-    setName("");
-    setMobile("");
-    setLocation("");
-    setDeveloper("");
-    setArea("");
-    setRooms("");
-    setBathrooms("");
-    setPropertyAgeSelection("");
-    setCustomAgeInput("");
-    setPriceLimit("");
-    setPriceOffer("");
-    setIsChecked1(false);
-    setIsChecked2(false);
-    setCheckboxValues([false, false]);
-    setSelectedFiles([]);
-    setIsNegotiable(null);
-    setisPaymentmethod(null);
-    setUploadProgress(0);
-  };
-
+  /**
+   * Formats the WhatsApp message string based on current state.
+   */
   const buildWhatsAppMessage = () => {
     const negotiableText = isNegotiable === 'yes' ? "نعم" : isNegotiable === 'no' ? "لا" : "غير محدد";
-    const paymentText = isPaymentmethod === 'yes' ? "نقداً" : isPaymentmethod === 'no' ? "تمويل" : "غير محدد";
     const ageText = propertyAgeSelection === "new" ? "جديد" : propertyAgeSelection === "custom" ? customAgeInput : "غير محدد";
     
     return `
@@ -274,7 +351,6 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
 ${checkboxValues[0] ? `- حد: ${priceLimit || "غير محدد"}` : ""}
 ${checkboxValues[1] ? `- على السوم: ${priceOffer || "غير محدد"}` : ""}
 🤝 *قابل للتفاوض:* ${negotiableText}
-💳 *طريقة الدفع:* ${paymentText}
 📝 *تفاصيل إضافية:*
 ${notes || "لا يوجد"}
 📎 *المرفقات:* ${selectedFiles.length} ملف/فيديو
@@ -283,13 +359,44 @@ ${notes || "لا يوجد"}
 `;
   };
 
+  /**
+   * Resets all form fields to their initial states.
+   */
+  const handleResetForm = () => {
+    setDropdownValues({});
+    setNotes("");
+    setChannels({ chat: true, whatsapp: true, call: false });
+    setName("");
+    setMobile("");
+    setLocation("");
+    setDeveloper("");
+    setArea("");
+    setRooms("");
+    setBathrooms("");
+    setPropertyAgeSelection("");
+    setCustomAgeInput("");
+    setPriceLimit("");
+    setPriceOffer("");
+    setIsChecked1(false);
+    setIsChecked2(false);
+    setCheckboxValues([false, false]);
+    setSelectedFiles([]);
+    setIsNegotiable(null);
+    setUploadProgress(0);
+  };
+
+  /**
+   * Handles the form submission process including API call and WhatsApp redirect.
+   */
   const handleSubmit = async () => {
+    // Basic Validation
     if (!channels.call && !channels.whatsapp && !channels.chat) {
       setAlertSeverity("error");
       setAlertMessage("يرجى اختيار وسيلة للتواصل");
       setOpenPopup(true);
       return;
     }
+    
     if (channels.chat && (!name || !mobile)) {
       setAlertSeverity("error");
       setAlertMessage("يرجى إدخال الاسم والجوال للتواصل");
@@ -301,7 +408,7 @@ ${notes || "لا يوجد"}
     setUploadProgress(0);
 
     const formData = new FormData();
-    formData.append("payload", JSON.stringify({
+    const payload: FormPayload = {
       propertyStatus,
       propertyType: dropdownValues[0] || "غير محدد",
       location,
@@ -313,13 +420,14 @@ ${notes || "لا يوجد"}
       priceLimit,
       priceOffer,
       isNegotiable: isNegotiable === 'yes' ? "نعم" : isNegotiable === 'no' ? "لا" : "غير محدد",
-      paymentMethod: isPaymentmethod === 'yes' ? "نقداً" : isPaymentmethod === 'no' ? "تمويل" : "غير محدد",
       notes,
       contactChannels: channels,
       clientName: name,
       clientMobile: mobile,
       date: new Date().toISOString(),
-    }));
+    };
+
+    formData.append("payload", JSON.stringify(payload));
 
     selectedFiles.forEach((file) => {
       formData.append("files", file);
@@ -339,12 +447,15 @@ ${notes || "لا يوجد"}
         setAlertMessage("تم حفظ البيانات والملفات بنجاح!");
         setOpenPopup(true);
 
+        // WhatsApp Redirection
         const phoneNumber = "966509855666";
         const message = buildWhatsAppMessage();
         window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, "_blank");
 
-        resetForm();
+        // Clear Form
+        handleResetForm();
 
+        // Optional Prop Callback
         if (onSubmit) {
           onSubmit({
             dropdowns: DROPDOWN_FIELDS.map((_, i) => dropdownValues[i] || ""),
@@ -355,6 +466,7 @@ ${notes || "لا يوجد"}
         }
       }
     } catch (error) {
+      console.error("Submission Error:", error);
       setAlertSeverity("error");
       setAlertMessage("حدث خطأ في حفظ البيانات، يرجى المحاولة لاحقاً");
       setOpenPopup(true);
@@ -363,25 +475,38 @@ ${notes || "لا يوجد"}
     }
   };
 
-
+  /* --- Component UI --- */
   return (
     <Box
       sx={{ 
-      minHeight: "100vh", 
-      background: `linear-gradient(rgba(2, 59, 78, 0.8), rgba(2, 59, 78, 0.9)), url('https://i.ibb.co/hxkmfnF6/4.webp')`,
-      backgroundSize: "cover",
-      backgroundAttachment: "fixed",
-      py: 2,
-      direction: "rtl"
-    }}
+        minHeight: "100vh", 
+        background: `linear-gradient(rgba(2, 59, 78, 0.8), rgba(2, 59, 78, 0.9)), url('https://i.ibb.co/hxkmfnF6/4.webp')`,
+        backgroundSize: "cover",
+        backgroundAttachment: "fixed",
+        py: 2,
+        direction: "rtl"
+      }}
     >
-      <Snackbar open={openPopup} autoHideDuration={6000} onClose={() => setOpenPopup(false)} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
-        <Alert onClose={() => setOpenPopup(false)} severity={alertSeverity} variant="filled" sx={{ width: '100%', fontSize: '1.2rem', fontFamily: TAJAWAL }}>
+      {/* Toast Notification for Success/Error */}
+      <Snackbar 
+        open={openPopup} 
+        autoHideDuration={6000} 
+        onClose={() => setOpenPopup(false)} 
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert 
+          onClose={() => setOpenPopup(false)} 
+          severity={alertSeverity} 
+          variant="filled" 
+          sx={{ width: '100%', fontSize: '1.2rem', fontFamily: TAJAWAL }}
+        >
           {alertMessage}
         </Alert>
       </Snackbar>
 
       <Container maxWidth="md" sx={{ mt: { xs: 4, md: 8 }, mb: { xs: 6, md: 12 }, direction: "rtl", fontFamily: TAJAWAL }}>
+        
+        {/* Header Section */}
         <Box sx={{ textAlign: "center", mb: 8, animation: `${float} 4s ease-in-out infinite`, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <Typography variant="h1" sx={{ fontWeight: 900, fontSize: { xs: "2.5rem", md: "4rem" }, color: COLOR_PRIMARY_CYAN, fontFamily: TAJAWAL, textShadow: "0 10px 20px rgba(0,0,0,0.3)", display: 'flex', alignItems: 'center', gap: 1 }}>
             بيع العقار <Sparkles size={32} style={{ color: COLOR_PRIMARY_CYAN }} />
@@ -393,6 +518,7 @@ ${notes || "لا يوجد"}
 
         <GlassCard sx={{ p: { xs: 2, md: 4 } }}>
           
+          {/* Status Selection (Ready vs Off-Plan) */}
           <Box sx={{ display: "flex", flexDirection: "row", gap: { xs: 2, sm: 3 }, mb: 4, overflowX: "visible", p: 2, perspective: "1000px" }}>
             <Box sx={{ flex: 1, minWidth: { xs: 120, sm: "auto" }, position: "relative", display: "flex", justifyContent: "center", alignItems: "center" }}>
               <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "28px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 6 }} />
@@ -408,6 +534,7 @@ ${notes || "لا يوجد"}
             </Box>
           </Box>
 
+          {/* Property Type Dropdown Fields */}
           <Box sx={{ display: "grid", gap: 3 }}>
             {DROPDOWN_FIELDS.map((field, i) => (
               <Box key={i} sx={{ position: "relative" }}>
@@ -427,6 +554,7 @@ ${notes || "لا يوجد"}
             ))}
           </Box>
 
+          {/* Location Input */}
           <Box sx={{ display: "grid", gap: 3, mt: 3 }}>
             <Box sx={{ position: "relative" }}>
               <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
@@ -436,7 +564,10 @@ ${notes || "لا يوجد"}
                 <StyledTextField fullWidth multiline minRows={3} value={location} onChange={(e) => setLocation(e.target.value)} />
               </Box>
             </Box>
+          </Box>
 
+          {/* Developer Input */}
+          <Box sx={{ display: "grid", gap: 3, mt: 3 }}>
             <Box sx={{ position: "relative" }}>
               <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
               <Box sx={{ position: "relative", zIndex: 10, p: 2, borderRadius: 3, border: "1px solid #E2E8F0", background: "#E2E8F0" }}>
@@ -445,7 +576,10 @@ ${notes || "لا يوجد"}
                 <StyledTextField fullWidth value={developer} onChange={(e) => setDeveloper(e.target.value)} />
               </Box>
             </Box>
+          </Box>
 
+          {/* Specs Section: Area, Rooms, Bathrooms, Age */}
+          <Box sx={{ display: "grid", gap: 3, mt: 3 }}>
             <Box sx={{ position: "relative", borderRadius: 4 }}>
               <Box sx={{ position: "absolute", inset: "-2px", borderRadius: 4, background: "linear-gradient(135deg, #06f9f3, #00b3ff, #06f9f3)", filter: "blur(6px)", zIndex: 0 }} />
               <Box sx={{ position: "relative", zIndex: 1, p: 3, borderRadius: 4, border: "1px solid #CBD5E1", backgroundColor: "#E2E8F0" }}>
@@ -502,7 +636,7 @@ ${notes || "لا يوجد"}
                       if (val.trim() !== "") {
                         handleAgeCheckboxChange("custom");
                       } else {
-                        handleAgeCheckboxChange("");
+                        handleAgeCheckboxChange(""); 
                       }
                     }}
                     sx={{ width: 120, backgroundColor: "white", borderRadius: "8px" }}
@@ -510,7 +644,9 @@ ${notes || "لا يوجد"}
                 </Box>
               </Box>
             </Box>
+          </Box>
 
+          {/* Additional Notes */}
           <Box sx={{ mt: 5, position: "relative" }}>
             <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
             <Box sx={{ position: "relative", zIndex: 10, border: "1px solid #E2E8F0", background: "#E2E8F0", borderRadius: 3, p: 3 }}>
@@ -520,6 +656,7 @@ ${notes || "لا يوجد"}
             </Box>
           </Box>
 
+          {/* Media Upload Area */}
           <Box sx={{ mt: 4, mb: 4, position: "relative" }}>
             <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
             <Box sx={{ position: "relative", zIndex: 10, p: 3, borderRadius: 3, background: "#E2E8F0", border: "1px solid #E2E8F0" }}>
@@ -557,44 +694,22 @@ ${notes || "لا يوجد"}
             </Box>
           </Box>
 
+          {/* Pricing Details */}
           <Box sx={{ position: "relative", mb: 4 }}> 
-            <Box 
-              sx={{ 
-                position: "absolute", 
-                inset: "-2px", 
-                borderRadius: "16px", 
-                background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", 
-                filter: "blur(4px)", 
-                zIndex: 0 
-              }} 
-            />
-
-            <Box 
-              sx={{ 
-                position: "relative", 
-                zIndex: 10, 
-                p: 3, 
-                borderRadius: 3, 
-                border: "1px solid #E2E8F0", 
-                background: "#E2E8F0" 
-              }}
-            >
+            <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
+            <Box sx={{ position: "relative", zIndex: 10, p: 3, borderRadius: 3, border: "1px solid #E2E8F0", background: "#E2E8F0" }}>
               <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR }}>
                 <AccountBalanceWalletIcon />
-                <Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>
-                  سعر البيع
-                </Typography>
+                <Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>سعر البيع</Typography>
               </Box>
 
               <Typography sx={{ fontSize: "1rem", mb: 3, color: "#242629ff", fontFamily: TAJAWAL, fontWeight: 'bold' }}>
                 الرجاء اختيار أحد الطرق لتقييم سعر البيع
               </Typography>
 
+              {/* Price Option: Limit */}
               <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
-                <Checkbox 
-                  checked={checkboxValues[0]} 
-                  onChange={(e) => handleCheckboxChange(0, e.target.checked)} 
-                />
+                <Checkbox checked={checkboxValues[0]} onChange={(e) => handleCheckboxChange(0, e.target.checked)} />
                 <Typography sx={{ minWidth: 100, fontFamily: TAJAWAL }}>حد</Typography>
                 <StyledTextField 
                   size="small" 
@@ -608,11 +723,9 @@ ${notes || "لا يوجد"}
                 />
               </Box>
 
+              {/* Price Option: Offer */}
               <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 4 }}>
-                <Checkbox 
-                  checked={checkboxValues[1]} 
-                  onChange={(e) => handleCheckboxChange(1, e.target.checked)} 
-                />
+                <Checkbox checked={checkboxValues[1]} onChange={(e) => handleCheckboxChange(1, e.target.checked)} />
                 <Typography sx={{ minWidth: 100, fontFamily: TAJAWAL }}>على السوم</Typography>
                 <StyledTextField 
                   size="small" 
@@ -628,60 +741,19 @@ ${notes || "لا يوجد"}
 
               <Divider sx={{ mb: 3, borderColor: "rgba(0,0,0,0.1)" }} />
 
+              {/* Negotiability Toggle */}
               <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR }}>
                 <HandshakeIcon />
-                <Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>
-                  هل السعر قابل للتفاوض؟
-                </Typography>
+                <Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>هل السعر قابل للتفاوض؟</Typography>
               </Box>
 
-              <Box 
-                sx={{ 
-                  display: "flex", 
-                  gap: 8, 
-                  mt: 4, 
-                  mb: 2, 
-                  width: "100%", 
-                  justifyContent: "flex-start", 
-                  px: 2 
-                }}
-              >
-                <Box
-                  onClick={() => setIsNegotiable('yes')}
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    cursor: "pointer",
-                    transition: "0.2s",
-                    "&:hover": { opacity: 0.7 }
-                  }}
-                >
-                  <Switch 
-                    checked={isNegotiable === 'yes'} 
-                    color="success" 
-                    size="medium"
-                    sx={{ transform: "scale(1.2)", ml: 1 }}
-                  />
-                  <Typography sx={{ 
-                    fontFamily: TAJAWAL, 
-                    fontWeight: 800, 
-                    fontSize: "1.6rem", 
-                    color: isNegotiable === 'yes' ? '#2e7d32' : '#64748B', 
-                  }}>
-                    نعم
-                  </Typography>
+              <Box sx={{ display: "flex", gap: 8, mt: 4, mb: 2, width: "100%", justifyContent: "flex-start", px: 2 }}>
+                <Box onClick={() => setIsNegotiable('yes')} sx={{ display: "flex", alignItems: "center", cursor: "pointer", transition: "0.2s", "&:hover": { opacity: 0.7 } }}>
+                  <Switch checked={isNegotiable === 'yes'} color="success" size="medium" sx={{ transform: "scale(1.2)", ml: 1 }} />
+                  <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 800, fontSize: "1.6rem", color: isNegotiable === 'yes' ? '#2e7d32' : '#64748B' }}>نعم</Typography>
                 </Box>
 
-                <Box
-                  onClick={() => setIsNegotiable('no')}
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    cursor: "pointer",
-                    transition: "0.2s",
-                    "&:hover": { opacity: 0.7 }
-                  }}
-                >
+                <Box onClick={() => setIsNegotiable('no')} sx={{ display: "flex", alignItems: "center", cursor: "pointer", transition: "0.2s", "&:hover": { opacity: 0.7 } }}>
                   <Switch 
                     checked={isNegotiable === 'no'} 
                     sx={{
@@ -692,118 +764,13 @@ ${notes || "لا يوجد"}
                     }}
                     size="medium"
                   />
-                  <Typography sx={{ 
-                    fontFamily: TAJAWAL, 
-                    fontWeight: 800, 
-                    fontSize: "1.6rem", 
-                    color: isNegotiable === 'no' ? '#d32f2f' : '#64748B', 
-                  }}>
-                    لا
-                  </Typography>
+                  <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 800, fontSize: "1.6rem", color: isNegotiable === 'no' ? '#d32f2f' : '#64748B' }}>لا</Typography>
                 </Box>
               </Box>
             </Box>
           </Box>  
 
-        <Box sx={{ position: "relative", mb: 4 }}>
-          <Box
-            sx={{
-              position: "absolute",
-              inset: "-2px",
-              borderRadius: "16px",
-              background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)",
-              filter: "blur(4px)",
-              zIndex: 0,
-            }}
-          />
-
-          <Box
-            sx={{
-              position: "relative",
-              zIndex: 10,
-              p: 3,
-              borderRadius: 3,
-              border: "1px solid #E2E8F0",
-              background: "#E2E8F0",
-            }}
-          >
-            <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR }}>
-              <LocalOfferIcon />
-              <Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>
-                طريقة الدفع
-              </Typography>
-            </Box>
-
-            <Box
-              sx={{
-                display: "flex",
-                gap: 8,
-                mt: 4,
-                mb: 2,
-                width: "100%",
-                justifyContent: "flex-start",
-                px: 2,
-              }}
-            >
-              <Box
-                onClick={() => setisPaymentmethod('yes')}
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  cursor: "pointer",
-                  transition: "0.2s",
-                  "&:hover": { opacity: 0.7 },
-                }}
-              >
-                <Checkbox
-                  checked={isPaymentmethod === "yes"}
-                  color="success"
-                  sx={{ transform: "scale(1.4)", ml: 1 }}
-                />
-                <Typography
-                  sx={{
-                    fontFamily: TAJAWAL,
-                    fontWeight: 800,
-                    fontSize: "1.6rem",
-                    color: isPaymentmethod === "yes" ? "#2e7d32" : "#64748B",
-                  }}
-                >
-                  نقدا
-                </Typography>
-              </Box>
-
-              <Box
-               onClick={() => setisPaymentmethod('no')}
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  cursor: "pointer",
-                  transition: "0.2s",
-                  "&:hover": { opacity: 0.7 },
-                }}
-              >
-                <Checkbox
-                  checked={isPaymentmethod === "no"}
-                  color="success" 
-                  sx={{ transform: "scale(1.4)", ml: 1 }}
-                />
-                <Typography
-                  sx={{
-                    fontFamily: TAJAWAL,
-                    fontWeight: 800,
-                    fontSize: "1.6rem",
-                    color: isPaymentmethod === "no" ? "#2e7d32" : "#64748B",
-                  }}
-                >
-                  تمويل
-                </Typography>
-              </Box>
-            </Box>
-          </Box>
-        </Box>
-                           
-        </Box>
-
+          {/* Contact Channels Selection */}
           <Box sx={{ mb: 6, position: "relative" }}>
             <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
             <Box sx={{ position: "relative", zIndex: 10, p: 3, borderRadius: 3, border: "1px solid #E2E8F0", background: "#E2E8F0" }}>
@@ -825,7 +792,10 @@ ${notes || "لا يوجد"}
               </Box>
               
               <Divider sx={{ my: 3, borderColor: "#1f2937", borderBottomWidth: "2px" }} />
+              
               <FormControlLabel sx={{ mb: 3 }} control={<Checkbox checked={channels.chat} onChange={(e) => setChannels({ ...channels, chat: e.target.checked })} />} label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: '18px', fontWeight: 'bold' }}> اترك اسمك وجوالك للتواصل معك لاحقًا </Typography>} />
+              
+              {/* Name & Mobile for Chat */}
               <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
                 <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 600, fontSize: '18px' }}> الاسم </Typography>
                 <StyledTextField fullWidth value={name} onChange={(e) => setName(e.target.value)} />
@@ -837,8 +807,13 @@ ${notes || "لا يوجد"}
             </Box>
           </Box>
 
+          {/* Action Button */}
           <Box sx={{ mt: 5, textAlign: "center" }}>
-            <SubmitButton onClick={handleSubmit} disabled={loading} endIcon={loading ? <CircularProgress size={24} color="inherit" /> : <Send size={24} style={{ marginRight: '8px' }} />}>
+            <SubmitButton 
+              onClick={handleSubmit} 
+              disabled={loading} 
+              endIcon={loading ? <CircularProgress size={24} color="inherit" /> : <Send size={24} style={{ marginRight: '8px' }} />}
+            >
               {loading ? `جاري الحفظ ${uploadProgress}%` : "ارسال الطلب وحفظ البيانات"}
             </SubmitButton>
           </Box>
@@ -849,3 +824,12 @@ ${notes || "لا يوجد"}
 };
 
 export default Service02;
+
+/**
+ * Technical Specifications Summary:
+ * * Layout: Responsive Container with Glassmorphism Card.
+ * Theme: Deep Blue (#023B4E) and Cyan (#06f9f3) accents.
+ * Interactions: Custom toggles, file preview list, and real-time upload progress.
+ * Logic: Conditional field rendering and multi-channel communication selection.
+ * Integration: Axios POST with multipart/form-data support.
+ */
