@@ -29,6 +29,7 @@ import EditNoteIcon from "@mui/icons-material/EditNote";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import PhoneIcon from "@mui/icons-material/Phone";
 import HandshakeIcon from '@mui/icons-material/Handshake';
+import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import { keyframes } from "@mui/system";
 import { Sparkles } from "lucide-react";
 
@@ -183,20 +184,19 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
   const [isChecked2, setIsChecked2] = React.useState(false);
   const [checkboxValues, setCheckboxValues] = React.useState<boolean[]>([false, false]);
   const [isNegotiable, setIsNegotiable] = useState<'yes' | 'no' | null>(null); 
+  const [isPaymentmethod, setisPaymentmethod] = useState<'yes' | 'no' | null>(null); 
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
   const [openPopup, setOpenPopup] = React.useState(false);
   const [alertSeverity, setAlertSeverity] = React.useState<"success" | "error">("success");
   const [alertMessage, setAlertMessage] = React.useState("");
 
-  // FIX: Fixed null error by using empty string ""
   const handleAgeCheckboxChange = (value: string) => {
     if (propertyAgeSelection === value || value === "") {
       setPropertyAgeSelection("");
     } else {
       setPropertyAgeSelection(value);
     }
-
     if (value === "new") {
       setCustomAgeInput("");
     }
@@ -232,8 +232,32 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
 
   const propertyStatus = isChecked1 ? "جاهز" : isChecked2 ? "على الخارطة" : "غير محدد";
 
+  const resetForm = () => {
+    setDropdownValues({});
+    setNotes("");
+    setName("");
+    setMobile("");
+    setLocation("");
+    setDeveloper("");
+    setArea("");
+    setRooms("");
+    setBathrooms("");
+    setPropertyAgeSelection("");
+    setCustomAgeInput("");
+    setPriceLimit("");
+    setPriceOffer("");
+    setIsChecked1(false);
+    setIsChecked2(false);
+    setCheckboxValues([false, false]);
+    setSelectedFiles([]);
+    setIsNegotiable(null);
+    setisPaymentmethod(null);
+    setUploadProgress(0);
+  };
+
   const buildWhatsAppMessage = () => {
     const negotiableText = isNegotiable === 'yes' ? "نعم" : isNegotiable === 'no' ? "لا" : "غير محدد";
+    const paymentText = isPaymentmethod === 'yes' ? "نقداً" : isPaymentmethod === 'no' ? "تمويل" : "غير محدد";
     const ageText = propertyAgeSelection === "new" ? "جديد" : propertyAgeSelection === "custom" ? customAgeInput : "غير محدد";
     
     return `
@@ -250,6 +274,7 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
 ${checkboxValues[0] ? `- حد: ${priceLimit || "غير محدد"}` : ""}
 ${checkboxValues[1] ? `- على السوم: ${priceOffer || "غير محدد"}` : ""}
 🤝 *قابل للتفاوض:* ${negotiableText}
+💳 *طريقة الدفع:* ${paymentText}
 📝 *تفاصيل إضافية:*
 ${notes || "لا يوجد"}
 📎 *المرفقات:* ${selectedFiles.length} ملف/فيديو
@@ -288,6 +313,7 @@ ${notes || "لا يوجد"}
       priceLimit,
       priceOffer,
       isNegotiable: isNegotiable === 'yes' ? "نعم" : isNegotiable === 'no' ? "لا" : "غير محدد",
+      paymentMethod: isPaymentmethod === 'yes' ? "نقداً" : isPaymentmethod === 'no' ? "تمويل" : "غير محدد",
       notes,
       contactChannels: channels,
       clientName: name,
@@ -317,26 +343,7 @@ ${notes || "لا يوجد"}
         const message = buildWhatsAppMessage();
         window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, "_blank");
 
-        setDropdownValues({});
-        setNotes("");
-        setChannels({ chat: true, whatsapp: true, call: false });
-        setName("");
-        setMobile("");
-        setLocation("");
-        setDeveloper("");
-        setArea("");
-        setRooms("");
-        setBathrooms("");
-        setPropertyAgeSelection("");
-        setCustomAgeInput("");
-        setPriceLimit("");
-        setPriceOffer("");
-        setIsChecked1(false);
-        setIsChecked2(false);
-        setCheckboxValues([false, false]);
-        setSelectedFiles([]);
-        setIsNegotiable(null);
-        setUploadProgress(0);
+        resetForm();
 
         if (onSubmit) {
           onSubmit({
@@ -462,7 +469,6 @@ ${notes || "لا يوجد"}
                   <StyledTextField size="small" placeholder="عدد دورات المياه" value={bathrooms} onChange={(e) => setBathrooms(e.target.value)} sx={{ width: "40%" }} />              
                 </Box>
 
-                {/* PROPERTY AGE SECTION - FIXED LOGIC START */}
                 <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 3 }}>
                   <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 600 }}>عمر العقار</Typography>
 
@@ -496,13 +502,12 @@ ${notes || "لا يوجد"}
                       if (val.trim() !== "") {
                         handleAgeCheckboxChange("custom");
                       } else {
-                        handleAgeCheckboxChange(""); // Changed null to ""
+                        handleAgeCheckboxChange("");
                       }
                     }}
                     sx={{ width: 120, backgroundColor: "white", borderRadius: "8px" }}
                   />
                 </Box>
-                {/* PROPERTY AGE SECTION - FIXED LOGIC END */}
               </Box>
             </Box>
 
@@ -515,7 +520,7 @@ ${notes || "لا يوجد"}
             </Box>
           </Box>
 
-               <Box sx={{ mt: 4, mb: 4, position: "relative" }}>
+          <Box sx={{ mt: 4, mb: 4, position: "relative" }}>
             <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
             <Box sx={{ position: "relative", zIndex: 10, p: 3, borderRadius: 3, background: "#E2E8F0", border: "1px solid #E2E8F0" }}>
               <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR }}><CloudUpload /><Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>إرفاق الصور والفيديو</Typography></Box>
@@ -552,9 +557,7 @@ ${notes || "لا يوجد"}
             </Box>
           </Box>
 
-          {/* Main Wrapper with Bottom Margin */}
           <Box sx={{ position: "relative", mb: 4 }}> 
-            {/* The Glowing Background Layer */}
             <Box 
               sx={{ 
                 position: "absolute", 
@@ -566,7 +569,6 @@ ${notes || "لا يوجد"}
               }} 
             />
 
-            {/* The Content Card */}
             <Box 
               sx={{ 
                 position: "relative", 
@@ -577,7 +579,6 @@ ${notes || "لا يوجد"}
                 background: "#E2E8F0" 
               }}
             >
-              {/* Header: Selling Price */}
               <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR }}>
                 <AccountBalanceWalletIcon />
                 <Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>
@@ -589,7 +590,6 @@ ${notes || "لا يوجد"}
                 الرجاء اختيار أحد الطرق لتقييم سعر البيع
               </Typography>
 
-              {/* Price Limit Input */}
               <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
                 <Checkbox 
                   checked={checkboxValues[0]} 
@@ -608,7 +608,6 @@ ${notes || "لا يوجد"}
                 />
               </Box>
 
-              {/* Price Offer Input */}
               <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 4 }}>
                 <Checkbox 
                   checked={checkboxValues[1]} 
@@ -629,7 +628,6 @@ ${notes || "لا يوجد"}
 
               <Divider sx={{ mb: 3, borderColor: "rgba(0,0,0,0.1)" }} />
 
-              {/* NEGOTIABLE SECTION */}
               <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR }}>
                 <HandshakeIcon />
                 <Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>
@@ -642,13 +640,12 @@ ${notes || "لا يوجد"}
                   display: "flex", 
                   gap: 8, 
                   mt: 4, 
-                  mb: 2, // Internal bottom padding
+                  mb: 2, 
                   width: "100%", 
                   justifyContent: "flex-start", 
                   px: 2 
                 }}
               >
-                {/* YES Toggle Option */}
                 <Box
                   onClick={() => setIsNegotiable('yes')}
                   sx={{
@@ -675,7 +672,6 @@ ${notes || "لا يوجد"}
                   </Typography>
                 </Box>
 
-                {/* NO Toggle Option */}
                 <Box
                   onClick={() => setIsNegotiable('no')}
                   sx={{
@@ -707,9 +703,106 @@ ${notes || "لا يوجد"}
                 </Box>
               </Box>
             </Box>
+          </Box>  
+
+        <Box sx={{ position: "relative", mb: 4 }}>
+          <Box
+            sx={{
+              position: "absolute",
+              inset: "-2px",
+              borderRadius: "16px",
+              background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)",
+              filter: "blur(4px)",
+              zIndex: 0,
+            }}
+          />
+
+          <Box
+            sx={{
+              position: "relative",
+              zIndex: 10,
+              p: 3,
+              borderRadius: 3,
+              border: "1px solid #E2E8F0",
+              background: "#E2E8F0",
+            }}
+          >
+            <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR }}>
+              <LocalOfferIcon />
+              <Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>
+                قابلية التفاوض
+              </Typography>
+            </Box>
+
+            <Box
+              sx={{
+                display: "flex",
+                gap: 8,
+                mt: 4,
+                mb: 2,
+                width: "100%",
+                justifyContent: "flex-start",
+                px: 2,
+              }}
+            >
+              <Box
+                onClick={() => setisPaymentmethod('yes')}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  cursor: "pointer",
+                  transition: "0.2s",
+                  "&:hover": { opacity: 0.7 },
+                }}
+              >
+                <Checkbox
+                  checked={isPaymentmethod === "yes"}
+                  color="success"
+                  sx={{ transform: "scale(1.4)", ml: 1 }}
+                />
+                <Typography
+                  sx={{
+                    fontFamily: TAJAWAL,
+                    fontWeight: 800,
+                    fontSize: "1.6rem",
+                    color: isPaymentmethod === "yes" ? "#2e7d32" : "#64748B",
+                  }}
+                >
+                  نقدا
+                </Typography>
+              </Box>
+
+              <Box
+               onClick={() => setisPaymentmethod('no')}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  cursor: "pointer",
+                  transition: "0.2s",
+                  "&:hover": { opacity: 0.7 },
+                }}
+              >
+                <Checkbox
+                  checked={isPaymentmethod === "no"}
+                  color="success" 
+                  sx={{ transform: "scale(1.4)", ml: 1 }}
+                />
+                <Typography
+                  sx={{
+                    fontFamily: TAJAWAL,
+                    fontWeight: 800,
+                    fontSize: "1.6rem",
+                    color: isPaymentmethod === "no" ? "#2e7d32" : "#64748B",
+                  }}
+                >
+                  تمويل
+                </Typography>
+              </Box>
+            </Box>
           </Box>
-         
-          </Box>
+        </Box>
+                           
+        </Box>
 
           <Box sx={{ mb: 6, position: "relative" }}>
             <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
