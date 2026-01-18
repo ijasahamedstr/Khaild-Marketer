@@ -506,144 +506,6 @@ ${notes || "لا يوجد"}
               </Box>
             </Box>
 
-          {/* BUDGET/PRICE FIELD - FIXED AUTO-SELECT LOGIC */}
-            <Box sx={{ position: "relative" }}>
-              <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
-              <Box sx={{ position: "relative", zIndex: 10, p: 3, borderRadius: 3, border: "1px solid #E2E8F0", background: "#E2E8F0" }}>
-                
-                <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR }}>
-                  <AccountBalanceWalletIcon />
-                  <Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>سعر البيع</Typography>
-                </Box>
-                
-                <Typography sx={{ fontSize: "1rem", mb: 3, color: "#242629ff", fontFamily: TAJAWAL, fontWeight: 'bold' }}>
-                  الرجاء اختيار أحد الطرق لتقييم سعر البيع
-                </Typography>
-
-                {/* Price Limit Input */}
-                <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
-                  <Checkbox 
-                    checked={checkboxValues[0]} 
-                    onChange={(e) => handleCheckboxChange(0, e.target.checked)} 
-                  />
-                  <Typography sx={{ minWidth: 100, fontFamily: TAJAWAL }}>حد</Typography>
-                  <StyledTextField 
-                    size="small" 
-                    placeholder="اكتب سعر البيع"
-                    value={priceLimit} 
-                    onChange={(e) => {
-                      const val = e.target.value;
-                      setPriceLimit(val);
-                      // Auto select if typing, unselect if empty
-                      handleCheckboxChange(0, val.trim() !== "");
-                    }} 
-                  />
-                </Box>
-
-                {/* Price Offer Input */}
-                <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 4 }}>
-                  <Checkbox 
-                    checked={checkboxValues[1]} 
-                    onChange={(e) => handleCheckboxChange(1, e.target.checked)} 
-                  />
-                  <Typography sx={{ minWidth: 100, fontFamily: TAJAWAL }}>على السوم</Typography>
-                  <StyledTextField 
-                    size="small" 
-                    placeholder="اكتب السعر المتوقع"
-                    value={priceOffer} 
-                    onChange={(e) => {
-                      const val = e.target.value;
-                      setPriceOffer(val);
-                      // Auto select if typing, unselect if empty
-                      handleCheckboxChange(1, val.trim() !== "");
-                    }} 
-                  />
-                </Box>
-
-                <Divider sx={{ mb: 3, borderColor: "rgba(0,0,0,0.1)" }} />
-
-                {/* NEGOTIABLE SECTION */}
-                <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR }}>
-                  <HandshakeIcon />
-                  <Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>هل السعر قابل للتفاوض؟</Typography>
-                </Box>
-                <Box 
-                  sx={{ 
-                    display: "flex", 
-                    gap: 8,          // Increased gap between 'Yes' and 'No'
-                    mt: 4,          // Added more space at the top
-                    mb: 4,          // Added more space at the bottom
-                    width: "100%", 
-                    justifyContent: "flex-start", // Aligns to the right in RTL
-                    px: 2           // Horizontal padding for alignment
-                  }}
-                >
-                  {/* YES Toggle Option */}
-                  <Box
-                    onClick={() => setIsNegotiable('yes')}
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      cursor: "pointer",
-                      transition: "0.2s",
-                      "&:hover": { opacity: 0.7 }
-                    }}
-                  >
-                    <Switch 
-                      checked={isNegotiable === 'yes'} 
-                      color="success" 
-                      size="medium"
-                      sx={{ 
-                        transform: "scale(1.2)", // Makes the switch physically larger
-                        ml: 1 // Space after the switch
-                      }}
-                    />
-                    <Typography sx={{ 
-                      fontFamily: TAJAWAL, 
-                      fontWeight: 800, 
-                      fontSize: "1.6rem", // Slightly larger text
-                      color: isNegotiable === 'yes' ? '#2e7d32' : '#64748B', 
-                    }}>
-                      نعم
-                    </Typography>
-                  </Box>
-
-                  {/* NO Toggle Option */}
-                  <Box
-                    onClick={() => setIsNegotiable('no')}
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      cursor: "pointer",
-                      transition: "0.2s",
-                      "&:hover": { opacity: 0.7 }
-                    }}
-                  >
-                    <Switch 
-                      checked={isNegotiable === 'no'} 
-                      sx={{
-                        transform: "scale(1.2)", // Makes the switch physically larger
-                        ml: 1,
-                        '& .MuiSwitch-switchBase.Mui-checked': { color: '#d32f2f' },
-                        '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#d32f2f' },
-                      }}
-                      size="medium"
-                    />
-                    <Typography sx={{ 
-                      fontFamily: TAJAWAL, 
-                      fontWeight: 800, 
-                      fontSize: "1.6rem", 
-                      color: isNegotiable === 'no' ? '#d32f2f' : '#64748B', 
-                    }}>
-                      لا
-                    </Typography>
-                  </Box>
-                </Box>
-                
-              </Box>
-            </Box>
-          </Box>
-
           <Box sx={{ mt: 5, position: "relative" }}>
             <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
             <Box sx={{ position: "relative", zIndex: 10, border: "1px solid #E2E8F0", background: "#E2E8F0", borderRadius: 3, p: 3 }}>
@@ -653,7 +515,7 @@ ${notes || "لا يوجد"}
             </Box>
           </Box>
 
-          <Box sx={{ mt: 4, mb: 4, position: "relative" }}>
+               <Box sx={{ mt: 4, mb: 4, position: "relative" }}>
             <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
             <Box sx={{ position: "relative", zIndex: 10, p: 3, borderRadius: 3, background: "#E2E8F0", border: "1px solid #E2E8F0" }}>
               <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR }}><CloudUpload /><Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>إرفاق الصور والفيديو</Typography></Box>
@@ -688,6 +550,165 @@ ${notes || "لا يوجد"}
                 </Box>
               )}
             </Box>
+          </Box>
+
+          {/* Main Wrapper with Bottom Margin */}
+          <Box sx={{ position: "relative", mb: 4 }}> 
+            {/* The Glowing Background Layer */}
+            <Box 
+              sx={{ 
+                position: "absolute", 
+                inset: "-2px", 
+                borderRadius: "16px", 
+                background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", 
+                filter: "blur(4px)", 
+                zIndex: 0 
+              }} 
+            />
+
+            {/* The Content Card */}
+            <Box 
+              sx={{ 
+                position: "relative", 
+                zIndex: 10, 
+                p: 3, 
+                borderRadius: 3, 
+                border: "1px solid #E2E8F0", 
+                background: "#E2E8F0" 
+              }}
+            >
+              {/* Header: Selling Price */}
+              <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR }}>
+                <AccountBalanceWalletIcon />
+                <Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>
+                  سعر البيع
+                </Typography>
+              </Box>
+
+              <Typography sx={{ fontSize: "1rem", mb: 3, color: "#242629ff", fontFamily: TAJAWAL, fontWeight: 'bold' }}>
+                الرجاء اختيار أحد الطرق لتقييم سعر البيع
+              </Typography>
+
+              {/* Price Limit Input */}
+              <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
+                <Checkbox 
+                  checked={checkboxValues[0]} 
+                  onChange={(e) => handleCheckboxChange(0, e.target.checked)} 
+                />
+                <Typography sx={{ minWidth: 100, fontFamily: TAJAWAL }}>حد</Typography>
+                <StyledTextField 
+                  size="small" 
+                  placeholder="اكتب سعر البيع"
+                  value={priceLimit} 
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setPriceLimit(val);
+                    handleCheckboxChange(0, val.trim() !== "");
+                  }} 
+                />
+              </Box>
+
+              {/* Price Offer Input */}
+              <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 4 }}>
+                <Checkbox 
+                  checked={checkboxValues[1]} 
+                  onChange={(e) => handleCheckboxChange(1, e.target.checked)} 
+                />
+                <Typography sx={{ minWidth: 100, fontFamily: TAJAWAL }}>على السوم</Typography>
+                <StyledTextField 
+                  size="small" 
+                  placeholder="اكتب السعر المتوقع"
+                  value={priceOffer} 
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setPriceOffer(val);
+                    handleCheckboxChange(1, val.trim() !== "");
+                  }} 
+                />
+              </Box>
+
+              <Divider sx={{ mb: 3, borderColor: "rgba(0,0,0,0.1)" }} />
+
+              {/* NEGOTIABLE SECTION */}
+              <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR }}>
+                <HandshakeIcon />
+                <Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>
+                  هل السعر قابل للتفاوض؟
+                </Typography>
+              </Box>
+
+              <Box 
+                sx={{ 
+                  display: "flex", 
+                  gap: 8, 
+                  mt: 4, 
+                  mb: 2, // Internal bottom padding
+                  width: "100%", 
+                  justifyContent: "flex-start", 
+                  px: 2 
+                }}
+              >
+                {/* YES Toggle Option */}
+                <Box
+                  onClick={() => setIsNegotiable('yes')}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    cursor: "pointer",
+                    transition: "0.2s",
+                    "&:hover": { opacity: 0.7 }
+                  }}
+                >
+                  <Switch 
+                    checked={isNegotiable === 'yes'} 
+                    color="success" 
+                    size="medium"
+                    sx={{ transform: "scale(1.2)", ml: 1 }}
+                  />
+                  <Typography sx={{ 
+                    fontFamily: TAJAWAL, 
+                    fontWeight: 800, 
+                    fontSize: "1.6rem", 
+                    color: isNegotiable === 'yes' ? '#2e7d32' : '#64748B', 
+                  }}>
+                    نعم
+                  </Typography>
+                </Box>
+
+                {/* NO Toggle Option */}
+                <Box
+                  onClick={() => setIsNegotiable('no')}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    cursor: "pointer",
+                    transition: "0.2s",
+                    "&:hover": { opacity: 0.7 }
+                  }}
+                >
+                  <Switch 
+                    checked={isNegotiable === 'no'} 
+                    sx={{
+                      transform: "scale(1.2)", 
+                      ml: 1,
+                      '& .MuiSwitch-switchBase.Mui-checked': { color: '#d32f2f' },
+                      '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#d32f2f' },
+                    }}
+                    size="medium"
+                  />
+                  <Typography sx={{ 
+                    fontFamily: TAJAWAL, 
+                    fontWeight: 800, 
+                    fontSize: "1.6rem", 
+                    color: isNegotiable === 'no' ? '#d32f2f' : '#64748B', 
+                  }}>
+                    لا
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
+          </Box>
+         
           </Box>
 
           <Box sx={{ mb: 6, position: "relative" }}>
