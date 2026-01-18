@@ -730,7 +730,7 @@ ${notes || "لا يوجد"}
             <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR }}>
               <LocalOfferIcon />
               <Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>
-                قابلية التفاوض
+                طريقة الدفع
               </Typography>
             </Box>
 
