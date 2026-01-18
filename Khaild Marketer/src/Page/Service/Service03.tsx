@@ -471,6 +471,7 @@ ${channels.call ? "- اتصال هاتفي\n" : ""}${channels.whatsapp ? "- وا
             <StyledTextField multiline minRows={4} fullWidth value={notes} onChange={(e) => setNotes(e.target.value)} />
           </GlassCard>
         </Box>
+        
 
         {/* CONTACT CHANNELS */}
         <Box sx={{ mt: 6 }}>

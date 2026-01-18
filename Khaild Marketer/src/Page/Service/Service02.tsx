@@ -15,7 +15,8 @@ import {
   styled,
   IconButton,
   CircularProgress,
-  LinearProgress
+  LinearProgress,
+  Switch
 } from "@mui/material";
 import { Send, CloudUpload, X, FileText, Video } from "lucide-react";
 
@@ -51,7 +52,6 @@ const COLOR_PRIMARY_CYAN = "#06f9f3";
 const COLOR_DEEP_BLUE = "#023B4E";
 const LABEL_COLOR = "#023B4E";
 
-// VITE ENVIRONMENT VARIABLE
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 /* ---------------- ANIMATIONS ---------------- */
@@ -142,7 +142,6 @@ const SubmitButton = styled(Button)({
   },
 });
 
-/* ---------------- DROPDOWN CONFIG ---------------- */
 const DROPDOWN_FIELDS = [
   {
     label: "نوع العقار",
@@ -151,13 +150,11 @@ const DROPDOWN_FIELDS = [
   },
 ];
 
-/* ---------------- COMPONENT ---------------- */
 const Service02: React.FC<Props> = ({ onSubmit }) => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
-  // --- STATE MANAGEMENT ---
   const [dropdownValues, setDropdownValues] = React.useState<Record<number, string>>({});
   const [notes, setNotes] = React.useState("");
   const [search] = React.useState("");
@@ -185,20 +182,22 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
   const [isChecked1, setIsChecked1] = React.useState(false);
   const [isChecked2, setIsChecked2] = React.useState(false);
   const [checkboxValues, setCheckboxValues] = React.useState<boolean[]>([false, false]);
-
   const [isNegotiable, setIsNegotiable] = useState<'yes' | 'no' | null>(null); 
-  
-  // File State
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
-  // --- POPUP ALERT STATES ---
   const [openPopup, setOpenPopup] = React.useState(false);
   const [alertSeverity, setAlertSeverity] = React.useState<"success" | "error">("success");
   const [alertMessage, setAlertMessage] = React.useState("");
 
+  // FIX: Fixed null error by using empty string ""
   const handleAgeCheckboxChange = (value: string) => {
-    setPropertyAgeSelection(value);
-    if (value !== "custom") {
+    if (propertyAgeSelection === value || value === "") {
+      setPropertyAgeSelection("");
+    } else {
+      setPropertyAgeSelection(value);
+    }
+
+    if (value === "new") {
       setCustomAgeInput("");
     }
   };
@@ -318,7 +317,6 @@ ${notes || "لا يوجد"}
         const message = buildWhatsAppMessage();
         window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, "_blank");
 
-        // --- CLEAR ALL DATA AFTER SAVE ---
         setDropdownValues({});
         setNotes("");
         setChannels({ chat: true, whatsapp: true, call: false });
@@ -358,6 +356,7 @@ ${notes || "لا يوجد"}
     }
   };
 
+
   return (
     <Box
       sx={{ 
@@ -376,49 +375,17 @@ ${notes || "لا يوجد"}
       </Snackbar>
 
       <Container maxWidth="md" sx={{ mt: { xs: 4, md: 8 }, mb: { xs: 6, md: 12 }, direction: "rtl", fontFamily: TAJAWAL }}>
-        <Box 
-          sx={{ 
-            textAlign: "center", 
-            mb: 8, 
-            animation: `${float} 4s ease-in-out infinite`,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center'
-          }}
-        >
-          <Typography 
-            variant="h1"
-            sx={{ 
-              fontWeight: 900, 
-              fontSize: { xs: "2.5rem", md: "4rem" }, 
-              color: COLOR_PRIMARY_CYAN, 
-              fontFamily: TAJAWAL,
-              textShadow: "0 10px 20px rgba(0,0,0,0.3)",
-              display: 'flex',
-              alignItems: 'center',
-              gap: 1
-            }}
-          >
+        <Box sx={{ textAlign: "center", mb: 8, animation: `${float} 4s ease-in-out infinite`, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <Typography variant="h1" sx={{ fontWeight: 900, fontSize: { xs: "2.5rem", md: "4rem" }, color: COLOR_PRIMARY_CYAN, fontFamily: TAJAWAL, textShadow: "0 10px 20px rgba(0,0,0,0.3)", display: 'flex', alignItems: 'center', gap: 1 }}>
             بيع العقار <Sparkles size={32} style={{ color: COLOR_PRIMARY_CYAN }} />
           </Typography>
-
-          <Typography 
-            sx={{ 
-              color: "#fff", 
-              opacity: 0.9, 
-              fontSize: "1.2rem", 
-              mt: 2, 
-              fontFamily: TAJAWAL,
-              maxWidth: "600px" 
-            }}
-          >
+          <Typography sx={{ color: "#fff", opacity: 0.9, fontSize: "1.2rem", mt: 2, fontFamily: TAJAWAL, maxWidth: "600px" }}>
             نحول رؤيتك إلى واقع ملموس بدقة واحترافية
           </Typography>
         </Box>
 
         <GlassCard sx={{ p: { xs: 2, md: 4 } }}>
           
-          {/* STATUS SELECTION CARDS - OLD DESIGN RESTORED */}
           <Box sx={{ display: "flex", flexDirection: "row", gap: { xs: 2, sm: 3 }, mb: 4, overflowX: "visible", p: 2, perspective: "1000px" }}>
             <Box sx={{ flex: 1, minWidth: { xs: 120, sm: "auto" }, position: "relative", display: "flex", justifyContent: "center", alignItems: "center" }}>
               <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "28px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 6 }} />
@@ -434,7 +401,6 @@ ${notes || "لا يوجد"}
             </Box>
           </Box>
 
-          {/* DROPDOWN OPTIONS GRID - OLD DESIGN RESTORED */}
           <Box sx={{ display: "grid", gap: 3 }}>
             {DROPDOWN_FIELDS.map((field, i) => (
               <Box key={i} sx={{ position: "relative" }}>
@@ -454,7 +420,6 @@ ${notes || "لا يوجد"}
             ))}
           </Box>
 
-          {/* LOCATION FIELD - OLD DESIGN RESTORED */}
           <Box sx={{ display: "grid", gap: 3, mt: 3 }}>
             <Box sx={{ position: "relative" }}>
               <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
@@ -465,7 +430,6 @@ ${notes || "لا يوجد"}
               </Box>
             </Box>
 
-            {/* DEVELOPER FIELD - OLD DESIGN RESTORED */}
             <Box sx={{ position: "relative" }}>
               <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
               <Box sx={{ position: "relative", zIndex: 10, p: 2, borderRadius: 3, border: "1px solid #E2E8F0", background: "#E2E8F0" }}>
@@ -475,131 +439,211 @@ ${notes || "لا يوجد"}
               </Box>
             </Box>
 
-            {/* AREA, ROOMS, AND AGE SECTION - UPDATED DESIGN */}
             <Box sx={{ position: "relative", borderRadius: 4 }}>
-              <Box
-                sx={{
-                  position: "absolute",
-                  inset: "-2px",
-                  borderRadius: 4,
-                  background: "linear-gradient(135deg, #06f9f3, #00b3ff, #06f9f3)",
-                  filter: "blur(6px)",
-                  zIndex: 0,
-                }}
-              />
-              <Box
-                sx={{
-                  position: "relative",
-                  zIndex: 1,
-                  p: 3,
-                  borderRadius: 4,
-                  border: "1px solid #CBD5E1",
-                  backgroundColor: "#E2E8F0",
-                }}
-              >
+              <Box sx={{ position: "absolute", inset: "-2px", borderRadius: 4, background: "linear-gradient(135deg, #06f9f3, #00b3ff, #06f9f3)", filter: "blur(6px)", zIndex: 0 }} />
+              <Box sx={{ position: "relative", zIndex: 1, p: 3, borderRadius: 4, border: "1px solid #CBD5E1", backgroundColor: "#E2E8F0" }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1, color: LABEL_COLOR }}>
                   <StraightenIcon />
                   <Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>المساحة</Typography>
                 </Box>
                 <Typography sx={{ fontSize: "1rem", mb: 2, color: "#242629", fontFamily: TAJAWAL, fontWeight: "bold" }}>الرجاء كتابة المساحة</Typography>
                 
-                {/* Area input */}
                 <Box sx={{ mb: 3 }}>
-                  <StyledTextField
-                    type="text"
-                    fullWidth
-                    value={area}
-                    onChange={(e) => setArea(e.target.value)}
-                  />
+                  <StyledTextField fullWidth value={area} onChange={(e) => setArea(e.target.value)} />
                 </Box>
 
-                {/* Rooms Count */}
                 <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
                   <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 600 }}>عدد الغرف</Typography>
-                  <StyledTextField
-                    size="small"
-                    type="text"
-                    placeholder="عدد الغرف"
-                    value={rooms}
-                    onChange={(e) => setRooms(e.target.value)}
-                    sx={{ width: "40%" }}
-                  />              
+                  <StyledTextField size="small" placeholder="عدد الغرف" value={rooms} onChange={(e) => setRooms(e.target.value)} sx={{ width: "40%" }} />              
                 </Box>
 
                 <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
                   <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 600 }}>عدد دورات المياه</Typography>
-                  <StyledTextField
-                    size="small"
-                    type="text"
-                    placeholder="عدد دورات المياه"
-                    value={bathrooms}
-                    onChange={(e) => setBathrooms(e.target.value)}
-                    sx={{ width: "40%" }}
-                  />              
+                  <StyledTextField size="small" placeholder="عدد دورات المياه" value={bathrooms} onChange={(e) => setBathrooms(e.target.value)} sx={{ width: "40%" }} />              
                 </Box>
 
-                {/* Property Age with Checkboxes */}
+                {/* PROPERTY AGE SECTION - FIXED LOGIC START */}
                 <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 3 }}>
                   <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 600 }}>عمر العقار</Typography>
+
                   <FormControlLabel
-                    control={<Checkbox checked={propertyAgeSelection === "new"} onChange={() => handleAgeCheckboxChange("new")} />}
+                    control={
+                      <Checkbox 
+                        checked={propertyAgeSelection === "new"} 
+                        onChange={() => handleAgeCheckboxChange("new")} 
+                      />
+                    }
                     label={<Typography sx={{ fontFamily: TAJAWAL }}>جديد</Typography>}
                   />
+
                   <FormControlLabel
-                    control={<Checkbox checked={propertyAgeSelection === "custom"} onChange={() => handleAgeCheckboxChange("custom")} />}
+                    control={
+                      <Checkbox 
+                        checked={propertyAgeSelection === "custom"} 
+                        onChange={() => handleAgeCheckboxChange("custom")} 
+                      />
+                    }
                     label={<Typography sx={{ fontFamily: TAJAWAL }}>أكثر من سنة</Typography>}
                   />
-                  {propertyAgeSelection === "custom" && (
-                    <TextField
-                      size="small"
-                      value={customAgeInput}
-                      onChange={(e) => setCustomAgeInput(e.target.value)}
-                      sx={{ width: 120, backgroundColor: "white", borderRadius: "8px" }}
-                    />
-                  )}
+
+                  <TextField
+                    size="small"
+                    value={customAgeInput}
+                    placeholder="كم سنة؟"
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setCustomAgeInput(val);
+                      if (val.trim() !== "") {
+                        handleAgeCheckboxChange("custom");
+                      } else {
+                        handleAgeCheckboxChange(""); // Changed null to ""
+                      }
+                    }}
+                    sx={{ width: 120, backgroundColor: "white", borderRadius: "8px" }}
+                  />
                 </Box>
+                {/* PROPERTY AGE SECTION - FIXED LOGIC END */}
               </Box>
             </Box>
 
-            {/* BUDGET/PRICE FIELD - OLD DESIGN RESTORED */}
-            <Box sx={{ position: "relative" }}>
-              <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
-              <Box sx={{ position: "relative", zIndex: 10, p: 2, borderRadius: 3, border: "1px solid #E2E8F0", background: "#E2E8F0" }}>
-                <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR }}><AccountBalanceWalletIcon /><Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>سعر البيع</Typography></Box>
-                <Typography sx={{ fontSize: "1rem", mb: 3, color: "#242629ff", fontFamily: TAJAWAL, fontWeight: 'bold' }}>الرجاء اختيار أحد الطرق لتقييم سعر البيع</Typography>
-                <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 1.5 }}>
-                  <Checkbox checked={checkboxValues[0]} onChange={(e) => handleCheckboxChange(0, e.target.checked)} />
-                  <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL }}>حد</Typography>
-                  <StyledTextField size="small" value={priceLimit} onChange={(e) => setPriceLimit(e.target.value)} placeholder="اكتب سعر البيع" />
-                </Box>
-                <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                  <Checkbox checked={checkboxValues[1]} onChange={(e) => handleCheckboxChange(1, e.target.checked)} />
-                  <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL }}>على السوم</Typography>
-                  <StyledTextField size="small" value={priceOffer} onChange={(e) => setPriceOffer(e.target.value)} />
-                </Box>
-              </Box>
-            </Box>
-
-            {/* NEGOTIABLE FIELD - INTEGRATED WITH PAYLOAD */}
+          {/* BUDGET/PRICE FIELD - FIXED AUTO-SELECT LOGIC */}
             <Box sx={{ position: "relative" }}>
               <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
               <Box sx={{ position: "relative", zIndex: 10, p: 3, borderRadius: 3, border: "1px solid #E2E8F0", background: "#E2E8F0" }}>
-                <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR }}><HandshakeIcon /><Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>هل السعر قابل للتفاوض؟</Typography></Box>
-                <Box sx={{ display: "flex", gap: 2 }}>
-                  <Box onClick={() => setIsNegotiable('yes')} sx={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", p: 1.5, cursor: "pointer", borderRadius: "12px", border: "2px solid", borderColor: isNegotiable === 'yes' ? '#2e7d32' : '#cbd5e1', backgroundColor: isNegotiable === 'yes' ? '#f1f8e9' : '#fff', transition: "0.2s" }}>
-                    <Checkbox checked={isNegotiable === 'yes'} sx={{ color: '#2e7d32', '&.Mui-checked': { color: '#2e7d32' } }} />
-                    <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 600, color: isNegotiable === 'yes' ? '#2e7d32' : '#64748B' }}>نعم</Typography>
+                
+                <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR }}>
+                  <AccountBalanceWalletIcon />
+                  <Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>سعر البيع</Typography>
+                </Box>
+                
+                <Typography sx={{ fontSize: "1rem", mb: 3, color: "#242629ff", fontFamily: TAJAWAL, fontWeight: 'bold' }}>
+                  الرجاء اختيار أحد الطرق لتقييم سعر البيع
+                </Typography>
+
+                {/* Price Limit Input */}
+                <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
+                  <Checkbox 
+                    checked={checkboxValues[0]} 
+                    onChange={(e) => handleCheckboxChange(0, e.target.checked)} 
+                  />
+                  <Typography sx={{ minWidth: 100, fontFamily: TAJAWAL }}>حد</Typography>
+                  <StyledTextField 
+                    size="small" 
+                    placeholder="اكتب سعر البيع"
+                    value={priceLimit} 
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setPriceLimit(val);
+                      // Auto select if typing, unselect if empty
+                      handleCheckboxChange(0, val.trim() !== "");
+                    }} 
+                  />
+                </Box>
+
+                {/* Price Offer Input */}
+                <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 4 }}>
+                  <Checkbox 
+                    checked={checkboxValues[1]} 
+                    onChange={(e) => handleCheckboxChange(1, e.target.checked)} 
+                  />
+                  <Typography sx={{ minWidth: 100, fontFamily: TAJAWAL }}>على السوم</Typography>
+                  <StyledTextField 
+                    size="small" 
+                    placeholder="اكتب السعر المتوقع"
+                    value={priceOffer} 
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setPriceOffer(val);
+                      // Auto select if typing, unselect if empty
+                      handleCheckboxChange(1, val.trim() !== "");
+                    }} 
+                  />
+                </Box>
+
+                <Divider sx={{ mb: 3, borderColor: "rgba(0,0,0,0.1)" }} />
+
+                {/* NEGOTIABLE SECTION */}
+                <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR }}>
+                  <HandshakeIcon />
+                  <Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>هل السعر قابل للتفاوض؟</Typography>
+                </Box>
+                <Box 
+                  sx={{ 
+                    display: "flex", 
+                    gap: 8,          // Increased gap between 'Yes' and 'No'
+                    mt: 4,          // Added more space at the top
+                    mb: 4,          // Added more space at the bottom
+                    width: "100%", 
+                    justifyContent: "flex-start", // Aligns to the right in RTL
+                    px: 2           // Horizontal padding for alignment
+                  }}
+                >
+                  {/* YES Toggle Option */}
+                  <Box
+                    onClick={() => setIsNegotiable('yes')}
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      cursor: "pointer",
+                      transition: "0.2s",
+                      "&:hover": { opacity: 0.7 }
+                    }}
+                  >
+                    <Switch 
+                      checked={isNegotiable === 'yes'} 
+                      color="success" 
+                      size="medium"
+                      sx={{ 
+                        transform: "scale(1.2)", // Makes the switch physically larger
+                        ml: 1 // Space after the switch
+                      }}
+                    />
+                    <Typography sx={{ 
+                      fontFamily: TAJAWAL, 
+                      fontWeight: 800, 
+                      fontSize: "1.6rem", // Slightly larger text
+                      color: isNegotiable === 'yes' ? '#2e7d32' : '#64748B', 
+                    }}>
+                      نعم
+                    </Typography>
                   </Box>
-                  <Box onClick={() => setIsNegotiable('no')} sx={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", p: 1.5, cursor: "pointer", borderRadius: "12px", border: "2px solid", borderColor: isNegotiable === 'no' ? '#d32f2f' : '#cbd5e1', backgroundColor: isNegotiable === 'no' ? '#ffebee' : '#fff', transition: "0.2s" }}>
-                    <Checkbox checked={isNegotiable === 'no'} sx={{ color: '#d32f2f', '&.Mui-checked': { color: '#d32f2f' } }} />
-                    <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 600, color: isNegotiable === 'no' ? '#d32f2f' : '#64748B' }}>لا</Typography>
+
+                  {/* NO Toggle Option */}
+                  <Box
+                    onClick={() => setIsNegotiable('no')}
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      cursor: "pointer",
+                      transition: "0.2s",
+                      "&:hover": { opacity: 0.7 }
+                    }}
+                  >
+                    <Switch 
+                      checked={isNegotiable === 'no'} 
+                      sx={{
+                        transform: "scale(1.2)", // Makes the switch physically larger
+                        ml: 1,
+                        '& .MuiSwitch-switchBase.Mui-checked': { color: '#d32f2f' },
+                        '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#d32f2f' },
+                      }}
+                      size="medium"
+                    />
+                    <Typography sx={{ 
+                      fontFamily: TAJAWAL, 
+                      fontWeight: 800, 
+                      fontSize: "1.6rem", 
+                      color: isNegotiable === 'no' ? '#d32f2f' : '#64748B', 
+                    }}>
+                      لا
+                    </Typography>
                   </Box>
                 </Box>
+                
               </Box>
             </Box>
           </Box>
 
-          {/* ADDITIONAL NOTES FIELD - OLD DESIGN RESTORED */}
           <Box sx={{ mt: 5, position: "relative" }}>
             <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
             <Box sx={{ position: "relative", zIndex: 10, border: "1px solid #E2E8F0", background: "#E2E8F0", borderRadius: 3, p: 3 }}>
@@ -609,7 +653,6 @@ ${notes || "لا يوجد"}
             </Box>
           </Box>
 
-          {/* FILE & VIDEO UPLOAD SECTION - NEON PROGRESS RESTORED */}
           <Box sx={{ mt: 4, mb: 4, position: "relative" }}>
             <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
             <Box sx={{ position: "relative", zIndex: 10, p: 3, borderRadius: 3, background: "#E2E8F0", border: "1px solid #E2E8F0" }}>
@@ -623,26 +666,13 @@ ${notes || "لا يوجد"}
                 </UploadBox>
               </label>
 
-              {/* UPLOAD PROGRESS BAR */}
               {loading && (
                 <Box sx={{ mt: 2, width: '100%' }}>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                     <Typography sx={{ color: COLOR_DEEP_BLUE, fontWeight: 'bold', fontSize: '0.8rem' }}>جاري التحميل...</Typography>
                     <Typography sx={{ color: COLOR_DEEP_BLUE, fontWeight: 'bold', fontSize: '0.8rem' }}>{uploadProgress}%</Typography>
                   </Box>
-                  <LinearProgress 
-                    variant="determinate" 
-                    value={uploadProgress} 
-                    sx={{ 
-                      height: 10, 
-                      borderRadius: 5, 
-                      backgroundColor: '#CBD5E1',
-                      '& .MuiLinearProgress-bar': {
-                        backgroundColor: COLOR_PRIMARY_CYAN,
-                        boxShadow: `0 0 10px ${COLOR_PRIMARY_CYAN}`
-                      }
-                    }} 
-                  />
+                  <LinearProgress variant="determinate" value={uploadProgress} sx={{ height: 10, borderRadius: 5, backgroundColor: '#CBD5E1', '& .MuiLinearProgress-bar': { backgroundColor: COLOR_PRIMARY_CYAN, boxShadow: `0 0 10px ${COLOR_PRIMARY_CYAN}` }}} />
                 </Box>
               )}
 
@@ -660,7 +690,6 @@ ${notes || "لا يوجد"}
             </Box>
           </Box>
 
-          {/* CONTACT CHANNELS SECTION - OLD DESIGN RESTORED */}
           <Box sx={{ mb: 6, position: "relative" }}>
             <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
             <Box sx={{ position: "relative", zIndex: 10, p: 3, borderRadius: 3, border: "1px solid #E2E8F0", background: "#E2E8F0" }}>
@@ -668,11 +697,7 @@ ${notes || "لا يوجد"}
               <Typography sx={{ fontSize: "1rem", mb: 3, color: "#242629ff", fontFamily: TAJAWAL, fontWeight: 'bold' }}>وسائل التواصل المتعددة تتيح الرد السريع من الفريق المختص</Typography>
               
               <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 1, mb: 2, width: "100%", flexWrap: "nowrap" }}>
-                <FormControlLabel 
-                  sx={{ mr: 0, flexShrink: 0 }} 
-                  control={<Checkbox size="small" checked={channels.call} onChange={(e) => setChannels({ ...channels, call: e.target.checked })} />} 
-                  label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: { xs: '12px', sm: '16px', md: '18px' }, whiteSpace: "nowrap" }}>الرجاء التواصل على الرقم</Typography>} 
-                />
+                <FormControlLabel sx={{ mr: 0, flexShrink: 0 }} control={<Checkbox size="small" checked={channels.call} onChange={(e) => setChannels({ ...channels, call: e.target.checked })} />} label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: { xs: '12px', sm: '16px', md: '18px' }, whiteSpace: "nowrap" }}>الرجاء التواصل على الرقم</Typography>} />
                 <Box sx={{ display: "flex", justifyContent: "flex-end", minWidth: 0, flexShrink: 1 }}>
                   <Typography sx={{ fontFamily: "TAJAWAL", fontWeight: 800, fontSize: { xs: "11px", sm: "16px", md: "20px" }, color: "#1D4ED8", backgroundColor: "#F8FAFC", px: { xs: 1, md: 3 }, py: 0.5, borderRadius: "999px", boxShadow: "0 4px 12px rgba(37,99,235,0.25)", cursor: "pointer", whiteSpace: "nowrap", border: "1px solid rgba(29, 78, 216, 0.1)" }}>
                     📞 +966 50 985 5666
@@ -698,13 +723,8 @@ ${notes || "لا يوجد"}
             </Box>
           </Box>
 
-          {/* SUBMIT BUTTON - OLD DESIGN RESTORED */}
           <Box sx={{ mt: 5, textAlign: "center" }}>
-            <SubmitButton 
-              onClick={handleSubmit} 
-              disabled={loading}
-              endIcon={loading ? <CircularProgress size={24} color="inherit" /> : <Send size={24} style={{ marginRight: '8px' }} />}
-            >
+            <SubmitButton onClick={handleSubmit} disabled={loading} endIcon={loading ? <CircularProgress size={24} color="inherit" /> : <Send size={24} style={{ marginRight: '8px' }} />}>
               {loading ? `جاري الحفظ ${uploadProgress}%` : "ارسال الطلب وحفظ البيانات"}
             </SubmitButton>
           </Box>
