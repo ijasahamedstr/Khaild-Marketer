@@ -1,34 +1,35 @@
 import Propertyrental from "../models/Propertyrental.models.js";
 
+
 export const createServiceRequest = async (req, res) => {
-  try {
-    const { 
-      dropdowns, notes, channels, name, mobile, 
-      location, developer, area, priceLimit, priceOffer, 
-      isChecked1, isChecked2 
-    } = req.body;
+    try {
+        // 1. Parse the stringified JSON from FormData
+        const textData = JSON.parse(req.body.data);
 
-    const developerStatus = isChecked1 ? "مؤجر" : isChecked2 ? "مستأجر" : "غير محدد";
+        // 2. Map the uploaded files from Multer
+        const mediaFiles = req.files ? req.files.map(file => ({
+            filename: file.filename,
+            path: file.path,
+            mimetype: file.mimetype
+        })) : [];
 
-    const newRequest = new Propertyrental({
-      propertyType: dropdowns[0],
-      status: developerStatus,
-      location,
-      developer,
-      area,
-      priceLimit,
-      priceOffer,
-      notes,
-      contactChannels: channels,
-      clientName: name,
-      clientMobile: mobile
-    });
+        // 3. Create the document
+        const newRequest = new Propertyrental({
+            ...textData,
+            media: mediaFiles
+        });
 
-    await newRequest.save();
-    res.status(201).json({ message: "Request saved successfully", data: newRequest });
-  } catch (error) {
-    res.status(500).json({ message: "Error saving request", error: error.message });
-  }
+        await newRequest.save();
+
+        res.status(201).json({ 
+            success: true, 
+            message: "Data saved successfully", 
+            data: newRequest 
+        });
+    } catch (error) {
+        console.error("Save Error:", error);
+        res.status(500).json({ success: false, error: error.message });
+    }
 };
 
 // 2. VIEW ALL: Get all rental requests
