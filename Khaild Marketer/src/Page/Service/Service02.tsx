@@ -1,17 +1,3 @@
-// src/Page/Service/Service01.tsx
-/**
- * Service01 Component
- * * This component provides a comprehensive form for real estate listing submissions.
- * It is specifically designed for users in the Saudi Arabian market, utilizing
- * the Tajawal font and right-to-left (RTL) layout.
- * * Tech Stack:
- * - React (Functional Components & Hooks)
- * - Material UI (MUI) for UI Components
- * - Axios for API Communication
- * - Lucide-React for Modern Iconography
- * - Framer Motion / CSS Keyframes for Animations
- */
-
 import React, { useEffect, useState } from "react";
 import axios from "axios"; 
 import {
@@ -908,12 +894,3 @@ ${notes || "لا يوجد"}
 };
 
 export default Service02;
-
-/**
- * Technical Specifications Summary:
- * * Layout: Responsive Container with Glassmorphism Card.
- * Theme: Deep Blue (#023B4E) and Cyan (#06f9f3) accents.
- * Interactions: Custom toggles, file preview list, and real-time upload progress.
- * Logic: Conditional field rendering and multi-channel communication selection.
- * Integration: Axios POST with multipart/form-data support.
- */

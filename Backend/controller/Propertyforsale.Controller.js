@@ -1,44 +1,70 @@
 import Propertyforsale from "../models/Propertyforsale.models.js";
 
 
+// export const savePropertyRequest = async (req, res) => {
+//   try {
+//     // Parse the JSON string from the FormData 'payload' field
+//     const data = JSON.parse(req.body.payload);
+
+//     // Map uploaded files from Multer
+//     const fileData = req.files ? req.files.map(file => ({
+//       fileName: file.originalname,
+//       path: file.path,
+//       mimetype: file.mimetype
+//     })) : [];
+
+//     const newRequest = new Propertyforsale({
+//       propertyStatus: data.propertyStatus,
+//       propertyType: data.propertyType,
+//       location: data.location,
+//       developer: data.developer,
+//       area: data.area,
+//       rooms: data.rooms,
+//       bathrooms: data.bathrooms,
+//       propertyAge: data.propertyAge,
+//       priceLimit: data.priceLimit,
+//       priceOffer: data.priceOffer,
+//       isNegotiable: data.isNegotiable,
+//       notes: data.notes,
+//       clientName: data.clientName,
+//       clientMobile: data.clientMobile,
+//       contactChannels: data.contactChannels,
+//       files: fileData
+//     });
+
+//     await newRequest.save();
+
+//     res.status(201).json({
+//       success: true,
+//       message: "تم حفظ البيانات بنجاح",
+//       data: newRequest
+//     });
+//   } catch (error) {
+//     console.error("Save Error:", error);
+//     res.status(500).json({ success: false, error: error.message });
+//   }
+// };
+
+
 export const savePropertyRequest = async (req, res) => {
   try {
-    // Parse the JSON string from the FormData 'payload' field
+    // Parsing the 'payload' string sent from React FormData
     const data = JSON.parse(req.body.payload);
-
-    // Map uploaded files from Multer
-    const fileData = req.files ? req.files.map(file => ({
+    
+    // Mapping the files saved by Multer
+    const fileEntries = req.files.map(file => ({
       fileName: file.originalname,
-      path: file.path,
-      mimetype: file.mimetype
-    })) : [];
+      filePath: file.path,
+      fileType: file.mimetype
+    }));
 
-    const newRequest = new Propertyforsale({
-      propertyStatus: data.propertyStatus,
-      propertyType: data.propertyType,
-      location: data.location,
-      developer: data.developer,
-      area: data.area,
-      rooms: data.rooms,
-      bathrooms: data.bathrooms,
-      propertyAge: data.propertyAge,
-      priceLimit: data.priceLimit,
-      priceOffer: data.priceOffer,
-      isNegotiable: data.isNegotiable,
-      notes: data.notes,
-      clientName: data.clientName,
-      clientMobile: data.clientMobile,
-      contactChannels: data.contactChannels,
-      files: fileData
+    const newProperty = new Propertyforsale({
+      ...data,
+      files: fileEntries
     });
 
-    await newRequest.save();
-
-    res.status(201).json({
-      success: true,
-      message: "تم حفظ البيانات بنجاح",
-      data: newRequest
-    });
+    await newProperty.save();
+    res.status(201).json({ success: true, message: "Request saved successfully!" });
   } catch (error) {
     console.error("Save Error:", error);
     res.status(500).json({ success: false, error: error.message });

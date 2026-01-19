@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const PropertyforsaleSchema = new mongoose.Schema({
-propertyStatus: String, // جاهز or على الخارطة
+propertyStatus: String,
   propertyType: String,
   location: String,
   developer: String,
@@ -12,21 +12,20 @@ propertyStatus: String, // جاهز or على الخارطة
   priceLimit: String,
   priceOffer: String,
   isNegotiable: String,
-  paymentMethod: String,
   notes: String,
-  clientName: String,
-  clientMobile: String,
   contactChannels: {
     chat: Boolean,
     whatsapp: Boolean,
     call: Boolean
   },
+  clientName: String,
+  clientMobile: String,
   files: [{
-    filename: String,
-    path: String,
-    mimetype: String
+    fileName: String,
+    filePath: String,
+    fileType: String
   }],
-  date: { type: Date, default: Date.now }
+  createdAt: { type: Date, default: Date.now }
 });
 
 const Propertyforsale = mongoose.model('Propertyforsale', PropertyforsaleSchema);
