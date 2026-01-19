@@ -350,27 +350,108 @@ ${notes || "لا يوجد"}
       <GlassCard sx={{ p: { xs: 2, md: 4 } }}>
         <Box sx={{ p: 0 }}>
             {/* STATUS SELECTOR - Added mb: 4 for space */}
-            <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
-                <GlowWrapper sx={{ flex: 1, cursor: "pointer" }} onClick={() => handleDeveloperCheckbox(0)}>
-                  <Box sx={{ textAlign: "center" }}>
-                    <FormControlLabel
-                      sx={{ margin: 0, pointerEvents: "none" }}
-                      control={<Checkbox checked={isChecked1} sx={{ "& .MuiSvgIcon-root": { fontSize: 35 } }} />}
-                      label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: "1.6rem", fontWeight: 800 }}>جاهز</Typography>}
-                    />
-                  </Box>
-                </GlowWrapper>
 
-                <GlowWrapper sx={{ flex: 1, cursor: "pointer" }} onClick={() => handleDeveloperCheckbox(1)}>
-                  <Box sx={{ textAlign: "center" }}>
-                    <FormControlLabel
-                      sx={{ margin: 0, pointerEvents: "none" }}
-                      control={<Checkbox checked={isChecked2} sx={{ "& .MuiSvgIcon-root": { fontSize: 35 } }} />}
-                      label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: "1.6rem", fontWeight: 800 }}>على الخارطة</Typography>}
+            <Box 
+            sx={{ 
+              display: 'flex', 
+              gap: { xs: 1, sm: 2 }, // Tight gap on mobile to save space
+              mb: 4,
+              flexDirection: 'row', // Force horizontal
+              flexWrap: 'nowrap',   // Strictly prevent jumping to next line
+              width: '100%'
+            }}
+          >
+            {/* Ready / جاهز Option */}
+            <GlowWrapper 
+              sx={{ 
+                flex: 1, 
+                cursor: "pointer",
+                minWidth: 0 // Prevents flex child from overflowing
+              }} 
+              onClick={() => handleDeveloperCheckbox(0)}
+            >
+              <Box sx={{ textAlign: "center", display: 'flex', justifyContent: 'center' }}>
+                <FormControlLabel
+                  sx={{ 
+                    margin: 0, 
+                    pointerEvents: "none",
+                    '& .MuiFormControlLabel-label': { width: '100%' }
+                  }}
+                  control={
+                    <Checkbox 
+                      checked={isChecked1} 
+                      sx={{ 
+                        p: { xs: 0.5, sm: 1 }, // Reduce padding around checkbox on mobile
+                        "& .MuiSvgIcon-root": { 
+                          fontSize: { xs: 24, sm: 30, md: 35 } 
+                        } 
+                      }} 
                     />
-                  </Box>
-                </GlowWrapper>
-            </Box>
+                  }
+                  label={
+                    <Typography 
+                      sx={{ 
+                        fontFamily: TAJAWAL, 
+                        fontSize: { xs: "0.9rem", sm: "1.2rem", md: "1.6rem" }, 
+                        fontWeight: 800,
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis'
+                      }}
+                    >
+                      جاهز
+                    </Typography>
+                  }
+                />
+              </Box>
+            </GlowWrapper>
+
+            {/* Off-plan / على الخارطة Option */}
+            <GlowWrapper 
+              sx={{ 
+                flex: 1, 
+                cursor: "pointer",
+                minWidth: 0 
+              }} 
+              onClick={() => handleDeveloperCheckbox(1)}
+            >
+              <Box sx={{ textAlign: "center", display: 'flex', justifyContent: 'center' }}>
+                <FormControlLabel
+                  sx={{ 
+                    margin: 0, 
+                    pointerEvents: "none",
+                    '& .MuiFormControlLabel-label': { width: '100%' }
+                  }}
+                  control={
+                    <Checkbox 
+                      checked={isChecked2} 
+                      sx={{ 
+                        p: { xs: 0.5, sm: 1 },
+                        "& .MuiSvgIcon-root": { 
+                          fontSize: { xs: 24, sm: 30, md: 35 } 
+                        } 
+                      }} 
+                    />
+                  }
+                  label={
+                    <Typography 
+                      sx={{ 
+                        fontFamily: TAJAWAL, 
+                        fontSize: { xs: "0.9rem", sm: "1.2rem", md: "1.6rem" }, 
+                        fontWeight: 800,
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis'
+                      }}
+                    >
+                      على الخارطة
+                    </Typography>
+                  }
+                />
+              </Box>
+            </GlowWrapper>
+          </Box>
+
 
             {/* ---------------- DROPDOWNS - Added mb: 4 ---------------- */}
               {DROPDOWN_FIELDS.map((field, i) => (
@@ -412,12 +493,29 @@ ${notes || "لا يوجد"}
                 <Typography sx={{ fontSize: "1.1rem", mb: 3, color: "#475569", fontFamily: TAJAWAL, fontWeight: 700 }}>
                   الرجاء كتابة موقع العقار المراد شرائه بالتفصيل
                 </Typography>
-                <StyledTextField
-                  fullWidth
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                  placeholder="اكتب الموقع هنا..."
-                />
+               <StyledTextField
+                fullWidth
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                placeholder="اكتب الموقع هنا..."
+                sx={{
+                  // Targets the input text
+                  "& .MuiInputBase-input": {
+                    fontFamily: TAJAWAL,
+                    fontWeight: 300, // Light weight
+                    fontSize: { xs: "0.95rem", md: "1.1rem" },
+                    padding: { xs: "10px 14px", md: "12px 16px" }, // Optimized padding for touch
+                  },
+                  // Targets the placeholder
+                  "& .MuiInputBase-input::placeholder": {
+                    fontWeight: 300,
+                    opacity: 0.7,
+                    fontSize: { xs: "0.9rem", md: "1rem" },
+                  },
+                  // Responsive margin bottom if needed
+                  mb: 2,
+                }}
+              />
               </GlowWrapper>
 
               {/* ---------------- AREA & DETAILS - Added mb: 4 ---------------- */}
@@ -434,12 +532,53 @@ ${notes || "لا يوجد"}
 
                 <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
                   <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 600 }}>عدد الغرف</Typography>
-                  <StyledTextField size="small" placeholder="عدد الغرف" value={rooms} onChange={(e) => setRooms(e.target.value)} sx={{ width: "40%" }} />              
+                  <StyledTextField
+                    size="small"
+                    placeholder="عدد الغرف"
+                    value={rooms}
+                    onChange={(e) => setRooms(e.target.value)}
+                    sx={{ 
+                      // Responsive width: 48% on mobile to fit two per line, 40% on desktop
+                      width: { xs: "48%", sm: "40%" }, 
+                      "& .MuiInputBase-input": {
+                        fontFamily: TAJAWAL,
+                        fontWeight: 300, // Light weight
+                        fontSize: { xs: "0.85rem", md: "0.95rem" },
+                      },
+                      "& .MuiInputBase-input::placeholder": {
+                        fontWeight: 300,
+                        fontSize: { xs: "0.8rem", md: "0.9rem" },
+                      }
+                    }}
+                  />             
                 </Box>
 
                 <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
                   <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 600 }}>عدد دورات المياه</Typography>
-                  <StyledTextField size="small" placeholder="عدد دورات المياه" value={bathrooms} onChange={(e) => setBathrooms(e.target.value)} sx={{ width: "40%" }} />              
+                  <StyledTextField
+                    size="small"
+                    placeholder="عدد دورات المياه"
+                    value={bathrooms}
+                    onChange={(e) => setBathrooms(e.target.value)}
+                    sx={{ 
+                      // Responsive width: wider on mobile, 40% on desktop
+                      width: { xs: "100%", sm: "40%" }, 
+                      "& .MuiInputBase-input": {
+                        fontFamily: TAJAWAL,
+                        fontWeight: 300, // Light weight
+                        fontSize: { xs: "0.85rem", md: "0.95rem" }, // Slightly smaller for "small" variant
+                      },
+                      "& .MuiInputBase-input::placeholder": {
+                        fontWeight: 300,
+                        fontSize: { xs: "0.8rem", md: "0.9rem" },
+                        opacity: 0.8
+                      },
+                      // Ensure the height looks balanced with the light font
+                      "& .MuiOutlinedInput-root": {
+                        borderRadius: "8px",
+                      }
+                    }}
+                  />             
                 </Box>
 
                 <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 3 }}>
@@ -478,14 +617,33 @@ ${notes || "لا يوجد"}
                 <Typography sx={{ mt: 0.5, mb: 2, fontSize: "1.1rem", color: "#475569", fontFamily: TAJAWAL, fontWeight: 700 }}>
                   اذكر أي ملاحظات أو متطلبات خاصة تساعدنا في خدمتك بشكل أفضل
                 </Typography>
-                <StyledTextField
-                  multiline
-                  minRows={4}
-                  fullWidth
-                  placeholder="اكتب ملاحظاتك هنا..."
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                />
+                  <StyledTextField
+                    multiline
+                    minRows={4}
+                    fullWidth
+                    placeholder="اكتب ملاحظاتك هنا..."
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                    sx={{
+                      // Targets the actual text inside the field
+                      "& .MuiInputBase-input": {
+                        fontFamily: TAJAWAL,
+                        fontWeight: 300, // Light weight
+                        fontSize: { xs: "0.95rem", md: "1.1rem" }, // Smaller on mobile
+                        lineHeight: 1.6,
+                      },
+                      // Targets the placeholder specifically to ensure it's also light
+                      "& .MuiInputBase-input::placeholder": {
+                        fontWeight: 300,
+                        opacity: 0.7,
+                      },
+                      // Optional: Adds a bit of padding for better mobile touch experience
+                      "& .MuiOutlinedInput-root": {
+                        px: { xs: 1.5, md: 2 },
+                        py: { xs: 1.5, md: 2 },
+                      }
+                    }}
+                  />
               </GlowWrapper>
 
               {/* ---------------- BUDGET - Added mb: 4 ---------------- */}
@@ -513,20 +671,71 @@ ${notes || "لا يوجد"}
 
               {/* ---------------- PAYMENT METHOD - Added mb: 4 ---------------- */}
               <GlowWrapper sx={{ mb: 4 }}>
+                {/* Header Section */}
                 <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR }}>
                   <LocalOfferIcon />
-                  <Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>
+                  <Typography 
+                    sx={{ 
+                      fontWeight: 700, 
+                      // Responsive Font Size: 1.1rem on mobile, 1.3rem on desktop
+                      fontSize: { xs: "1.1rem", md: "1.3rem" }, 
+                      fontFamily: TAJAWAL 
+                    }}
+                  >
                     طريقة الدفع
                   </Typography>
                 </Box>
-                <Box sx={{ display: "flex", gap: 8, mt: 4, mb: 2, justifyContent: "flex-start", px: 2 }}>
+
+                {/* Selection Section */}
+                <Box 
+                  sx={{ 
+                    display: "flex", 
+                    // Reduce gap on mobile (2) vs desktop (8)
+                    gap: { xs: 4, sm: 8 }, 
+                    mt: 4, 
+                    mb: 2, 
+                    justifyContent: "flex-start", 
+                    px: 2 
+                  }}
+                >
+                  {/* Cash Option */}
                   <Box onClick={() => setisPaymentmethod('yes')} sx={{ display: "flex", alignItems: "center", cursor: "pointer" }}>
-                    <Checkbox checked={isPaymentmethod === "yes"} color="success" sx={{ transform: "scale(1.4)", ml: 1 }} />
-                    <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 800, fontSize: "1.6rem", color: isPaymentmethod === "yes" ? "#2e7d32" : "#64748B" }}>نقدا</Typography>
+                    <Checkbox 
+                      checked={isPaymentmethod === "yes"} 
+                      color="success" 
+                      // Slightly smaller scale for mobile
+                      sx={{ transform: { xs: "scale(1.1)", md: "scale(1.4)" }, ml: 1 }} 
+                    />
+                    <Typography 
+                      sx={{ 
+                        fontFamily: TAJAWAL, 
+                        fontWeight: 800, 
+                        // Responsive Font Size: 1.2rem on mobile, 1.6rem on desktop
+                        fontSize: { xs: "1.2rem", md: "1.6rem" }, 
+                        color: isPaymentmethod === "yes" ? "#2e7d32" : "#64748B" 
+                      }}
+                    >
+                      نقدا
+                    </Typography>
                   </Box>
+
+                  {/* Finance Option */}
                   <Box onClick={() => setisPaymentmethod('no')} sx={{ display: "flex", alignItems: "center", cursor: "pointer" }}>
-                    <Checkbox checked={isPaymentmethod === "no"} color="success" sx={{ transform: "scale(1.4)", ml: 1 }} />
-                    <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 800, fontSize: "1.6rem", color: isPaymentmethod === "no" ? "#2e7d32" : "#64748B" }}>تمويل</Typography>
+                    <Checkbox 
+                      checked={isPaymentmethod === "no"} 
+                      color="success" 
+                      sx={{ transform: { xs: "scale(1.1)", md: "scale(1.4)" }, ml: 1 }} 
+                    />
+                    <Typography 
+                      sx={{ 
+                        fontFamily: TAJAWAL, 
+                        fontWeight: 800, 
+                        fontSize: { xs: "1.2rem", md: "1.6rem" }, 
+                        color: isPaymentmethod === "no" ? "#2e7d32" : "#64748B" 
+                      }}
+                    >
+                      تمويل
+                    </Typography>
                   </Box>
                 </Box>
               </GlowWrapper>

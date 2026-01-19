@@ -595,12 +595,67 @@ ${notes || "لا يوجد"}
 
                 <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
                   <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 600 }}>عدد الغرف</Typography>
-                  <StyledTextField size="small" placeholder="عدد الغرف" value={rooms} onChange={(e) => setRooms(e.target.value)} sx={{ width: "40%" }} />              
+                 <StyledTextField
+                  size="small"
+                  placeholder="عدد الغرف"
+                  value={rooms}
+                  onChange={(e) => setRooms(e.target.value)}
+                  sx={{ 
+                    // Responsive width: wider on small screens to prevent placeholder clipping
+                    width: { xs: "100%", sm: "40%" }, 
+                    mb: 2,
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                      backgroundColor: "#fff",
+                    },
+                    "& .MuiInputBase-input": {
+                      fontFamily: TAJAWAL,
+                      fontWeight: 300, // Light weight for entered text
+                      fontSize: { xs: "0.9rem", md: "1rem" },
+                      color: "#1e293b",
+                    },
+                    // The specific "Placeholder" styling
+                    "& .MuiInputBase-input::placeholder": {
+                      fontFamily: TAJAWAL,
+                      fontWeight: 300, // Light weight for placeholder
+                      fontSize: { xs: "0.85rem", md: "0.95rem" }, // Slightly smaller on mobile
+                      opacity: 0.6,    // Makes the light font look elegant
+                      color: "#64748B",
+                    }
+                  }}
+                />            
                 </Box>
 
                 <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
                   <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 600 }}>عدد دورات المياه</Typography>
-                  <StyledTextField size="small" placeholder="عدد دورات المياه" value={bathrooms} onChange={(e) => setBathrooms(e.target.value)} sx={{ width: "40%" }} />              
+                  <StyledTextField
+                    size="small"
+                    placeholder="عدد دورات المياه"
+                    value={bathrooms}
+                    onChange={(e) => setBathrooms(e.target.value)}
+                    // Added type="number" so mobile users get the number pad immediately
+                    type="number" 
+                    sx={{ 
+                      // Responsive: Full width on mobile so the long placeholder fits, 40% on desktop
+                      width: { xs: "100%", sm: "40%" }, 
+                      mb: 2,
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                      },
+                      "& .MuiInputBase-input": {
+                        fontFamily: TAJAWAL,
+                        fontWeight: 300, // Light weight for entered text
+                        fontSize: { xs: "0.9rem", md: "1rem" },
+                      },
+                      // The specific "Placeholder" styling for the Light look
+                      "& .MuiInputBase-input::placeholder": {
+                        fontFamily: TAJAWAL,
+                        fontWeight: 300, // Light weight for placeholder
+                        fontSize: { xs: "0.85rem", md: "0.95rem" }, 
+                        opacity: 0.7,
+                      }
+                    }}
+                  />             
                 </Box>
 
                 <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 3 }}>
@@ -652,7 +707,38 @@ ${notes || "لا يوجد"}
             <Box sx={{ position: "relative", zIndex: 10, border: "1px solid #E2E8F0", background: "#E2E8F0", borderRadius: 3, p: 3 }}>
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}><EditNoteIcon sx={{ color: LABEL_COLOR }} /><Typography sx={{ fontWeight: 800, fontSize: "1.6rem", color: LABEL_COLOR, fontFamily: TAJAWAL }}>تفاصيل إضافية</Typography></Box>
               <Typography sx={{ mt: 0.5, mb: 1.5, fontSize: "0.95rem", color: "#222324ff", fontFamily: TAJAWAL, fontWeight: 'bold' }}>اذكر أي ملاحظات أو متطلبات خاصة تساعدنا في خدمتك بشكل أفضل</Typography>
-              <StyledTextField multiline minRows={4} fullWidth placeholder="اكتب ملاحظاتك هنا..." value={notes} onChange={(e) => setNotes(e.target.value)} />
+              <StyledTextField
+                multiline
+                minRows={4}
+                fullWidth
+                placeholder="اكتب ملاحظاتك هنا..."
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                sx={{
+                  // تخصيص منطقة الإدخال
+                  "& .MuiInputBase-root": {
+                    borderRadius: "12px",
+                    backgroundColor: "#fff",
+                    p: { xs: 1.5, md: 2 }, // حواف داخلية أكبر قليلاً لسهولة اللمس على الجوال
+                  },
+                  // النص الذي يكتبه المستخدم
+                  "& .MuiInputBase-input": {
+                    fontFamily: TAJAWAL,
+                    fontWeight: 300, // الخط الخفيف المطلوب
+                    fontSize: { xs: "1rem", md: "1.1rem" },
+                    lineHeight: 1.6, // تباعد أسطر مريح للقراءة
+                    color: "#1e293b",
+                  },
+                  // النص المؤقت (Placeholder)
+                  "& .MuiInputBase-input::placeholder": {
+                    fontFamily: TAJAWAL,
+                    fontWeight: 300, // جعل الـ placeholder خفيفاً أيضاً
+                    fontSize: { xs: "0.95rem", md: "1.05rem" },
+                    opacity: 0.6,
+                    color: "#64748b",
+                  },
+                }}
+              />
             </Box>
           </Box>
 
@@ -713,7 +799,6 @@ ${notes || "لا يوجد"}
                 <Typography sx={{ minWidth: 100, fontFamily: TAJAWAL }}>حد</Typography>
                 <StyledTextField 
                   size="small" 
-                  placeholder="اكتب سعر البيع"
                   value={priceLimit} 
                   onChange={(e) => {
                     const val = e.target.value;
@@ -729,7 +814,6 @@ ${notes || "لا يوجد"}
                 <Typography sx={{ minWidth: 100, fontFamily: TAJAWAL }}>على السوم</Typography>
                 <StyledTextField 
                   size="small" 
-                  placeholder="اكتب السعر المتوقع"
                   value={priceOffer} 
                   onChange={(e) => {
                     const val = e.target.value;
