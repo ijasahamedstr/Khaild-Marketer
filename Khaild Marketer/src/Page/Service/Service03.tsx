@@ -161,7 +161,7 @@ const DROPDOWN_FIELDS = [
 ];
 
 /* ---------------- COMPONENT ---------------- */
-const Service03: React.FC<Props> = ({ onSubmit }) => {
+const Service03: React.FC<Props> = ({  }) => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
