@@ -538,7 +538,37 @@ ${notes || "لا يوجد"}
               <Box sx={{ position: "relative", zIndex: 10, p: 2, borderRadius: 3, border: "1px solid #E2E8F0", background: "#E2E8F0" }}>
                 <Box sx={{ display: "flex", gap: 1, mb: 0.5, color: LABEL_COLOR }}><HomeWorkIcon /><Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>الموقع</Typography></Box>
                 <Typography sx={{ fontSize: "1rem", mb: 3, color: "#242629ff", fontFamily: TAJAWAL, fontWeight: 'bold' }}>الرجاء كتابة موقع العقار المراد بيعه بالتفصيل</Typography>
-                <StyledTextField fullWidth multiline minRows={3} value={location} onChange={(e) => setLocation(e.target.value)} />
+<StyledTextField 
+  fullWidth 
+  multiline 
+  minRows={3} 
+  value={location} 
+  onChange={(e) => setLocation(e.target.value)} 
+  sx={{
+    "& .MuiInputBase-root": {
+      backgroundColor: "#E2E8F0", // Your requested background
+      borderRadius: "8px",
+    },
+    // 1. SETS THE BORDER COLOR TO BLACK
+    "& .MuiOutlinedInput-notchedOutline": {
+      borderColor: "#000000 !important", 
+      borderWidth: "1px",
+    },
+    // 2. KEEPS IT BLACK ON HOVER
+    "&:hover .MuiOutlinedInput-notchedOutline": {
+      borderColor: "#000000 !important",
+    },
+    // 3. KEEPS IT BLACK WHEN CLICKED (FOCUSED)
+    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      borderColor: "#000000 !important",
+      borderWidth: "1.5px", // Optional: slightly thicker for accessibility
+    },
+    "& .MuiInputBase-input": {
+      fontFamily: TAJAWAL,
+      color: "#000",
+    }
+  }}
+/>
               </Box>
             </Box>
           </Box>
