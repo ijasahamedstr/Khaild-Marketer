@@ -379,14 +379,6 @@ const Service03: React.FC<Props> = ({  }) => {
 <Box sx={{ mt: 5, position: "relative" }}>
   <NeonGlowLayer sx={{ borderRadius: "16px" }} />
   <Box sx={{ position: "relative", zIndex: 1, p: 3, borderRadius: 4, border: "1px solid #CBD5E1", backgroundColor: "#E2E8F0" }}>
-    
-    {/* SECTION HEADER */}
-    <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 3, color: LABEL_COLOR }}>
-      <StraightenIcon />
-      <Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>
-        المواصفات الفنية
-      </Typography>
-    </Box>
 
     {/* 1. AREA FIELD */}
     <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
@@ -565,10 +557,66 @@ const Service03: React.FC<Props> = ({  }) => {
             <Box sx={{ mt: 5, position: "relative" }}>
               <NeonGlowLayer />
               <GlassCard sx={{ p: 4 }}>
-                <Box sx={{ display: "flex", gap: 1, mb: 3, color: LABEL_COLOR, alignItems: 'center' }}><AccountBalanceWalletIcon /><Typography sx={{ fontWeight: 800, fontSize: "1.6rem", fontFamily: TAJAWAL }}>القيمة الإيجارية</Typography></Box>
-                <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}><Checkbox checked={checkboxValues[0]} onChange={(e) => handleCheckboxChange(0, e.target.checked)} /><Typography sx={{ minWidth: 100, fontFamily: TAJAWAL, fontSize: "1.4rem" }}>حد السعر</Typography><StyledTextField size="small" value={priceLimit} onChange={(e) => setPriceLimit(e.target.value)} sx={{ maxWidth: 250 }} /></Box>
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}><Checkbox checked={checkboxValues[1]} onChange={(e) => handleCheckboxChange(1, e.target.checked)} /><Typography sx={{ minWidth: 100, fontFamily: TAJAWAL, fontSize: "1.4rem" }}>على السوم</Typography><StyledTextField size="small" value={priceOffer} onChange={(e) => setPriceOffer(e.target.value)} sx={{ maxWidth: 250 }} /></Box>
+                {/* HEADER */}
+                <Box sx={{ display: "flex", gap: 1, mb: 4, color: LABEL_COLOR, alignItems: 'center' }}>
+                  <AccountBalanceWalletIcon sx={{ fontSize: "1.8rem" }} />
+                  <Typography sx={{ fontWeight: 800, fontSize: "1.6rem", fontFamily: TAJAWAL }}>
+                    القيمة الإيجارية
+                  </Typography>
+                </Box>
+
+                {/* ROW CONTAINER - Desktop: Row, Mobile: Column */}
+                <Box sx={{ 
+                  display: "flex", 
+                  flexDirection: { xs: "column", md: "row" }, 
+                  gap: 4, 
+                  alignItems: "center" 
+                }}>
+                  
+                  {/* 1. حد السعر */}
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 1, flex: 1, width: "100%" }}>
+                    <Box sx={{ display: "flex", alignItems: "center", minWidth: 110 }}>
+                      <Checkbox 
+                        checked={checkboxValues[0]} 
+                        onChange={(e) => handleCheckboxChange(0, e.target.checked)} 
+                      />
+                      <Typography sx={{ fontFamily: TAJAWAL, fontSize: "1.1rem", fontWeight: 600 }}>
+                         من
+                      </Typography>
+                    </Box>
+                    <StyledTextField 
+                      size="small" 
+                      value={priceLimit} 
+                      onChange={(e) => setPriceLimit(e.target.value)} 
+                      sx={{ 
+                        flex: 1,
+                        "& .MuiInputBase-root": { borderRadius: "8px", backgroundColor: "#fff" }
+                      }} 
+                    />
+                  </Box>
+
+                  {/* 2. على السوم */}
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 1, flex: 1, width: "100%" }}>
+                    <Box sx={{ display: "flex", alignItems: "center", minWidth: 110 }}>
+                      <Checkbox 
+                        checked={checkboxValues[1]} 
+                        onChange={(e) => handleCheckboxChange(1, e.target.checked)} 
+                      />
+                      <Typography sx={{ fontFamily: TAJAWAL, fontSize: "1.1rem", fontWeight: 600 }}>
+                         إلى
+                      </Typography>
+                    </Box>
+                    <StyledTextField 
+                      size="small" 
+                      value={priceOffer} 
+                      onChange={(e) => setPriceOffer(e.target.value)} 
+                      sx={{ 
+                        flex: 1,
+                        "& .MuiInputBase-root": { borderRadius: "8px", backgroundColor: "#fff" }
+                      }} 
+                    />
+                  </Box>
+
                 </Box>
               </GlassCard>
             </Box>
