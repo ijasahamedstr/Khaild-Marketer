@@ -30,6 +30,8 @@ import PhoneIcon from "@mui/icons-material/Phone";
 import HandshakeIcon from '@mui/icons-material/Handshake';
 import { keyframes } from "@mui/system";
 import { Sparkles } from "lucide-react";
+import HotelIcon from '@mui/icons-material/Hotel';          // For Rooms
+import BathtubIcon from '@mui/icons-material/Bathtub';      // For Bathrooms
 
 /* ---------------- TYPES & INTERFACES ---------------- */
 /**
@@ -256,22 +258,11 @@ const Service02: React.FC<Props> = ({ onSubmit }) => {
   const [alertMessage, setAlertMessage] = React.useState("");
 
   /* --- Event Handlers --- */
-
-  /**
-   * Handles the selection logic for property age.
-   * Ensures only one checkbox is active at a time.
-   */
-  const handleAgeCheckboxChange = (value: string) => {
-    if (propertyAgeSelection === value || value === "") {
-      setPropertyAgeSelection("");
-    } else {
-      setPropertyAgeSelection(value);
-    }
-
-    if (value === "new") {
-      setCustomAgeInput("");
-    }
+   const handleAgeCheckboxChange = (type: string) => {
+    setPropertyAgeSelection(type);
+    if (type !== "custom") setCustomAgeInput("");
   };
+
 
   /**
    * Manages file uploads, adding new selections to the state.
@@ -569,123 +560,96 @@ ${notes || "لا يوجد"}
             <Box sx={{ position: "relative", borderRadius: 4 }}>
               <Box sx={{ position: "absolute", inset: "-2px", borderRadius: 4, background: "linear-gradient(135deg, #06f9f3, #00b3ff, #06f9f3)", filter: "blur(6px)", zIndex: 0 }} />
               <Box sx={{ position: "relative", zIndex: 1, p: 3, borderRadius: 4, border: "1px solid #CBD5E1", backgroundColor: "#E2E8F0" }}>
-                <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1, color: LABEL_COLOR }}>
-                  <StraightenIcon />
-                  <Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>المساحة</Typography>
-                </Box>
-                <Typography sx={{ fontSize: "1rem", mb: 2, color: "#242629", fontFamily: TAJAWAL, fontWeight: "bold" }}>الرجاء كتابة المساحة</Typography>
                 
-                <Box sx={{ mb: 3 }}>
-                  <StyledTextField fullWidth value={area} onChange={(e) => setArea(e.target.value)} />
-                </Box>
-
+              {/* 1. AREA FIELD */}
                 <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
-                  <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 600 }}>عدد الغرف</Typography>
-                 <StyledTextField
-                  size="small"
-                  placeholder="عدد الغرف"
-                  value={rooms}
-                  onChange={(e) => setRooms(e.target.value)}
-                  sx={{ 
-                    // Responsive width: wider on small screens to prevent placeholder clipping
-                    width: { xs: "100%", sm: "40%" }, 
-                    mb: 2,
-                    "& .MuiInputBase-root": {
-                      borderRadius: "8px",
-                      backgroundColor: "#fff",
-                    },
-                    "& .MuiInputBase-input": {
-                      fontFamily: TAJAWAL,
-                      fontWeight: 300, // Light weight for entered text
-                      fontSize: { xs: "0.9rem", md: "1rem" },
-                      color: "#1e293b",
-                    },
-                    // The specific "Placeholder" styling
-                    "& .MuiInputBase-input::placeholder": {
-                      fontFamily: TAJAWAL,
-                      fontWeight: 300, // Light weight for placeholder
-                      fontSize: { xs: "0.85rem", md: "0.95rem" }, // Slightly smaller on mobile
-                      opacity: 0.6,    // Makes the light font look elegant
-                      color: "#64748B",
-                    }
-                  }}
-                />            
-                </Box>
-
-                <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
-                  <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 600 }}>عدد دورات المياه</Typography>
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 1, minWidth: 165 }}>
+                    <StraightenIcon sx={{ color: LABEL_COLOR, fontSize: "1.2rem" }} />
+                    <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 600, display: "flex", alignItems: "center", gap: "5px" }}>
+                      المساحة
+                      <Box component="span" sx={{ fontSize: "0.8rem", fontWeight: 400, color: "#475569" }}>(اختياري)</Box>
+                    </Typography>
+                  </Box>
                   <StyledTextField
                     size="small"
-                    placeholder="عدد دورات المياه"
-                    value={bathrooms}
-                    onChange={(e) => setBathrooms(e.target.value)}
-                    // Added type="number" so mobile users get the number pad immediately
-                    type="number" 
+                    placeholder="الرجاء كتابة المساحة"
+                    value={area}
+                    onChange={(e) => setArea(e.target.value)}
                     sx={{ 
-                      // Responsive: Full width on mobile so the long placeholder fits, 40% on desktop
-                      width: { xs: "100%", sm: "40%" }, 
-                      mb: 2,
-                      "& .MuiInputBase-root": {
-                        borderRadius: "8px",
-                      },
-                      "& .MuiInputBase-input": {
-                        fontFamily: TAJAWAL,
-                        fontWeight: 300, // Light weight for entered text
-                        fontSize: { xs: "0.9rem", md: "1rem" },
-                      },
-                      // The specific "Placeholder" styling for the Light look
-                      "& .MuiInputBase-input::placeholder": {
-                        fontFamily: TAJAWAL,
-                        fontWeight: 300, // Light weight for placeholder
-                        fontSize: { xs: "0.85rem", md: "0.95rem" }, 
-                        opacity: 0.7,
-                      }
+                      width: { xs: "100%", sm: "40%" },
+                      "& .MuiInputBase-root": { borderRadius: "8px", backgroundColor: "#fff" },
+                      "& .MuiInputBase-input": { fontFamily: TAJAWAL, fontWeight: 300, fontSize: { xs: "0.9rem", md: "1rem" } },
+                      "& .MuiInputBase-input::placeholder": { opacity: 0.6 }
                     }}
-                  />             
+                  />
                 </Box>
 
-                <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 3 }}>
-                  <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 600 }}>عمر العقار</Typography>
+                {/* 2. ROOMS FIELD */}
+                <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 1, minWidth: 165 }}>
+                    <HotelIcon sx={{ color: LABEL_COLOR, fontSize: "1.2rem" }} />
+                    <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 600 }}>عدد الغرف</Typography>
+                  </Box>
+                  <StyledTextField
+                    size="small"
+                    value={rooms}
+                    onChange={(e) => setRooms(e.target.value)}
+                    sx={{ 
+                      width: { xs: "100%", sm: "40%" },
+                      "& .MuiInputBase-root": { borderRadius: "8px", backgroundColor: "#fff" },
+                      "& .MuiInputBase-input": { fontFamily: TAJAWAL, fontWeight: 300, fontSize: { xs: "0.9rem", md: "1rem" } },
+                      "& .MuiInputBase-input::placeholder": { opacity: 0.6 }
+                    }}
+                  />
+                </Box>
 
+                {/* 3. BATHROOMS FIELD */}
+                <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 1, minWidth: 165 }}>
+                    <BathtubIcon sx={{ color: LABEL_COLOR, fontSize: "1.2rem" }} />
+                    <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 600 }}>عدد دورات المياه</Typography>
+                  </Box>
+                  <StyledTextField
+                    size="small"
+                    value={bathrooms}
+                    onChange={(e) => setBathrooms(e.target.value)}
+                    sx={{ 
+                      width: { xs: "100%", sm: "40%" },
+                      "& .MuiInputBase-root": { borderRadius: "8px", backgroundColor: "#fff" },
+                      "& .MuiInputBase-input": { fontFamily: TAJAWAL, fontWeight: 300, fontSize: { xs: "0.9rem", md: "1rem" } },
+                      "& .MuiInputBase-input::placeholder": { opacity: 0.6 }
+                    }}
+                  />
+                </Box>
+
+                {/* PROPERTY AGE SECTION */}
+                <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 3, mt: 1 }}>
+                  <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 600 }}>عمر العقار</Typography>
                   <FormControlLabel
-                    control={
-                      <Checkbox 
-                        checked={propertyAgeSelection === "new"} 
-                        onChange={() => handleAgeCheckboxChange("new")} 
-                      />
-                    }
+                    control={<Checkbox checked={propertyAgeSelection === "new"} onChange={() => handleAgeCheckboxChange("new")} />}
                     label={<Typography sx={{ fontFamily: TAJAWAL }}>جديد</Typography>}
                   />
-
                   <FormControlLabel
-                    control={
-                      <Checkbox 
-                        checked={propertyAgeSelection === "custom"} 
-                        onChange={() => handleAgeCheckboxChange("custom")} 
-                      />
-                    }
+                    control={<Checkbox checked={propertyAgeSelection === "custom"} onChange={() => handleAgeCheckboxChange("custom")} />}
                     label={<Typography sx={{ fontFamily: TAJAWAL }}>أكثر من سنة</Typography>}
                   />
-
                   <TextField
                     size="small"
                     value={customAgeInput}
-                    placeholder="كم سنة؟"
                     onChange={(e) => {
                       const val = e.target.value;
                       setCustomAgeInput(val);
-                      if (val.trim() !== "") {
-                        handleAgeCheckboxChange("custom");
-                      } else {
-                        handleAgeCheckboxChange(""); 
-                      }
+                      handleAgeCheckboxChange(val.trim() !== "" ? "custom" : "");
                     }}
-                    sx={{ width: 120, backgroundColor: "white", borderRadius: "8px" }}
+                    sx={{ width: 120, backgroundColor: "white", borderRadius: "8px", "& .MuiOutlinedInput-root": { borderRadius: "8px" } }}
                   />
                 </Box>
+
               </Box>
             </Box>
           </Box>
+
+   
 
           {/* Additional Notes */}
           <Box sx={{ mt: 5, position: "relative" }}>
@@ -782,7 +746,7 @@ ${notes || "لا يوجد"}
               {/* Price Option: Limit */}
               <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
                 <Checkbox checked={checkboxValues[0]} onChange={(e) => handleCheckboxChange(0, e.target.checked)} />
-                <Typography sx={{ minWidth: 100, fontFamily: TAJAWAL }}>حد</Typography>
+                <Typography sx={{ minWidth: 100, fontFamily: TAJAWAL }}>سعر محدد</Typography>
                 <StyledTextField 
                   size="small" 
                   value={priceLimit} 
