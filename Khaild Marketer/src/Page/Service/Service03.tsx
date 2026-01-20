@@ -569,19 +569,15 @@ const Service03: React.FC<Props> = ({  }) => {
                 <Box sx={{ 
                   display: "flex", 
                   flexDirection: { xs: "column", md: "row" }, 
-                  gap: 4, 
+                  gap: 2, // Space between the two groups (From and To)
                   alignItems: "center" 
                 }}>
                   
-                  {/* 1. حد السعر */}
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 1, flex: 1, width: "100%" }}>
-                    <Box sx={{ display: "flex", alignItems: "center", minWidth: 110 }}>
-                      {/* <Checkbox 
-                        checked={checkboxValues[0]} 
-                        onChange={(e) => handleCheckboxChange(0, e.target.checked)} 
-                      /> */}
+                  {/* 1. From (من) */}
+                  <Box sx={{ display: "flex", alignItems: "center", flex: 1, width: "100%" }}>
+                    <Box sx={{ display: "flex", alignItems: "center", minWidth: "40px" }}> {/* Reduced minWidth */}
                       <Typography sx={{ fontFamily: TAJAWAL, fontSize: "1.1rem", fontWeight: 600 }}>
-                         من
+                        من
                       </Typography>
                     </Box>
                     <StyledTextField 
@@ -595,15 +591,11 @@ const Service03: React.FC<Props> = ({  }) => {
                     />
                   </Box>
 
-                  {/* 2. على السوم */}
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 1, flex: 1, width: "100%" }}>
-                    <Box sx={{ display: "flex", alignItems: "center", minWidth: 110 }}>
-                      {/* <Checkbox 
-                        checked={checkboxValues[1]} 
-                        onChange={(e) => handleCheckboxChange(1, e.target.checked)} 
-                      /> */}
+                  {/* 2. To (إلى) */}
+                  <Box sx={{ display: "flex", alignItems: "center", flex: 1, width: "100%" }}>
+                    <Box sx={{ display: "flex", alignItems: "center", minWidth: "40px" }}> {/* Reduced minWidth */}
                       <Typography sx={{ fontFamily: TAJAWAL, fontSize: "1.1rem", fontWeight: 600 }}>
-                         إلى
+                        إلى
                       </Typography>
                     </Box>
                     <StyledTextField 
@@ -616,7 +608,6 @@ const Service03: React.FC<Props> = ({  }) => {
                       }} 
                     />
                   </Box>
-
                 </Box>
               </GlassCard>
             </Box>
