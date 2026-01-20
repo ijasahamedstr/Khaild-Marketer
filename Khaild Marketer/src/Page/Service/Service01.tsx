@@ -550,7 +550,7 @@ ${notes || "لا يوجد"}
                             color: "gray"
                           }}
                         >
-                          (المساحة)
+                          (اختياري)
                         </Box>
                       </Typography>
                     </Box>
