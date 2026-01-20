@@ -193,13 +193,9 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
   const [isChecked2, setIsChecked2] = useState(false);
 
   /* ---------------- HANDLERS ---------------- */
-  const handleAgeCheckboxChange = (value: string) => {
-    if (propertyAgeSelection === value || value === "") {
-      setPropertyAgeSelection("");
-    } else {
-      setPropertyAgeSelection(value);
-    }
-    if (value === "new") setCustomAgeInput("");
+  const handleAgeCheckboxChange = (type: string) => {
+    setPropertyAgeSelection(type);
+    if (type !== "custom") setCustomAgeInput("");
   };
 
   const handleDeveloperCheckbox = (index: number) => {
@@ -520,14 +516,61 @@ ${notes || "لا يوجد"}
 
               {/* ---------------- AREA & DETAILS - Added mb: 4 ---------------- */}
               <GlowWrapper sx={{ mb: 4 }}>
-                <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1, color: LABEL_COLOR }}>
-                  <StraightenIcon />
-                  <Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>المساحة</Typography>
+                <Box 
+                  sx={{ 
+                    display: "flex", 
+                    flexDirection: { xs: "column", md: "row" }, // Vertical on mobile, Horizontal on desktop
+                    alignItems: { xs: "flex-start", md: "center" }, 
+                    justifyContent: "space-between", // Pushes content to opposite sides if needed
+                    gap: 2, 
+                    mb: 3, 
+                    width: "100%" 
+                  }}
+                >
+                  {/* LABEL SECTION */}
+                  <Box sx={{ flexShrink: 0 }}>
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 0.5, color: LABEL_COLOR }}>
+                      <StraightenIcon />
+                      <Typography 
+                        sx={{ 
+                          fontWeight: 700, 
+                          fontSize: "1.2rem", 
+                          fontFamily: TAJAWAL,
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "10px"
+                        }}
+                      >
+                        المساحة
+                        <Box 
+                          component="span" 
+                          sx={{ 
+                            fontSize: "1rem", 
+                            fontWeight: 400,
+                            color: "gray"
+                          }}
+                        >
+                          (المساحة)
+                        </Box>
+                      </Typography>
+                    </Box>
+                    
+                    <Typography sx={{ fontSize: "1.1rem", mb: 3, color: "#475569", fontFamily: TAJAWAL, fontWeight: 700 }}>
+                      الرجاء كتابة المساحة
+                    </Typography>
+                  </Box>
+
+                  {/* TEXTBOX SECTION - 50% Width on Desktop */}
+
+                <Box sx={{ display: 'flex', justifyContent: 'flex-start', width: '100%' }}>
+                  <StyledTextField 
+                    value={area} 
+                    onChange={(e) => setArea(e.target.value)} 
+                    sx={{
+                      width: { xs: '100%', md: '30%' }
+                    }}
+                  />
                 </Box>
-                <Typography sx={{ fontSize: "1rem", mb: 2, color: "#242629", fontFamily: TAJAWAL, fontWeight: "bold" }}>الرجاء كتابة المساحة</Typography>
-                
-                <Box sx={{ mb: 3 }}>
-                  <StyledTextField fullWidth value={area} onChange={(e) => setArea(e.target.value)} />
                 </Box>
 
                 <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
@@ -594,7 +637,6 @@ ${notes || "لا يوجد"}
                   <TextField
                     size="small"
                     value={customAgeInput}
-                    placeholder="كم سنة؟"
                     onChange={(e) => {
                       const val = e.target.value;
                       setCustomAgeInput(val);
@@ -661,11 +703,42 @@ ${notes || "لا يوجد"}
                   value={priceLimit}
                   onChange={(e) => setPriceLimit(e.target.value)}
                 >
-                  <MenuItem value="أقل من 500,000" sx={{ fontFamily: TAJAWAL, display: "flex", justifyContent: "flex-end" }}>أقل من 500,000</MenuItem>
-                  <MenuItem value="500,000 إلى 1,000,000" sx={{ fontFamily: TAJAWAL, display: "flex", justifyContent: "flex-end" }}>500,000 إلى 1,000,000</MenuItem>
-                  <MenuItem value="1,000,000 إلى 1,500,000" sx={{ fontFamily: TAJAWAL, display: "flex", justifyContent: "flex-end" }}>1,000,000 إلى 1,500,000</MenuItem>
-                  <MenuItem value="1,500,000 إلى 2,000,000" sx={{ fontFamily: TAJAWAL, display: "flex", justifyContent: "flex-end" }}>1,500,000 إلى 2,000,000</MenuItem>
-                  <MenuItem value="2,000,000 فأكثر" sx={{ fontFamily: TAJAWAL, display: "flex", justifyContent: "flex-end" }}>2,000,000 فأكثر</MenuItem>
+              {/* Option 1: Less than 500,000 */}
+              <MenuItem value="أقل من 500,000" sx={{ fontFamily: TAJAWAL, display: "flex", justifyContent: "flex-end", width: "100%" }}>
+                <span style={{ marginRight: "1.5rem" }}>500,000</span>
+                <span style={{ marginRight: "0.5rem" }}>أقل من</span>
+              </MenuItem>
+
+              {/* Option 2: 500,000 to 1,000,000 */}
+              <MenuItem value="500,000 إلى 1,000,000" sx={{ fontFamily: TAJAWAL, display: "flex", justifyContent: "flex-end", width: "100%" }}>
+                <span style={{ marginRight: "1.5rem" }}>1,000,000</span>
+                <span style={{ marginRight: "1.5rem" }}>إلى</span>
+                <span style={{ marginRight: "1.5rem" }}>500,000</span>
+                <span style={{ marginRight: "0.5rem" }}>من</span>
+              </MenuItem>
+
+              {/* Option 3: 1,000,000 to 1,500,000 */}
+              <MenuItem value="1,000,000 إلى 1,500,000" sx={{ fontFamily: TAJAWAL, display: "flex", justifyContent: "flex-end", width: "100%" }}>
+                <span style={{ marginRight: "1.5rem" }}>1,500,000</span>
+                <span style={{ marginRight: "1.5rem" }}>إلى</span>
+                <span style={{ marginRight: "1.5rem" }}>1,000,000</span>
+                <span style={{ marginRight: "0.5rem" }}>من</span>
+              </MenuItem>
+
+              {/* Option 4: 1,500,000 to 2,000,000 */}
+              <MenuItem value="1,500,000 إلى 2,000,000" sx={{ fontFamily: TAJAWAL, display: "flex", justifyContent: "flex-end", width: "100%" }}>
+                <span style={{ marginRight: "1.5rem" }}>2,000,000</span>
+                <span style={{ marginRight: "1.5rem" }}>إلى</span>
+                <span style={{ marginRight: "1.5rem" }}>1,500,000</span>
+                <span style={{ marginRight: "0.5rem" }}>من</span>
+              </MenuItem>
+
+              {/* Option 5: More than 2,000,000 */}
+              <MenuItem value="2,000,000 فأكثر" sx={{ fontFamily: TAJAWAL, display: "flex", justifyContent: "flex-end", width: "100%" }}>
+                <span style={{ marginRight: "2.1rem" }}>فأكثر</span>
+                <span style={{ marginRight: "1.5rem" }}>2,000,000</span>
+                <span style={{ marginRight: "0.5rem" }}>من</span>
+              </MenuItem>
                 </StyledTextField>
               </GlowWrapper>
 

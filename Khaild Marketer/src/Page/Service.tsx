@@ -12,9 +12,6 @@ import { Link as RouterLink, useNavigate } from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
-
-
-
 /* ================= ANIMATIONS ================= */
 
 const floatUp = keyframes`
@@ -216,9 +213,6 @@ React.useEffect(() => {
 
   return () => clearInterval(interval);
 }, [isMobile, cardWidth]);
-
-
-
 
   /* ---------- MEASURE CARD WIDTH ---------- */
 
