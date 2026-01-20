@@ -188,7 +188,7 @@ const Service03: React.FC<Props> = ({  }) => {
 
   const [isChecked1, setIsChecked1] = useState(false);
   const [isChecked2, setIsChecked2] = useState(false);
-  const [checkboxValues, setCheckboxValues] = useState<boolean[]>([false, false]);
+  const [checkboxValues] = useState<boolean[]>([false, false]);
   const [priceLimit, setPriceLimit] = useState("");
   const [priceOffer, setPriceOffer] = useState("");
 
@@ -221,11 +221,11 @@ const Service03: React.FC<Props> = ({  }) => {
     setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const handleCheckboxChange = (index: number, value: boolean) => {
-    const updated = [...checkboxValues];
-    updated[index] = value;
-    setCheckboxValues(updated);
-  };
+  // const handleCheckboxChange = (index: number, value: boolean) => {
+  //   const updated = [...checkboxValues];
+  //   updated[index] = value;
+  //   setCheckboxValues(updated);
+  // };
 
   const handleDeveloperCheckbox = (index: number) => {
     if (index === 0) {
@@ -576,10 +576,10 @@ const Service03: React.FC<Props> = ({  }) => {
                   {/* 1. حد السعر */}
                   <Box sx={{ display: "flex", alignItems: "center", gap: 1, flex: 1, width: "100%" }}>
                     <Box sx={{ display: "flex", alignItems: "center", minWidth: 110 }}>
-                      <Checkbox 
+                      {/* <Checkbox 
                         checked={checkboxValues[0]} 
                         onChange={(e) => handleCheckboxChange(0, e.target.checked)} 
-                      />
+                      /> */}
                       <Typography sx={{ fontFamily: TAJAWAL, fontSize: "1.1rem", fontWeight: 600 }}>
                          من
                       </Typography>
@@ -598,10 +598,10 @@ const Service03: React.FC<Props> = ({  }) => {
                   {/* 2. على السوم */}
                   <Box sx={{ display: "flex", alignItems: "center", gap: 1, flex: 1, width: "100%" }}>
                     <Box sx={{ display: "flex", alignItems: "center", minWidth: 110 }}>
-                      <Checkbox 
+                      {/* <Checkbox 
                         checked={checkboxValues[1]} 
                         onChange={(e) => handleCheckboxChange(1, e.target.checked)} 
-                      />
+                      /> */}
                       <Typography sx={{ fontFamily: TAJAWAL, fontSize: "1.1rem", fontWeight: 600 }}>
                          إلى
                       </Typography>
