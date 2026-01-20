@@ -26,6 +26,8 @@ import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import PhoneIcon from "@mui/icons-material/Phone";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import { Send, Sparkles, CheckCircle } from "lucide-react";
+import HotelIcon from '@mui/icons-material/Hotel';          // For Rooms
+import BathtubIcon from '@mui/icons-material/Bathtub';      // For Bathrooms
 
 /* ---------------- TYPES ---------------- */
 type Props = {
@@ -516,114 +518,63 @@ ${notes || "لا يوجد"}
 
               {/* ---------------- AREA & DETAILS - Added mb: 4 ---------------- */}
               <GlowWrapper sx={{ mb: 4 }}>
-                <Box 
+              {/* 1. AREA FIELD */}
+              <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1, minWidth: 150 }}>
+                  <StraightenIcon sx={{ color: LABEL_COLOR, fontSize: "1.5rem" }} />
+                  <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 600, display: "flex", alignItems: "center", gap: "5px" }}>
+                    المساحة
+                    <Box component="span" sx={{ fontSize: "0.9rem", fontWeight: 400, color: "#475569" }}>(اختياري)</Box>
+                  </Typography>
+                </Box>
+                <StyledTextField
+                  size="small"
+                  placeholder="الرجاء كتابة المساحة"
+                  value={area}
+                  onChange={(e) => setArea(e.target.value)}
                   sx={{ 
-                    display: "flex", 
-                    flexDirection: { xs: "column", md: "row" }, // Vertical on mobile, Horizontal on desktop
-                    alignItems: { xs: "flex-start", md: "center" }, 
-                    justifyContent: "space-between", // Pushes content to opposite sides if needed
-                    gap: 2, 
-                    mb: 3, 
-                    width: "100%" 
+                    width: { xs: "100%", sm: "40%" },
+                    "& .MuiInputBase-input": { fontFamily: TAJAWAL, fontWeight: 300, fontSize: "0.95rem" },
+                    "& .MuiOutlinedInput-root": { borderRadius: "8px" }
                   }}
-                >
-                  {/* LABEL SECTION */}
-                  <Box sx={{ flexShrink: 0 }}>
-                    <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 0.5, color: LABEL_COLOR }}>
-                      <StraightenIcon />
-                      <Typography 
-                        sx={{ 
-                          fontWeight: 700, 
-                          fontSize: "1.2rem", 
-                          fontFamily: TAJAWAL,
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "10px"
-                        }}
-                      >
-                        المساحة
-                        <Box 
-                          component="span" 
-                          sx={{ 
-                            fontSize: "1rem", 
-                            fontWeight: 400,
-                            color: "gray"
-                          }}
-                        >
-                          (اختياري)
-                        </Box>
-                      </Typography>
-                    </Box>
-                    
-                    <Typography sx={{ fontSize: "1.1rem", mb: 3, color: "#475569", fontFamily: TAJAWAL, fontWeight: 700 }}>
-                      الرجاء كتابة المساحة
-                    </Typography>
-                  </Box>
+                />
+              </Box>
 
-                  {/* TEXTBOX SECTION - 50% Width on Desktop */}
-
-                <Box sx={{ display: 'flex', justifyContent: 'flex-start', width: '100%' }}>
-                  <StyledTextField 
-                    value={area} 
-                    onChange={(e) => setArea(e.target.value)} 
-                    sx={{
-                      width: { xs: '100%', md: '30%' }
-                    }}
-                  />
+              {/* 2. ROOMS FIELD */}
+              <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1, minWidth: 150 }}>
+                  <HotelIcon sx={{ color: LABEL_COLOR, fontSize: "1.5rem" }} /> 
+                  <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 600 }}> عدد الغرف</Typography>
                 </Box>
-                </Box>
+                <StyledTextField
+                  size="small"
+                  value={rooms}
+                  onChange={(e) => setRooms(e.target.value)}
+                  sx={{ 
+                    width: { xs: "100%", sm: "40%" },
+                    "& .MuiInputBase-input": { fontFamily: TAJAWAL, fontWeight: 300, fontSize: "0.95rem" },
+                    "& .MuiOutlinedInput-root": { borderRadius: "8px" }
+                  }}
+                />
+              </Box>
 
-                <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
-                  <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 600 }}>عدد الغرف</Typography>
-                  <StyledTextField
-                    size="small"
-                    placeholder="عدد الغرف"
-                    value={rooms}
-                    onChange={(e) => setRooms(e.target.value)}
-                    sx={{ 
-                      // Responsive width: 48% on mobile to fit two per line, 40% on desktop
-                      width: { xs: "48%", sm: "40%" }, 
-                      "& .MuiInputBase-input": {
-                        fontFamily: TAJAWAL,
-                        fontWeight: 300, // Light weight
-                        fontSize: { xs: "0.85rem", md: "0.95rem" },
-                      },
-                      "& .MuiInputBase-input::placeholder": {
-                        fontWeight: 300,
-                        fontSize: { xs: "0.8rem", md: "0.9rem" },
-                      }
-                    }}
-                  />             
+              {/* 3. BATHROOMS FIELD */}
+              <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1, minWidth: 150 }}>
+                  <BathtubIcon sx={{ color: LABEL_COLOR, fontSize: "1.5rem" }} />
+                  <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 600 }}>عدد دورات المياه</Typography>
                 </Box>
-
-                <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
-                  <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 600 }}>عدد دورات المياه</Typography>
-                  <StyledTextField
-                    size="small"
-                    placeholder="عدد دورات المياه"
-                    value={bathrooms}
-                    onChange={(e) => setBathrooms(e.target.value)}
-                    sx={{ 
-                      // Responsive width: wider on mobile, 40% on desktop
-                      width: { xs: "100%", sm: "40%" }, 
-                      "& .MuiInputBase-input": {
-                        fontFamily: TAJAWAL,
-                        fontWeight: 300, // Light weight
-                        fontSize: { xs: "0.85rem", md: "0.95rem" }, // Slightly smaller for "small" variant
-                      },
-                      "& .MuiInputBase-input::placeholder": {
-                        fontWeight: 300,
-                        fontSize: { xs: "0.8rem", md: "0.9rem" },
-                        opacity: 0.8
-                      },
-                      // Ensure the height looks balanced with the light font
-                      "& .MuiOutlinedInput-root": {
-                        borderRadius: "8px",
-                      }
-                    }}
-                  />             
-                </Box>
-
+                <StyledTextField
+                  size="small"
+                  value={bathrooms}
+                  onChange={(e) => setBathrooms(e.target.value)}
+                  sx={{ 
+                    width: { xs: "100%", sm: "40%" },
+                    "& .MuiInputBase-input": { fontFamily: TAJAWAL, fontWeight: 300, fontSize: "0.95rem" },
+                    "& .MuiOutlinedInput-root": { borderRadius: "8px" }
+                  }}
+                />
+              </Box>
                 <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 3 }}>
                   <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 600 }}>عمر العقار</Typography>
                   <FormControlLabel
@@ -712,7 +663,7 @@ ${notes || "لا يوجد"}
               {/* Option 2: 500,000 to 1,000,000 */}
               <MenuItem value="500,000 إلى 1,000,000" sx={{ fontFamily: TAJAWAL, display: "flex", justifyContent: "flex-end", width: "100%" }}>
                 <span style={{ marginRight: "1.5rem" }}>1,000,000</span>
-                <span style={{ marginRight: "1.5rem" }}>إلى</span>
+                <span style={{ marginRight: "2rem" }}>إلى</span>
                 <span style={{ marginRight: "1.5rem" }}>500,000</span>
                 <span style={{ marginRight: "0.5rem" }}>من</span>
               </MenuItem>
@@ -735,7 +686,7 @@ ${notes || "لا يوجد"}
 
               {/* Option 5: More than 2,000,000 */}
               <MenuItem value="2,000,000 فأكثر" sx={{ fontFamily: TAJAWAL, display: "flex", justifyContent: "flex-end", width: "100%" }}>
-                <span style={{ marginRight: "2.1rem" }}>فأكثر</span>
+                <span style={{ marginRight: "1.3rem" }}>فأكثر</span>
                 <span style={{ marginRight: "1.5rem" }}>2,000,000</span>
                 <span style={{ marginRight: "0.5rem" }}>من</span>
               </MenuItem>
