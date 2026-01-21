@@ -167,7 +167,7 @@ const DROPDOWN_FIELDS = [
 ];
 
 /* ---------------- COMPONENT ---------------- */
-const Service01: React.FC<Props> = ({ onSubmit }) => {
+const Service01: React.FC<Props> = ({  }) => {
   const [openSuccess, setOpenSuccess] = useState(false);
   
   useEffect(() => {
@@ -177,7 +177,7 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
   /* ---------------- STATES ---------------- */
   const [dropdownValues, setDropdownValues] = useState<Record<number, string>>({});
   const [notes, setNotes] = useState("");
-  const [search] = useState("");
+  const [] = useState("");
   const [channels, setChannels] = useState({
     chat: true,
     whatsapp: true,
@@ -195,7 +195,6 @@ const Service01: React.FC<Props> = ({ onSubmit }) => {
   const [customAgeInput, setCustomAgeInput] = useState("");
   const [priceLimit, setPriceLimit] = useState("");
   const [priceOffer, setPriceOffer] = useState("");
-  const [checkboxValues, setCheckboxValues] = useState([false, false]);
   const [isPaymentmethod, setisPaymentmethod] = useState<'yes' | 'no' | null>(null);
 
   const [isChecked1, setIsChecked1] = useState(false);
@@ -317,7 +316,7 @@ ${notes || "لا يوجد"}
       setCustomAgeInput("");
       setPriceLimit("");
       setPriceOffer("");
-      setCheckboxValues([false, false]);
+      // setCheckboxValues([false, false]);
       setisPaymentmethod(null);
       setIsChecked1(false);
       setIsChecked2(false);
