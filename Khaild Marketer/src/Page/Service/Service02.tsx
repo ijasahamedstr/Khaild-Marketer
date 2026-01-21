@@ -482,9 +482,27 @@ ${checkboxValues[1] ? `- على السوم: ${priceOffer || "غير محدد"}` 
                     value={ownerName}
                     onChange={(e) => setOwnerName(e.target.value)}
                     placeholder="أدخل الاسم هنا"
-                    sx={{ 
+                    sx={{
                       width: { xs: "100%", sm: "50%", md: "40%" },
-                      "& .MuiInputBase-root": { borderRadius: "8px", backgroundColor: "#fff" }
+                      // 1. Background Color and Radius
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                        backgroundColor: "#E2E8F0",
+                      },
+                      // 2. Normal State Border
+                      "& .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#000000 !important", 
+                        borderWidth: "1px",
+                      },
+                      // 3. Hover State Border
+                      "&:hover .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#000000 !important",
+                      },
+                      // 4. Focused State (When clicking)
+                      "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#000000 !important",
+                        borderWidth: "1px", // Keeps it from getting thicker on focus
+                      },
                     }}
                   />
                 </Box>
@@ -545,7 +563,35 @@ ${checkboxValues[1] ? `- على السوم: ${priceOffer || "غير محدد"}` 
             <Box sx={{ position: "relative", zIndex: 10, p: 2, borderRadius: 3, background: "#E2E8F0" }}>
               <Box sx={{ display: "flex", gap: 1, mb: 0.5, color: LABEL_COLOR }}><HomeWorkIcon /><Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>الموقع</Typography></Box>
               <Typography sx={{ fontSize: "1rem", mb: 3, color: "#242629ff", fontFamily: TAJAWAL, fontWeight: 'bold' }}>اكتب موقع العقار بالتفصيل</Typography>
-              <StyledTextField fullWidth multiline minRows={3} value={location} onChange={(e) => setLocation(e.target.value)} />
+              <StyledTextField
+                fullWidth
+                multiline
+                minRows={3}
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                sx={{
+                  // 1. Background Color and Radius
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                    backgroundColor: "#E2E8F0",
+                    padding: "12px", // Adjust padding for multiline comfort
+                  },
+                  // 2. Persistent Black Border (Normal State)
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#000000 !important",
+                    borderWidth: "1px !important",
+                  },
+                  // 3. Hover State
+                  "&:hover .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#000000 !important",
+                  },
+                  // 4. Focused State (While typing)
+                  "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#000000 !important",
+                    borderWidth: "1px !important", // Prevents the border from thickening
+                  },
+                }}
+              />
             </Box>
           </Box>
 
@@ -555,7 +601,32 @@ ${checkboxValues[1] ? `- على السوم: ${priceOffer || "غير محدد"}` 
             <Box sx={{ position: "relative", zIndex: 10, p: 2, borderRadius: 3, background: "#E2E8F0" }}>
               <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR }}><LocationCityIcon /><Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>اسم المطور العقاري</Typography></Box>
               <Typography sx={{ fontSize: "1rem", mb: 3, color: "#242629ff", fontFamily: TAJAWAL, fontWeight: 'bold' }}>اكتب اسم المطور العقاري إن أمكن</Typography>
-              <StyledTextField fullWidth value={developer} onChange={(e) => setDeveloper(e.target.value)} />
+              <StyledTextField
+                fullWidth
+                value={developer}
+                onChange={(e) => setDeveloper(e.target.value)}
+                sx={{
+                  // Container background and shape
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                    backgroundColor: "#E2E8F0",
+                  },
+                  // Standard border state
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#000000 !important",
+                    borderWidth: "1px !important",
+                  },
+                  // Hover state (remains black)
+                  "&:hover .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#000000 !important",
+                  },
+                  // Active/Focused state (remains 1px and black)
+                  "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#000000 !important",
+                    borderWidth: "1px !important",
+                  },
+                }}
+              />
             </Box>
           </Box>
 
@@ -570,7 +641,34 @@ ${checkboxValues[1] ? `- على السوم: ${priceOffer || "غير محدد"}` 
                     <StraightenIcon sx={{ color: LABEL_COLOR, fontSize: "1.2rem" }} />
                     <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 600, display: "flex", alignItems: "center", gap: "5px" }}>المساحة <Box component="span" sx={{ fontSize: "0.8rem", fontWeight: 400, color: "#475569" }}>(اختياري)</Box></Typography>
                   </Box>
-                  <StyledTextField size="small" placeholder="الرجاء كتابة المساحة" value={area} onChange={(e) => setArea(e.target.value)} sx={{ width: { xs: "100%", sm: "40%" }, "& .MuiInputBase-root": { borderRadius: "8px", backgroundColor: "#fff" } }} />
+                  <StyledTextField
+                    size="small"
+                    placeholder="الرجاء كتابة المساحة"
+                    value={area}
+                    onChange={(e) => setArea(e.target.value)}
+                    sx={{
+                      width: { xs: "100%", sm: "40%" },
+                      // 1. Updated Background and Radius
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                        backgroundColor: "#E2E8F0",
+                      },
+                      // 2. Fixed Black Border (Normal)
+                      "& .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#000000 !important",
+                        borderWidth: "1px !important",
+                      },
+                      // 3. Keep Black on Hover
+                      "&:hover .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#000000 !important",
+                      },
+                      // 4. Keep Black and 1px on Focus (Click)
+                      "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#000000 !important",
+                        borderWidth: "1px !important",
+                      },
+                    }}
+                  />
                 </Box>
 
                 <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
@@ -578,7 +676,33 @@ ${checkboxValues[1] ? `- على السوم: ${priceOffer || "غير محدد"}` 
                     <HotelIcon sx={{ color: LABEL_COLOR, fontSize: "1.2rem" }} />
                     <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 600 }}>عدد الغرف</Typography>
                   </Box>
-                  <StyledTextField size="small" value={rooms} onChange={(e) => setRooms(e.target.value)} sx={{ width: { xs: "100%", sm: "40%" }, "& .MuiInputBase-root": { borderRadius: "8px", backgroundColor: "#fff" } }} />
+                  <StyledTextField
+                    size="small"
+                    value={rooms}
+                    onChange={(e) => setRooms(e.target.value)}
+                    sx={{
+                      width: { xs: "100%", sm: "40%" },
+                      // 1. Background and Shape
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                        backgroundColor: "#E2E8F0",
+                      },
+                      // 2. Fixed Black Border (Normal State)
+                      "& .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#000000 !important",
+                        borderWidth: "1px !important",
+                      },
+                      // 3. Keep Black on Hover
+                      "&:hover .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#000000 !important",
+                      },
+                      // 4. Keep Black and Thin on Focus
+                      "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#000000 !important",
+                        borderWidth: "1px !important",
+                      },
+                    }}
+                  />
                 </Box>
 
                 <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
@@ -586,14 +710,70 @@ ${checkboxValues[1] ? `- على السوم: ${priceOffer || "غير محدد"}` 
                     <BathtubIcon sx={{ color: LABEL_COLOR, fontSize: "1.2rem" }} />
                     <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 600 }}>عدد دورات المياه</Typography>
                   </Box>
-                  <StyledTextField size="small" value={bathrooms} onChange={(e) => setBathrooms(e.target.value)} sx={{ width: { xs: "100%", sm: "40%" }, "& .MuiInputBase-root": { borderRadius: "8px", backgroundColor: "#fff" } }} />
+                  <StyledTextField
+                    size="small"
+                    value={bathrooms}
+                    onChange={(e) => setBathrooms(e.target.value)}
+                    sx={{
+                      width: { xs: "100%", sm: "40%" },
+                      // 1. Background Color and Radius
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                        backgroundColor: "#E2E8F0",
+                      },
+                      // 2. Fixed Black Border (Standard)
+                      "& .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#000000 !important",
+                        borderWidth: "1px !important",
+                      },
+                      // 3. Keep Black on Hover
+                      "&:hover .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#000000 !important",
+                      },
+                      // 4. Keep Black and Fixed Width on Focus
+                      "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#000000 !important",
+                        borderWidth: "1px !important",
+                      },
+                    }}
+                  />
                 </Box>
 
                 <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 3, mt: 1 }}>
                   <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 600 }}>عمر العقار</Typography>
                   <FormControlLabel control={<Checkbox checked={propertyAgeSelection === "new"} onChange={() => handleAgeCheckboxChange("new")} />} label={<Typography sx={{ fontFamily: TAJAWAL }}>جديد</Typography>} />
                   <FormControlLabel control={<Checkbox checked={propertyAgeSelection === "custom"} onChange={() => handleAgeCheckboxChange("custom")} />} label={<Typography sx={{ fontFamily: TAJAWAL }}>أكثر من سنة</Typography>} />
-                  <TextField size="small" value={customAgeInput} onChange={(e) => { const val = e.target.value; setCustomAgeInput(val); handleAgeCheckboxChange(val.trim() !== "" ? "custom" : ""); }} sx={{ width: 120, backgroundColor: "white", borderRadius: "8px", "& .MuiOutlinedInput-root": { borderRadius: "8px" } }} />
+                  <TextField
+                    size="small"
+                    value={customAgeInput}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setCustomAgeInput(val);
+                      handleAgeCheckboxChange(val.trim() !== "" ? "custom" : "");
+                    }}
+                    sx={{
+                      width: 120,
+                      // 1. Updated Background and Radius
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                        backgroundColor: "#E2E8F0",
+                      },
+                      // 2. Fixed Black Border (Normal State)
+                      "& .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#000000 !important",
+                        borderWidth: "1px !important",
+                      },
+                      // 3. Keep Black on Hover
+                      "&:hover .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#000000 !important",
+                      },
+                      // 4. Keep Black and 1px Width on Focus
+                      "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#000000 !important",
+                        borderWidth: "1px !important",
+                      },
+                    }}
+                  />
                 </Box>
               </Box>
             </Box>
@@ -604,7 +784,36 @@ ${checkboxValues[1] ? `- على السوم: ${priceOffer || "غير محدد"}` 
             <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
             <Box sx={{ position: "relative", zIndex: 10, background: "#E2E8F0", borderRadius: 3, p: 3 }}>
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}><EditNoteIcon sx={{ color: LABEL_COLOR }} /><Typography sx={{ fontWeight: 800, fontSize: "1.6rem", fontFamily: TAJAWAL }}>تفاصيل إضافية</Typography></Box>
-              <StyledTextField multiline minRows={4} fullWidth placeholder="اكتب ملاحظاتك..." value={notes} onChange={(e) => setNotes(e.target.value)} sx={{ mt: 2, "& .MuiInputBase-root": { backgroundColor: "#fff" } }} />
+              <StyledTextField
+                multiline
+                minRows={4}
+                fullWidth
+                placeholder="اكتب ملاحظاتك..."
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                sx={{
+                  mt: 2,
+                  // 1. Background and Radius
+                  "& .MuiInputBase-root": {
+                    backgroundColor: "#E2E8F0",
+                    borderRadius: "8px",
+                  },
+                  // 2. Fixed Black Border (Normal)
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#000000 !important",
+                    borderWidth: "1px !important",
+                  },
+                  // 3. Keep Black on Hover
+                  "&:hover .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#000000 !important",
+                  },
+                  // 4. Keep Black and 1px on Focus (typing)
+                  "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#000000 !important",
+                    borderWidth: "1px !important",
+                  },
+                }}
+              />
             </Box>
           </Box>
 
@@ -656,13 +865,71 @@ ${checkboxValues[1] ? `- على السوم: ${priceOffer || "غير محدد"}` 
               <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
                 <Checkbox checked={checkboxValues[0]} onChange={(e) => handleCheckboxChange(0, e.target.checked)} />
                 <Typography sx={{ minWidth: 100, fontFamily: TAJAWAL }}>سعر محدد</Typography>
-                <StyledTextField size="small" value={priceLimit} onChange={(e) => { const val = e.target.value; setPriceLimit(val); handleCheckboxChange(0, val.trim() !== ""); }} />
+                <StyledTextField
+                  size="small"
+                  value={priceLimit}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setPriceLimit(val);
+                    handleCheckboxChange(0, val.trim() !== "");
+                  }}
+                  sx={{
+                    // 1. Background and Radius
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                      backgroundColor: "#E2E8F0",
+                    },
+                    // 2. Fixed Black Border (Normal)
+                    "& .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#000000 !important",
+                      borderWidth: "1px !important",
+                    },
+                    // 3. Keep Black on Hover
+                    "&:hover .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#000000 !important",
+                    },
+                    // 4. Keep Black and 1px on Focus
+                    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#000000 !important",
+                      borderWidth: "1px !important",
+                    },
+                  }}
+                />
               </Box>
 
               <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 4 }}>
                 <Checkbox checked={checkboxValues[1]} onChange={(e) => handleCheckboxChange(1, e.target.checked)} />
                 <Typography sx={{ minWidth: 100, fontFamily: TAJAWAL }}>على السوم</Typography>
-                <StyledTextField size="small" value={priceOffer} onChange={(e) => { const val = e.target.value; setPriceOffer(val); handleCheckboxChange(1, val.trim() !== ""); }} />
+                <StyledTextField
+                  size="small"
+                  value={priceOffer}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setPriceOffer(val);
+                    handleCheckboxChange(1, val.trim() !== "");
+                  }}
+                  sx={{
+                    // 1. Background and Border Radius
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                      backgroundColor: "#E2E8F0",
+                    },
+                    // 2. Fixed Black Border (Normal State)
+                    "& .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#000000 !important",
+                      borderWidth: "1px !important",
+                    },
+                    // 3. Keep Black on Hover
+                    "&:hover .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#000000 !important",
+                    },
+                    // 4. Keep Black and 1px Width on Focus
+                    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#000000 !important",
+                      borderWidth: "1px !important",
+                    },
+                  }}
+                />
               </Box>
 
               <Divider sx={{ mb: 3, borderColor: "rgba(0,0,0,0.1)" }} />
@@ -708,11 +975,61 @@ ${checkboxValues[1] ? `- على السوم: ${priceOffer || "غير محدد"}` 
               
               <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
                 <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 600, fontSize: '18px' }}> الاسم </Typography>
-                <StyledTextField fullWidth value={name} onChange={(e) => setName(e.target.value)} />
+                <StyledTextField
+                  fullWidth
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  sx={{
+                    // 1. Background and Shape
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                      backgroundColor: "#E2E8F0",
+                    },
+                    // 2. Fixed Black Border (Normal)
+                    "& .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#000000 !important",
+                      borderWidth: "1px !important",
+                    },
+                    // 3. Keep Black on Hover
+                    "&:hover .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#000000 !important",
+                    },
+                    // 4. Keep Black and 1px on Focus
+                    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#000000 !important",
+                      borderWidth: "1px !important",
+                    },
+                  }}
+                />
               </Box>
               <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                 <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 600, fontSize: '18px' }}> الجوال </Typography>
-                <StyledTextField fullWidth value={mobile} onChange={(e) => setMobile(e.target.value)} />
+                <StyledTextField
+                  fullWidth
+                  value={mobile}
+                  onChange={(e) => setMobile(e.target.value)}
+                  sx={{
+                    // 1. Background Color and Radius
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                      backgroundColor: "#E2E8F0",
+                    },
+                    // 2. Fixed Black Border (Standard State)
+                    "& .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#000000 !important",
+                      borderWidth: "1px !important",
+                    },
+                    // 3. Persistent Black Border on Hover
+                    "&:hover .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#000000 !important",
+                    },
+                    // 4. Persistent Black Border on Focus (Active)
+                    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#000000 !important",
+                      borderWidth: "1px !important", 
+                    },
+                  }}
+                />
               </Box>
             </Box>
           </Box>
