@@ -38,6 +38,10 @@ import PhoneIcon from "@mui/icons-material/Phone";
 import { Send, Sparkles, CloudUpload, Video, X, FileText } from "lucide-react";
 import HotelIcon from '@mui/icons-material/Hotel';          // For Rooms
 import BathtubIcon from '@mui/icons-material/Bathtub';      // For Bathrooms
+import PublicIcon from "@mui/icons-material/Public";
+import WcIcon from "@mui/icons-material/Wc";
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 
 /* ---------------- CONSTANTS ---------------- */
 const COLOR_PRIMARY_CYAN = "#06f9f3";
@@ -192,6 +196,10 @@ const Service03: React.FC<Props> = ({  }) => {
   const [priceLimit, setPriceLimit] = useState("");
   const [priceOffer, setPriceOffer] = useState("");
 
+    const [ownerName, setOwnerName] = useState("");
+    const [nationality, setNationality] = useState("");
+    const [gender, setGender] = useState("");
+
   // Media States
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -267,7 +275,10 @@ const Service03: React.FC<Props> = ({  }) => {
       notes,
       name,
       mobile,
-      channels
+      channels,
+      ownerName,
+      nationality,
+      gender
     };
 
     formData.append("data", JSON.stringify(textData));
@@ -354,6 +365,96 @@ const Service03: React.FC<Props> = ({  }) => {
               </Box>
             ))}
           </Box>
+            {/* Personal Data Section - Added mt: 5 for top space */}
+            <Box sx={{ position: "relative", borderRadius: 4, mt: 5 }}>
+              {/* Glow Border Effect */}
+              <Box sx={{ position: "absolute", inset: "-2px", borderRadius: 4, background: "linear-gradient(135deg, #06f9f3, #00b3ff, #06f9f3)", filter: "blur(6px)", zIndex: 0 }} />
+
+              <Box sx={{ position: "relative", zIndex: 1, p: { xs: 2, sm: 3 }, borderRadius: 4, border: "1px solid #CBD5E1", backgroundColor: "#E2E8F0" }}>
+                
+                {/* SECTION TITLE */}
+                <Box sx={{ display: "flex", gap: 1, mb: 3, color: LABEL_COLOR, alignItems: "center" }}>
+                  <AccountBoxIcon sx={{ fontSize: "1.7rem" }} /> 
+                  <Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>
+                    البيانات الشخصية
+                  </Typography>
+                </Box>
+
+                {/* 1. ROW: OWNER NAME - Responsive Stack */}
+                <Box sx={{ 
+                  display: "flex", 
+                  flexDirection: { xs: "column", sm: "row" }, 
+                  alignItems: { xs: "flex-start", sm: "center" }, 
+                  gap: { xs: 1, sm: 2 }, 
+                  mb: 3 
+                }}>
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 1, minWidth: 165 }}>
+                    <AssignmentIndIcon sx={{ color: LABEL_COLOR, fontSize: "1.2rem" }} />
+                    <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 600 }}>اسم المشتري أو الوكيل</Typography>
+                  </Box>
+                  <StyledTextField
+                    size="small"
+                    value={ownerName}
+                    onChange={(e) => setOwnerName(e.target.value)}
+                    placeholder="أدخل الاسم هنا"
+                    sx={{ 
+                      width: { xs: "100%", sm: "50%", md: "40%" },
+                      "& .MuiInputBase-root": { borderRadius: "8px", backgroundColor: "#fff" }
+                    }}
+                  />
+                </Box>
+
+                {/* 2. ROW: NATIONALITY - Responsive Wrap */}
+                <Box sx={{ 
+                  display: "flex", 
+                  flexDirection: { xs: "column", sm: "row" }, 
+                  alignItems: { xs: "flex-start", sm: "center" }, 
+                  gap: { xs: 1, sm: 2 }, 
+                  mb: 3 
+                }}>
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 1, minWidth: 165 }}>
+                    <PublicIcon sx={{ color: LABEL_COLOR, fontSize: "1.2rem" }} />
+                    <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 600 }}>جنسية المشتري</Typography>
+                  </Box>
+                  <Box sx={{ display: "flex", gap: 1 }}>
+                    <FormControlLabel
+                      control={<Checkbox checked={nationality === "saudi"} onChange={() => setNationality("saudi")} />}
+                      label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: "0.95rem" }}>سعودي</Typography>}
+                    />
+                    <FormControlLabel
+                      control={<Checkbox checked={nationality === "non-saudi"} onChange={() => setNationality("non-saudi")} />}
+                      label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: "0.95rem" }}>غير سعودي</Typography>}
+                    />
+                  </Box>
+                </Box>
+
+                {/* 3. ROW: GENDER - Responsive Wrap */}
+                <Box sx={{ 
+                  display: "flex", 
+                  flexDirection: { xs: "column", sm: "row" }, 
+                  alignItems: { xs: "flex-start", sm: "center" }, 
+                  gap: { xs: 1, sm: 2 } 
+                }}>
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 1, minWidth: 165 }}>
+                    <WcIcon sx={{ color: LABEL_COLOR, fontSize: "1.2rem" }} />
+                    <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 600 }}>النوع</Typography>
+                  </Box>
+                  <Box sx={{ display: "flex", gap: 1 }}>
+                    <FormControlLabel
+                      control={<Checkbox checked={gender === "male"} onChange={() => setGender("male")} />}
+                      label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: "0.95rem" }}>ذكر</Typography>}
+                    />
+                    <FormControlLabel
+                      control={<Checkbox checked={gender === "female"} onChange={() => setGender("female")} />}
+                      label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: "0.95rem" }}>أنثى</Typography>}
+                    />
+                  </Box>
+                </Box>
+
+              </Box>
+            </Box>
+
+          
 
           {/* --- 3. LOCATION SECTION --- */}
           <Box sx={{ mt: 5, position: "relative" }}>
