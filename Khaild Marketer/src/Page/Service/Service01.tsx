@@ -427,7 +427,7 @@ ${notes || "لا يوجد"}
                 }}>
                   <Box sx={{ display: "flex", alignItems: "center", gap: 1, minWidth: 165 }}>
                     <AssignmentIndIcon sx={{ color: LABEL_COLOR, fontSize: "1.2rem" }} />
-                    <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 600 }}>اسم   المالك  أو الوكيل</Typography>
+                    <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 600 }}>اسم المشتري أو الوكيل</Typography>
                   </Box>
                   <StyledTextField
                     size="small"
@@ -451,7 +451,7 @@ ${notes || "لا يوجد"}
                 }}>
                   <Box sx={{ display: "flex", alignItems: "center", gap: 1, minWidth: 165 }}>
                     <PublicIcon sx={{ color: LABEL_COLOR, fontSize: "1.2rem" }} />
-                    <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 600 }}>جنسية المالك</Typography>
+                    <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 600 }}>جنسية المشتري</Typography>
                   </Box>
                   <Box sx={{ display: "flex", gap: 1 }}>
                     <FormControlLabel

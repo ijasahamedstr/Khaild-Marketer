@@ -451,7 +451,7 @@ ${checkboxValues[1] ? `- على السوم: ${priceOffer || "غير محدد"}` 
           {/* Personal Data Section */}
     
             {/* Personal Data Section - Added mt: 5 for top space */}
-            <Box sx={{ position: "relative", borderRadius: 4, mt: 5 }}>
+           <Box sx={{ position: "relative", borderRadius: 4, mt: 5 ,mb: 5 }}>
               {/* Glow Border Effect */}
               <Box sx={{ position: "absolute", inset: "-2px", borderRadius: 4, background: "linear-gradient(135deg, #06f9f3, #00b3ff, #06f9f3)", filter: "blur(6px)", zIndex: 0 }} />
 
@@ -475,34 +475,16 @@ ${checkboxValues[1] ? `- على السوم: ${priceOffer || "غير محدد"}` 
                 }}>
                   <Box sx={{ display: "flex", alignItems: "center", gap: 1, minWidth: 165 }}>
                     <AssignmentIndIcon sx={{ color: LABEL_COLOR, fontSize: "1.2rem" }} />
-                    <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 600 }}>اسم المشتري أو الوكيل</Typography>
+                    <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 600 }}>اسم   المالك  أو الوكيل</Typography>
                   </Box>
                   <StyledTextField
                     size="small"
                     value={ownerName}
                     onChange={(e) => setOwnerName(e.target.value)}
                     placeholder="أدخل الاسم هنا"
-                    sx={{
+                    sx={{ 
                       width: { xs: "100%", sm: "50%", md: "40%" },
-                      // 1. Background Color and Radius
-                      "& .MuiInputBase-root": {
-                        borderRadius: "8px",
-                        backgroundColor: "#E2E8F0",
-                      },
-                      // 2. Normal State Border
-                      "& .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "#000000 !important", 
-                        borderWidth: "1px",
-                      },
-                      // 3. Hover State Border
-                      "&:hover .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "#000000 !important",
-                      },
-                      // 4. Focused State (When clicking)
-                      "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "#000000 !important",
-                        borderWidth: "1px", // Keeps it from getting thicker on focus
-                      },
+                      "& .MuiInputBase-root": { borderRadius: "8px", backgroundColor: "#fff" }
                     }}
                   />
                 </Box>
@@ -517,7 +499,7 @@ ${checkboxValues[1] ? `- على السوم: ${priceOffer || "غير محدد"}` 
                 }}>
                   <Box sx={{ display: "flex", alignItems: "center", gap: 1, minWidth: 165 }}>
                     <PublicIcon sx={{ color: LABEL_COLOR, fontSize: "1.2rem" }} />
-                    <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 600 }}>جنسية المشتري</Typography>
+                    <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 600 }}>جنسية المالك</Typography>
                   </Box>
                   <Box sx={{ display: "flex", gap: 1 }}>
                     <FormControlLabel
