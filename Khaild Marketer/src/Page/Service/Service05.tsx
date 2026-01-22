@@ -44,7 +44,7 @@ const Service05: React.FC<Props> = ({ onSubmit }) => {
               sx={{
                 width: "100%",
                 minHeight: "100vh",
-                backgroundImage: "url('https://i.ibb.co/fdnB51fk/5.webp')",
+                backgroundImage: "url('https://i.ibb.co/F193kqG/smooth-white-stucco-wall-jpg.webp')",
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",

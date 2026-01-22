@@ -145,7 +145,7 @@ const Service04: React.FC<Props> = ({  }) => {
   return (
     <Box sx={{ 
       minHeight: "100vh", 
-      background: `linear-gradient(rgba(2, 59, 78, 0.8), rgba(2, 59, 78, 0.9)), url('https://i.ibb.co/hxkmfnF6/4.webp')`,
+      background: `linear-gradient(rgba(2, 59, 78, 0.8), rgba(2, 59, 78, 0.9)), url('https://i.ibb.co/4ZCqgQk0/smooth-white-stucco-wall-jpg-1.webp')`,
       backgroundSize: "cover",
       backgroundAttachment: "fixed",
       py: 8,

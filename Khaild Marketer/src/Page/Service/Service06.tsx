@@ -18,7 +18,7 @@ const Service03: React.FC = () => {
                 sx={{
                   width: "100%",
                   minHeight: "100vh",
-                  backgroundImage: "url('https://i.ibb.co/r2xHZ6jg/Gemini-Generated-Image-ane99qane99qane9-1.webp')",
+                  backgroundImage: "url('https://i.ibb.co/YFrRzhWJ/design-space-retro-old-wallpaper-sand-beige-jpg.webp')",
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                   backgroundRepeat: "no-repeat",
