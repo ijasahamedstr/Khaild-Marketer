@@ -48,13 +48,18 @@ const Overview = () => {
 
       {/* 2. Centered Section (Now at the TOP of cards) */}
       <Box sx={{ textAlign: "center", mt: 2, mb: 6 }}>        
-        <Typography 
-          variant="body1" 
-          color="#64748B" 
+       <Typography 
+          variant="h3" 
+          color="#004652" // Azure/Bright Blue
           fontFamily={menuFont}
-          sx={{ maxWidth: 700, mx: "auto", lineHeight: 1.8, fontSize: '1.1rem' }}
+          sx={{ 
+            maxWidth: 700, 
+            mx: "auto", 
+            fontSize: '3rem', 
+            fontWeight: 'bold' 
+          }}
         >
-         القسم الرجالي
+          القسم الرجالي
         </Typography>
 
         {/* Decorative line below the description */}
@@ -157,26 +162,39 @@ const Overview = () => {
      
 
       {/* Final Divider for visual finish */}
-      <Divider 
-        sx={{ 
-          mt: 4, // Adds space above
-          mb: 4, 
-          borderColor: "rgba(0, 40, 50, 0.1)", 
-          "&::before, &::after": { borderColor: "rgba(0, 40, 50, 0.1)" } 
-        }}
-      >
-        <Box sx={{ 
-          width: 14, height: 14, borderRadius: "50%", bgcolor: accentGold, 
-          boxShadow: `0 0 15px ${accentGold}80` 
-        }} />
-      </Divider>
+             <Divider
+  sx={{
+    mt: 4,
+    mb: 4,
+    borderColor: "rgba(0, 40, 50, 0.35)",
+    "&::before, &::after": {
+      borderColor: "rgba(0, 40, 50, 0.35)",
+    },
+  }}
+>
+  <Box
+    sx={{
+      width: 14,
+      height: 14,
+      borderRadius: "50%",
+      bgcolor: accentGold,
+      boxShadow: `0 0 18px ${accentGold}AA`,
+    }}
+  />
+</Divider>
 
        <Box sx={{ textAlign: "center", mt: 2, mb: 6 }}>        
+
         <Typography 
-          variant="body1" 
-          color="#64748B" 
+          variant="h3" 
+          color="#004652" // Azure/Bright Blue
           fontFamily={menuFont}
-          sx={{ maxWidth: 700, mx: "auto", lineHeight: 1.8, fontSize: '1.1rem' }}
+          sx={{ 
+            maxWidth: 700, 
+            mx: "auto", 
+            fontSize: '3rem', 
+            fontWeight: 'bold' 
+          }}
         >
           القسم النسائي
         </Typography>
@@ -277,28 +295,40 @@ const Overview = () => {
         ))}
       </Box>
 
-          <Divider 
-        sx={{ 
-          mt: 4, // Adds space above
-          mb: 4, 
-          borderColor: "rgba(0, 40, 50, 0.1)", 
-          "&::before, &::after": { borderColor: "rgba(0, 40, 50, 0.1)" } 
-        }}
-      >
-        <Box sx={{ 
-          width: 14, height: 14, borderRadius: "50%", bgcolor: accentGold, 
-          boxShadow: `0 0 15px ${accentGold}80` 
-        }} />
-      </Divider>
+         <Divider
+  sx={{
+    mt: 4,
+    mb: 4,
+    borderColor: "rgba(0, 40, 50, 0.35)",
+    "&::before, &::after": {
+      borderColor: "rgba(0, 40, 50, 0.35)",
+    },
+  }}
+>
+  <Box
+    sx={{
+      width: 14,
+      height: 14,
+      borderRadius: "50%",
+      bgcolor: accentGold,
+      boxShadow: `0 0 18px ${accentGold}AA`,
+    }}
+  />
+</Divider>
 
        <Box sx={{ textAlign: "center", mt: 2, mb: 6 }}>        
-        <Typography 
-          variant="body1" 
-          color="#64748B" 
+     <Typography 
+          variant="h3" 
+          color="#004652" // Azure/Bright Blue
           fontFamily={menuFont}
-          sx={{ maxWidth: 700, mx: "auto", lineHeight: 1.8, fontSize: '1.1rem' }}
+          sx={{ 
+            maxWidth: 700, 
+            mx: "auto", 
+            fontSize: '3rem', 
+            fontWeight: 'bold' 
+          }}
         >
-          قسم المستثمرين الأجانب  
+           قسم المستثمرين الأجانب
         </Typography>
 
         {/* Decorative line below the description */}

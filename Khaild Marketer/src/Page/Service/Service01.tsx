@@ -151,7 +151,7 @@ const Service01: React.FC = () => {
   };
 
   return (
-    <Box sx={{ minHeight: "100vh", background: `linear-gradient(rgba(2, 59, 78, 0.8), rgba(2, 59, 78, 0.9)), url('https://i.ibb.co/5hcb4GP2/texture-with-blue-paint-jpg.webp')`, backgroundSize: "cover", py: 8, direction: "rtl" }}>
+    <Box sx={{ minHeight: "100vh", background: `url('https://i.ibb.co/5hcb4GP2/texture-with-blue-paint-jpg.webp')`, backgroundSize: "cover", py: 8, direction: "rtl" }}>
       <Container maxWidth="lg">
         {view === "form" && (
           <Box sx={{ maxWidth: "900px", mx: "auto" }}>

@@ -313,7 +313,7 @@ const Service03: React.FC<Props> = ({  }) => {
   };
 
   return (
-    <Box sx={{ minHeight: "100vh", background: `linear-gradient(rgba(2, 59, 78, 0.8), rgba(2, 59, 78, 0.9)), url('https://i.ibb.co/DgtZg2Dn/texture-wall-background-jpg.webp')`, backgroundSize: "cover", backgroundAttachment: "fixed", py: 4, direction: "rtl" }}>
+    <Box sx={{ minHeight: "100vh", background: `url('https://i.ibb.co/DgtZg2Dn/texture-wall-background-jpg.webp')`, backgroundSize: "cover", backgroundAttachment: "fixed", py: 4, direction: "rtl" }}>
       <Snackbar open={openPopup} autoHideDuration={6000} onClose={() => setOpenPopup(false)} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
         <Alert severity={alertSeverity} variant="filled" sx={{ width: '100%', fontSize: '1.2rem', fontFamily: TAJAWAL }}>{alertMessage}</Alert>
       </Snackbar>

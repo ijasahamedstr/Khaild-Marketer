@@ -392,7 +392,7 @@ ${checkboxValues[1] ? `- على السوم: ${priceOffer || "غير محدد"}` 
   };
 
   return (
-    <Box sx={{ minHeight: "100vh", background: `linear-gradient(rgba(2, 59, 78, 0.8), rgba(2, 59, 78, 0.9)), url('https://i.ibb.co/BVVmKKnJ/green-paint-wall-background-texture-jpg.webp')`, backgroundSize: "cover", backgroundAttachment: "fixed", py: 2, direction: "rtl" }}>
+    <Box sx={{ minHeight: "100vh", background: `url('https://i.ibb.co/BVVmKKnJ/green-paint-wall-background-texture-jpg.webp')`, backgroundSize: "cover", backgroundAttachment: "fixed", py: 2, direction: "rtl" }}>
       <Snackbar open={openPopup} autoHideDuration={6000} onClose={() => setOpenPopup(false)} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
         <Alert onClose={() => setOpenPopup(false)} severity={alertSeverity} variant="filled" sx={{ width: '100%', fontSize: '1.2rem', fontFamily: TAJAWAL }}>
           {alertMessage}
