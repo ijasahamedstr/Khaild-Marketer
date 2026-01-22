@@ -71,6 +71,31 @@ export const savePropertyRequest = async (req, res) => {
   }
 };
 
+
+export const getAllServiceRequestsfilter = async (req, res) => {
+  try {
+    const { propertyStatus, propertyType, location, rooms, bathrooms, priceLimit } = req.query;
+
+    let filter = {};
+
+    if (propertyStatus) filter.propertyStatus = propertyStatus;
+    if (propertyType) filter.propertyType = propertyType;
+    if (rooms) filter.rooms = rooms;
+    if (bathrooms) filter.bathrooms = bathrooms;
+    if (priceLimit) filter.priceLimit = priceLimit;
+
+    // Search location using keywords (Case-insensitive)
+    if (location) {
+      filter.location = { $regex: location, $options: "i" };
+    }
+
+    const requests = await Propertyforsale.find(filter).sort({ createdAt: -1 });
+    res.status(200).json({ success: true, data: requests });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "خطأ في البحث", error: error.message });
+  }
+};
+
 // 2. VIEW ALL: Get all requests
 export const getAllServiceRequests = async (req, res) => {
   try {
