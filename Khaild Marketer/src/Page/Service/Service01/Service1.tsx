@@ -17,6 +17,8 @@ import {
   keyframes,
 } from "@mui/material";
 
+const BORDER_THICKNESS = 18;
+
 /* ---------------- ICONS ---------------- */
 import HomeWorkIcon from "@mui/icons-material/HomeWork";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
@@ -334,17 +336,88 @@ ${notes || "لا يوجد"}
           تم استلام طلبك! جاري تحويلك لواتساب...
         </Alert>
       </Snackbar>
+            <Container maxWidth="xl">
+              <Box sx={{ width: "100%", position: "relative", py: "60px", overflow: "visible" }}>
+                
+                {/* --- ADDED HEADING SECTION --- */}
+                 <Box sx={{ textAlign: "center", mb: 8, animation: `${float} 4s ease-in-out infinite`, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                  <Typography variant="h1" sx={{ fontWeight: 900, fontSize: { xs: "2.5rem", md: "4rem" }, color: COLOR_PRIMARY_CYAN, fontFamily: TAJAWAL, textShadow: "0 10px 20px rgba(0,0,0,0.3)", display: 'flex', alignItems: 'center', gap: 1 }}>
+                    شراء العقار <Sparkles size={32} style={{ color: COLOR_PRIMARY_CYAN }} />
+                  </Typography>
+                  <Typography sx={{ color: "#fff", opacity: 0.9, fontSize: "1.2rem", mt: 2, fontFamily: TAJAWAL, maxWidth: "600px" }}>
+                    نحول رؤيتك إلى واقع ملموس بدقة واحترافية
+                  </Typography>
+                </Box>
+                {/* ---------------------------- */}
+      
+                {/* Perspective Container */}
+                <Box sx={{ perspective: "2000px", display: "flex", justifyContent: "center" }}>
+                  <Box
+                    sx={{
+                      position: "relative",
+                      width: "100%",
+                      transformStyle: "preserve-3d",
+                    }}
+                  >
+                    {/* 1. TOP IMAGE LAYER */}
+                    <Box
+                      component="img"
+                      src="https://i.ibb.co/Y7twRGkm/copy-1.jpg"
+                      alt="Website Showcase"
+                      sx={{
+                        width: "100%",
+                        height: "auto",
+                        borderRadius: "20px",
+                        display: "block",
+                        position: "relative",
+                        zIndex: 10,
+                        boxShadow: "20px 30px 50px rgba(0,0,0,0.5)",
+                      }}
+                    />
+      
+                    {/* 2. NEON GLOW EDGE */}
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        inset: "-4px",
+                        borderRadius: "24px",
+                        background: "linear-gradient(135deg, #06f9f3, #00b3ff)",
+                        filter: "blur(12px)",
+                        transform: `translateZ(-${BORDER_THICKNESS}px)`,
+                        zIndex: 5,
+                      }}
+                    />
+      
+                    {/* 3. SOLID REAR PLATE */}
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        inset: "0px",
+                        borderRadius: "20px",
+                        background: "#021212",
+                        transform: `translateZ(-${BORDER_THICKNESS * 2}px)`,
+                        zIndex: 4,
+                      }}
+                    />
+      
+                    {/* 4. AMBIENT FLOOR SHADOW */}
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        inset: "-20px",
+                        background: "rgba(0,0,0,0.8)",
+                        filter: "blur(40px)",
+                        transform: `translateZ(-${BORDER_THICKNESS * 4}px)`,
+                        zIndex: 1,
+                      }}
+                    />
+                  </Box>
+                </Box>
+              </Box>
+            </Container>
+      
 
       <Container maxWidth="md" sx={{ mt: { xs: 4, md: 8 }, mb: { xs: 6, md: 12 }, direction: "rtl", fontFamily: TAJAWAL }}>
-        
-        <Box sx={{ textAlign: "center", mb: 8, animation: `${float} 4s ease-in-out infinite`, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <Typography variant="h1" sx={{ fontWeight: 900, fontSize: { xs: "2.5rem", md: "4rem" }, color: COLOR_PRIMARY_CYAN, fontFamily: TAJAWAL, textShadow: "0 10px 20px rgba(0,0,0,0.3)", display: 'flex', alignItems: 'center', gap: 1 }}>
-            شراء العقار <Sparkles size={32} style={{ color: COLOR_PRIMARY_CYAN }} />
-          </Typography>
-          <Typography sx={{ color: "#fff", opacity: 0.9, fontSize: "1.2rem", mt: 2, fontFamily: TAJAWAL, maxWidth: "600px" }}>
-            نحول رؤيتك إلى واقع ملموس بدقة واحترافية
-          </Typography>
-        </Box>
       <GlassCard sx={{ p: { xs: 2, md: 4 } }}>
         <Box sx={{ p: 0 }}>
             {/* STATUS SELECTOR - Added mb: 4 for space */}

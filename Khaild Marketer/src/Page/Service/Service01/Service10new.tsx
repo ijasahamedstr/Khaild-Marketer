@@ -4,6 +4,8 @@ import { Container, Typography, Box } from "@mui/material";
 
 const TAJAWAL = "'Tajawal', sans-serif";
 
+const BORDER_THICKNESS = 18;
+
 const Service10new: React.FC = () => {
   // Scroll to top on mount
   React.useEffect(() => {
@@ -28,6 +30,75 @@ const Service10new: React.FC = () => {
                py: { xs: 8, sm: 12, md: 3 }, // padding top & bottom
              }}
            >
+               <Container maxWidth="xl">
+                                                                                        <Box sx={{ width: "100%", position: "relative", py: "60px", overflow: "visible" }}>
+                                                                                          {/* ---------------------------- */}
+                                                                                
+                                                                                          {/* Perspective Container */}
+                                                                                          <Box sx={{ perspective: "2000px", display: "flex", justifyContent: "center" }}>
+                                                                                            <Box
+                                                                                              sx={{
+                                                                                                position: "relative",
+                                                                                                width: "100%",
+                                                                                                transformStyle: "preserve-3d",
+                                                                                              }}
+                                                                                            >
+                                                                                              {/* 1. TOP IMAGE LAYER */}
+                                                                                              <Box
+                                                                                                component="img"
+                                                                                                src="https://i.ibb.co/Y7twRGkm/copy-1.jpg"
+                                                                                                alt="Website Showcase"
+                                                                                                sx={{
+                                                                                                  width: "100%",
+                                                                                                  height: "auto",
+                                                                                                  borderRadius: "20px",
+                                                                                                  display: "block",
+                                                                                                  position: "relative",
+                                                                                                  zIndex: 10,
+                                                                                                  boxShadow: "20px 30px 50px rgba(0,0,0,0.5)",
+                                                                                                }}
+                                                                                              />
+                                                                                
+                                                                                              {/* 2. NEON GLOW EDGE */}
+                                                                                              <Box
+                                                                                                sx={{
+                                                                                                  position: "absolute",
+                                                                                                  inset: "-4px",
+                                                                                                  borderRadius: "24px",
+                                                                                                  background: "linear-gradient(135deg, #06f9f3, #00b3ff)",
+                                                                                                  filter: "blur(12px)",
+                                                                                                  transform: `translateZ(-${BORDER_THICKNESS}px)`,
+                                                                                                  zIndex: 5,
+                                                                                                }}
+                                                                                              />
+                                                                                
+                                                                                              {/* 3. SOLID REAR PLATE */}
+                                                                                              <Box
+                                                                                                sx={{
+                                                                                                  position: "absolute",
+                                                                                                  inset: "0px",
+                                                                                                  borderRadius: "20px",
+                                                                                                  background: "#021212",
+                                                                                                  transform: `translateZ(-${BORDER_THICKNESS * 2}px)`,
+                                                                                                  zIndex: 4,
+                                                                                                }}
+                                                                                              />
+                                                                                
+                                                                                              {/* 4. AMBIENT FLOOR SHADOW */}
+                                                                                              <Box
+                                                                                                sx={{
+                                                                                                  position: "absolute",
+                                                                                                  inset: "-20px",
+                                                                                                  background: "rgba(0,0,0,0.8)",
+                                                                                                  filter: "blur(40px)",
+                                                                                                  transform: `translateZ(-${BORDER_THICKNESS * 4}px)`,
+                                                                                                  zIndex: 1,
+                                                                                                }}
+                                                                                              />
+                                                                                            </Box>
+                                                                                          </Box>
+                                                                                        </Box>
+                                                                                      </Container>
           <Container
       maxWidth="lg"
       sx={{
