@@ -324,7 +324,7 @@ ${notes || "لا يوجد"}
       <Box
          sx={{ 
          minHeight: "100vh", 
-         background: `linear-gradient(rgba(220, 230, 196, 0.85), rgba(220, 230, 196, 0.85)), url('https://i.ibb.co/hxkmfnF6/4.webp')`,
+         background: `linear-gradient(rgba(228, 189, 252, 0.85), rgba(228, 189, 252, 0.85))`,
          backgroundSize: "cover",
          backgroundAttachment: "fixed",
          py: 2,
