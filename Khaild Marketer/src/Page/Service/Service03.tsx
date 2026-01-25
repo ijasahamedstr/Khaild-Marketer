@@ -945,15 +945,38 @@ const Service03: React.FC<Props> = ({  }) => {
                         من
                       </Typography>
                     </Box>
-                    <StyledTextField 
-                      size="small" 
-                      value={priceLimit} 
-                      onChange={(e) => setPriceLimit(e.target.value)} 
-                      sx={{ 
-                        flex: 1,
-                        "& .MuiInputBase-root": { borderRadius: "8px", backgroundColor: "#fff" }
-                      }} 
-                    />
+                   <StyledTextField
+                    size="small"
+                    value={priceLimit}
+                    onChange={(e) => setPriceLimit(e.target.value)}
+                    sx={{
+                      // 1. Maintain flex layout
+                      flex: 1,
+
+                      // 2. Container background and shape
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                        backgroundColor: "#fff",
+                      },
+
+                      // 3. Standard border state (Fixed Black 1px)
+                      "& .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#000000 !important",
+                        borderWidth: "1px !important",
+                      },
+
+                      // 4. Hover state
+                      "&:hover .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#000000 !important",
+                      },
+
+                      // 5. Focused state (locks border at 1px black)
+                      "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#000000 !important",
+                        borderWidth: "1px !important",
+                      },
+                    }}
+                  />
                   </Box>
 
                   {/* 2. To (إلى) */}
@@ -963,15 +986,38 @@ const Service03: React.FC<Props> = ({  }) => {
                         إلى
                       </Typography>
                     </Box>
-                    <StyledTextField 
-                      size="small" 
-                      value={priceOffer} 
-                      onChange={(e) => setPriceOffer(e.target.value)} 
-                      sx={{ 
-                        flex: 1,
-                        "& .MuiInputBase-root": { borderRadius: "8px", backgroundColor: "#fff" }
-                      }} 
-                    />
+                <StyledTextField
+                  size="small"
+                  value={priceOffer}
+                  onChange={(e) => setPriceOffer(e.target.value)}
+                  sx={{
+                    // 1. Maintain your flex layout
+                    flex: 1,
+
+                    // 2. Container background and shape
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                      backgroundColor: "#fff",
+                    },
+
+                    // 3. Standard border state (Fixed Black 1px)
+                    "& .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#000000 !important",
+                      borderWidth: "1px !important",
+                    },
+
+                    // 4. Hover state
+                    "&:hover .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#000000 !important",
+                    },
+
+                    // 5. Focused state (Stays 1px and black)
+                    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#000000 !important",
+                      borderWidth: "1px !important",
+                    },
+                  }}
+                />
                   </Box>
                 </Box>
               </GlassCard>
