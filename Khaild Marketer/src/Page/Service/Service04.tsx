@@ -194,6 +194,30 @@ const Service04: React.FC<Props> = ({  }) => {
                 </InputAdornment>
               ),
             }}
+            sx={{
+              // 1. Container background and shape
+              "& .MuiInputBase-root": {
+                borderRadius: "8px",
+                backgroundColor: "#fff",
+              },
+
+              // 2. Standard border state (Fixed Black 1px)
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: "#000000 !important",
+                borderWidth: "1px !important",
+              },
+
+              // 3. Hover state
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: "#000000 !important",
+              },
+
+              // 4. Focused state (stays 1px and black)
+              "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                borderColor: "#000000 !important",
+                borderWidth: "1px !important",
+              },
+            }}
           />
         </GlassCard>
 
@@ -230,7 +254,35 @@ const Service04: React.FC<Props> = ({  }) => {
                 onChange={(e) => handleChange("name", e.target.value)}
                 placeholder="مثال: محمد أحمد"
                 InputProps={{
-                  startAdornment: <InputAdornment position="start"><User size={20} /></InputAdornment>
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <User size={20} />
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{
+                  // 1. Container background and shape
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                    backgroundColor: "#fff",
+                  },
+
+                  // 2. Standard border state (Fixed Black 1px)
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#000000 !important",
+                    borderWidth: "1px !important",
+                  },
+
+                  // 3. Hover state
+                  "&:hover .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#000000 !important",
+                  },
+
+                  // 4. Focused state (locks border at 1px black)
+                  "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#000000 !important",
+                    borderWidth: "1px !important",
+                  },
                 }}
               />
             </Box>
@@ -250,7 +302,35 @@ const Service04: React.FC<Props> = ({  }) => {
                 onChange={(e) => handleChange("mobile", e.target.value)}
                 placeholder="05xxxxxxxx"
                 InputProps={{
-                  startAdornment: <InputAdornment position="start"><Phone size={20} /></InputAdornment>
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Phone size={20} />
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{
+                  // 1. Container background and shape
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                    backgroundColor: "#fff",
+                  },
+
+                  // 2. Standard border state (Fixed Black 1px)
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#000000 !important",
+                    borderWidth: "1px !important",
+                  },
+
+                  // 3. Hover state
+                  "&:hover .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#000000 !important",
+                  },
+
+                  // 4. Active/Focused state (Locks border at 1px black)
+                  "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#000000 !important",
+                    borderWidth: "1px !important",
+                  },
                 }}
               />
             </Box>

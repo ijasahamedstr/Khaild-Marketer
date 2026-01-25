@@ -482,9 +482,32 @@ ${checkboxValues[1] ? `- على السوم: ${priceOffer || "غير محدد"}` 
                     value={ownerName}
                     onChange={(e) => setOwnerName(e.target.value)}
                     placeholder="أدخل الاسم هنا"
-                    sx={{ 
+                    sx={{
+                      // Keep your responsive width
                       width: { xs: "100%", sm: "50%", md: "40%" },
-                      "& .MuiInputBase-root": { borderRadius: "8px", backgroundColor: "#fff" }
+
+                      // 1. Background and Shape
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                        backgroundColor: "#fff", // Kept white as per your second snippet
+                      },
+
+                      // 2. Standard border state
+                      "& .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#000000 !important",
+                        borderWidth: "1px !important",
+                      },
+
+                      // 3. Hover state (remains black)
+                      "&:hover .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#000000 !important",
+                      },
+
+                      // 4. Focused state (prevents the default blue/thick border)
+                      "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#000000 !important",
+                        borderWidth: "1px !important",
+                      },
                     }}
                   />
                 </Box>

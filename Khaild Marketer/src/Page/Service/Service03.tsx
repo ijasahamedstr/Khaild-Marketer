@@ -397,9 +397,32 @@ const Service03: React.FC<Props> = ({  }) => {
                     value={ownerName}
                     onChange={(e) => setOwnerName(e.target.value)}
                     placeholder="أدخل الاسم هنا"
-                    sx={{ 
+                    sx={{
+                      // Keep your specific responsive width
                       width: { xs: "100%", sm: "50%", md: "40%" },
-                      "& .MuiInputBase-root": { borderRadius: "8px", backgroundColor: "#fff" }
+
+                      // 1. Container background and shape (White as requested)
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                        backgroundColor: "#fff",
+                      },
+
+                      // 2. Standard border state (Black 1px)
+                      "& .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#000000 !important",
+                        borderWidth: "1px !important",
+                      },
+
+                      // 3. Hover state
+                      "&:hover .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#000000 !important",
+                      },
+
+                      // 4. Focused state (stays 1px and black)
+                      "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#000000 !important",
+                        borderWidth: "1px !important",
+                      },
                     }}
                   />
                 </Box>
@@ -461,7 +484,36 @@ const Service03: React.FC<Props> = ({  }) => {
             <NeonGlowLayer />
             <GlassCard sx={{ p: 3 }}>
               <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR, alignItems: 'center' }}><HomeWorkIcon /><Typography sx={{ fontWeight: 800, fontSize: "1.5rem", fontFamily: TAJAWAL }}>الموقع</Typography></Box>
-              <StyledTextField fullWidth placeholder="اكتب الموقع بالتفصيل..." value={location} onChange={(e) => setLocation(e.target.value)} />
+              <StyledTextField
+                fullWidth
+                placeholder="اكتب الموقع بالتفصيل..."
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                sx={{
+                  // 1. Container background and shape
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                    backgroundColor: "#E2E8F0",
+                  },
+
+                  // 2. Standard border state
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#000000 !important",
+                    borderWidth: "1px !important",
+                  },
+
+                  // 3. Hover state
+                  "&:hover .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#000000 !important",
+                  },
+
+                  // 4. Active/Focused state (prevents blue/thick border)
+                  "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#000000 !important",
+                    borderWidth: "1px !important",
+                  },
+                }}
+              />
             </GlassCard>
           </Box>
 
@@ -471,7 +523,36 @@ const Service03: React.FC<Props> = ({  }) => {
               <NeonGlowLayer />
               <GlassCard sx={{ p: 3 }}>
                 <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR, alignItems: 'center' }}><LocationCityIcon /><Typography sx={{ fontWeight: 800, fontSize: "1.5rem", fontFamily: TAJAWAL }}>اسم المطور العقاري</Typography></Box>
-                <StyledTextField fullWidth placeholder="اسم المطور (إن وجد)..." value={developer} onChange={(e) => setDeveloper(e.target.value)} />
+                <StyledTextField
+                fullWidth
+                placeholder="اسم المطور (إن وجد)..."
+                value={developer}
+                onChange={(e) => setDeveloper(e.target.value)}
+                sx={{
+                  // 1. Container background and shape
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                    backgroundColor: "#E2E8F0",
+                  },
+
+                  // 2. Standard border state
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#000000 !important",
+                    borderWidth: "1px !important",
+                  },
+
+                  // 3. Hover state
+                  "&:hover .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#000000 !important",
+                  },
+
+                  // 4. Active/Focused state (locks border at 1px black)
+                  "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#000000 !important",
+                    borderWidth: "1px !important",
+                  },
+                }}
+              />
               </GlassCard>
             </Box>
           )}
@@ -495,11 +576,42 @@ const Service03: React.FC<Props> = ({  }) => {
         placeholder="الرجاء كتابة المساحة"
         value={area}
         onChange={(e) => setArea(e.target.value)}
-        sx={{ 
+        sx={{
+          // 1. Responsive Width
           width: { xs: "100%", sm: "40%" },
-          "& .MuiInputBase-root": { borderRadius: "8px", backgroundColor: "#fff" },
-          "& .MuiInputBase-input": { fontFamily: TAJAWAL, fontWeight: 300, fontSize: "0.95rem" },
-          "& .MuiInputBase-input::placeholder": { opacity: 0.6 }
+
+          // 2. Container background and shape
+          "& .MuiInputBase-root": {
+            borderRadius: "8px",
+            backgroundColor: "#fff",
+          },
+
+          // 3. Custom Typography (Tajawal)
+          "& .MuiInputBase-input": {
+            fontFamily: TAJAWAL,
+            fontWeight: 300,
+            fontSize: "0.95rem",
+          },
+          "& .MuiInputBase-input::placeholder": {
+            opacity: 0.6,
+          },
+
+          // 4. Standard border state (Fixed Black 1px)
+          "& .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#000000 !important",
+            borderWidth: "1px !important",
+          },
+
+          // 5. Hover state
+          "&:hover .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#000000 !important",
+          },
+
+          // 6. Focused state (locks border at 1px black)
+          "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#000000 !important",
+            borderWidth: "1px !important",
+          },
         }}
       />
     </Box>
@@ -514,14 +626,45 @@ const Service03: React.FC<Props> = ({  }) => {
         size="small"
         value={rooms}
         onChange={(e) => setRooms(e.target.value)}
-        sx={{ 
+        sx={{
+          // 1. Responsive Width
           width: { xs: "100%", sm: "40%" },
-          "& .MuiInputBase-root": { borderRadius: "8px", backgroundColor: "#fff" },
-          "& .MuiInputBase-input": { fontFamily: TAJAWAL, fontWeight: 300, fontSize: "0.95rem" },
-          "& .MuiInputBase-input::placeholder": { opacity: 0.6 }
+
+          // 2. Background and Shape
+          "& .MuiInputBase-root": {
+            borderRadius: "8px",
+            backgroundColor: "#fff",
+          },
+
+          // 3. Custom Typography (Tajawal)
+          "& .MuiInputBase-input": {
+            fontFamily: TAJAWAL,
+            fontWeight: 300,
+            fontSize: "0.95rem",
+          },
+          "& .MuiInputBase-input::placeholder": {
+            opacity: 0.6,
+          },
+
+          // 4. Standard border state (Fixed Black 1px)
+          "& .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#000000 !important",
+            borderWidth: "1px !important",
+          },
+
+          // 5. Hover state
+          "&:hover .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#000000 !important",
+          },
+
+          // 6. Focused state (locks border at 1px black)
+          "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#000000 !important",
+            borderWidth: "1px !important",
+          },
         }}
       />
-    </Box>
+      </Box>
 
     {/* 3. BATHROOMS FIELD */}
     <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
@@ -529,17 +672,48 @@ const Service03: React.FC<Props> = ({  }) => {
         <BathtubIcon sx={{ color: LABEL_COLOR, fontSize: "1.2rem" }} />
         <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 600 }}>عدد دورات المياه</Typography>
       </Box>
-      <StyledTextField
-        size="small"
-        value={bathrooms}
-        onChange={(e) => setBathrooms(e.target.value)}
-        sx={{ 
-          width: { xs: "100%", sm: "40%" },
-          "& .MuiInputBase-root": { borderRadius: "8px", backgroundColor: "#fff" },
-          "& .MuiInputBase-input": { fontFamily: TAJAWAL, fontWeight: 300, fontSize: "0.95rem" },
-          "& .MuiInputBase-input::placeholder": { opacity: 0.6 }
-        }}
-      />
+     <StyledTextField
+      size="small"
+      value={bathrooms}
+      onChange={(e) => setBathrooms(e.target.value)}
+      sx={{
+        // 1. Responsive Width
+        width: { xs: "100%", sm: "40%" },
+
+        // 2. Background and Shape
+        "& .MuiInputBase-root": {
+          borderRadius: "8px",
+          backgroundColor: "#fff",
+        },
+
+        // 3. Custom Typography (Tajawal)
+        "& .MuiInputBase-input": {
+          fontFamily: TAJAWAL,
+          fontWeight: 300,
+          fontSize: "0.95rem",
+        },
+        "& .MuiInputBase-input::placeholder": {
+          opacity: 0.6,
+        },
+
+        // 4. Standard border state (Fixed Black 1px)
+        "& .MuiOutlinedInput-notchedOutline": {
+          borderColor: "#000000 !important",
+          borderWidth: "1px !important",
+        },
+
+        // 5. Hover state
+        "&:hover .MuiOutlinedInput-notchedOutline": {
+          borderColor: "#000000 !important",
+        },
+
+        // 6. Focused state (Prevents blue color and 2px thickness)
+        "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+          borderColor: "#000000 !important",
+          borderWidth: "1px !important",
+        },
+      }}
+    />
     </Box>
 
     {/* 4. PROPERTY AGE SECTION */}
@@ -578,12 +752,40 @@ const Service03: React.FC<Props> = ({  }) => {
                 setCustomAgeInput(val);
                 handleAgeCheckboxChange(val.trim() !== "" ? "custom" : "");
               }}
-              sx={{ 
-                width: 100, 
-                backgroundColor: "white", 
+              sx={{
+                // 1. Keep your specific dimensions and background
+                width: 100,
+                backgroundColor: "white",
                 borderRadius: "8px",
-                "& .MuiOutlinedInput-root": { borderRadius: "8px" },
-                "& .MuiInputBase-input::placeholder": { fontWeight: 300, opacity: 0.6, fontSize: '0.8rem' }
+
+                // 2. Container shape
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: "8px",
+                },
+
+                // 3. Custom Placeholder style
+                "& .MuiInputBase-input::placeholder": {
+                  fontWeight: 300,
+                  opacity: 0.6,
+                  fontSize: "0.8rem",
+                },
+
+                // 4. Standard border state (Fixed Black 1px)
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#000000 !important",
+                  borderWidth: "1px !important",
+                },
+
+                // 5. Hover state
+                "&:hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#000000 !important",
+                },
+
+                // 6. Focused state (locks border at 1px black)
+                "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#000000 !important",
+                  borderWidth: "1px !important",
+                },
               }}
             />
           </Box>
@@ -596,7 +798,39 @@ const Service03: React.FC<Props> = ({  }) => {
             <NeonGlowLayer />
             <GlassCard sx={{ p: 4 }}>
               <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}><EditNoteIcon sx={{ color: LABEL_COLOR, fontSize: 35 }} /><Typography sx={{ fontWeight: 900, fontSize: "1.8rem", color: LABEL_COLOR, fontFamily: TAJAWAL }}>تفاصيل إضافية</Typography></Box>
-              <StyledTextField multiline minRows={5} fullWidth placeholder="اكتب ملاحظاتك وتفاصيل العقار هنا..." value={notes} onChange={(e) => setNotes(e.target.value)} />
+              <StyledTextField
+                multiline
+                minRows={5}
+                fullWidth
+                placeholder="اكتب ملاحظاتك وتفاصيل العقار هنا..."
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                sx={{
+                  // 1. Container background and shape
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                    backgroundColor: "#fff",
+                    padding: "12px", // Added for multiline text comfort
+                  },
+
+                  // 2. Standard border state
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#000000 !important",
+                    borderWidth: "1px !important",
+                  },
+
+                  // 3. Hover state
+                  "&:hover .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#000000 !important",
+                  },
+
+                  // 4. Active/Focused state (remains 1px and black)
+                  "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#000000 !important",
+                    borderWidth: "1px !important",
+                  },
+                }}
+              />
             </GlassCard>
           </Box>
 
@@ -649,7 +883,37 @@ const Service03: React.FC<Props> = ({  }) => {
               <NeonGlowLayer />
               <GlassCard sx={{ p: 3 }}>
                 <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR, alignItems: 'center' }}><StraightenIcon /><Typography sx={{ fontWeight: 800, fontSize: "1.5rem", fontFamily: TAJAWAL }}>قيمة الإيجار</Typography></Box>
-                <StyledTextField fullWidth sx={{ width: { xs: "100%", md: "40%" } }} placeholder={isChecked1 ? "اكتب السعر المقترح..." : "قيمة الإيجار"} />
+                <StyledTextField
+                  fullWidth
+                  placeholder={isChecked1 ? "اكتب السعر المقترح..." : "قيمة الإيجار"}
+                  sx={{
+                    // 1. Responsive Width
+                    width: { xs: "100%", md: "40%" },
+
+                    // 2. Container background and shape
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                      backgroundColor: "#fff",
+                    },
+
+                    // 3. Standard border state (Fixed Black 1px)
+                    "& .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#000000 !important",
+                      borderWidth: "1px !important",
+                    },
+
+                    // 4. Hover state
+                    "&:hover .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#000000 !important",
+                    },
+
+                    // 5. Focused state (locks border at 1px black)
+                    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#000000 !important",
+                      borderWidth: "1px !important",
+                    },
+                  }}
+                />
               </GlassCard>
             </Box>
           )}
@@ -729,8 +993,64 @@ const Service03: React.FC<Props> = ({  }) => {
               </Box>
               <Divider sx={{ my: 3, borderColor: "#1f2937", borderBottomWidth: "2px" }} />
               <FormControlLabel sx={{ mb: 3 }} control={<Checkbox checked={channels.chat} onChange={(e) => setChannels({ ...channels, chat: e.target.checked })} />} label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: '18px', fontWeight: 'bold' }}> اترك اسمك وجوالك للتواصل معك لاحقًا </Typography>} />
-              <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}><Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 600 }}> الاسم </Typography><StyledTextField fullWidth value={name} onChange={(e) => setName(e.target.value)} /></Box>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}><Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 600 }}> الجوال </Typography><StyledTextField fullWidth value={mobile} onChange={(e) => setMobile(e.target.value)} /></Box>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}><Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 600 }}> الاسم </Typography><StyledTextField
+                fullWidth
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                sx={{
+                  // 1. Container background and shape
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                    backgroundColor: "#fff", // White background to match your recent inputs
+                  },
+
+                  // 2. Standard border state (Fixed Black 1px)
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#000000 !important",
+                    borderWidth: "1px !important",
+                  },
+
+                  // 3. Hover state
+                  "&:hover .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#000000 !important",
+                  },
+
+                  // 4. Active/Focused state (locks border at 1px black)
+                  "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#000000 !important",
+                    borderWidth: "1px !important",
+                  },
+                }}
+              /></Box>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}><Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 600 }}> الجوال </Typography><StyledTextField
+                fullWidth
+                value={mobile}
+                onChange={(e) => setMobile(e.target.value)}
+                sx={{
+                  // 1. Container background and shape
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                    backgroundColor: "#fff", 
+                  },
+
+                  // 2. Standard border state (Fixed Black 1px)
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#000000 !important",
+                    borderWidth: "1px !important",
+                  },
+
+                  // 3. Hover state
+                  "&:hover .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#000000 !important",
+                  },
+
+                  // 4. Active/Focused state (locks border at 1px black)
+                  "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#000000 !important",
+                    borderWidth: "1px !important",
+                  },
+                }}
+              /></Box>
             </Box>
           </Box>
 
