@@ -7,10 +7,10 @@ import {
 } from "@mui/material";
 import { 
   DashboardOutlined, 
-  ShoppingBagOutlined, // بيع
-  HomeWorkOutlined,    // شراء
-  VpnKeyOutlined,      // إيجار
-  FormatPaintOutlined, // تشطيب
+  ShoppingBagOutlined,
+  HomeWorkOutlined,    
+  VpnKeyOutlined,      
+  FormatPaintOutlined, 
   SettingsOutlined, 
   LogoutOutlined, 
   MenuOpen, 
@@ -20,10 +20,19 @@ import {
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
-// IMPORT SEPARATE PAGES
-import Properties from "./Properties";
+// 1. استيراد الصفحات المنفصلة
 import Overview from "./Overview";
+import Properties from "./Property for sale/Properties"; // الصفحة التي برمجناها للتو
 import CreateAdmin from "./Settings";
+import Propertyrental from "./Property rental/Propertyrental";
+import Propertyfinishing from "./Property finishing/Propertyfinishing";
+
+// ملاحظة: يمكنك إنشاء صفحات بسيطة لهذه الأقسام مؤقتاً
+const PlaceholderPage = ({ title }: { title: string }) => (
+  <Box sx={{ p: 5, textAlign: 'center' }}>
+    <Typography variant="h4" sx={{ fontFamily: 'Tajawal' }}>قريباً: صفحة {title}</Typography>
+  </Box>
+);
 
 const drawerWidth = 300;
 
@@ -56,16 +65,26 @@ const Dashboard: React.FC = () => {
     navigate("/login");
   };
 
+  // 2. دالة الرندر لعرض الصفحة المختارة
   const renderActivePage = () => {
     switch (activeTab) {
-      case "لوحة التحكم": return <Overview />;
-      case "بيع العقار": return <Properties />;
-      case "الإعدادات": return <CreateAdmin />;
-      default: return <Overview />;
+      case "لوحة التحكم": 
+        return <Overview />;
+      case "بيع العقار": 
+        return <Properties />; // عرض صفحة بيع العقار (الكود الذي كتبناه سابقاً)
+      case "شراء العقار": 
+        return <PlaceholderPage title="شراء العقار" />;
+      case "إيجار العقار": 
+        return <Propertyrental />;
+      case "تشطيب العقار": 
+        return <Propertyfinishing />;
+      case "الإعدادات": 
+        return <CreateAdmin />;
+      default: 
+        return <Overview />;
     }
   };
 
-  // ✅ القائمة المحدثة بالأيقونات الصحيحة
   const menuItems = [
     { text: "لوحة التحكم", icon: <DashboardOutlined /> },
     { text: "بيع العقار", icon: <HomeWorkOutlined /> },
@@ -108,6 +127,7 @@ const Dashboard: React.FC = () => {
               bgcolor: activeTab === item.text ? accentGold : "transparent", 
               color: activeTab === item.text ? primaryTeal : "rgba(255,255,255,0.6)", 
               py: 1.8,
+              transition: "0.3s all ease",
               "&:hover": { bgcolor: activeTab === item.text ? accentGold : "rgba(255,255,255,0.05)" }
             }}
           >
@@ -135,6 +155,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <Box sx={{ display: "flex", direction: "rtl", bgcolor: "#F8FAFC", minHeight: "100vh" }}>
+      {/* هيدر الصفحة */}
       <AppBar 
         position="fixed" 
         elevation={0} 
@@ -160,30 +181,24 @@ const Dashboard: React.FC = () => {
             </Typography>
           </Stack>
 
-          <Stack direction="row" alignItems="center" spacing={2.5}>
-            <Box sx={{ textAlign: "left", display: { xs: "none", sm: "block" } }}>
-              <Typography sx={{ fontFamily: menuFont, fontWeight: 900, color: primaryTeal, fontSize: "1.1rem" }}>
-                {userData.name || "المدير"}
+          <Box sx={{ display: "flex", alignItems: "center", gap: 2, padding: "6px 16px" }}>
+            <Box sx={{ textAlign: "right" }}>
+              <Typography sx={{ fontFamily: menuFont, fontWeight: 800, color: primaryTeal }}>
+                {userData.name || "المدير العام"}
               </Typography>
-              <Typography sx={{ fontFamily: menuFont, fontWeight: 500, color: "#94A3B8", fontSize: "0.85rem" }}>
+              <Typography sx={{ fontFamily: menuFont, color: "#94A3B8", fontSize: "0.75rem" }}>
                 {userData.role}
               </Typography>
             </Box>
             <Avatar 
-              sx={{ 
-                width: 55, height: 55, 
-                border: `2px solid ${accentGold}`, 
-                bgcolor: primaryTeal, 
-                boxShadow: "0 4px 12px rgba(0,0,0,0.1)" 
-              }} 
               src={userData.profileImage}
-            >
-              {!userData.profileImage && (userData.name ? userData.name[0] : "A")}
-            </Avatar>
-          </Stack>
+              sx={{ width: 48, height: 48, outline: `3px solid ${accentGold}`, outlineOffset: "2px" }}
+            />
+          </Box>
         </Toolbar>
       </AppBar>
 
+      {/* القائمة الجانبية (Sider) */}
       <Box component="nav" sx={{ width: { md: drawerWidth } }}>
         <Drawer 
           variant="temporary" 
@@ -197,24 +212,34 @@ const Dashboard: React.FC = () => {
         <Drawer 
           variant="permanent" 
           anchor="right" 
-          sx={{ display: { xs: "none", md: "block" }, "& .MuiDrawer-paper": { width: drawerWidth, border: "none", boxShadow: "-15px 0 35px rgba(0,70,82,0.12)" } }} 
+          sx={{ display: { xs: "none", md: "block" }, "& .MuiDrawer-paper": { width: drawerWidth, border: "none" } }} 
           open
         >
           {sidebarContent}
         </Drawer>
       </Box>
 
-      <Box component="main" sx={{ flexGrow: 1, p: { xs: 3, md: 8 }, mt: { xs: "110px", md: "130px" }, width: "100%" }}>
+      {/* المحتوى الرئيسي للمدير */}
+      <Box 
+        component="main" 
+        sx={{ 
+          flexGrow: 1, 
+          p: { xs: 2, md: 4 }, // مساحة الحشو
+          mt: { xs: "100px", md: "115px" }, 
+          width: { md: `calc(100% - ${drawerWidth}px)` },
+          minHeight: "100vh"
+        }}
+      >
         {renderActivePage()}
       </Box>
 
-      {/* ✅ LOGOUT DIALOG */}
+      {/* نافذة تسجيل الخروج */}
       <Dialog open={logoutDialogOpen} onClose={() => setLogoutDialogOpen(false)} dir="rtl" PaperProps={{ sx: { borderRadius: "20px" } }}>
         <DialogTitle sx={{ fontFamily: menuFont, fontWeight: 900 }}>تأكيد الخروج</DialogTitle>
         <DialogContent><DialogContentText sx={{ fontFamily: menuFont }}>هل أنت متأكد من رغبتك في تسجيل الخروج؟</DialogContentText></DialogContent>
         <DialogActions sx={{ p: 3 }}>
-          <Button onClick={() => setLogoutDialogOpen(false)} sx={{ fontFamily: menuFont, color: "#64748B" }}>إلغاء</Button>
-          <Button onClick={handleConfirmLogout} variant="contained" sx={{ bgcolor: "#FF7070", fontFamily: menuFont, borderRadius: "10px", px: 3 }}>خروج</Button>
+          <Button onClick={() => setLogoutDialogOpen(false)} sx={{ fontFamily: menuFont }}>إلغاء</Button>
+          <Button onClick={handleConfirmLogout} variant="contained" sx={{ bgcolor: "#FF7070", fontFamily: menuFont }}>خروج</Button>
         </DialogActions>
       </Dialog>
     </Box>

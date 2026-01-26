@@ -3,11 +3,14 @@ import axios from "axios";
 import {
   Box, Container, Typography, MenuItem, TextField, Button, Divider,
   styled, CardMedia, CardContent, CircularProgress,
-  IconButton, Checkbox, FormControlLabel
+  IconButton, Checkbox, FormControlLabel,Stack
 } from "@mui/material";
 
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowRight, MapPin, Bed, Bath, History, Phone, MessageSquare } from 'lucide-react';
+
 /* ---------------- ICONS ---------------- */
-import { Search, MapPin, ArrowRight } from "lucide-react";
+import { Search, } from "lucide-react";
 import HomeWorkIcon from '@mui/icons-material/HomeWork';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
@@ -694,40 +697,210 @@ const Service01: React.FC = () => {
         )}
 
         {/* RESULTS VIEW */}
-        {view === "results" && (
-          <Box>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 6 }}>
-              <IconButton onClick={() => setView("form")} sx={{ color: COLOR_PRIMARY_CYAN, background: "rgba(255,255,255,0.1)", ml: 2 }}>
-                <ArrowRight size={32} />
-              </IconButton>
-              <Typography variant="h3" sx={{ color: "#fff", fontWeight: 900, fontFamily: TAJAWAL }}>نتائج البحث ({dbResults.length})</Typography>
-            </Box>
 
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 4, justifyContent: 'center' }}>
-              {dbResults.length > 0 ? dbResults.map((prop: any) => (
-                <Box key={prop._id} sx={{ flex: { xs: '1 1 100%', md: '0 1 31%' }, maxWidth: { md: '31%' } }}>
-                  <GlassCard>
-                    <CardMedia component="img" height="240" image={prop.files?.[0]?.filePath || "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=500"} />
-                    <CardContent sx={{ p: 3 }}>
-                      <Typography variant="h5" sx={{ fontWeight: 800, color: COLOR_DEEP_BLUE, fontFamily: TAJAWAL }}>{prop.propertyType}</Typography>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: '#64748B', my: 1 }}>
-                        <MapPin size={16} /> <Typography fontSize="0.9rem">{prop.location}</Typography>
-                      </Box>
-                      <Divider sx={{ my: 2 }} />
-                      <Typography sx={{ fontWeight: 900, fontSize: "1.6rem", color: "#2e7d32", fontFamily: TAJAWAL }}>{prop.priceLimit}</Typography>
-                      <Button fullWidth variant="contained" sx={{ mt: 2, background: COLOR_DEEP_BLUE, borderRadius: '12px', fontFamily: TAJAWAL }}>التفاصيل</Button>
-                    </CardContent>
-                  </GlassCard>
+
+{view === "results" && (
+  <Box sx={{ fontFamily: "'Tajawal', sans-serif" }}>
+    {/* Header Section */}
+    <motion.div 
+      initial={{ opacity: 0, x: 30 }} 
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.6 }}
+    >
+      <Box sx={{ display: 'flex', alignItems: 'center', mb: 8, mt: 4 }}>
+        <IconButton 
+          onClick={() => setView("form")} 
+          sx={{ 
+            color: COLOR_PRIMARY_CYAN, 
+            bgcolor: "rgba(255,255,255,0.03)", 
+            backdropFilter: 'blur(12px)',
+            ml: 3,
+            p: 2,
+            border: '1px solid rgba(255,255,255,0.1)',
+            boxShadow: `0 0 20px ${COLOR_PRIMARY_CYAN}15`,
+            '&:hover': { bgcolor: COLOR_PRIMARY_CYAN, color: '#000' }
+          }}
+        >
+          <ArrowRight size={28} />
+        </IconButton>
+        <Box>
+          <Typography variant="h3" sx={{ color: "#fff", fontWeight: 900, fontFamily: "'Tajawal', sans-serif", lineHeight: 1 }}>
+            نتائج البحث
+          </Typography>
+          <Typography sx={{ color: COLOR_PRIMARY_CYAN, mt: 1, fontWeight: 600, opacity: 0.8, fontFamily: "'Tajawal', sans-serif" }}>
+             تم العثور على {dbResults.length} عقار مميز
+          </Typography>
+        </Box>
+      </Box>
+    </motion.div>
+
+    {/* Grid Container */}
+    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 5, justifyContent: 'center' }}>
+      <AnimatePresence>
+        {dbResults.length > 0 ? dbResults.map((prop: any, index: number) => (
+          <Box 
+            component={motion.div}
+            layout
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1, duration: 0.5 }}
+            key={prop._id} 
+            sx={{ flex: { xs: '1 1 100%', sm: '0 1 48%', md: '0 1 31%' }, maxWidth: { md: '32%' } }}
+          >
+            <Box sx={{ 
+              borderRadius: '32px', 
+              overflow: 'hidden', 
+              height: '100%', 
+              display: 'flex', 
+              flexDirection: 'column',
+              bgcolor: 'rgba(15, 15, 15, 0.6)',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255,255,255,0.08)',
+              transition: 'all 0.4s ease',
+              position: 'relative',
+              '&:hover': {
+                transform: 'translateY(-12px)',
+                borderColor: `${COLOR_PRIMARY_CYAN}60`,
+                boxShadow: `0 30px 60px rgba(0,0,0,0.8), 0 0 30px ${COLOR_PRIMARY_CYAN}15`,
+                '& .card-image': { transform: 'scale(1.08)' }
+              }
+            }}>
+              
+              {/* Image Section */}
+              <Box sx={{ position: 'relative', height: 260, overflow: 'hidden' }}>
+                <CardMedia 
+                  component="img" 
+                  className="card-image"
+                  image={prop.files?.length > 0 ? `${API_BASE_URL}/${prop.files[0].filePath}` : "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800"} 
+                  sx={{ height: '100%', objectFit: 'cover', transition: 'transform 0.8s ease' }}
+                />
+                <Box sx={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, transparent 40%, rgba(0,0,0,0.9) 100%)' }} />
+                
+                <Typography 
+                  sx={{ 
+                    position: 'absolute', top: 20, right: 20, 
+                    bgcolor: COLOR_PRIMARY_CYAN, color: '#000', 
+                    px: 2, py: 0.6, borderRadius: '12px', 
+                    fontSize: '0.75rem', fontWeight: 900,
+                    textTransform: 'uppercase', letterSpacing: 0.5,
+                    fontFamily: "'Tajawal', sans-serif"
+                  }}
+                >
+                  {prop.propertyStatus}
+                </Typography>
+
+                <Stack direction="row" spacing={1} sx={{ position: 'absolute', bottom: 20, left: 20 }}>
+                   {prop.area && (
+                     <Typography sx={{ color: '#fff', fontWeight: 800, fontSize: '1.1rem', bgcolor: 'rgba(0,0,0,0.5)', px: 1.5, py: 0.5, borderRadius: '10px', backdropFilter: 'blur(4px)', fontFamily: "'Tajawal', sans-serif" }}>
+                       {prop.area} م²
+                     </Typography>
+                   )}
+                </Stack>
+              </Box>
+              
+              <CardContent sx={{ p: 4, flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+                <Typography variant="h5" sx={{ fontWeight: 900, color: '#fff', mb: 1, fontFamily: "'Tajawal', sans-serif", letterSpacing: -0.5 }}>
+                  {prop.propertyType}
+                </Typography>
+                
+                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.4)', mb: 3, fontFamily: "'Tajawal', sans-serif", fontSize: '0.9rem' }}>
+                  بواسطة: <span style={{ color: '#fff', fontWeight: 600 }}>{prop.developer || "مالك خاص"}</span>
+                </Typography>
+                
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, color: 'rgba(255,255,255,0.7)', mb: 4 }}>
+                  <MapPin size={20} color={COLOR_PRIMARY_CYAN} /> 
+                  <Typography fontSize="0.95rem" sx={{ fontFamily: "'Tajawal', sans-serif", fontWeight: 500 }}>{prop.location}</Typography>
                 </Box>
-              )) : (
-                <Box sx={{ textAlign: 'center', py: 10 }}>
-                  <Typography variant="h4" color="white" fontFamily={TAJAWAL}>عذراً، لا يوجد عقارات تطابق بحثك حالياً.</Typography>
-                  <Button onClick={() => setView("form")} sx={{ mt: 2, color: COLOR_PRIMARY_CYAN, fontFamily: TAJAWAL }}>العودة للبحث</Button>
+
+                {/* Modern Specs Grid */}
+                <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 2, mb: 4 }}>
+                  {[
+                    { label: 'غرف', val: prop.rooms, icon: <Bed size={16} /> },
+                    { label: 'حمام', val: prop.bathrooms, icon: <Bath size={16} /> },
+                    { label: 'عمر', val: prop.propertyAge, icon: <History size={16} /> }
+                  ].map((item, i) => item.val && (
+                    <Box key={i} sx={{ bgcolor: 'rgba(255,255,255,0.03)', p: 1.5, borderRadius: '18px', textAlign: 'center', border: '1px solid rgba(255,255,255,0.05)' }}>
+                      <Box sx={{ color: COLOR_PRIMARY_CYAN, mb: 0.5, display: 'flex', justifyContent: 'center' }}>{item.icon}</Box>
+                      <Typography sx={{ color: '#fff', fontWeight: 800, fontSize: '1rem', fontFamily: "'Tajawal', sans-serif" }}>{item.val}</Typography>
+                      <Typography sx={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.65rem', fontWeight: 700, fontFamily: "'Tajawal', sans-serif" }}>{item.label}</Typography>
+                    </Box>
+                  ))}
                 </Box>
-              )}
+
+                <Box sx={{ mt: 'auto' }}>
+                  <Divider sx={{ mb: 3, borderColor: 'rgba(255,255,255,0.08)' }} />
+                  
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+                    <Box>
+                      <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.4)', display: 'block', fontWeight: 700, fontFamily: "'Tajawal', sans-serif" }}>السعر النهائي</Typography>
+                      <Typography sx={{ fontWeight: 900, fontSize: "1.8rem", color: '#fff', fontFamily: "'Tajawal', sans-serif", lineHeight: 1.1 }}>
+                        {prop.priceOffer || prop.priceLimit}
+                        <Box component="span" sx={{ fontSize: '0.85rem', mr: 1, color: COLOR_PRIMARY_CYAN, fontFamily: "'Tajawal', sans-serif" }}>SAR</Box>
+                      </Typography>
+                    </Box>
+                    
+                    <Stack direction="row" spacing={1}>
+                      {prop.contactChannels?.whatsapp && (
+                        <Box sx={{ p: 1, bgcolor: 'rgba(34, 197, 94, 0.1)', color: '#22c55e', borderRadius: '10px' }}><MessageSquare size={20}/></Box>
+                      )}
+                      {prop.contactChannels?.call && (
+                        <Box sx={{ p: 1, bgcolor: 'rgba(59, 130, 246, 0.1)', color: '#3b82f6', borderRadius: '10px' }}><Phone size={20}/></Box>
+                      )}
+                    </Stack>
+                  </Box>
+
+                  <Button 
+                    fullWidth 
+                    variant="contained" 
+                    sx={{ 
+                      py: 2,
+                      borderRadius: '16px',
+                      fontFamily: "'Tajawal', sans-serif",
+                      fontWeight: 800,
+                      fontSize: '1rem',
+                      background: '#fff',
+                      color: '#000',
+                      boxShadow: `0 10px 20px rgba(0,0,0,0.3)`,
+                      '&:hover': {
+                        background: COLOR_PRIMARY_CYAN,
+                        transform: 'scale(1.02)'
+                      }
+                    }}
+                  >
+                    مشاهدة التفاصيل
+                  </Button>
+                </Box>
+              </CardContent>
             </Box>
           </Box>
+        )) : (
+          /* Enhanced Empty State */
+          <Box 
+            component={motion.div}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            sx={{ textAlign: 'center', py: 20, width: '100%' }}
+          >
+             <Typography variant="h3" sx={{ color: 'rgba(255,255,255,0.1)', fontWeight: 900, mb: 2, fontFamily: "'Tajawal', sans-serif" }}>NO RESULTS</Typography>
+             <Typography variant="h5" color="white" sx={{ fontFamily: "'Tajawal', sans-serif", mb: 4 }}>عذراً، لم نجد نتائج تطابق بحثك حالياً</Typography>
+             <Button 
+                onClick={() => setView("form")} 
+                sx={{ 
+                  color: COLOR_PRIMARY_CYAN, 
+                  border: `1px solid ${COLOR_PRIMARY_CYAN}`,
+                  px: 6, py: 2, borderRadius: '14px',
+                  fontWeight: 800,
+                  fontFamily: "'Tajawal', sans-serif"
+                }}
+             >
+                العودة للمحرك
+             </Button>
+          </Box>
         )}
+      </AnimatePresence>
+    </Box>
+  </Box>
+)}
       </Container>
     </Box>
   );

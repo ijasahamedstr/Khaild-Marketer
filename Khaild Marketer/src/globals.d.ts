@@ -9,5 +9,7 @@ declare module "react-masonry-css";
 declare module "framer-motion";
 declare module "@fortawesome/react-fontawesome";
 declare module "@fortawesome/free-brands-svg-icons";
+declare module "phosphor-react";
+declare module "recharts";
 
 
