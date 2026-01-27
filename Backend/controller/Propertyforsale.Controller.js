@@ -45,39 +45,38 @@ import Propertyforsale from "../models/Propertyforsale.models.js";
 //   }
 // };
 
-
 export const savePropertyRequest = async (req, res) => {
     try {
-        // 1. Parse the stringified JSON from FormData (mapped to 'payload')
+        console.log("Body received:", req.body); // Check if payload exists
+        console.log("Files received:", req.files); // Check if files exist
+
+        if (!req.body.payload) {
+            return res.status(400).json({ success: false, message: "No payload data found" });
+        }
+
         const data = JSON.parse(req.body.payload);
 
-        // 2. Map the uploaded files from Multer with a safety check
-        const fileEntries = req.files ? req.files.map(file => ({
+        // Map files safely
+        const fileEntries = (req.files || []).map(file => ({
             fileName: file.originalname,
             filePath: file.path,
             fileType: file.mimetype
-        })) : [];
+        }));
 
-        // 3. Create the document using the Propertyforsale model
         const newProperty = new Propertyforsale({
             ...data,
             files: fileEntries
         });
 
-        // 4. Save to the database
         await newProperty.save();
-
-        // 5. Send success response with the saved data
-        res.status(201).json({ 
-            success: true, 
-            message: "Request saved successfully!",
-            data: newProperty 
-        });
+        res.status(201).json({ success: true, message: "Request saved successfully!" });
+        
     } catch (error) {
-        console.error("Save Error:", error);
+        console.error("DETAILED SERVER ERROR:", error); 
         res.status(500).json({ 
             success: false, 
-            error: error.message 
+            error: error.message,
+            stack: process.env.NODE_ENV === 'development' ? error.stack : undefined 
         });
     }
 };
