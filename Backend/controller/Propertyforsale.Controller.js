@@ -47,28 +47,39 @@ import Propertyforsale from "../models/Propertyforsale.models.js";
 
 
 export const savePropertyRequest = async (req, res) => {
-  try {
-    // Parsing the 'payload' string sent from React FormData
-    const data = JSON.parse(req.body.payload);
-    
-    // Mapping the files saved by Multer
-    const fileEntries = req.files.map(file => ({
-      fileName: file.originalname,
-      filePath: file.path,
-      fileType: file.mimetype
-    }));
+    try {
+        // 1. Parse the stringified JSON from FormData (mapped to 'payload')
+        const data = JSON.parse(req.body.payload);
 
-    const newProperty = new Propertyforsale({
-      ...data,
-      files: fileEntries
-    });
+        // 2. Map the uploaded files from Multer with a safety check
+        const fileEntries = req.files ? req.files.map(file => ({
+            fileName: file.originalname,
+            filePath: file.path,
+            fileType: file.mimetype
+        })) : [];
 
-    await newProperty.save();
-    res.status(201).json({ success: true, message: "Request saved successfully!" });
-  } catch (error) {
-    console.error("Save Error:", error);
-    res.status(500).json({ success: false, error: error.message });
-  }
+        // 3. Create the document using the Propertyforsale model
+        const newProperty = new Propertyforsale({
+            ...data,
+            files: fileEntries
+        });
+
+        // 4. Save to the database
+        await newProperty.save();
+
+        // 5. Send success response with the saved data
+        res.status(201).json({ 
+            success: true, 
+            message: "Request saved successfully!",
+            data: newProperty 
+        });
+    } catch (error) {
+        console.error("Save Error:", error);
+        res.status(500).json({ 
+            success: false, 
+            error: error.message 
+        });
+    }
 };
 
 
