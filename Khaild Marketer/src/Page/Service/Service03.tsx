@@ -252,6 +252,36 @@ const Service03: React.FC<Props> = ({  }) => {
     if (type !== "custom") setCustomAgeInput("");
   };
 
+  const resetForm = () => {
+  setDropdownValues({});
+  setNotes("");
+  setChannels({ chat: true, whatsapp: true, call: false });
+
+  setName("");
+  setMobile("");
+  setLocation("");
+  setDeveloper("");
+  setArea("");
+  setRooms("");
+  setBathrooms("");
+  setPropertyAgeSelection("");
+  setCustomAgeInput("");
+
+  setIsChecked1(false);
+  setIsChecked2(false);
+
+  setPriceLimit("");
+  setPriceOffer("");
+
+  setOwnerName("");
+  setNationality("");
+  setGender("");
+
+  setSelectedFiles([]);
+  setUploadProgress(0);
+};
+
+
   const handleSubmit = async () => {
     if (channels.chat && (!name || !mobile)) {
       setAlertSeverity("error");
@@ -296,15 +326,8 @@ const Service03: React.FC<Props> = ({  }) => {
         setOpenPopup(true);
         setAlertSeverity("success");
         setAlertMessage("تم إرسال طلبك بنجاح");
-
-        if (channels.whatsapp) {
-          const roleText = isChecked1 ? "مؤجر" : "مستأجر";
-          const message = `🏠 طلب إيجار عقار\nالحالة: ${roleText}\nالنوع: ${dropdownValues[0] || "غير محدد"}\nالموقع: ${location}\nالاسم: ${name}`;
-          window.open(`https://wa.me/966509855666?text=${encodeURIComponent(message)}`, "_blank");
-        }
-      } else {
-        throw new Error();
-      }
+      } 
+        resetForm();
     } catch (e) {
       setAlertSeverity("error");
       setAlertMessage("حدث خطأ أثناء حفظ البيانات");

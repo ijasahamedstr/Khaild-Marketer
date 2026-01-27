@@ -29,6 +29,7 @@ const COLOR_PRIMARY_CYAN = "#06f9f3";
 const COLOR_DEEP_BLUE = "#023B4E";
 const TAJAWAL = "'Tajawal', sans-serif"; 
 const BASE_URL = import.meta.env.VITE_API_URL;
+const WHATSAPP_NUMBER = "966XXXXXXXXX"; // Replace with your actual WhatsApp number
 
 // ---------------- ANIMATIONS ----------------
 
@@ -42,11 +43,9 @@ const float = keyframes`
   50% { transform: translateY(-10px); }
 `;
 
-
-
 // ---------------- STYLED COMPONENTS ----------------
 
-const GlassCard = styled(Box)(({  }) => ({
+const GlassCard = styled(Box)(() => ({
   position: "relative",
   background: "rgba(255, 255, 255, 0.85)",
   backdropFilter: "blur(12px)",
@@ -63,22 +62,27 @@ const GlassCard = styled(Box)(({  }) => ({
 }));
 
 const StyledTextField = styled(TextField)({
-  "& .MuiOutlinedInput-root": {
-    borderRadius: "16px",
-    backgroundColor: "#f8fafc",
-    transition: "all 0.3s ease",
+  "& .MuiInputBase-root": {
+    borderRadius: "8px",
+    backgroundColor: "#fff",
     fontFamily: TAJAWAL,
-    "& fieldset": { borderColor: "#E2E8F0" },
-    "&:hover fieldset": { borderColor: COLOR_PRIMARY_CYAN },
-    "&.Mui-focused fieldset": {
-      borderColor: COLOR_PRIMARY_CYAN,
-      borderWidth: "2px",
-    },
+    transition: "all 0.3s ease",
+  },
+  "& .MuiOutlinedInput-notchedOutline": {
+    borderColor: "#000000 !important",
+    borderWidth: "1px !important",
   },
   "& .MuiInputBase-input": {
     fontFamily: TAJAWAL,
     fontSize: "1.1rem",
     fontWeight: 600,
+  },
+  "&:hover .MuiOutlinedInput-notchedOutline": {
+    borderColor: "#000000 !important",
+  },
+  "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+    borderColor: "#000000 !important",
+    borderWidth: "1px !important",
   },
 });
 
@@ -110,7 +114,7 @@ const SubmitButton = styled(Button)({
 
 // ---------------- COMPONENT ----------------
 
-const Service04: React.FC<Props> = ({  }) => {
+const Service04: React.FC<Props> = () => {
   const [openSuccess, setOpenSuccess] = useState(false);
   const [formData, setFormData] = useState<FormData>({ name: "", mobile: "" });
   const [directPhone, setDirectPhone] = useState("");
@@ -123,20 +127,30 @@ const Service04: React.FC<Props> = ({  }) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
 
   const handleSubmit = async () => {
-    const message = `🛠️ *طلب تشطيب عقار*\n\n👤 الاسم: ${formData.name}\n📱 الجوال: ${formData.mobile}\n📞 رقم التواصل المباشر: ${directPhone || "غير متوفر"}`;
-    
+    // Basic validation
+    if (!directPhone && (!formData.name || !formData.mobile)) {
+        alert("يرجى إكمال البيانات");
+        return;
+    }
+
     try {
+      // 1. API Call
       await fetch(`${BASE_URL}/api/save-service-contact`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...formData, directPhone }),
       });
+
+      // 2. Show Success Snackbar
       setOpenSuccess(true);
-      
-      setTimeout(() => {
-        const whatsappURL = `https://wa.me/966509855666?text=${encodeURIComponent(message)}`;
-        window.open(whatsappURL, "_blank");
+
+      // 4. Open WhatsApp
+      setTimeout(() => {  
+        // 5. CLEAR DATA after redirection
+        setFormData({ name: "", mobile: "" });
+        setDirectPhone("");
       }, 1500);
+
     } catch (error) {
       console.error("Submission Error:", error);
     }
@@ -145,13 +159,18 @@ const Service04: React.FC<Props> = ({  }) => {
   return (
     <Box sx={{ 
       minHeight: "100vh", 
-      background: ` url('https://i.ibb.co/4ZCqgQk0/smooth-white-stucco-wall-jpg-1.webp')`,
+      background: `url('https://i.ibb.co/4ZCqgQk0/smooth-white-stucco-wall-jpg-1.webp')`,
       backgroundSize: "cover",
       backgroundAttachment: "fixed",
       py: 8,
       direction: "rtl"
     }}>
-      <Snackbar open={openSuccess} autoHideDuration={5000} onClose={() => setOpenSuccess(false)} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+      <Snackbar 
+        open={openSuccess} 
+        autoHideDuration={5000} 
+        onClose={() => setOpenSuccess(false)} 
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
         <Alert severity="success" variant="filled" icon={<CheckCircle size={24} />} sx={{ borderRadius: "15px", fontFamily: TAJAWAL, fontSize: "1.1rem" }}>
           تم استلام طلبك! جاري تحويلك لواتساب...
         </Alert>
@@ -169,7 +188,7 @@ const Service04: React.FC<Props> = ({  }) => {
           }}>
             تشطيب العقار <Sparkles style={{ verticalAlign: 'middle' }} />
           </Typography>
-          <Typography sx={{ color: "#fff", opacity: 0.9, fontSize: "1.2rem", mt: 1, fontFamily: TAJAWAL }}>
+          <Typography sx={{ color: "#334155", opacity: 0.9, fontSize: "1.2rem", mt: 1, fontFamily: TAJAWAL, fontWeight: 700 }}>
             نحول رؤيتك إلى واقع ملموس بدقة واحترافية
           </Typography>
         </Box>
@@ -193,30 +212,6 @@ const Service04: React.FC<Props> = ({  }) => {
                   <ArrowRight size={20} color={COLOR_PRIMARY_CYAN} />
                 </InputAdornment>
               ),
-            }}
-            sx={{
-              // 1. Container background and shape
-              "& .MuiInputBase-root": {
-                borderRadius: "8px",
-                backgroundColor: "#fff",
-              },
-
-              // 2. Standard border state (Fixed Black 1px)
-              "& .MuiOutlinedInput-notchedOutline": {
-                borderColor: "#000000 !important",
-                borderWidth: "1px !important",
-              },
-
-              // 3. Hover state
-              "&:hover .MuiOutlinedInput-notchedOutline": {
-                borderColor: "#000000 !important",
-              },
-
-              // 4. Focused state (stays 1px and black)
-              "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                borderColor: "#000000 !important",
-                borderWidth: "1px !important",
-              },
             }}
           />
         </GlassCard>
@@ -242,7 +237,6 @@ const Service04: React.FC<Props> = ({  }) => {
                   px: 1, 
                   fontWeight: 700, 
                   fontFamily: TAJAWAL,
-                  // Mobile size: 1.2rem, Desktop size: 2rem
                   fontSize: { xs: '1.2rem', md: '1.5rem' } 
                 }}
               >
@@ -260,40 +254,15 @@ const Service04: React.FC<Props> = ({  }) => {
                     </InputAdornment>
                   ),
                 }}
-                sx={{
-                  // 1. Container background and shape
-                  "& .MuiInputBase-root": {
-                    borderRadius: "8px",
-                    backgroundColor: "#fff",
-                  },
-
-                  // 2. Standard border state (Fixed Black 1px)
-                  "& .MuiOutlinedInput-notchedOutline": {
-                    borderColor: "#000000 !important",
-                    borderWidth: "1px !important",
-                  },
-
-                  // 3. Hover state
-                  "&:hover .MuiOutlinedInput-notchedOutline": {
-                    borderColor: "#000000 !important",
-                  },
-
-                  // 4. Focused state (locks border at 1px black)
-                  "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                    borderColor: "#000000 !important",
-                    borderWidth: "1px !important",
-                  },
-                }}
               />
             </Box>
 
             <Box>
-              <Typography  sx={{ 
+              <Typography sx={{ 
                   mb: 1.5, 
                   px: 1, 
                   fontWeight: 700, 
                   fontFamily: TAJAWAL,
-                  // Mobile size: 1.2rem, Desktop size: 2rem
                   fontSize: { xs: '1.2rem', md: '1.5rem' } 
                 }}>رقم الجوال</Typography>
               <StyledTextField
@@ -307,30 +276,6 @@ const Service04: React.FC<Props> = ({  }) => {
                       <Phone size={20} />
                     </InputAdornment>
                   ),
-                }}
-                sx={{
-                  // 1. Container background and shape
-                  "& .MuiInputBase-root": {
-                    borderRadius: "8px",
-                    backgroundColor: "#fff",
-                  },
-
-                  // 2. Standard border state (Fixed Black 1px)
-                  "& .MuiOutlinedInput-notchedOutline": {
-                    borderColor: "#000000 !important",
-                    borderWidth: "1px !important",
-                  },
-
-                  // 3. Hover state
-                  "&:hover .MuiOutlinedInput-notchedOutline": {
-                    borderColor: "#000000 !important",
-                  },
-
-                  // 4. Active/Focused state (Locks border at 1px black)
-                  "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                    borderColor: "#000000 !important",
-                    borderWidth: "1px !important",
-                  },
                 }}
               />
             </Box>

@@ -3,17 +3,37 @@ import Contact from "../models/Propertyfinishing.models.js";
 // 1. CREATE: Save a new contact
 export const saveContact = async (req, res) => {
   try {
-    const { name, mobile, seventhRows } = req.body;
+    // 1. Destructure the fields sent from the React frontend
+    const { name, mobile, directPhone, seventhRows } = req.body;
+
+    // 2. Map the data to your schema
+    // We check if 'mobile' (from form) or 'directPhone' (from quick-call) exists
     const newContact = new Contact({
-      name,
-      mobile,
-      contactMethod: seventhRows ? seventhRows[0] : ''
+      name: name || "عميل مهتم", // Default name if empty
+      mobile: mobile || directPhone, // Use whichever phone was provided
+      directPhone: directPhone || "",
+      // If seventhRows is used for specific service options
+      contactMethod: (seventhRows && seventhRows.length > 0) ? seventhRows[0] : 'الموقع الإلكتروني',
+      serviceType: "تشطيب العقار"
     });
 
+    // 3. Save to MongoDB
     await newContact.save();
-    res.status(201).json({ success: true, message: "Data saved successfully", data: newContact });
+
+    // 4. Return success response
+    res.status(201).json({ 
+      success: true, 
+      message: "تم حفظ البيانات بنجاح", 
+      data: newContact 
+    });
+
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    console.error("Save Error:", error);
+    res.status(500).json({ 
+      success: false, 
+      message: "حدث خطأ أثناء حفظ البيانات",
+      error: error.message 
+    });
   }
 };
 

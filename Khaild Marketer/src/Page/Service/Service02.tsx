@@ -265,35 +265,6 @@ const Service02: React.FC<Props> = ({ }) => {
 
   const propertyStatus = isChecked1 ? "جاهز" : isChecked2 ? "على الخارطة" : "غير محدد";
 
-  const buildWhatsAppMessage = () => {
-    const negotiableText = isNegotiable === 'yes' ? "نعم" : isNegotiable === 'no' ? "لا" : "غير محدد";
-    const ageText = propertyAgeSelection === "new" ? "جديد" : propertyAgeSelection === "custom" ? customAgeInput : "غير محدد";
-    const natText = nationality === "saudi" ? "سعودي" : nationality === "non-saudi" ? "غير سعودي" : "غير محدد";
-    const genText = gender === "male" ? "ذكر" : gender === "female" ? "أنثى" : "غير محدد";
-
-    return `
-🛒 *طلب بيع عقار جديد*
-🏷 *حالة العقار:* ${propertyStatus}
-👤 *اسم المالك/الوكيل:* ${ownerName || "غير محدد"}
-🌍 *الجنسية:* ${natText}
-🚻 *النوع:* ${genText}
-🏠 *نوع العقار:* ${dropdownValues[0] || "غير محدد"}
-📍 *الموقع:* ${location || "غير محدد"}
-🏗 *المطور:* ${developer || "غير محدد"}
-📐 *المساحة:* ${area || "غير محدد"}
-🛏 *الغرف:* ${rooms || "غير محدد"}
-🚿 *دورات المياه:* ${bathrooms || "غير محدد"}
-⏳ *عمر العقار:* ${ageText}
-💰 *سعر البيع:*
-${checkboxValues[0] ? `- حد: ${priceLimit || "غير محدد"}` : ""}
-${checkboxValues[1] ? `- على السوم: ${priceOffer || "غير محدد"}` : ""}
-🤝 *تفاوض:* ${negotiableText}
-📝 *ملاحظات:* ${notes || "لا يوجد"}
-👤 *المرسل:* ${name || "غير مدخل"}
-📱 *جوال:* ${mobile || "غير مدخل"}
-`;
-  };
-
   const handleResetForm = () => {
     setDropdownValues({});
     setNotes("");
@@ -377,9 +348,6 @@ ${checkboxValues[1] ? `- على السوم: ${priceOffer || "غير محدد"}` 
         setAlertSeverity("success");
         setAlertMessage("تم حفظ البيانات والملفات بنجاح!");
         setOpenPopup(true);
-        const phoneNumber = "966509855666";
-        const message = buildWhatsAppMessage();
-        window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, "_blank");
         handleResetForm();
       }
     } catch (error) {
