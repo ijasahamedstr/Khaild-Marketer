@@ -1,14 +1,3 @@
-/**
- * src/Page/Service/Service03.tsx
- * Property Rental & Management Component - Saudi Market Specialized
- * * Technical Features:
- * - Neon Gradient Glow Border (Inset -2px logic)
- * - Glassmorphism UI Depth
- * - RTL Layout (Tajawal Typography)
- * - Comprehensive State Management (Sale/Rent logic)
- * - API & WhatsApp Dual-Submission Logic
- */
-
 import React, { useEffect, useState } from "react";
 import {
   Box,

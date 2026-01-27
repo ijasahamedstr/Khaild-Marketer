@@ -106,9 +106,11 @@ const Service01: React.FC = () => {
 
   const handleDeveloperCheckbox = (index: number) => {
     if (index === 0) {
-      setIsChecked1(!isChecked1);
+      setIsChecked1(true);
+      setIsChecked2(false);
     } else {
-      setIsChecked2(!isChecked2);
+      setIsChecked1(false);
+      setIsChecked2(true);
     }
   };
 
