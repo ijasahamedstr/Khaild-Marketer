@@ -170,7 +170,7 @@ const Propertyrental: React.FC = () => {
   if (loading) return (
     <Stack sx={{ height: "100vh" }} alignItems="center" justifyContent="center" spacing={2} bgcolor={UI_COLORS.background}>
       <CircularProgress thickness={5} size={60} sx={{ color: UI_COLORS.primary }} />
-      <Typography variant="h6" sx={{ fontWeight: 800 }}>جاري تحميل الأنظمة والبيانات...</Typography>
+      <Typography variant="h6" sx={{ fontWeight: 800,fontFamily: FONT_FAMILY }}>جاري تحميل الأنظمة والبيانات...</Typography>
     </Stack>
   );
 

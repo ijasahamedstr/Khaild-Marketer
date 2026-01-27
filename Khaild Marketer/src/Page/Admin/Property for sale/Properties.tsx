@@ -1,39 +1,38 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import axios from "axios";
 import * as XLSX from "xlsx";
 import {
   Box, Typography, Button, CircularProgress, IconButton, Pagination,
-  Dialog, Zoom, Stack, Table, TableBody, TableCell,
+  Dialog, Divider, Chip, Stack, Table, TableBody, TableCell,
   TableContainer, TableHead, TableRow, Paper, GlobalStyles, Tooltip, 
   InputAdornment, DialogTitle, DialogContent, DialogActions, TextField,
-  Card, Avatar, Fade,Chip
+  Avatar, Backdrop, Container, Alert, Snackbar
 } from "@mui/material";
 import {
-  LocationOn, WhatsApp, FileDownloadOutlined,
-  Search, VisibilityOutlined, Scale, DeleteOutline,
-  Speed, PersonOutline, 
-  BedOutlined, BathtubOutlined, HistoryToggleOff, Public,
-  CollectionsOutlined, ImageNotSupportedOutlined, OpenInNew, CheckCircleOutline,
-  AssignmentOutlined, PeopleAltOutlined, TrendingUp, PaymentsOutlined, 
-  Refresh, FilterList, MoreVert,SecurityOutlined
+  WhatsApp, CallOutlined, Search, VisibilityOutlined, Scale, 
+  DeleteOutline, PersonOutline, PhoneAndroidOutlined, BedOutlined, 
+  HistoryToggleOff, CheckCircleOutline, 
+  MapsHomeWorkOutlined, Close, Download, PlayCircleOutline, 
+  Refresh, TrendingUp, PeopleAltOutlined, HomeWorkOutlined, 
+  AssignmentOutlined, SecurityOutlined, BathtubOutlined, 
+  BusinessCenterOutlined, PaymentsOutlined,
+  WcOutlined, LanguageOutlined
 } from "@mui/icons-material";
 
-// --- Visual Configurations ---
-const TAJAWAL = "'Tajawal', sans-serif";
-const accentGold = "#CC9D2F";
+// --- SYSTEM THEME CONFIGURATION ---
+const FONT_FAMILY = '"Tajawal", sans-serif !important';
 const UI_COLORS = {
   primary: "#004652",
-  secondary: "#64748B",
+  secondary: "#006D77",
   accent: "#CC9D2F",
-  success: "#10B981",
-  warning: "#F59E0B",
   danger: "#EF4444",
-  info: "#3B82F6",
-  bg: "#F8FAFC",
-  white: "#FFFFFF"
+  success: "#10B981",
+  background: "#F1F5F9",
+  cardBg: "#FFFFFF",
+  border: "#E2E8F0"
 };
 
-// --- Interfaces ---
+// --- DATA CONTRACTS (MAPPED TO MONGOOSE SCHEMA) ---
 interface PropertyFile {
   fileName: string;
   filePath: string;
@@ -53,402 +52,391 @@ interface PropertyRequest {
   rooms?: string;
   bathrooms?: string;
   propertyAge?: string;
+  priceLimit?: string;
   priceOffer?: string;
   isNegotiable?: string;
-  notes?: string;
+  contactChannels: { 
+    chat: boolean; 
+    whatsapp: boolean; 
+    call: boolean 
+  };
   clientName?: string;
-  clientMobile?: string;
-  createdAt?: string;
+  clientMobile: string;
+  notes?: string;
   files?: PropertyFile[];
+  createdAt?: string;
 }
 
-// --- Main Component ---
 const Properties: React.FC = () => {
+  // --- STATE ORCHESTRATION ---
   const [requests, setRequests] = useState<PropertyRequest[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
-  const [viewRequest, setViewRequest] = useState<PropertyRequest | null>(null);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [selectedItem, setSelectedItem] = useState<PropertyRequest | null>(null);
+  const [mediaActive, setMediaActive] = useState<PropertyFile | null>(null);
+  const [search, setSearch] = useState("");
+  const [deleteTarget, setDeleteTarget] = useState<string | null>(null);
+  const [filterStatus, setFilterStatus] = useState<string>("all");
   const [syncSignal, setSyncSignal] = useState(0);
+  const [notif, setNotif] = useState({ open: false, msg: "", type: "success" as any });
 
-  const apiHost = import.meta.env.VITE_API_URL || "http://localhost:5000";
+  const API_URL = import.meta.env.VITE_API_URL;
+  const LIMIT = 12;
 
-  // --- Data Fetching ---
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const res = await axios.get(`${apiHost}/api/save-request`);
-        if (res.data.success) setRequests(res.data.data);
-      } catch (err) {
-        console.error("Fetch Error:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, [apiHost, syncSignal]);
-
-  // --- Dashboard Logic & Analytics ---
-  const stats = useMemo(() => {
-    const total = requests.length;
-    const lessors = requests.filter(r => r.propertyStatus?.includes("مؤجر") || r.propertyStatus?.includes("عرض")).length;
-    const lessees = requests.filter(r => r.propertyStatus?.includes("مستأجر") || r.propertyStatus?.includes("طلب")).length;
-    const totalVal = requests.reduce((acc, curr) => {
-      const price = parseFloat(curr.priceOffer?.replace(/[^\d.]/g, '') || "0");
-      return acc + price;
-    }, 0);
-
-    return {
-      total,
-      lessors,
-      lessees,
-      avgVal: total > 0 ? (totalVal / total).toLocaleString() : "0"
-    };
-  }, [requests]);
-
-  // --- Handlers ---
-  const handleDelete = async () => {
-    if (!deleteId) return;
+  // --- DATABASE OPERATIONS ---
+  const fetchData = useCallback(async () => {
     try {
-      const res = await axios.delete(`${apiHost}/api/save-request/${deleteId}`);
+      setLoading(true);
+      const res = await axios.get(`${API_URL}/api/save-request`);
       if (res.data.success) {
-        setRequests(prev => prev.filter(item => item._id !== deleteId));
-        setDeleteId(null);
+        setRequests(res.data.data);
       }
     } catch (err) {
-      alert("حدث خطأ أثناء الحذف");
+      showNotif("فشل الاتصال بالخادم الرئيسي", "error");
+    } finally {
+      setTimeout(() => setLoading(false), 800);
+    }
+  }, [API_URL]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData, syncSignal]);
+
+  const handleDelete = async () => {
+    if (!deleteTarget) return;
+    try {
+      const res = await axios.delete(`${API_URL}/api/save-request/${deleteTarget}`);
+      if (res.data.success) {
+        setRequests(prev => prev.filter(r => r._id !== deleteTarget));
+        showNotif("تم حذف السجل بنجاح", "success");
+        setDeleteTarget(null);
+      }
+    } catch (err) {
+      showNotif("حدث خطأ أثناء محاولة الحذف", "error");
     }
   };
 
+  const showNotif = (msg: string, type: any) => setNotif({ open: true, msg, type });
+
+  // --- ANALYTICS CALCULATIONS ---
+  const stats = useMemo(() => {
+    const total = requests.length;
+    const ready = requests.filter(r => r.propertyStatus === 'جاهز').length;
+    const offPlan = requests.filter(r => r.propertyStatus === 'على الخارطة').length;
+    const totalVal = requests.reduce((acc, r) => acc + (parseFloat(r.priceOffer || r.priceLimit || "0")), 0);
+    return { total, ready, offPlan, totalVal };
+  }, [requests]);
+
+  // --- FILTER & SEARCH ENGINE ---
+  const filteredData = useMemo(() => {
+    return requests.filter(item => {
+      const searchStr = `${item.ownerName} ${item.clientMobile} ${item.location} ${item.propertyType} ${item.developer} ${item.clientName}`.toLowerCase();
+      const matchesSearch = searchStr.includes(search.toLowerCase());
+      const matchesFilter = filterStatus === "all" || item.propertyStatus === filterStatus;
+      return matchesSearch && matchesFilter;
+    });
+  }, [requests, search, filterStatus]);
+
+  const pagedData = filteredData.slice((page - 1) * LIMIT, page * LIMIT);
+
+  // --- REPORT GENERATION ---
   const exportToExcel = () => {
-    const formatted = filtered.map(item => ({
-      "اسم المالك": item.ownerName,
-      "الموقع": item.location,
-      "نوع العقار": item.propertyType,
-      "السعر": item.priceOffer,
-      "التاريخ": item.createdAt ? new Date(item.createdAt).toLocaleDateString("ar-EG") : ""
+    const dataToExport = filteredData.map(r => ({
+      "حالة العقار": r.propertyStatus,
+      "اسم المالك": r.ownerName,
+      "الجنسية": r.nationality || "غير محدد",
+      "النوع": r.gender || "غير محدد",
+      "نوع العقار": r.propertyType,
+      "الموقع": r.location,
+      "المطور": r.developer || "-",
+      "المساحة": r.area,
+      "الغرف": r.rooms,
+      "دورات المياه": r.bathrooms,
+      "السعر المعروض": r.priceOffer || "-",
+      "حد السعر": r.priceLimit || "-",
+      "اسم العميل": r.clientName || "-",
+      "جوال العميل": r.clientMobile,
+      "تاريخ الطلب": r.createdAt ? new Date(r.createdAt).toLocaleString("ar-SA") : "-"
     }));
-    const ws = XLSX.utils.json_to_sheet(formatted);
+    const ws = XLSX.utils.json_to_sheet(dataToExport);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "PropertyData");
-    XLSX.writeFile(wb, `Enterprise_Report_${Date.now()}.xlsx`);
+    XLSX.writeFile(wb, `RealEstate_Master_${Date.now()}.xlsx`);
   };
 
-  // --- Filtering ---
-  const filtered = requests.filter(r =>
-    r.clientName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    r.ownerName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    r.clientMobile?.includes(searchTerm) ||
-    r.location?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const ITEMS_PER_PAGE = 8;
-  const paginated = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
-
   if (loading) return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh', gap: 2 }}>
-      <CircularProgress size={60} thickness={4} sx={{ color: accentGold }} />
-      <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 700 }}>جاري تحميل البيانات المؤسسية...</Typography>
-    </Box>
+    <Stack sx={{ height: "100vh" }} alignItems="center" justifyContent="center" spacing={2} bgcolor={UI_COLORS.background}>
+      <CircularProgress thickness={5} size={60} sx={{ color: UI_COLORS.primary }} />
+      <Typography variant="h6" sx={{ fontWeight: 800,fontFamily: FONT_FAMILY  }}>جاري تحميل الأنظمة والبيانات...</Typography>
+    </Stack>
   );
 
   return (
-    <Box sx={{ p: { xs: 2, md: 4 }, bgcolor: UI_COLORS.bg, minHeight: "100vh", direction: "rtl" }}>
-      <GlobalStyles styles={{ body: { fontFamily: TAJAWAL, backgroundColor: UI_COLORS.bg } }} />
+    <Box sx={{ minHeight: "100vh", direction: "rtl", bgcolor: UI_COLORS.background, pb: 10 }}>
+      <GlobalStyles styles={{ body: { fontFamily: FONT_FAMILY, margin: 0 }, "*": { fontFamily: FONT_FAMILY } }} />
 
-      <Stack 
-        direction={{ xs: 'column', md: 'row' }} 
-        justifyContent="space-between" 
-        alignItems="center" 
-        sx={{ 
-          bgcolor: UI_COLORS.primary, 
-          color: "#fff", 
-          py: 2, 
-          px: 4, 
-          position: "sticky", 
-          top: 0, 
-          zIndex: 1100, 
-          boxShadow: "0 4px 20px rgba(0,0,0,0.15)" 
-        }}
-      >
-        <Stack direction="row" alignItems="center" spacing={2} sx={{ textAlign: { xs: 'center', md: 'right' } }}>
-          <Avatar sx={{ bgcolor: UI_COLORS.accent, width: 45, height: 45 }}>
-            <SecurityOutlined />
-          </Avatar>
-          <Box>
-            <Typography variant="h5" sx={{ fontWeight: 900, color: "#fff", fontFamily: TAJAWAL }}>
-              المنصة المركزية لإدارة العقارات
-            </Typography>
-            <Typography variant="body2" sx={{ color: "rgba(255, 255, 255, 0.7)", fontFamily: TAJAWAL }}>
-              مرحباً بك في لوحة تحكم الأصول العقارية والطلبات الرقمية
-            </Typography>
-          </Box>
-        </Stack>
-
-        <Stack direction="row" spacing={2} sx={{ mt: { xs: 2, md: 0 } }}>
-          <Button 
-            variant="outlined" 
-            onClick={() => setSyncSignal(s => s + 1)} 
-            startIcon={<Refresh />}
-            sx={{ 
-              borderRadius: "12px", fontFamily: TAJAWAL, border: "1.5px solid #fff", color: "#fff",
-              "&:hover": { border: "1.5px solid #fff", bgcolor: 'rgba(255, 255, 255, 0.1)' } 
-            }}
-          >
-            تحديث
-          </Button>
-          <Button 
-            variant="contained" 
-            onClick={exportToExcel}
-            startIcon={<FileDownloadOutlined />} 
-            sx={{ 
-              borderRadius: "12px", fontFamily: TAJAWAL, bgcolor: "#fff", color: UI_COLORS.primary,
-              "&:hover": { bgcolor: "#f0f0f0" }, boxShadow: '0 8px 16px rgba(0,0,0,0.2)'
-            }}
-          >
-            تصدير Excel
-          </Button>
-        </Stack>
-      </Stack>
-
-      {/* --- ANALYTICS STATS PANELS --- */}
-      <Box sx={{ p: 4 }}>
-        <Stack 
-          direction={{ xs: 'column', lg: 'row' }} 
-          spacing={3} 
-          sx={{ mb: 5, '& > *': { flex: 1 } }}
-        >
-          <StatPanel 
-            label="إجمالي الوحدات" 
-            val={stats?.total || 0} 
-            icon={<AssignmentOutlined />} 
-            color={UI_COLORS.info} 
-          />
-          <StatPanel 
-            label="عروض الملاك (مؤجر)" 
-            val={stats?.lessors || 0} 
-            icon={<PeopleAltOutlined />} 
-            color={UI_COLORS.success} 
-          />
-          <StatPanel 
-            label="طلبات المستأجرين" 
-            val={stats?.lessees || 0} 
-            icon={<TrendingUp />} 
-            color={UI_COLORS.warning} 
-          />
-          <StatPanel 
-            label="متوسط القيمة السوقية" 
-            val={stats?.avgVal || 0} 
-            icon={<PaymentsOutlined />} 
-            color="#8B5CF6" 
-          />
+      {/* --- HEADER --- */}
+      <Box sx={{ bgcolor: UI_COLORS.primary, color: "#fff", py: 2, px: 4, position: "sticky", top: 0, zIndex: 1100, boxShadow: "0 4px 20px rgba(0,0,0,0.15)" }}>
+        <Stack direction="row" justifyContent="space-between" alignItems="center">
+          <Stack direction="row" spacing={2} alignItems="center">
+            <Avatar sx={{ bgcolor: UI_COLORS.accent, width: 45, height: 45 }}><SecurityOutlined /></Avatar>
+            <Box>
+              <Typography variant="h5" sx={{ fontWeight: 900, letterSpacing: -0.5 }}>نظام الأصول العقارية</Typography>
+              <Typography variant="caption" sx={{ opacity: 0.8, display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                <CheckCircleOutline sx={{ fontSize: 12 }} /> متصل بالسيرفر المركزي
+              </Typography>
+            </Box>
+          </Stack>
+          <Stack direction="row" spacing={2}>
+            <Button variant="outlined" color="inherit" onClick={() => setSyncSignal(s => s + 1)} startIcon={<Refresh />}>مزامنة</Button>
+            <Button variant="contained" sx={{ bgcolor: UI_COLORS.accent, "&:hover": { bgcolor: "#b38a29" } }} onClick={exportToExcel} startIcon={<Download />}>تصدير التقارير</Button>
+          </Stack>
         </Stack>
       </Box>
 
-      {/* --- TOOLBAR SECTION --- */}
-      <Card sx={{ borderRadius: "20px", mb: 3, boxShadow: '0 4px 12px rgba(0,0,0,0.03)', border: '1px solid #E2E8F0' }}>
-        <Box sx={{ p: 2, display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 2 }}>
-          <TextField 
-            placeholder="ابحث بواسطة المالك، الموقع، رقم الجوال..." 
-            value={searchTerm} 
-            onChange={(e) => setSearchTerm(e.target.value)}
-            sx={{ 
-              flexGrow: 1,
-              "& .MuiOutlinedInput-root": { borderRadius: "12px", bgcolor: "#F1F5F9", "& fieldset": { border: "none" } }
-            }}
-            InputProps={{ startAdornment: ( <InputAdornment position="start"> <Search sx={{ color: UI_COLORS.secondary }} /> </InputAdornment> ) }}
-          />
-          <Button variant="outlined" startIcon={<FilterList />} sx={{ borderRadius: "12px", px: 3, fontFamily: TAJAWAL, color: UI_COLORS.secondary, borderColor: "#E2E8F0" }}>تصفية متقدمة</Button>
-        </Box>
-      </Card>
+      <Container maxWidth={false} sx={{ mt: 4, px: { lg: 6 } }}>
+        <Stack direction={{ xs: 'column', md: 'row' }} spacing={3} sx={{ mb: 4 }}>
+          <StatPanel label="إجمالي الطلبات" val={stats.total} icon={<AssignmentOutlined />} color="#3B82F6" />
+          <StatPanel label="عقارات جاهزة" val={stats.ready} icon={<HomeWorkOutlined />} color="#10B981" />
+          <StatPanel label="على الخارطة" val={stats.offPlan} icon={<TrendingUp />} color="#F59E0B" />
+          <StatPanel label="متوسط القيم" val={(stats.totalVal / (stats.total || 1)).toLocaleString()} icon={<PaymentsOutlined />} color="#8B5CF6" />
+        </Stack>
 
-      {/* --- DATA TABLE --- */}
-      <TableContainer component={Paper} sx={{ borderRadius: "20px", boxShadow: "0 10px 30px rgba(0,0,0,0.04)", border: "1px solid #E2E8F0" }}>
-        <Table sx={{ minWidth: 1000 }}>
-          <TableHead sx={{ bgcolor: "#F8FAFC" }}>
-            <TableRow>
-              {["هوية المالك", "حالة الأصول", "الموقع الجغرافي", "المساحة الكلية", "القيمة التقديرية", "الملفات", "الإجراءات"].map(h => (
-                <TableCell key={h} align="right" sx={{ fontWeight: 800, fontFamily: TAJAWAL, color: UI_COLORS.primary, py: 2.5, borderBottom: '2px solid #EDF2F7' }}>{h}</TableCell>
+        <Paper sx={{ p: 3, mb: 3, borderRadius: "16px", border: `1px solid ${UI_COLORS.border}` }}>
+          <Stack direction={{ xs: 'column', lg: 'row' }} spacing={3} alignItems="center">
+            <TextField 
+              fullWidth
+              placeholder="ابحث بالاسم، الموقع، الجوال أو نوع العقار..." 
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              InputProps={{
+                startAdornment: <InputAdornment position="start"><Search /></InputAdornment>,
+                sx: { borderRadius: "12px", bgcolor: "#F8FAFC" }
+              }}
+            />
+            <Stack direction="row" spacing={1} sx={{ minWidth: 400 }}>
+              {['all', 'جاهز', 'على الخارطة'].map((s) => (
+                <Chip 
+                  key={s}
+                  label={s === 'all' ? "كافة الحالات" : s}
+                  onClick={() => setFilterStatus(s)}
+                  sx={{ 
+                    px: 2, height: 45, fontWeight: 800,
+                    bgcolor: filterStatus === s ? UI_COLORS.primary : "#E2E8F0",
+                    color: filterStatus === s ? "#fff" : "#475569"
+                  }}
+                />
               ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {paginated.map((item) => (
-              <TableRow key={item._id} hover sx={{ transition: '0.2s', "&:hover": { bgcolor: "#F1F5F9" } }}>
-                <TableCell align="right">
-                  <Stack direction="row" spacing={2} alignItems="center">
-                    <Avatar sx={{ bgcolor: UI_COLORS.primary, fontSize: '0.9rem', fontWeight: 700 }}>{item.ownerName?.[0]}</Avatar>
-                    <Box>
-                      <Typography sx={{ fontWeight: 700, fontFamily: TAJAWAL, fontSize: '0.95rem' }}>{item.ownerName}</Typography>
-                      <Typography sx={{ fontSize: "0.75rem", color: UI_COLORS.secondary }}>{item.clientMobile}</Typography>
-                    </Box>
-                  </Stack>
-                </TableCell>
-                <TableCell align="right">
-                  <Chip 
-                    label={item.propertyStatus} 
-                    size="small" 
-                    sx={{ 
-                      fontFamily: TAJAWAL, 
-                      fontWeight: 700, 
-                      bgcolor: item.propertyStatus?.includes("مؤجر") ? "#ECFDF5" : "#FFFBEB", 
-                      color: item.propertyStatus?.includes("مؤجر") ? "#059669" : "#D97706",
-                      borderRadius: '8px'
-                    }} 
-                  />
-                </TableCell>
-                <TableCell align="right">
-                   <Stack direction="row" spacing={1} alignItems="center" justifyContent="flex-end">
-                     <LocationOn sx={{ fontSize: 16, color: UI_COLORS.secondary }} />
-                     <Typography sx={{ fontFamily: TAJAWAL, fontSize: '0.9rem' }}>{item.location}</Typography>
-                   </Stack>
-                </TableCell>
-                <TableCell align="right" sx={{ fontFamily: TAJAWAL, fontWeight: 600 }}>{item.area} <Typography component="span" sx={{ fontSize: '0.7rem', color: UI_COLORS.secondary }}>م²</Typography></TableCell>
-                <TableCell align="right">
-                  <Typography sx={{ fontWeight: 900, color: UI_COLORS.primary, fontFamily: TAJAWAL }}>{item.priceOffer} <Typography component="span" sx={{ fontSize: '0.7rem' }}>SAR</Typography></Typography>
-                </TableCell>
-                <TableCell align="right">
-                  {item.files && item.files.length > 0 ? (
-                    <Tooltip title="عرض المرفقات">
-                      <Chip label={item.files.length} icon={<CollectionsOutlined fontSize="small" />} size="small" clickable sx={{ bgcolor: "#E2E8F0", "&:hover": { bgcolor: "#CBD5E1" } }} />
-                    </Tooltip>
-                  ) : <Typography sx={{ color: '#CBD5E1' }}>-</Typography>}
-                </TableCell>
-                <TableCell align="right">
-                   <Stack direction="row" spacing={1} justifyContent="flex-end">
-                      <IconButton onClick={() => setViewRequest(item)} sx={{ color: UI_COLORS.primary, bgcolor: "#F0F9FA", "&:hover": { bgcolor: "#E0F2F4" } }}><VisibilityOutlined fontSize="small" /></IconButton>
-                      <IconButton onClick={() => setDeleteId(item._id || null)} sx={{ color: UI_COLORS.danger, bgcolor: "#FEF2F2", "&:hover": { bgcolor: "#FEE2E2" } }}><DeleteOutline fontSize="small" /></IconButton>
-                   </Stack>
-                </TableCell>
+            </Stack>
+          </Stack>
+        </Paper>
+
+        <TableContainer component={Paper} sx={{ borderRadius: "16px", overflow: "hidden", border: `1px solid ${UI_COLORS.border}` }}>
+          <Table stickyHeader>
+            <TableHead>
+              <TableRow>
+                <TableCell align="right" sx={{ fontWeight: 900, bgcolor: "#F8FAFC" }}>المالك</TableCell>
+                <TableCell align="right" sx={{ fontWeight: 900, bgcolor: "#F8FAFC" }}>نوع العقار</TableCell>
+                <TableCell align="right" sx={{ fontWeight: 900, bgcolor: "#F8FAFC" }}>الموقع</TableCell>
+                <TableCell align="right" sx={{ fontWeight: 900, bgcolor: "#F8FAFC" }}>المطور</TableCell>
+                <TableCell align="right" sx={{ fontWeight: 900, bgcolor: "#F8FAFC" }}>المساحة</TableCell>
+                <TableCell align="right" sx={{ fontWeight: 900, bgcolor: "#F8FAFC" }}>السعر</TableCell>
+                <TableCell align="center" sx={{ fontWeight: 900, bgcolor: "#F8FAFC" }}>التحكم</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-
-      {/* --- PAGINATION --- */}
-      <Box sx={{ mt: 5, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2 }}>
-        <Pagination 
-          count={Math.ceil(filtered.length / ITEMS_PER_PAGE)} 
-          page={page} 
-          onChange={(_, v) => setPage(v)} 
-          size="large"
-          color="primary"
-          sx={{ "& .MuiPaginationItem-root": { fontFamily: TAJAWAL, fontWeight: 700, borderRadius: '12px' } }}
-        />
-      </Box>
-
-      {/* --- DETAIL DIALOG (ENHANCED) --- */}
-      <Dialog 
-        open={Boolean(viewRequest)} 
-        onClose={() => setViewRequest(null)} 
-        fullWidth 
-        maxWidth="md" 
-        TransitionComponent={Zoom}
-        PaperProps={{ sx: { borderRadius: '24px', p: 1 } }}
-      >
-        {viewRequest && (
-          <Box>
-            <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Typography variant="h5" sx={{ fontWeight: 900, fontFamily: TAJAWAL, color: UI_COLORS.primary }}>ملف الوحدة العقارية</Typography>
-              <IconButton onClick={() => setViewRequest(null)}><MoreVert /></IconButton>
-            </DialogTitle>
-            <DialogContent dividers>
-              <Stack spacing={4}>
-                {/* Image Gallery */}
-                <Box>
-                  <Typography variant="subtitle2" sx={{ mb: 2, fontWeight: 800, fontFamily: TAJAWAL, color: UI_COLORS.secondary }}>المرفقات الصورية والمعاينة:</Typography>
-                  <Box sx={{ display: 'flex', gap: 2, overflowX: 'auto', py: 1 }}>
-                    {viewRequest.files?.map((f, i) => (
-                      <Card key={i} sx={{ minWidth: 200, borderRadius: '16px', position: 'relative' }}>
-                        <Box component="img" src={`${apiHost}/${f.filePath}`} sx={{ width: '100%', height: 140, objectFit: 'cover' }} />
-                        <IconButton size="small" sx={{ position: 'absolute', top: 5, right: 5, bgcolor: 'white' }} onClick={() => window.open(`${apiHost}/${f.filePath}`)}><OpenInNew fontSize="inherit" /></IconButton>
-                      </Card>
-                    ))}
-                    {(!viewRequest.files || viewRequest.files.length === 0) && (
-                      <Box sx={{ width: '100%', p: 4, textAlign: 'center', border: '2px dashed #E2E8F0', borderRadius: '16px' }}>
-                        <ImageNotSupportedOutlined sx={{ color: '#CBD5E1', fontSize: 40 }} />
-                        <Typography sx={{ color: '#94A3B8', fontFamily: TAJAWAL }}>لا توجد وسائط لهذا العقار</Typography>
+            </TableHead>
+            <TableBody>
+              {pagedData.map((row) => (
+                <TableRow key={row._id} hover>
+                  <TableCell align="right">
+                    <Stack direction="row" spacing={2} alignItems="center">
+                      <Avatar sx={{ bgcolor: row.propertyStatus === 'جاهز' ? "#E0F2F1" : "#FFF8E1", color: row.propertyStatus === 'جاهز' ? "#00796B" : "#F57F17", fontWeight: 900, fontSize: 14 }}>
+                        {row.propertyStatus === 'جاهز' ? "ج" : "خ"}
+                      </Avatar>
+                      <Box>
+                        <Typography variant="body2" sx={{ fontWeight: 800 }}>{row.ownerName}</Typography>
+                        <Typography variant="caption" color="textSecondary">{row.clientMobile}</Typography>
                       </Box>
-                    )}
-                  </Box>
-                </Box>
+                    </Stack>
+                  </TableCell>
+                  <TableCell align="right"><Chip label={row.propertyType} size="small" variant="outlined" sx={{ fontWeight: 700 }} /></TableCell>
+                  <TableCell align="right" sx={{ fontWeight: 600 }}>{row.location}</TableCell>
+                  <TableCell align="right">{row.developer || "عادي"}</TableCell>
+                  <TableCell align="right">{row.area} م²</TableCell>
+                  <TableCell align="right">
+                    <Typography sx={{ fontWeight: 900, color: UI_COLORS.secondary }}>{row.priceOffer || row.priceLimit || "غير محدد"}</Typography>
+                  </TableCell>
+                  <TableCell align="center">
+                    <Stack direction="row" spacing={1} justifyContent="center">
+                      <Tooltip title="التفاصيل"><IconButton onClick={() => setSelectedItem(row)} sx={{ color: UI_COLORS.primary, bgcolor: "#f0f4f5" }}><VisibilityOutlined /></IconButton></Tooltip>
+                      <Tooltip title="حذف"><IconButton onClick={() => setDeleteTarget(row._id || null)} sx={{ color: UI_COLORS.danger, bgcolor: "#fff1f1" }}><DeleteOutline /></IconButton></Tooltip>
+                    </Stack>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
 
-                {/* Grid Info */}
-                <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 3 }}>
-                   <SectionCard title="بيانات التعاقد">
-                      <DetailRow icon={<PersonOutline />} label="الطرف الأول" value={viewRequest.ownerName} />
-                      <DetailRow icon={<Public />} label="الجنسية" value={viewRequest.nationality || "سعودي"} />
-                      <DetailRow icon={<CheckCircleOutline />} label="نوع الطلب" value={viewRequest.propertyStatus} />
-                      <DetailRow icon={<HistoryToggleOff />} label="تاريخ الإدراج" value={new Date(viewRequest.createdAt || "").toLocaleDateString("ar-EG")} />
-                   </SectionCard>
-                   
-                   <SectionCard title="المواصفات الهندسية">
-                      <DetailRow icon={<Speed />} label="التصنيف" value={viewRequest.propertyType} />
-                      <DetailRow icon={<BedOutlined />} label="غرف النوم" value={viewRequest.rooms || "0"} />
-                      <DetailRow icon={<BathtubOutlined />} label="دورات المياه" value={viewRequest.bathrooms || "0"} />
-                      <DetailRow icon={<Scale />} label="المساحة الصافية" value={`${viewRequest.area} م²`} />
-                   </SectionCard>
-                </Box>
+        <Stack direction="row" justifyContent="center" sx={{ mt: 4 }}>
+          <Pagination count={Math.ceil(filteredData.length / LIMIT)} page={page} onChange={(_, v) => setPage(v)} color="primary" size="large" />
+        </Stack>
+      </Container>
 
-                <Box sx={{ p: 3, bgcolor: "#F8FAFC", borderRadius: '16px', borderLeft: `6px solid ${UI_COLORS.accent}` }}>
-                  <Typography variant="subtitle2" sx={{ fontWeight: 800, fontFamily: TAJAWAL, mb: 1 }}>ملاحظات الإدارة:</Typography>
-                  <Typography sx={{ fontFamily: TAJAWAL, color: UI_COLORS.secondary, lineHeight: 1.8 }}>{viewRequest.notes || "لا توجد ملحوظات إضافية مسجلة لهذا الأًصل في الوقت الحالي."}</Typography>
-                </Box>
+      {/* --- DETAIL MODAL --- */}
+      <Dialog open={Boolean(selectedItem)} onClose={() => setSelectedItem(null)} fullWidth maxWidth="md">
+        {selectedItem && (
+          <Box sx={{ p: 4 }}>
+            {/* Header Section */}
+            <Stack direction="row" justifyContent="space-between" alignItems="center" mb={3}>
+              <Stack direction="row" spacing={2} alignItems="center">
+                <Typography variant="h5" sx={{ fontWeight: 900 }}>تفاصيل الطلب: {selectedItem.propertyType}</Typography>
+                <Chip 
+                  label={selectedItem.propertyStatus} 
+                  color={selectedItem.propertyStatus === 'جاهز' ? "success" : "warning"} 
+                  sx={{ fontWeight: 900 }} 
+                />
               </Stack>
-            </DialogContent>
-            <DialogActions sx={{ p: 3, gap: 2 }}>
-                <Button fullWidth variant="contained" startIcon={<WhatsApp />} sx={{ bgcolor: '#25D366', borderRadius: '12px', fontFamily: TAJAWAL }} onClick={() => window.open(`https://wa.me/${viewRequest.clientMobile?.replace(/\D/g,'')}`)}>مراسلة العميل</Button>
-                <Button fullWidth variant="outlined" sx={{ borderRadius: '12px', fontFamily: TAJAWAL }} onClick={() => setViewRequest(null)}>إغلاق الملف</Button>
-            </DialogActions>
+              <IconButton onClick={() => setSelectedItem(null)}><Close /></IconButton>
+            </Stack>
+            
+            <Divider sx={{ mb: 4 }} />
+
+            {/* Main Data Grid */}
+            <Stack direction={{ xs: 'column', md: 'row' }} spacing={4}>
+              {/* Column 1: Owner & Client Info */}
+              <Stack spacing={3} sx={{ flex: 1 }}>
+                <Typography variant="subtitle2" color="primary" sx={{ fontWeight: 900 }}>بيانات المالك والعميل</Typography>
+                <DataField icon={<PersonOutline />} label="اسم المالك" val={selectedItem.ownerName} />
+                <DataField icon={<PeopleAltOutlined />} label="اسم العميل" val={selectedItem.clientName} />
+                <DataField icon={<LanguageOutlined />} label="الجنسية" val={selectedItem.nationality} />
+                <DataField icon={<WcOutlined />} label="الجنس" val={selectedItem.gender} />
+                <DataField icon={<PhoneAndroidOutlined />} label="رقم الجوال" val={selectedItem.clientMobile} />
+              </Stack>
+
+              {/* Column 2: Property Specifications */}
+              <Stack spacing={3} sx={{ flex: 1 }}>
+                <Typography variant="subtitle2" color="primary" sx={{ fontWeight: 900 }}>مواصفات العقار</Typography>
+                <DataField icon={<MapsHomeWorkOutlined />} label="الموقع" val={selectedItem.location} />
+                <DataField icon={<BusinessCenterOutlined />} label="المطور" val={selectedItem.developer} />
+                <DataField icon={<Scale />} label="المساحة" val={`${selectedItem.area} م²`} />
+                <DataField icon={<BedOutlined />} label="عدد الغرف" val={selectedItem.rooms} />
+                <DataField icon={<BathtubOutlined />} label="دورات المياه" val={selectedItem.bathrooms} />
+                <DataField icon={<HistoryToggleOff />} label="عمر العقار" val={selectedItem.propertyAge} />
+              </Stack>
+            </Stack>
+
+            {/* Financial & Negotiation Section */}
+            <Box sx={{ mt: 4, p: 3, bgcolor: "#F8FAFC", borderRadius: "12px", border: `1px solid ${UI_COLORS.border}` }}>
+              <Typography variant="h6" sx={{ fontWeight: 900, mb: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
+                <PaymentsOutlined /> المالية والتعاقد
+              </Typography>
+              <Stack direction="row" spacing={4} flexWrap="wrap">
+                <Box sx={{ minWidth: 120 }}><Typography variant="caption">السعر المعروض</Typography><Typography variant="h6" sx={{ fontWeight: 900, color: UI_COLORS.success }}>{selectedItem.priceOffer || "N/A"}</Typography></Box>
+                <Box sx={{ minWidth: 120 }}><Typography variant="caption">الحد السعري</Typography><Typography variant="h6" sx={{ fontWeight: 900, color: UI_COLORS.accent }}>{selectedItem.priceLimit || "N/A"}</Typography></Box>
+                <Box sx={{ minWidth: 120 }}><Typography variant="caption">قابل للتفاوض</Typography><Typography variant="h6" sx={{ fontWeight: 900 }}>{selectedItem.isNegotiable || "غير محدد"}</Typography></Box>
+              </Stack>
+            </Box>
+
+            {/* Notes Section */}
+            {selectedItem.notes && (
+              <Box sx={{ mt: 3, p: 2, bgcolor: "#FFFBEB", borderRadius: "8px", border: "1px solid #FEF3C7" }}>
+                <Typography variant="subtitle2" sx={{ fontWeight: 900, color: "#92400E", mb: 0.5 }}>ملاحظات إضافية:</Typography>
+                <Typography variant="body2" sx={{ whiteSpace: "pre-line" }}>{selectedItem.notes}</Typography>
+              </Box>
+            )}
+
+            {/* Media Section */}
+            <Box sx={{ mt: 4 }}>
+              <Typography variant="h6" sx={{ fontWeight: 900, mb: 2 }}>المرفقات والصور ({selectedItem.files?.length || 0})</Typography>
+              {selectedItem.files && selectedItem.files.length > 0 ? (
+                <Stack direction="row" spacing={2} sx={{ overflowX: 'auto', pb: 2 }}>
+                  {selectedItem.files.map((file, idx) => (
+                    <Paper key={idx} onClick={() => setMediaActive(file)} sx={{ minWidth: 150, height: 150, cursor: "pointer", position: "relative", overflow: "hidden", borderRadius: "12px", border: `2px solid ${UI_COLORS.border}` }}>
+                      {file.fileType.startsWith('image') ? (
+                        <img src={`${API_URL}/${file.filePath}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="property" />
+                      ) : (
+                        <Stack alignItems="center" justifyContent="center" sx={{ height: '100%', bgcolor: '#1E293B', color: '#fff' }}>
+                          <PlayCircleOutline fontSize="large" />
+                          <Typography variant="caption">عرض الفيديو</Typography>
+                        </Stack>
+                      )}
+                    </Paper>
+                  ))}
+                </Stack>
+              ) : (
+                <Typography variant="body2" color="textSecondary">لا توجد ملفات مرفقة لهذا الطلب</Typography>
+              )}
+            </Box>
+
+            {/* Action Buttons */}
+            <Stack direction="row" spacing={2} sx={{ mt: 5 }}>
+              <Button 
+                fullWidth 
+                variant="contained" 
+                color="success" 
+                sx={{ height: 50, fontWeight: 900, borderRadius: "12px" }} 
+                startIcon={<WhatsApp />} 
+                onClick={() => window.open(`https://wa.me/${selectedItem.clientMobile}`)}
+              >
+                مراسلة واتساب
+              </Button>
+              <Button 
+                fullWidth 
+                variant="contained" 
+                sx={{ height: 50, fontWeight: 900, bgcolor: UI_COLORS.primary, borderRadius: "12px" }} 
+                startIcon={<CallOutlined />} 
+                onClick={() => window.open(`tel:${selectedItem.clientMobile}`)}
+              >
+                اتصال هاتفي
+              </Button>
+            </Stack>
           </Box>
         )}
       </Dialog>
 
-      {/* --- DELETE CONFIRMATION --- */}
-      <Dialog open={Boolean(deleteId)} onClose={() => setDeleteId(null)} TransitionComponent={Fade}>
-        <Box sx={{ p: 3, textAlign: 'center' }}>
-          <Avatar sx={{ bgcolor: '#FEE2E2', color: UI_COLORS.danger, width: 60, height: 60, mx: 'auto', mb: 2 }}><DeleteOutline fontSize="large" /></Avatar>
-          <Typography variant="h6" sx={{ fontFamily: TAJAWAL, fontWeight: 900 }}>هل أنت متأكد من الحذف؟</Typography>
-          <Typography sx={{ fontFamily: TAJAWAL, color: UI_COLORS.secondary, mt: 1 }}>هذا الإجراء سيؤدي إلى حذف كافة البيانات والصور المرفقة نهائياً من الخوادم.</Typography>
-          <Stack direction="row" spacing={2} sx={{ mt: 4 }}>
-            <Button fullWidth onClick={() => setDeleteId(null)} sx={{ fontFamily: TAJAWAL, color: UI_COLORS.secondary }}>تراجع</Button>
-            <Button fullWidth variant="contained" onClick={handleDelete} sx={{ bgcolor: UI_COLORS.danger, fontFamily: TAJAWAL, "&:hover": { bgcolor: "#dc2626" } }}>تأكيد الحذف</Button>
-          </Stack>
-        </Box>
+      {/* --- MEDIA VIEWER & DELETE --- */}
+      <Backdrop open={Boolean(mediaActive)} onClick={() => setMediaActive(null)} sx={{ zIndex: 2000, backdropFilter: "blur(10px)" }}>
+        {mediaActive && (
+          <Box onClick={(e) => e.stopPropagation()} sx={{ maxWidth: '90vw', maxHeight: '90vh' }}>
+            {mediaActive.fileType.startsWith('image') ? (
+              <img src={`${API_URL}/${mediaActive.filePath}`} style={{ width: '100%', maxHeight: '80vh', borderRadius: "12px" }} alt="preview" />
+            ) : (
+              <video controls autoPlay style={{ width: '100%', maxHeight: '80vh', borderRadius: "12px" }}><source src={`${API_URL}/${mediaActive.filePath}`} /></video>
+            )}
+          </Box>
+        )}
+      </Backdrop>
+
+      <Dialog open={Boolean(deleteTarget)} onClose={() => setDeleteTarget(null)}>
+        <DialogTitle sx={{ fontWeight: 900 }}>تأكيد الحذف</DialogTitle>
+        <DialogContent>هل أنت متأكد من حذف سجل المالك وباقي المرفقات نهائياً؟</DialogContent>
+        <DialogActions sx={{ p: 3 }}>
+          <Button onClick={() => setDeleteTarget(null)}>إلغاء</Button>
+          <Button onClick={handleDelete} variant="contained" color="error" sx={{ fontWeight: 800 }}>تأكيد الحذف</Button>
+        </DialogActions>
       </Dialog>
+
+      <Snackbar open={notif.open} autoHideDuration={4000} onClose={() => setNotif({ ...notif, open: false })}>
+        <Alert severity={notif.type} variant="filled" sx={{ fontWeight: 800 }}>{notif.msg}</Alert>
+      </Snackbar>
     </Box>
   );
 };
 
-// --- SUB-COMPONENTS ---
-
+// --- HELPER COMPONENTS ---
 const StatPanel = ({ label, val, icon, color }: any) => (
-  <Paper sx={{ p: 3, borderRadius: "24px", display: 'flex', alignItems: 'center', gap: 2.5, border: "1px solid #E2E8F0", transition: '0.3s', "&:hover": { transform: 'translateY(-5px)', boxShadow: '0 12px 24px rgba(0,0,0,0.05)' } }}>
-    <Box sx={{ p: 2, borderRadius: "18px", bgcolor: `${color}15`, color: color, display: 'flex', fontSize: '2rem' }}>{icon}</Box>
-    <Box>
-      <Typography sx={{ fontSize: "0.9rem", color: UI_COLORS.secondary, fontFamily: TAJAWAL, fontWeight: 500 }}>{label}</Typography>
-      <Typography variant="h5" sx={{ fontWeight: 900, color: "#1E293B", fontFamily: TAJAWAL, mt: 0.5 }}>{val}</Typography>
-    </Box>
+  <Paper sx={{ flex: 1, p: 3, borderRadius: "20px", border: `1px solid ${UI_COLORS.border}`, transition: "0.3s", "&:hover": { transform: "translateY(-5px)", boxShadow: "0 10px 30px rgba(0,0,0,0.08)" } }}>
+    <Stack direction="row" spacing={3} alignItems="center">
+      <Box sx={{ p: 2, borderRadius: "15px", bgcolor: `${color}15`, color: color }}>{React.cloneElement(icon, { fontSize: "large" })}</Box>
+      <Box><Typography variant="caption" sx={{ fontWeight: 800, color: "#64748B" }}>{label}</Typography><Typography variant="h4" sx={{ fontWeight: 900 }}>{val}</Typography></Box>
+    </Stack>
   </Paper>
 );
 
-const SectionCard = ({ title, children }: any) => (
-  <Box sx={{ p: 2, border: '1px solid #EDF2F7', borderRadius: '20px' }}>
-    <Typography sx={{ mb: 2, fontWeight: 800, fontFamily: TAJAWAL, color: UI_COLORS.primary, fontSize: '0.9rem', borderBottom: '1px solid #EDF2F7', pb: 1 }}>{title}</Typography>
-    <Stack spacing={1.5}>{children}</Stack>
-  </Box>
-);
-
-const DetailRow = ({ icon, label, value }: { icon: any, label: string, value: string }) => (
-  <Stack direction="row" justifyContent="space-between" alignItems="center">
-    <Stack direction="row" spacing={1.5} alignItems="center">
-      <Box sx={{ color: accentGold, display: 'flex', fontSize: 18 }}>{icon}</Box>
-      <Typography sx={{ color: UI_COLORS.secondary, fontFamily: TAJAWAL, fontSize: "0.85rem" }}>{label}</Typography>
-    </Stack>
-    <Typography sx={{ fontWeight: 700, fontFamily: TAJAWAL, fontSize: '0.9rem' }}>{value}</Typography>
+const DataField = ({ icon, label, val }: any) => (
+  <Stack direction="row" spacing={2} alignItems="center">
+    <Box sx={{ color: UI_COLORS.primary, display: "flex", p: 1, bgcolor: "#F1F5F9", borderRadius: "8px" }}>{icon}</Box>
+    <Box><Typography variant="caption" color="textSecondary" sx={{ fontWeight: 700 }}>{label}</Typography><Typography variant="body1" sx={{ fontWeight: 800 }}>{val || "غير مسجل"}</Typography></Box>
   </Stack>
 );
 
