@@ -1,54 +1,56 @@
 import mongoose from 'mongoose';
 
 const PropertyforsaleSchema = new mongoose.Schema({
-  // Property Status (Ready or Off-plan)
+  // 1. Property Status & Type
+  // Example: Ready (جاهز) or Off-plan (على الخارطة)
   propertyStatus: { type: String, required: true },
-  
-  // Property Type (Villa, Apartment, etc.)
   propertyType: { type: String, required: true },
   
-  // Personal Data (The New Fields)
+  // 2. Personal Profile (Owner/Agent Information)
   ownerName: { type: String, required: true },
   nationality: { type: String },
   gender: { type: String },
 
-  // Location & Developer
+  // 3. Location & Developer
   location: { type: String, required: true },
   developer: { type: String },
 
-  // Specs
+  // 4. Specifications
   area: { type: String },
   rooms: { type: String },
   bathrooms: { type: String },
   propertyAge: { type: String },
 
-  // Pricing
+  // 5. Pricing Logic
   priceLimit: { type: String },
   priceOffer: { type: String },
-  isNegotiable: { type: String },
+  isNegotiable: { type: String }, // Can be "Yes/No" or Boolean
 
-  // Contact Channels
+  // 6. Contact Channels
   contactChannels: {
     chat: { type: Boolean, default: false },
     whatsapp: { type: Boolean, default: false },
     call: { type: Boolean, default: false }
   },
 
-  // Client Details (The person filling the form)
-  clientName: { type: String },
-  clientMobile: { type: String },
+  // 7. Submitter Details
+  clientName: { type: String, required: true },
+  clientMobile: { type: String, required: true },
 
-  // Notes
+  // 8. Additional Info
   notes: { type: String },
 
-  // File Uploads
+  // 9. File Uploads (Matches your controller mapping)
   files: [{
-    fileName: String,
-    filePath: String,
-    fileType: String
+    fileName: { type: String },
+    filePath: { type: String },
+    fileType: { type: String }
   }],
 
-  createdAt: { type: Date, default: Date.now }
+  createdAt: { 
+    type: Date, 
+    default: Date.now 
+  }
 });
 
 const Propertyforsale = mongoose.model('Propertyforsale', PropertyforsaleSchema);

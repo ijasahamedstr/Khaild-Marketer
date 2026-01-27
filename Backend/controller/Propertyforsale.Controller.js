@@ -45,42 +45,40 @@ import Propertyforsale from "../models/Propertyforsale.models.js";
 //   }
 // };
 
+
 export const savePropertyRequest = async (req, res) => {
-    try {
-        console.log("Body received:", req.body); // Check if payload exists
-        console.log("Files received:", req.files); // Check if files exist
+  try {
+    const data = JSON.parse(req.body.payload);
+    const fileEntries = (req.files || []).map(file => ({
+      fileName: file.originalname,
+      filePath: file.path,
+      fileType: file.mimetype
+    }));
 
-        if (!req.body.payload) {
-            return res.status(400).json({ success: false, message: "No payload data found" });
-        }
+    // 3. Create the new document using the Propertyforsale model
+    const newProperty = new Propertyforsale({
+      ...data,
+      files: fileEntries // Matches the schema field for your sale properties
+    });
 
-        const data = JSON.parse(req.body.payload);
+    // 4. Save to Database
+    const savedProperty = await newProperty.save();
 
-        // Map files safely
-        const fileEntries = (req.files || []).map(file => ({
-            fileName: file.originalname,
-            filePath: file.path,
-            fileType: file.mimetype
-        }));
+    res.status(201).json({ 
+      success: true, 
+      message: "Property for sale request saved successfully!",
+      data: savedProperty 
+    });
 
-        const newProperty = new Propertyforsale({
-            ...data,
-            files: fileEntries
-        });
-
-        await newProperty.save();
-        res.status(201).json({ success: true, message: "Request saved successfully!" });
-        
-    } catch (error) {
-        console.error("DETAILED SERVER ERROR:", error); 
-        res.status(500).json({ 
-            success: false, 
-            error: error.message,
-            stack: process.env.NODE_ENV === 'development' ? error.stack : undefined 
-        });
-    }
+  } catch (error) {
+    console.error("Save Error:", error);
+    res.status(500).json({ 
+      success: false, 
+      message: "Failed to save property request", 
+      error: error.message 
+    });
+  }
 };
-
 
 export const getAllServiceRequestsfilter = async (req, res) => {
   try {

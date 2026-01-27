@@ -1,9 +1,10 @@
 import express from "express";
 import multer from "multer";
+import os from 'os';
 import { 
   deleteServiceRequest, 
   getAllServiceRequests, 
-  getAllServiceRequestsfilter, // Added this back
+  getAllServiceRequestsfilter, 
   getServiceRequestById, 
   savePropertyRequest, 
   updateServiceRequest 
@@ -11,33 +12,36 @@ import {
 
 const Propertyforsalerouter = express.Router();
 
-// Configure storage for images/videos
+// 1. Storage Config - Compatible with Vercel (/tmp) and Local Development
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/');
+    // Use /tmp for Vercel production environments, or 'uploads' for local
+    const dest = process.env.NODE_ENV === 'production' ? os.tmpdir() : 'uploads/';
+    cb(null, dest);
   },
   filename: (req, file, cb) => {
+    // Unique filename to prevent overwriting
     cb(null, `${Date.now()}-${file.originalname}`);
   }
 });
 
 const upload = multer({ storage });
 
-// Routes
+// 2. Routes
 
-// 1. General Route: Save and Get All
+// Main submission and viewing route
 Propertyforsalerouter.route('/save-request')
-    .post(upload.array('files'), savePropertyRequest) 
+    .post(upload.array('files', 10), savePropertyRequest) 
     .get(getAllServiceRequests);
 
-// 2. Specific Filter Route: Use this for the Search Button
+// Search/Filter route
 Propertyforsalerouter.route('/save-request-filter')
     .get(getAllServiceRequestsfilter);
 
-// 3. ID based Route
+// ID-based operations (Single view, Update, Delete)
 Propertyforsalerouter.route('/save-request/:id')
     .get(getServiceRequestById)
-    .put(upload.array('files'), updateServiceRequest) 
+    .put(upload.array('files', 10), updateServiceRequest) 
     .delete(deleteServiceRequest);
 
 export default Propertyforsalerouter;
