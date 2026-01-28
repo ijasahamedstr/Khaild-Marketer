@@ -24,6 +24,8 @@ import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import PhoneIcon from "@mui/icons-material/Phone";
+import {  Play 
+} from 'lucide-react';
 
 /* ---------------- CONSTANTS ---------------- */
 const TAJAWAL = "'Tajawal', sans-serif";
@@ -701,208 +703,248 @@ const Service01: React.FC = () => {
         {/* RESULTS VIEW */}
 
 
-{view === "results" && (
-  <Box sx={{ fontFamily: "'Tajawal', sans-serif" }}>
-    {/* Header Section */}
-    <motion.div 
-      initial={{ opacity: 0, x: 30 }} 
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.6 }}
-    >
-      <Box sx={{ display: 'flex', alignItems: 'center', mb: 8, mt: 4 }}>
-        <IconButton 
-          onClick={() => setView("form")} 
-          sx={{ 
-            color: COLOR_PRIMARY_CYAN, 
-            bgcolor: "rgba(255,255,255,0.03)", 
-            backdropFilter: 'blur(12px)',
-            ml: 3,
-            p: 2,
-            border: '1px solid rgba(255,255,255,0.1)',
-            boxShadow: `0 0 20px ${COLOR_PRIMARY_CYAN}15`,
-            '&:hover': { bgcolor: COLOR_PRIMARY_CYAN, color: '#000' }
-          }}
-        >
-          <ArrowRight size={28} />
-        </IconButton>
-        <Box>
-          <Typography variant="h3" sx={{ color: "#fff", fontWeight: 900, fontFamily: "'Tajawal', sans-serif", lineHeight: 1 }}>
-            نتائج البحث
-          </Typography>
-          <Typography sx={{ color: COLOR_PRIMARY_CYAN, mt: 1, fontWeight: 600, opacity: 0.8, fontFamily: "'Tajawal', sans-serif" }}>
-             تم العثور على {dbResults.length} عقار مميز
-          </Typography>
-        </Box>
-      </Box>
-    </motion.div>
-
-    {/* Grid Container */}
-    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 5, justifyContent: 'center' }}>
-      <AnimatePresence>
-        {dbResults.length > 0 ? dbResults.map((prop: any, index: number) => (
-          <Box 
-            component={motion.div}
-            layout
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1, duration: 0.5 }}
-            key={prop._id} 
-            sx={{ flex: { xs: '1 1 100%', sm: '0 1 48%', md: '0 1 31%' }, maxWidth: { md: '32%' } }}
-          >
-            <Box sx={{ 
-              borderRadius: '32px', 
-              overflow: 'hidden', 
-              height: '100%', 
-              display: 'flex', 
-              flexDirection: 'column',
-              bgcolor: 'rgba(15, 15, 15, 0.6)',
-              backdropFilter: 'blur(20px)',
-              border: '1px solid rgba(255,255,255,0.08)',
-              transition: 'all 0.4s ease',
-              position: 'relative',
-              '&:hover': {
-                transform: 'translateY(-12px)',
-                borderColor: `${COLOR_PRIMARY_CYAN}60`,
-                boxShadow: `0 30px 60px rgba(0,0,0,0.8), 0 0 30px ${COLOR_PRIMARY_CYAN}15`,
-                '& .card-image': { transform: 'scale(1.08)' }
-              }
-            }}>
-              
-              {/* Image Section */}
-              <Box sx={{ position: 'relative', height: 260, overflow: 'hidden' }}>
-                <CardMedia 
-                  component="img" 
-                  className="card-image"
-                  image={prop.files?.length > 0 ? `${API_BASE_URL}/${prop.files[0].filePath}` : "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800"} 
-                  sx={{ height: '100%', objectFit: 'cover', transition: 'transform 0.8s ease' }}
-                />
-                <Box sx={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, transparent 40%, rgba(0,0,0,0.9) 100%)' }} />
-                
-                <Typography 
+        {view === "results" && (
+          <Box sx={{ fontFamily: "'Tajawal', sans-serif" }}>
+            {/* Header Section */}
+            <motion.div 
+              initial={{ opacity: 0, x: 30 }} 
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <Box sx={{ display: 'flex', alignItems: 'center', mb: 8, mt: 4 }}>
+                <IconButton 
+                  onClick={() => setView("form")} 
                   sx={{ 
-                    position: 'absolute', top: 20, right: 20, 
-                    bgcolor: COLOR_PRIMARY_CYAN, color: '#000', 
-                    px: 2, py: 0.6, borderRadius: '12px', 
-                    fontSize: '0.75rem', fontWeight: 900,
-                    textTransform: 'uppercase', letterSpacing: 0.5,
-                    fontFamily: "'Tajawal', sans-serif"
+                    color: COLOR_PRIMARY_CYAN, 
+                    bgcolor: "rgba(255,255,255,0.03)", 
+                    backdropFilter: 'blur(12px)',
+                    ml: 3,
+                    p: 2,
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    boxShadow: `0 0 20px ${COLOR_PRIMARY_CYAN}15`,
+                    '&:hover': { bgcolor: COLOR_PRIMARY_CYAN, color: '#000' }
                   }}
                 >
-                  {prop.propertyStatus}
-                </Typography>
-
-                <Stack direction="row" spacing={1} sx={{ position: 'absolute', bottom: 20, left: 20 }}>
-                   {prop.area && (
-                     <Typography sx={{ color: '#fff', fontWeight: 800, fontSize: '1.1rem', bgcolor: 'rgba(0,0,0,0.5)', px: 1.5, py: 0.5, borderRadius: '10px', backdropFilter: 'blur(4px)', fontFamily: "'Tajawal', sans-serif" }}>
-                       {prop.area} م²
-                     </Typography>
-                   )}
-                </Stack>
+                  <ArrowRight size={28} />
+                </IconButton>
+                <Box>
+                  <Typography variant="h3" sx={{ color: "#fff", fontWeight: 900, fontFamily: "'Tajawal', sans-serif", lineHeight: 1 }}>
+                    نتائج البحث
+                  </Typography>
+                  <Typography sx={{ color: COLOR_PRIMARY_CYAN, mt: 1, fontWeight: 600, opacity: 0.8, fontFamily: "'Tajawal', sans-serif" }}>
+                      تم العثور على {dbResults.length} عقار مميز
+                  </Typography>
+                </Box>
               </Box>
-              
-              <CardContent sx={{ p: 4, flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
-                <Typography variant="h5" sx={{ fontWeight: 900, color: '#fff', mb: 1, fontFamily: "'Tajawal', sans-serif", letterSpacing: -0.5 }}>
-                  {prop.propertyType}
-                </Typography>
-                
-                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.4)', mb: 3, fontFamily: "'Tajawal', sans-serif", fontSize: '0.9rem' }}>
-                  بواسطة: <span style={{ color: '#fff', fontWeight: 600 }}>{prop.developer || "مالك خاص"}</span>
-                </Typography>
-                
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, color: 'rgba(255,255,255,0.7)', mb: 4 }}>
-                  <MapPin size={20} color={COLOR_PRIMARY_CYAN} /> 
-                  <Typography fontSize="0.95rem" sx={{ fontFamily: "'Tajawal', sans-serif", fontWeight: 500 }}>{prop.location}</Typography>
-                </Box>
+            </motion.div>
 
-                {/* Modern Specs Grid */}
-                <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 2, mb: 4 }}>
-                  {[
-                    { label: 'غرف', val: prop.rooms, icon: <Bed size={16} /> },
-                    { label: 'حمام', val: prop.bathrooms, icon: <Bath size={16} /> },
-                    { label: 'عمر', val: prop.propertyAge, icon: <History size={16} /> }
-                  ].map((item, i) => item.val && (
-                    <Box key={i} sx={{ bgcolor: 'rgba(255,255,255,0.03)', p: 1.5, borderRadius: '18px', textAlign: 'center', border: '1px solid rgba(255,255,255,0.05)' }}>
-                      <Box sx={{ color: COLOR_PRIMARY_CYAN, mb: 0.5, display: 'flex', justifyContent: 'center' }}>{item.icon}</Box>
-                      <Typography sx={{ color: '#fff', fontWeight: 800, fontSize: '1rem', fontFamily: "'Tajawal', sans-serif" }}>{item.val}</Typography>
-                      <Typography sx={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.65rem', fontWeight: 700, fontFamily: "'Tajawal', sans-serif" }}>{item.label}</Typography>
-                    </Box>
-                  ))}
-                </Box>
-
-                <Box sx={{ mt: 'auto' }}>
-                  <Divider sx={{ mb: 3, borderColor: 'rgba(255,255,255,0.08)' }} />
+            {/* Grid Container */}
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 5, justifyContent: 'center' }}>
+              <AnimatePresence>
+                {dbResults.length > 0 ? dbResults.map((prop: any, index: number) => {
                   
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-                    <Box>
-                      <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.4)', display: 'block', fontWeight: 700, fontFamily: "'Tajawal', sans-serif" }}>السعر النهائي</Typography>
-                      <Typography sx={{ fontWeight: 900, fontSize: "1.8rem", color: '#fff', fontFamily: "'Tajawal', sans-serif", lineHeight: 1.1 }}>
-                        {prop.priceOffer || prop.priceLimit}
-                        <Box component="span" sx={{ fontSize: '0.85rem', mr: 1, color: COLOR_PRIMARY_CYAN, fontFamily: "'Tajawal', sans-serif" }}>SAR</Box>
-                      </Typography>
-                    </Box>
-                    
-                    <Stack direction="row" spacing={1}>
-                      {prop.contactChannels?.whatsapp && (
-                        <Box sx={{ p: 1, bgcolor: 'rgba(34, 197, 94, 0.1)', color: '#22c55e', borderRadius: '10px' }}><MessageSquare size={20}/></Box>
-                      )}
-                      {prop.contactChannels?.call && (
-                        <Box sx={{ p: 1, bgcolor: 'rgba(59, 130, 246, 0.1)', color: '#3b82f6', borderRadius: '10px' }}><Phone size={20}/></Box>
-                      )}
-                    </Stack>
-                  </Box>
+                  const firstFile = prop.files?.[0];
+                  const isVideo: boolean = !!(firstFile?.mimeType?.includes('video') || /\.(mp4|webm|ogg)$/i.test(firstFile?.filePath));
+                  const mediaUrl: string = firstFile ? `${API_BASE_URL}/${firstFile.filePath}` : "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800";
 
-                  <Button 
-                    fullWidth 
-                    variant="contained" 
-                    sx={{ 
-                      py: 2,
-                      borderRadius: '16px',
-                      fontFamily: "'Tajawal', sans-serif",
-                      fontWeight: 800,
-                      fontSize: '1rem',
-                      background: '#fff',
-                      color: '#000',
-                      boxShadow: `0 10px 20px rgba(0,0,0,0.3)`,
-                      '&:hover': {
-                        background: COLOR_PRIMARY_CYAN,
-                        transform: 'scale(1.02)'
-                      }
-                    }}
-                  >
-                    مشاهدة التفاصيل
-                  </Button>
-                </Box>
-              </CardContent>
+                  return (
+                    <Box 
+                      key={prop._id}
+                      component={motion.div}
+                      layout
+                      initial={{ opacity: 0, y: 40 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.1, duration: 0.5 }}
+                      sx={{ flex: { xs: '1 1 100%', sm: '0 1 48%', md: '0 1 31%' }, maxWidth: { md: '32%' } }}
+                    >
+                      <Box sx={{ 
+                        borderRadius: '32px', 
+                        overflow: 'hidden', 
+                        height: '100%', 
+                        display: 'flex', 
+                        flexDirection: 'column',
+                        bgcolor: 'rgba(15, 15, 15, 0.6)',
+                        backdropFilter: 'blur(20px)',
+                        border: '1px solid rgba(255,255,255,0.08)',
+                        transition: 'all 0.4s ease',
+                        position: 'relative',
+                        '&:hover': {
+                          transform: 'translateY(-12px)',
+                          borderColor: `${COLOR_PRIMARY_CYAN}60`,
+                          boxShadow: `0 30px 60px rgba(0,0,0,0.8), 0 0 30px ${COLOR_PRIMARY_CYAN}15`,
+                          '& .card-media': { transform: 'scale(1.05)' },
+                          '& .play-overlay': { opacity: 0, visibility: 'hidden', transform: 'translate(-50%, -50%) scale(0.5)' }
+                        }
+                      }}>
+                        
+                        {/* Media Section */}
+                        <Box 
+                          sx={{ position: 'relative', height: 260, overflow: 'hidden', bgcolor: '#000' }}
+                          onMouseEnter={(e: React.MouseEvent<HTMLElement>) => {
+                            if (isVideo) {
+                              const video = e.currentTarget.querySelector('video') as HTMLVideoElement;
+                              video?.play().catch(() => {});
+                            }
+                          }}
+                          onMouseLeave={(e: React.MouseEvent<HTMLElement>) => {
+                            if (isVideo) {
+                              const video = e.currentTarget.querySelector('video') as HTMLVideoElement;
+                              video?.pause();
+                            }
+                          }}
+                        >
+                          <CardMedia 
+                            component={isVideo ? "video" : "img"} 
+                            className="card-media"
+                            src={mediaUrl}
+                            // @ts-ignore
+                            controls={isVideo}
+                            // @ts-ignore
+                            controlsList="nodownload nofullscreen"
+                            disablePictureInPicture={isVideo}
+                            muted={isVideo}
+                            loop={isVideo}
+                            playsInline={isVideo}
+                            sx={{ 
+                              height: '100%', 
+                              width: '100%',
+                              objectFit: 'cover', 
+                              transition: 'transform 0.8s ease',
+                              zIndex: 1
+                            }}
+                          />
+
+                          {/* Play Button Overlay */}
+                          {isVideo && (
+                            <Box 
+                              className="play-overlay"
+                              sx={{ 
+                                position: 'absolute', 
+                                top: '50%', 
+                                left: '50%', 
+                                transform: 'translate(-50%, -50%)',
+                                bgcolor: 'rgba(0,0,0,0.5)',
+                                backdropFilter: 'blur(10px)',
+                                borderRadius: '50%',
+                                width: 70,
+                                height: 70,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                border: `1px solid ${COLOR_PRIMARY_CYAN}`,
+                                zIndex: 2,
+                                transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                                pointerEvents: 'none'
+                              }}
+                            >
+                              <Play size={32} fill={COLOR_PRIMARY_CYAN} color={COLOR_PRIMARY_CYAN} style={{ marginLeft: '4px' }} />
+                            </Box>
+                          )}
+                          
+                          {/* Visual Gradient Overlay */}
+                          <Box sx={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, transparent 40%, rgba(0,0,0,0.8) 100%)', pointerEvents: 'none', zIndex: 1 }} />
+                          
+                          {/* Status Badge */}
+                          <Typography 
+                            sx={{ 
+                              position: 'absolute', top: 20, right: 20, 
+                              bgcolor: COLOR_PRIMARY_CYAN, color: '#000', 
+                              px: 2, py: 0.6, borderRadius: '12px', 
+                              fontSize: '0.75rem', fontWeight: 900,
+                              fontFamily: "'Tajawal', sans-serif",
+                              zIndex: 3
+                            }}
+                          >
+                            {prop.propertyStatus}
+                          </Typography>
+
+                          {/* Area Badge */}
+                          <Stack direction="row" spacing={1} sx={{ position: 'absolute', bottom: isVideo ? 50 : 20, left: 20, zIndex: 3 }}>
+                            {prop.area && (
+                              <Typography sx={{ color: '#fff', fontWeight: 800, fontSize: '1.1rem', bgcolor: 'rgba(0,0,0,0.5)', px: 1.5, py: 0.5, borderRadius: '10px', backdropFilter: 'blur(4px)', fontFamily: "'Tajawal', sans-serif" }}>
+                                {prop.area} م²
+                              </Typography>
+                            )}
+                          </Stack>
+                        </Box>
+                        
+                        {/* Content Section */}
+                        <CardContent sx={{ p: 4, flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+                          <Typography variant="h5" sx={{ fontWeight: 900, color: '#fff', mb: 1, fontFamily: "'Tajawal', sans-serif" }}>
+                            {prop.propertyType}
+                          </Typography>
+                          
+                          <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.4)', mb: 3, fontFamily: "'Tajawal', sans-serif" }}>
+                            بواسطة: <span style={{ color: '#fff', fontWeight: 600 }}>{prop.developer || "مالك خاص"}</span>
+                          </Typography>
+                          
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, color: 'rgba(255,255,255,0.7)', mb: 4 }}>
+                            <MapPin size={20} color={COLOR_PRIMARY_CYAN} /> 
+                            <Typography fontSize="0.95rem" sx={{ fontFamily: "'Tajawal', sans-serif" }}>{prop.location}</Typography>
+                          </Box>
+
+                          {/* Modern Specs Grid */}
+                          <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 2, mb: 4 }}>
+                            {[
+                              { label: 'غرف', val: prop.rooms, icon: <Bed size={16} /> },
+                              { label: 'حمام', val: prop.bathrooms, icon: <Bath size={16} /> },
+                              { label: 'عمر', val: prop.propertyAge, icon: <History size={16} /> }
+                            ].map((item, i) => item.val && (
+                              <Box key={i} sx={{ bgcolor: 'rgba(255,255,255,0.03)', p: 1.5, borderRadius: '18px', textAlign: 'center', border: '1px solid rgba(255,255,255,0.05)' }}>
+                                <Box sx={{ color: COLOR_PRIMARY_CYAN, mb: 0.5, display: 'flex', justifyContent: 'center' }}>{item.icon}</Box>
+                                <Typography sx={{ color: '#fff', fontWeight: 800, fontSize: '1rem', fontFamily: "'Tajawal', sans-serif" }}>{item.val}</Typography>
+                                <Typography sx={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.65rem', fontWeight: 700, fontFamily: "'Tajawal', sans-serif" }}>{item.label}</Typography>
+                              </Box>
+                            ))}
+                          </Box>
+
+                          <Box sx={{ mt: 'auto' }}>
+                            <Divider sx={{ mb: 3, borderColor: 'rgba(255,255,255,0.08)' }} />
+                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+                              <Box>
+                                <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.4)', display: 'block', fontWeight: 700, fontFamily: "'Tajawal', sans-serif" }}>السعر النهائي</Typography>
+                                <Typography sx={{ fontWeight: 900, fontSize: "1.8rem", color: '#fff', fontFamily: "'Tajawal', sans-serif", lineHeight: 1.1 }}>
+                                  {prop.priceOffer || prop.priceLimit}
+                                  <Box component="span" sx={{ fontSize: '0.85rem', mr: 1, color: COLOR_PRIMARY_CYAN }}>SAR</Box>
+                                </Typography>
+                              </Box>
+                              
+                              <Stack direction="row" spacing={1}>
+                                {prop.contactChannels?.whatsapp && (
+                                  <Box sx={{ p: 1, bgcolor: 'rgba(34, 197, 94, 0.1)', color: '#22c55e', borderRadius: '10px' }}><MessageSquare size={20}/></Box>
+                                )}
+                                {prop.contactChannels?.call && (
+                                  <Box sx={{ p: 1, bgcolor: 'rgba(59, 130, 246, 0.1)', color: '#3b82f6', borderRadius: '10px' }}><Phone size={20}/></Box>
+                                )}
+                              </Stack>
+                            </Box>
+
+                            <Button 
+                              fullWidth 
+                              variant="contained" 
+                              sx={{ 
+                                py: 2, borderRadius: '16px', fontWeight: 800, fontSize: '1rem',
+                                background: '#fff', color: '#000', fontFamily: "'Tajawal', sans-serif",
+                                '&:hover': { background: COLOR_PRIMARY_CYAN, transform: 'scale(1.02)' }
+                              }}
+                            >
+                              مشاهدة التفاصيل
+                            </Button>
+                          </Box>
+                        </CardContent>
+                      </Box>
+                    </Box>
+                  );
+                }) : (
+                  <Box sx={{ textAlign: 'center', py: 20, width: '100%' }}>
+                    <Typography variant="h3" sx={{ color: 'rgba(255,255,255,0.1)', fontWeight: 900, fontFamily: "'Tajawal', sans-serif" }}>NO RESULTS</Typography>
+                    <Typography variant="h5" color="white" sx={{ fontFamily: "'Tajawal', sans-serif", mt: 2 }}>لم يتم العثور على نتائج</Typography>
+                  </Box>
+                )}
+              </AnimatePresence>
             </Box>
           </Box>
-        )) : (
-          /* Enhanced Empty State */
-          <Box 
-            component={motion.div}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            sx={{ textAlign: 'center', py: 20, width: '100%' }}
-          >
-             <Typography variant="h3" sx={{ color: 'rgba(255,255,255,0.1)', fontWeight: 900, mb: 2, fontFamily: "'Tajawal', sans-serif" }}>NO RESULTS</Typography>
-             <Typography variant="h5" color="white" sx={{ fontFamily: "'Tajawal', sans-serif", mb: 4 }}>عذراً، لم نجد نتائج تطابق بحثك حالياً</Typography>
-             <Button 
-                onClick={() => setView("form")} 
-                sx={{ 
-                  color: COLOR_PRIMARY_CYAN, 
-                  border: `1px solid ${COLOR_PRIMARY_CYAN}`,
-                  px: 6, py: 2, borderRadius: '14px',
-                  fontWeight: 800,
-                  fontFamily: "'Tajawal', sans-serif"
-                }}
-             >
-                العودة للمحرك
-             </Button>
-          </Box>
         )}
-      </AnimatePresence>
-    </Box>
-  </Box>
-)}
       </Container>
     </Box>
   );
