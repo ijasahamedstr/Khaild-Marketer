@@ -29,7 +29,6 @@ const COLOR_PRIMARY_CYAN = "#06f9f3";
 const COLOR_DEEP_BLUE = "#023B4E";
 const TAJAWAL = "'Tajawal', sans-serif"; 
 const BASE_URL = import.meta.env.VITE_API_URL;
-const WHATSAPP_NUMBER = "966XXXXXXXXX"; // Replace with your actual WhatsApp number
 
 // ---------------- ANIMATIONS ----------------
 
