@@ -236,7 +236,7 @@ const Service01: React.FC = () => {
                         // Container background and shape
                         "& .MuiInputBase-root": {
                           borderRadius: "8px",
-                          backgroundColor: "#fff",
+                          backgroundColor: "#E2E8F0",
                         },
 
                         // Standard border state
@@ -455,7 +455,7 @@ const Service01: React.FC = () => {
                       width: 120,
                       "& .MuiInputBase-root": {
                         borderRadius: "8px",
-                        backgroundColor: "white",
+                        backgroundColor: "#E2E8F0",
                       },
 
                       // 1. Standard border state

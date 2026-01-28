@@ -457,7 +457,7 @@ const Service02: React.FC<Props> = ({ }) => {
                       // 1. Background and Shape
                       "& .MuiInputBase-root": {
                         borderRadius: "8px",
-                        backgroundColor: "#fff", // Kept white as per your second snippet
+                        backgroundColor: "#E2E8F0", // Kept white as per your second snippet
                       },
 
                       // 2. Standard border state

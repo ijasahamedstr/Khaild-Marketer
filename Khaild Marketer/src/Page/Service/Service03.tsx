@@ -416,7 +416,7 @@ const Service03: React.FC<Props> = ({  }) => {
                       // 1. Container background and shape (White as requested)
                       "& .MuiInputBase-root": {
                         borderRadius: "8px",
-                        backgroundColor: "#fff",
+                        backgroundColor: "#E2E8F0",
                       },
 
                       // 2. Standard border state (Black 1px)
@@ -595,7 +595,7 @@ const Service03: React.FC<Props> = ({  }) => {
           // 2. Container background and shape
           "& .MuiInputBase-root": {
             borderRadius: "8px",
-            backgroundColor: "#fff",
+            backgroundColor: "#E2E8F0",
           },
 
           // 3. Custom Typography (Tajawal)
@@ -645,7 +645,7 @@ const Service03: React.FC<Props> = ({  }) => {
           // 2. Background and Shape
           "& .MuiInputBase-root": {
             borderRadius: "8px",
-            backgroundColor: "#fff",
+            backgroundColor: "#E2E8F0",
           },
 
           // 3. Custom Typography (Tajawal)
@@ -695,7 +695,7 @@ const Service03: React.FC<Props> = ({  }) => {
         // 2. Background and Shape
         "& .MuiInputBase-root": {
           borderRadius: "8px",
-          backgroundColor: "#fff",
+          backgroundColor: "#E2E8F0",
         },
 
         // 3. Custom Typography (Tajawal)
@@ -767,7 +767,7 @@ const Service03: React.FC<Props> = ({  }) => {
               sx={{
                 // 1. Keep your specific dimensions and background
                 width: 100,
-                backgroundColor: "white",
+                backgroundColor: "#E2E8F0",
                 borderRadius: "8px",
 
                 // 2. Container shape
@@ -821,7 +821,7 @@ const Service03: React.FC<Props> = ({  }) => {
                   // 1. Container background and shape
                   "& .MuiInputBase-root": {
                     borderRadius: "8px",
-                    backgroundColor: "#fff",
+                    backgroundColor: "#E2E8F0",
                     padding: "12px", // Added for multiline text comfort
                   },
 
@@ -877,7 +877,7 @@ const Service03: React.FC<Props> = ({  }) => {
                 {selectedFiles.length > 0 && (
                   <Box sx={{ mt: 2, display: "flex", flexWrap: "wrap", gap: 1 }}>
                     {selectedFiles.map((file, idx) => (
-                      <Box key={idx} sx={{ display: "flex", alignItems: "center", p: 1, borderRadius: "10px", border: "1px solid #cbd5e1", background: "#fff" }}>
+                      <Box key={idx} sx={{ display: "flex", alignItems: "center", p: 1, borderRadius: "10px", border: "1px solid #cbd5e1", background: "#E2E8F0" }}>
                         {file.type.startsWith('video/') ? <Video size={16} style={{ marginLeft: '8px', color: '#023B4E' }} /> : <FileText size={16} style={{ marginLeft: '8px' }} />}
                         <Typography sx={{ fontSize: "0.75rem", maxWidth: "120px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{file.name}</Typography>
                         <IconButton size="small" onClick={() => removeFile(idx)} sx={{ color: "red" }}><X size={14} /></IconButton>
@@ -905,7 +905,7 @@ const Service03: React.FC<Props> = ({  }) => {
                     // 2. Container background and shape
                     "& .MuiInputBase-root": {
                       borderRadius: "8px",
-                      backgroundColor: "#fff",
+                      backgroundColor: "#E2E8F0",
                     },
 
                     // 3. Standard border state (Fixed Black 1px)
@@ -968,7 +968,7 @@ const Service03: React.FC<Props> = ({  }) => {
                       // 2. Container background and shape
                       "& .MuiInputBase-root": {
                         borderRadius: "8px",
-                        backgroundColor: "#fff",
+                        backgroundColor: "#E2E8F0",
                       },
 
                       // 3. Standard border state (Fixed Black 1px)
@@ -1009,7 +1009,7 @@ const Service03: React.FC<Props> = ({  }) => {
                     // 2. Container background and shape
                     "& .MuiInputBase-root": {
                       borderRadius: "8px",
-                      backgroundColor: "#fff",
+                      backgroundColor: "#E2E8F0",
                     },
 
                     // 3. Standard border state (Fixed Black 1px)
@@ -1059,7 +1059,7 @@ const Service03: React.FC<Props> = ({  }) => {
                   // 1. Container background and shape
                   "& .MuiInputBase-root": {
                     borderRadius: "8px",
-                    backgroundColor: "#fff", // White background to match your recent inputs
+                    backgroundColor: "#E2E8F0", // White background to match your recent inputs
                   },
 
                   // 2. Standard border state (Fixed Black 1px)
@@ -1088,7 +1088,7 @@ const Service03: React.FC<Props> = ({  }) => {
                   // 1. Container background and shape
                   "& .MuiInputBase-root": {
                     borderRadius: "8px",
-                    backgroundColor: "#fff", 
+                    backgroundColor: "#E2E8F0", 
                   },
 
                   // 2. Standard border state (Fixed Black 1px)

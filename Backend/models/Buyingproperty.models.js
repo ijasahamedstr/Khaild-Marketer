@@ -41,3 +41,32 @@ const BuyingpropertySchema = new mongoose.Schema({
 const Buyingproperty = mongoose.model('Buyingproperty', BuyingpropertySchema);
 
 export default Buyingproperty;
+
+
+
+// import mongoose from "mongoose";
+
+// const BuyingpropertySchema = new mongoose.Schema(
+//   {
+//     // ====== Personal Data ======
+//     ownerName: { type: String, required: true },
+//     nationality: { type: String, enum: ["saudi", "non-saudi"] },
+//     gender: { type: String, enum: ["male", "female"] },
+
+//     // ====== Filter Data ======
+//     propertyStatus: String, // جاهز | على الخارطة
+//     propertyType: String,
+//     location: String,
+//     rooms: String,
+//     bathrooms: String,
+//     area: String,
+//     propertyAge: String,
+//     priceLimit: String,
+//     paymentMethod: String,
+//   },
+//   { timestamps: true }
+// );
+
+// const Buyingproperty = mongoose.model("Buyingproperty", BuyingpropertySchema);
+
+// export default Buyingproperty;
