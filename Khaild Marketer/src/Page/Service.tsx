@@ -345,46 +345,46 @@ React.useEffect(() => {
                   if (e.key === "Enter" || e.key === " ")
                     handleCardClick(card.href);
                 }}
-                sx={{
-                  position: "relative",
-                  textAlign: "right",
-                  color: "#000",
-                  mb: { xs: 4, md: index < 3 ? 6 : 0 },
-                  mt: isCenterWide ? { md: 6, xs: 0 } : 0,
+               sx={{
+                position: "relative",
+                textAlign: "right",
+                color: "#000",
+                mb: { xs: 4, md: index < 3 ? 6 : 0 },
+                mt: isCenterWide ? { md: 6, xs: 0 } : 0,
 
-                  // ✅ ONLY CHANGE
-                  gridColumn: isCenterWide ? { md: "2 / span 1" } : "auto",
+                // Centers both cards in the middle column (Column 2)
+                gridColumn: isCenterWide ? { md: "2 / span 1" } : "auto",
+                justifySelf: isCenterWide ? "center" : "stretch",
 
-                  justifySelf: isCenterWide ? "center" : "stretch",
-                  width: isCenterWide ? { md: "160%", xs: "100%" } : "100%",
-                  maxWidth: isCenterWide
-                    ? { md: "1100px", xs: "100%" }
-                    : "100%",
+                // ✅ CARD 10: Standard (100%) | CARD 11: Big (200%)
+                width: isCenterWide 
+                  ? { 
+                      xs: "100%", 
+                      md: card.id === 10 ? "170%" : "130%" 
+                    } 
+                  : "100%",
 
-                  fontFamily: "'Tajawal', sans-serif",
-                  p: 3,
-                  borderRadius: 2,
-                  transition:
-                    "transform 0.36s cubic-bezier(.2,.9,.2,1), box-shadow 0.36s",
-                  boxShadow:
-                    "0 14px 34px rgba(2,59,78,0.14), 0 6px 16px rgba(2,59,78,0.10)",
-                  cursor: card.href ? "pointer" : "default",
-                  "&:hover": {
-                    transform: card.href ? "translateY(-8px)" : undefined,
-                    boxShadow: card.href
-                      ? "0 22px 50px rgba(2,59,78,0.12)"
-                      : undefined,
-                  },
-                  overflow: "visible",
-                  background: `
-                    linear-gradient(
-                      145deg,
-                      #CAD5E2 0%,
-                      #a2adbbff 45%,
-                      #E4E4E7 100%
-                    )
-                  `,
-                }}
+                // ✅ Remove max-width for Card 11 so it can grow
+                maxWidth: isCenterWide
+                  ? { 
+                      xs: "100%", 
+                      md: card.id === 11 ? "none" : "1100px" 
+                    }
+                  : "100%",
+
+                fontFamily: "'Tajawal', sans-serif",
+                p: 3,
+                borderRadius: 2,
+                transition: "transform 0.36s cubic-bezier(.2,.9,.2,1), box-shadow 0.36s",
+                boxShadow: "0 14px 34px rgba(2,59,78,0.14), 0 6px 16px rgba(2,59,78,0.10)",
+                cursor: card.href ? "pointer" : "default",
+                "&:hover": {
+                  transform: card.href ? "translateY(-8px)" : undefined,
+                  boxShadow: card.href ? "0 22px 50px rgba(2,59,78,0.12)" : undefined,
+                },
+                overflow: "visible",
+                background: `linear-gradient(145deg, #CAD5E2 0%, #a2adbbff 45%, #E4E4E7 100%)`,
+              }}
               >
                 {/* ===== EVERYTHING BELOW IS UNCHANGED ===== */}
                 <Box
