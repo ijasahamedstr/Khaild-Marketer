@@ -370,7 +370,7 @@ const Service02: React.FC<Props> = ({ }) => {
       <Container maxWidth="md" sx={{ mt: { xs: 4, md: 8 }, mb: { xs: 6, md: 12 }, direction: "rtl", fontFamily: TAJAWAL }}>
         
         <Box sx={{ textAlign: "center", mb: 8, animation: `${float} 4s ease-in-out infinite`, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <Typography variant="h1" sx={{ fontWeight: 900, fontSize: { xs: "2.5rem", md: "4rem" }, color: COLOR_PRIMARY_CYAN, fontFamily: TAJAWAL, textShadow: "0 10px 20px rgba(0,0,0,0.3)", display: 'flex', alignItems: 'center', gap: 1 }}>
+          <Typography variant="h1" sx={{ fontWeight: 800, fontSize: { xs: "2.5rem", md: "4rem" }, color: COLOR_PRIMARY_CYAN, fontFamily: TAJAWAL, textShadow: "0 10px 20px rgba(0,0,0,0.3)", display: 'flex', alignItems: 'center', gap: 1 }}>
             بيع العقار <Sparkles size={32} style={{ color: COLOR_PRIMARY_CYAN }} />
           </Typography>
           <Typography sx={{ color: "#fff", opacity: 0.9, fontSize: "1.2rem", mt: 2, fontFamily: TAJAWAL, maxWidth: "600px" }}>
@@ -382,75 +382,271 @@ const Service02: React.FC<Props> = ({ }) => {
           
           {/* Status Selection */}
           <Box sx={{ display: "flex", flexDirection: "row", gap: { xs: 2, sm: 3 }, mb: 4, overflowX: "visible", p: 2, perspective: "1000px" }}>
-            <Box sx={{ flex: 1, position: "relative", display: "flex", justifyContent: "center", alignItems: "center" }}>
-              <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "28px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 6 }} />
-              <Box onClick={() => handleDeveloperCheckbox(0)} sx={{ width: "100%", p: { xs: 1, sm: 2 }, borderRadius: 3, background: "#E2E8F0", textAlign: "center", cursor: "pointer", position: "relative", zIndex: 10 }}>
-                <FormControlLabel sx={{ width: "100%", m: 0, pointerEvents: "none" }} control={<Checkbox checked={isChecked1} sx={{ "& .MuiSvgIcon-root": { fontSize: { xs: 28, sm: 40 } } }} />} label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: { xs: "1rem", sm: "1.5rem" }, fontWeight: "bold" }}>جاهز</Typography>} />
-              </Box>
-            </Box>
-            <Box sx={{ flex: 1, position: "relative", display: "flex", justifyContent: "center", alignItems: "center" }}>
-              <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "28px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 6 }} />
-              <Box onClick={() => handleDeveloperCheckbox(1)} sx={{ width: "100%", p: { xs: 1, sm: 2 }, borderRadius: 3, background: "#E2E8F0", textAlign: "center", cursor: "pointer", position: "relative", zIndex: 10 }}>
-                <FormControlLabel sx={{ width: "100%", m: 0, pointerEvents: "none" }} control={<Checkbox checked={isChecked2} sx={{ "& .MuiSvgIcon-root": { fontSize: { xs: 28, sm: 40 } } }} />} label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: { xs: "1rem", sm: "1.5rem" }, fontWeight: "bold" }}>على الخارطة</Typography>} />
-              </Box>
-            </Box>
+         <Box sx={{ flex: 1, position: "relative", display: "flex", justifyContent: "center", alignItems: "center", p: 4 }}>
+  
+          {/* Layer 1: The Deep 3D Shadow (Updating your original absolute Box) */}
+          <Box 
+            sx={{ 
+              position: "absolute", 
+              inset: "4px", 
+              borderRadius: "28px", 
+              background: "rgba(0, 0, 0, 0.3)", // Deep shadow color like the image
+              filter: "blur(15px)", 
+              transform: "translate(12px, 15px)", // Pushes shadow to bottom-right
+              zIndex: 6,
+              transition: "0.4s ease" 
+            }} 
+          />
+
+          {/* Layer 2: The Main Card (Updating your original interactive Box) */}
+          <Box 
+            onClick={() => handleDeveloperCheckbox(0)} 
+            sx={{ 
+              width: "100%", 
+              p: { xs: 2, sm: 3 }, 
+              borderRadius: 3, 
+              background: "#E2E8F0", // Pure white like the image
+              textAlign: "center", 
+              cursor: "pointer", 
+              position: "relative", 
+              zIndex: 10,
+              border: "1px solid rgba(0,0,0,0.05)",
+              
+              // THE 3D POP HOVER EFFECT
+              transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)", 
+              "&:hover": {
+                transform: "translateY(-15px) scale(1.02)", // Moves UP every time you hover
+                boxShadow: "0px 20px 40px rgba(0,0,0,0.25)" // Shadow gets deeper
+              }
+            }}
+          >
+            <FormControlLabel 
+              sx={{ width: "100%", m: 0, pointerEvents: "none" }} 
+              control={
+                <Checkbox 
+                  checked={isChecked1} 
+                  sx={{ "& .MuiSvgIcon-root": { fontSize: { xs: 28, sm: 40 } } }} 
+                />
+              } 
+              label={
+                <Typography 
+                  sx={{ 
+                    fontFamily: TAJAWAL, 
+                    fontSize: { xs: "1rem", sm: "1.5rem" }, 
+                    fontWeight: "800", // Thicker font for high contrast
+                    color: "#1e293b"
+                  }}
+                >
+                  جاهز
+                </Typography>
+              } 
+            />
           </Box>
+        </Box>
+        <Box sx={{ flex: 1, position: "relative", display: "flex", justifyContent: "center", alignItems: "center", p: 4 }}>
+  
+        {/* Layer 1: The Deep Directional Shadow (Replaces the neon glow) */}
+          <Box 
+            sx={{ 
+              position: "absolute", 
+              inset: "4px", 
+              borderRadius: "28px", 
+              background: "rgba(0, 0, 0, 0.3)", // Heavy shadow like your reference image
+              filter: "blur(18px)", 
+              transform: "translate(12px, 15px)", // Pushes shadow down/right for 3D depth
+              zIndex: 6,
+              transition: "0.4s ease" 
+            }} 
+          />
 
-          {/* Property Type Dropdown */}
-          <Box sx={{ display: "grid", gap: 3 }}>
-            {DROPDOWN_FIELDS.map((field, i) => (
-              <Box key={i} sx={{ position: "relative" }}>
-                <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
-                <Box sx={{ position: "relative", zIndex: 10, p: 3, borderRadius: 3, background: "#E2E8F0" }}>
-                  <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR, alignItems: 'center' }}>
-                    {field.icon}
-                    <Typography sx={{ fontWeight: 800, fontSize: { xs: "1.2rem", md: "1.6rem" }, fontFamily: TAJAWAL }}>{field.label}</Typography>
-                  </Box>
-                  <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "repeat(2, 1fr)", md: "repeat(3, 1fr)" }, gap: 2 }}>
-                    {field.options.map((opt, idx) => (
-                      <FormControlLabel key={idx} control={<Checkbox checked={dropdownValues[i] === opt} onChange={(e) => setDropdownValues({ ...dropdownValues, [i]: e.target.checked ? opt : "" })} />} label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: "1.6rem", fontWeight: 500 }}>{opt}</Typography>} />
-                    ))}
-                  </Box>
-                </Box>
-              </Box>
-            ))}
+          {/* Layer 2: The Main Card with Hover Lift */}
+          <Box 
+            onClick={() => handleDeveloperCheckbox(1)} 
+            sx={{ 
+              width: "100%", 
+              p: { xs: 2, sm: 3 }, 
+              borderRadius: 3, 
+              background: "#E2E8F0", // Changed to White for better contrast with the shadow
+              textAlign: "center", 
+              cursor: "pointer", 
+              position: "relative", 
+              zIndex: 10,
+              border: "1px solid rgba(0, 0, 0, 0.05)",
+              
+              // THE MOUSE HOVER EFFECT
+              transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)", 
+              "&:hover": {
+                transform: "translateY(-15px) scale(1.02)", // Pops UP toward the user
+                boxShadow: "0px 20px 40px rgba(0, 0, 0, 0.2)" // Shadow expands on hover
+              },
+              "&:active": {
+                transform: "translateY(-5px) scale(0.98)" // Sinks down when clicked
+              }
+            }}
+          >
+            <FormControlLabel 
+              sx={{ width: "100%", m: 0, pointerEvents: "none" }} 
+              control={
+                <Checkbox 
+                  checked={isChecked2} 
+                  sx={{ "& .MuiSvgIcon-root": { fontSize: { xs: 28, sm: 40 } } }} 
+                />
+              } 
+              label={
+                <Typography 
+                  sx={{ 
+                    fontFamily: TAJAWAL, 
+                    fontSize: { xs: "1rem", sm: "1.5rem" }, 
+                    fontWeight: "800", // Thicker font for that bold artistic look
+                    color: "#1e293b" 
+                  }}
+                >
+                  على الخارطة
+                </Typography>
+              } 
+            />
           </Box>
+        </Box>
+        </Box>
 
-          {/* Personal Data Section */}
-    
-            {/* Personal Data Section - Added mt: 5 for top space */}
-           <Box sx={{ position: "relative", borderRadius: 4, mt: 5 ,mb: 5 }}>
-              {/* Glow Border Effect */}
-              <Box sx={{ position: "absolute", inset: "-2px", borderRadius: 4, background: "linear-gradient(135deg, #06f9f3, #00b3ff, #06f9f3)", filter: "blur(6px)", zIndex: 0 }} />
+      {/* Property Type Dropdown */}
+        <Box sx={{ display: "grid", gap: 5, p: 2 }}>
+          {DROPDOWN_FIELDS.map((field, i) => (
+            <Box key={i} sx={{ position: "relative" }}>
+              
+              {/* 1. THE DEEP 3D SHADOW (Replaced your neon gradient) */}
+              <Box 
+                sx={{ 
+                  position: "absolute", 
+                  inset: "10px", 
+                  borderRadius: "16px", 
+                  background: "rgba(0, 0, 0, 0.25)", // Darker shadow like the image branches
+                  filter: "blur(20px)", 
+                  transform: "translate(15px, 20px)", // Moves shadow down and right for depth
+                  zIndex: 0,
+                  transition: "0.4s ease" 
+                }} 
+              />
 
-              <Box sx={{ position: "relative", zIndex: 1, p: { xs: 2, sm: 3 }, borderRadius: 4, border: "1px solid #CBD5E1", backgroundColor: "#E2E8F0" }}>
-                
-                {/* SECTION TITLE */}
-                <Box sx={{ display: "flex", gap: 1, mb: 3, color: LABEL_COLOR, alignItems: "center" }}>
-                  <AccountBoxIcon sx={{ fontSize: "1.7rem" }} /> 
-                  <Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>
-                    البيانات الشخصية
+              {/* 2. THE MAIN CONTAINER BOX */}
+              <Box 
+                sx={{ 
+                  position: "relative", 
+                  zIndex: 10, 
+                  p: 3, 
+                  borderRadius: 3, 
+                  background: "#E2E8F0", // Switched to white for high contrast
+                  border: "1px solid rgba(0,0,0,0.05)",
+                  
+                  // THE 3D POP HOVER EFFECT
+                  transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+                  "&:hover": {
+                    transform: "translateY(-10px)", // Lifts entire field on hover
+                    boxShadow: "0px 20px 40px rgba(0,0,0,0.15)"
+                  }
+                }}
+              >
+                {/* Label & Icon Header */}
+                <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR, alignItems: 'center' }}>
+                  {field.icon}
+                  <Typography sx={{ fontWeight: 800, fontSize: { xs: "1.2rem", md: "1.6rem" }, fontFamily: TAJAWAL, color: "#1e293b" }}>
+                    {field.label}
                   </Typography>
                 </Box>
 
-                {/* 1. ROW: OWNER NAME - Responsive Stack */}
-                <Box sx={{ 
-                  display: "flex", 
-                  flexDirection: { xs: "column", sm: "row" }, 
-                  alignItems: { xs: "flex-start", sm: "center" }, 
-                  gap: { xs: 1, sm: 2 }, 
-                  mb: 3 
-                }}>
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 1, minWidth: 165 }}>
-                    <AssignmentIndIcon sx={{ color: LABEL_COLOR, fontSize: "1.2rem" }} />
-                    <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 600 }}>اسم   المالك  أو الوكيل</Typography>
-                  </Box>
-                  <StyledTextField
-                    size="small"
-                    value={ownerName}
-                    onChange={(e) => setOwnerName(e.target.value)}
-                    placeholder="أدخل الاسم هنا"
-                    sx={{
+                {/* Options Grid */}
+                <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "repeat(2, 1fr)", md: "repeat(3, 1fr)" }, gap: 2 }}>
+                  {field.options.map((opt, idx) => (
+                    <FormControlLabel 
+                      key={idx} 
+                      sx={{
+                        // Individual option hover effect
+                        transition: "0.2s",
+                        "&:hover": { transform: "scale(1.05)", color: "#00b3ff" }
+                      }}
+                      control={
+                        <Checkbox 
+                          checked={dropdownValues[i] === opt} 
+                          onChange={(e) => setDropdownValues({ ...dropdownValues, [i]: e.target.checked ? opt : "" })} 
+                        />
+                      } 
+                      label={
+                        <Typography sx={{ fontFamily: TAJAWAL, fontSize: "1.4rem", fontWeight: 700 }}>
+                          {opt}
+                        </Typography>
+                      } 
+                    />
+                  ))}
+                </Box>
+              </Box>
+            </Box>
+          ))}
+        </Box>
+
+          {/* Personal Data Section */}
+    
+       {/* Personal Data Section */}
+        <Box sx={{ position: "relative", borderRadius: 4, mt: 5, mb: 5, p: 2 }}>
+          
+          {/* Layer 1: The Deep 3D Shadow (Replaces the neon glow) */}
+          <Box 
+            sx={{ 
+              position: "absolute", 
+              inset: "10px", 
+              borderRadius: 4, 
+              background: "rgba(0, 0, 0, 0.3)", // Heavy shadow like your reference
+              filter: "blur(20px)", 
+              transform: "translate(15px, 20px)", // Massive offset for depth
+              zIndex: 0,
+              transition: "0.4s ease" 
+            }} 
+          />
+
+          {/* Layer 2: The Main Section Container */}
+          <Box 
+            sx={{ 
+              position: "relative", 
+              zIndex: 1, 
+              p: { xs: 2, sm: 3 }, 
+              borderRadius: 4, 
+              border: "1px solid rgba(0, 0, 0, 0.05)", 
+              backgroundColor: "#E2E8F0", // Switched to White for 3D Pop contrast
+              
+              // THE 3D POP HOVER EFFECT
+              transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+              "&:hover": {
+                transform: "translateY(-12px)", // Lifts the entire section
+                boxShadow: "0px 20px 40px rgba(0, 0, 0, 0.15)"
+              }
+            }}
+          >
+            
+            {/* SECTION TITLE */}
+            <Box sx={{ display: "flex", gap: 1, mb: 3, color: LABEL_COLOR, alignItems: "center" }}>
+              <AccountBoxIcon sx={{ fontSize: "1.7rem" }} /> 
+              <Typography sx={{ fontWeight: 800, fontSize: "1.5rem", fontFamily: TAJAWAL, color: "#1e293b" }}>
+                البيانات الشخصية
+              </Typography>
+            </Box>
+
+            {/* 1. ROW: OWNER NAME */}
+            <Box sx={{ 
+              display: "flex", 
+              flexDirection: { xs: "column", sm: "row" }, 
+              alignItems: { xs: "flex-start", sm: "center" }, 
+              gap: { xs: 1, sm: 2 }, 
+              mb: 3 
+            }}>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1, minWidth: 165 }}>
+                <AssignmentIndIcon sx={{ color: LABEL_COLOR, fontSize: "1.2rem" }} />
+                <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 800 }}>اسم المالك أو الوكيل</Typography>
+              </Box>
+              <StyledTextField
+                size="small"
+                value={ownerName}
+                onChange={(e) => setOwnerName(e.target.value)}
+                placeholder="أدخل الاسم هنا"
+                sx={{
                       // Keep your responsive width
                       width: { xs: "100%", sm: "50%", md: "40%" },
 
@@ -477,72 +673,112 @@ const Service02: React.FC<Props> = ({ }) => {
                         borderWidth: "1px !important",
                       },
                     }}
-                  />
-                </Box>
+              />
+            </Box>
 
-                {/* 2. ROW: NATIONALITY - Responsive Wrap */}
-                <Box sx={{ 
-                  display: "flex", 
-                  flexDirection: { xs: "column", sm: "row" }, 
-                  alignItems: { xs: "flex-start", sm: "center" }, 
-                  gap: { xs: 1, sm: 2 }, 
-                  mb: 3 
-                }}>
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 1, minWidth: 165 }}>
-                    <PublicIcon sx={{ color: LABEL_COLOR, fontSize: "1.2rem" }} />
-                    <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 600 }}>جنسية المالك</Typography>
-                  </Box>
-                  <Box sx={{ display: "flex", gap: 1 }}>
-                    <FormControlLabel
-                      control={<Checkbox checked={nationality === "saudi"} onChange={() => setNationality("saudi")} />}
-                      label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: "0.95rem" }}>سعودي</Typography>}
-                    />
-                    <FormControlLabel
-                      control={<Checkbox checked={nationality === "non-saudi"} onChange={() => setNationality("non-saudi")} />}
-                      label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: "0.95rem" }}>غير سعودي</Typography>}
-                    />
-                  </Box>
-                </Box>
-
-                {/* 3. ROW: GENDER - Responsive Wrap */}
-                <Box sx={{ 
-                  display: "flex", 
-                  flexDirection: { xs: "column", sm: "row" }, 
-                  alignItems: { xs: "flex-start", sm: "center" }, 
-                  gap: { xs: 1, sm: 2 } 
-                }}>
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 1, minWidth: 165 }}>
-                    <WcIcon sx={{ color: LABEL_COLOR, fontSize: "1.2rem" }} />
-                    <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 600 }}>النوع</Typography>
-                  </Box>
-                  <Box sx={{ display: "flex", gap: 1 }}>
-                    <FormControlLabel
-                      control={<Checkbox checked={gender === "male"} onChange={() => setGender("male")} />}
-                      label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: "0.95rem" }}>ذكر</Typography>}
-                    />
-                    <FormControlLabel
-                      control={<Checkbox checked={gender === "female"} onChange={() => setGender("female")} />}
-                      label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: "0.95rem" }}>أنثى</Typography>}
-                    />
-                  </Box>
-                </Box>
-
+            {/* 2. ROW: NATIONALITY */}
+            <Box sx={{ 
+              display: "flex", 
+              flexDirection: { xs: "column", sm: "row" }, 
+              alignItems: { xs: "flex-start", sm: "center" }, 
+              gap: { xs: 1, sm: 2 }, 
+              mb: 3 
+            }}>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1, minWidth: 165 }}>
+                <PublicIcon sx={{ color: LABEL_COLOR, fontSize: "1.2rem" }} />
+                <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 800 }}>جنسية المالك</Typography>
+              </Box>
+              <Box sx={{ display: "flex", gap: 1 }}>
+                <FormControlLabel
+                  control={<Checkbox checked={nationality === "saudi"} onChange={() => setNationality("saudi")} />}
+                  label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: "1rem", fontWeight: 600 }}>سعودي</Typography>}
+                />
+                <FormControlLabel
+                  control={<Checkbox checked={nationality === "non-saudi"} onChange={() => setNationality("non-saudi")} />}
+                  label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: "1rem", fontWeight: 600 }}>غير سعودي</Typography>}
+                />
               </Box>
             </Box>
 
-          {/* Location Details */}
-          <Box sx={{ mt: 3, position: "relative" }}>
-            <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
-            <Box sx={{ position: "relative", zIndex: 10, p: 2, borderRadius: 3, background: "#E2E8F0" }}>
-              <Box sx={{ display: "flex", gap: 1, mb: 0.5, color: LABEL_COLOR }}><HomeWorkIcon /><Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>الموقع</Typography></Box>
-              <Typography sx={{ fontSize: "1rem", mb: 3, color: "#242629ff", fontFamily: TAJAWAL, fontWeight: 'bold' }}>اكتب موقع العقار بالتفصيل</Typography>
-              <StyledTextField
-                fullWidth
-                multiline
-                minRows={3}
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                sx={{
+            {/* 3. ROW: GENDER */}
+            <Box sx={{ 
+              display: "flex", 
+              flexDirection: { xs: "column", sm: "row" }, 
+              alignItems: { xs: "flex-start", sm: "center" }, 
+              gap: { xs: 1, sm: 2 } 
+            }}>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1, minWidth: 165 }}>
+                <WcIcon sx={{ color: LABEL_COLOR, fontSize: "1.2rem" }} />
+                <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 800 }}>النوع</Typography>
+              </Box>
+              <Box sx={{ display: "flex", gap: 1 }}>
+                <FormControlLabel
+                  control={<Checkbox checked={gender === "male"} onChange={() => setGender("male")} />}
+                  label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: "1rem", fontWeight: 600 }}>ذكر</Typography>}
+                />
+                <FormControlLabel
+                  control={<Checkbox checked={gender === "female"} onChange={() => setGender("female")} />}
+                  label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: "1rem", fontWeight: 600 }}>أنثى</Typography>}
+                />
+              </Box>
+            </Box>
+
+          </Box>
+        </Box>
+        {/* Location Details */}
+        <Box sx={{ mt: 3, position: "relative", p: 2 }}>
+          
+          {/* Layer 1: The Deep 3D Shadow (Replacing neon glow) */}
+          <Box 
+            sx={{ 
+              position: "absolute", 
+              inset: "10px", 
+              borderRadius: "16px", 
+              background: "rgba(0, 0, 0, 0.3)", // Heavy depth shadow
+              filter: "blur(20px)", 
+              transform: "translate(15px, 20px)", // Moves shadow down and right
+              zIndex: 0,
+              transition: "0.4s ease" 
+            }} 
+          />
+
+          {/* Layer 2: Main Section Container */}
+          <Box 
+            sx={{ 
+              position: "relative", 
+              zIndex: 10, 
+              p: 3, 
+              borderRadius: 3, 
+              background: "#E2E8F0", // Switched to White for the 3D Pop effect
+              border: "1px solid rgba(0, 0, 0, 0.05)",
+              
+              // THE 3D POP HOVER EFFECT
+              transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+              "&:hover": {
+                transform: "translateY(-12px)", // Lifts every time mouse hovers
+                boxShadow: "0px 20px 40px rgba(0, 0, 0, 0.15)"
+              }
+            }}
+          >
+            {/* Header */}
+            <Box sx={{ display: "flex", gap: 1, mb: 0.5, color: LABEL_COLOR }}>
+              <HomeWorkIcon />
+              <Typography sx={{ fontWeight: 800, fontSize: "1.5rem", fontFamily: TAJAWAL, color: "#1e293b" }}>
+                الموقع
+              </Typography>
+            </Box>
+            
+            <Typography sx={{ fontSize: "1rem", mb: 3, color: "#475569", fontFamily: TAJAWAL, fontWeight: 800 }}>
+              اكتب موقع العقار بالتفصيل
+            </Typography>
+
+            <StyledTextField
+              fullWidth
+              multiline
+              minRows={3}
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              sx={{
                   // 1. Background Color and Radius
                   "& .MuiInputBase-root": {
                     borderRadius: "8px",
@@ -564,21 +800,62 @@ const Service02: React.FC<Props> = ({ }) => {
                     borderWidth: "1px !important", // Prevents the border from thickening
                   },
                 }}
-              />
-            </Box>
+            />
           </Box>
+        </Box>
 
-          {/* Developer Details */}
-          <Box sx={{ mt: 3, position: "relative" }}>
-            <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
-            <Box sx={{ position: "relative", zIndex: 10, p: 2, borderRadius: 3, background: "#E2E8F0" }}>
-              <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR }}><LocationCityIcon /><Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>اسم المطور العقاري</Typography></Box>
-              <Typography sx={{ fontSize: "1rem", mb: 3, color: "#242629ff", fontFamily: TAJAWAL, fontWeight: 'bold' }}>اكتب اسم المطور العقاري إن أمكن</Typography>
-              <StyledTextField
-                fullWidth
-                value={developer}
-                onChange={(e) => setDeveloper(e.target.value)}
-                sx={{
+       {/* Developer Details */}
+        <Box sx={{ mt: 3, position: "relative", p: 2 }}>
+          
+          {/* Layer 1: The Deep Directional Shadow */}
+          <Box 
+            sx={{ 
+              position: "absolute", 
+              inset: "10px", 
+              borderRadius: "16px", 
+              background: "rgba(0, 0, 0, 0.35)", // Strong depth for the "Pop"
+              filter: "blur(20px)", 
+              transform: "translate(15px, 20px)", // Moves shadow to bottom-right
+              zIndex: 0,
+              transition: "0.4s ease" 
+            }} 
+          />
+
+          {/* Layer 2: Main Section Container */}
+          <Box 
+            sx={{ 
+              position: "relative", 
+              zIndex: 10, 
+              p: 3, 
+              borderRadius: 3, 
+              background: "#E2E8F0", // High contrast white
+              border: "1px solid rgba(0, 0, 0, 0.05)",
+              
+              // THE MOUSE HOVER POP EFFECT
+              transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+              "&:hover": {
+                transform: "translateY(-12px) scale(1.01)", // High lift
+                boxShadow: "0px 20px 40px rgba(0, 0, 0, 0.2)"
+              }
+            }}
+          >
+            {/* Header */}
+            <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR, alignItems: "center" }}>
+              <LocationCityIcon sx={{ fontSize: "1.7rem" }} />
+              <Typography sx={{ fontWeight: 800, fontSize: "1.5rem", fontFamily: TAJAWAL, color: "#1e293b" }}>
+                اسم المطور العقاري
+              </Typography>
+            </Box>
+            
+            <Typography sx={{ fontSize: "1rem", mb: 3, color: "#475569", fontFamily: TAJAWAL, fontWeight: 800 }}>
+              اكتب اسم المطور العقاري إن أمكن
+            </Typography>
+
+            <StyledTextField
+              fullWidth
+              value={developer}
+              onChange={(e) => setDeveloper(e.target.value)}
+              sx={{
                   // Container background and shape
                   "& .MuiInputBase-root": {
                     borderRadius: "8px",
@@ -599,27 +876,61 @@ const Service02: React.FC<Props> = ({ }) => {
                     borderWidth: "1px !important",
                   },
                 }}
-              />
-            </Box>
+            />
           </Box>
+        </Box>
 
-          {/* Specs: Area, Rooms, Bathrooms */}
-          <Box sx={{ display: "grid", gap: 3, mt: 3 }}>
-            <Box sx={{ position: "relative", borderRadius: 4 }}>
-              <Box sx={{ position: "absolute", inset: "-2px", borderRadius: 4, background: "linear-gradient(135deg, #06f9f3, #00b3ff, #06f9f3)", filter: "blur(6px)", zIndex: 0 }} />
-              <Box sx={{ position: "relative", zIndex: 1, p: 3, borderRadius: 4, border: "1px solid #CBD5E1", backgroundColor: "#E2E8F0" }}>
+            {/* Specs: Area, Rooms, Bathrooms */}
+        <Box sx={{ display: "grid", gap: 3, mt: 3, p: 2 }}>
+          <Box sx={{ position: "relative", borderRadius: 4 }}>
+            
+            {/* Layer 1: The Deep Directional Shadow (Replaces neon glow) */}
+            <Box 
+              sx={{ 
+                position: "absolute", 
+                inset: "10px", 
+                borderRadius: 4, 
+                background: "rgba(0, 0, 0, 0.3)", // Heavy depth shadow
+                filter: "blur(20px)", 
+                transform: "translate(15px, 20px)", // Directional drop
+                zIndex: 0,
+                transition: "0.4s ease" 
+              }} 
+            />
+
+            {/* Layer 2: Main Section Container */}
+            <Box 
+              sx={{ 
+                position: "relative", 
+                zIndex: 1, 
+                p: 3, 
+                borderRadius: 4, 
+                backgroundColor: "#E2E8F0", // Switched to White for 3D Pop contrast
+                border: "1px solid rgba(0, 0, 0, 0.05)",
                 
-                <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 1, minWidth: 165 }}>
-                    <StraightenIcon sx={{ color: LABEL_COLOR, fontSize: "1.2rem" }} />
-                    <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 600, display: "flex", alignItems: "center", gap: "5px" }}>المساحة <Box component="span" sx={{ fontSize: "0.8rem", fontWeight: 400, color: "#475569" }}>(اختياري)</Box></Typography>
-                  </Box>
-                  <StyledTextField
-                    size="small"
-                    placeholder="الرجاء كتابة المساحة"
-                    value={area}
-                    onChange={(e) => setArea(e.target.value)}
-                    sx={{
+                // THE 3D POP HOVER EFFECT
+                transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+                "&:hover": {
+                  transform: "translateY(-12px)", // Lifts the entire section
+                  boxShadow: "0px 20px 40px rgba(0, 0, 0, 0.15)"
+                }
+              }}
+            >
+              
+              {/* 1. ROW: AREA */}
+              <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 3 }}>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1, minWidth: 165 }}>
+                  <StraightenIcon sx={{ color: LABEL_COLOR, fontSize: "1.2rem" }} />
+                  <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 800, display: "flex", alignItems: "center", gap: "5px" }}>
+                    المساحة <Box component="span" sx={{ fontSize: "0.8rem", fontWeight: 400, color: "#475569" }}>(اختياري)</Box>
+                  </Typography>
+                </Box>
+                <StyledTextField
+                  size="small"
+                  placeholder="الرجاء كتابة المساحة"
+                  value={area}
+                  onChange={(e) => setArea(e.target.value)}
+                  sx={{
                       width: { xs: "100%", sm: "40%" },
                       // 1. Updated Background and Radius
                       "& .MuiInputBase-root": {
@@ -641,19 +952,20 @@ const Service02: React.FC<Props> = ({ }) => {
                         borderWidth: "1px !important",
                       },
                     }}
-                  />
-                </Box>
+                />
+              </Box>
 
-                <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 1, minWidth: 165 }}>
-                    <HotelIcon sx={{ color: LABEL_COLOR, fontSize: "1.2rem" }} />
-                    <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 600 }}>عدد الغرف</Typography>
-                  </Box>
-                  <StyledTextField
-                    size="small"
-                    value={rooms}
-                    onChange={(e) => setRooms(e.target.value)}
-                    sx={{
+              {/* 2. ROW: ROOMS */}
+              <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 3 }}>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1, minWidth: 165 }}>
+                  <HotelIcon sx={{ color: LABEL_COLOR, fontSize: "1.2rem" }} />
+                  <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 800 }}>عدد الغرف</Typography>
+                </Box>
+                <StyledTextField
+                  size="small"
+                  value={rooms}
+                  onChange={(e) => setRooms(e.target.value)}
+                 sx={{
                       width: { xs: "100%", sm: "40%" },
                       // 1. Background and Shape
                       "& .MuiInputBase-root": {
@@ -675,19 +987,20 @@ const Service02: React.FC<Props> = ({ }) => {
                         borderWidth: "1px !important",
                       },
                     }}
-                  />
-                </Box>
+                />
+              </Box>
 
-                <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 1, minWidth: 165 }}>
-                    <BathtubIcon sx={{ color: LABEL_COLOR, fontSize: "1.2rem" }} />
-                    <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 600 }}>عدد دورات المياه</Typography>
-                  </Box>
-                  <StyledTextField
-                    size="small"
-                    value={bathrooms}
-                    onChange={(e) => setBathrooms(e.target.value)}
-                    sx={{
+              {/* 3. ROW: BATHROOMS */}
+              <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 3 }}>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1, minWidth: 165 }}>
+                  <BathtubIcon sx={{ color: LABEL_COLOR, fontSize: "1.2rem" }} />
+                  <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 800 }}>عدد دورات المياه</Typography>
+                </Box>
+                <StyledTextField
+                  size="small"
+                  value={bathrooms}
+                  onChange={(e) => setBathrooms(e.target.value)}
+                   sx={{
                       width: { xs: "100%", sm: "40%" },
                       // 1. Background Color and Radius
                       "& .MuiInputBase-root": {
@@ -709,22 +1022,23 @@ const Service02: React.FC<Props> = ({ }) => {
                         borderWidth: "1px !important",
                       },
                     }}
-                  />
-                </Box>
+                />
+              </Box>
 
-                <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 3, mt: 1 }}>
-                  <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 600 }}>عمر العقار</Typography>
-                  <FormControlLabel control={<Checkbox checked={propertyAgeSelection === "new"} onChange={() => handleAgeCheckboxChange("new")} />} label={<Typography sx={{ fontFamily: TAJAWAL }}>جديد</Typography>} />
-                  <FormControlLabel control={<Checkbox checked={propertyAgeSelection === "custom"} onChange={() => handleAgeCheckboxChange("custom")} />} label={<Typography sx={{ fontFamily: TAJAWAL }}>أكثر من سنة</Typography>} />
-                  <TextField
-                    size="small"
-                    value={customAgeInput}
-                    onChange={(e) => {
-                      const val = e.target.value;
-                      setCustomAgeInput(val);
-                      handleAgeCheckboxChange(val.trim() !== "" ? "custom" : "");
-                    }}
-                    sx={{
+              {/* 4. ROW: PROPERTY AGE */}
+              <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 3, mt: 1 }}>
+                <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 800 }}>عمر العقار</Typography>
+                <FormControlLabel control={<Checkbox checked={propertyAgeSelection === "new"} onChange={() => handleAgeCheckboxChange("new")} />} label={<Typography sx={{ fontFamily: TAJAWAL, fontWeight: 600 }}>جديد</Typography>} />
+                <FormControlLabel control={<Checkbox checked={propertyAgeSelection === "custom"} onChange={() => handleAgeCheckboxChange("custom")} />} label={<Typography sx={{ fontFamily: TAJAWAL, fontWeight: 600 }}>أكثر من سنة</Typography>} />
+                <TextField
+                  size="small"
+                  value={customAgeInput}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setCustomAgeInput(val);
+                    handleAgeCheckboxChange(val.trim() !== "" ? "custom" : "");
+                  }}
+                 sx={{
                       width: 120,
                       // 1. Updated Background and Radius
                       "& .MuiInputBase-root": {
@@ -746,25 +1060,70 @@ const Service02: React.FC<Props> = ({ }) => {
                         borderWidth: "1px !important",
                       },
                     }}
-                  />
-                </Box>
+                />
               </Box>
             </Box>
           </Box>
+        </Box>
 
-          {/* Additional Notes Area */}
-          <Box sx={{ mt: 5, position: "relative" }}>
-            <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
-            <Box sx={{ position: "relative", zIndex: 10, background: "#E2E8F0", borderRadius: 3, p: 3 }}>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}><EditNoteIcon sx={{ color: LABEL_COLOR }} /><Typography sx={{ fontWeight: 800, fontSize: "1.6rem", fontFamily: TAJAWAL }}>تفاصيل إضافية</Typography></Box>
-              <StyledTextField
-                multiline
-                minRows={4}
-                fullWidth
-                placeholder="اكتب ملاحظاتك..."
-                value={notes}
-                onChange={(e) => setNotes(e.target.value)}
-                sx={{
+       {/* Additional Notes Area */}
+        <Box sx={{ mt: 5, position: "relative", p: 2 }}>
+          
+          {/* Layer 1: The Deep 3D Directional Shadow */}
+          <Box 
+            sx={{ 
+              position: "absolute", 
+              inset: "10px", 
+              borderRadius: "16px", 
+              background: "rgba(0, 0, 0, 0.35)", // Stronger shadow for the larger card
+              filter: "blur(25px)", 
+              transform: "translate(18px, 22px)", // Greater offset for the final section
+              zIndex: 0,
+              transition: "0.4s ease" 
+            }} 
+          />
+
+          {/* Layer 2: The Main Card Container */}
+          <Box 
+            sx={{ 
+              position: "relative", 
+              zIndex: 10, 
+              background: "#E2E8F0", // High-contrast white for maximum 3D Pop
+              borderRadius: 3, 
+              p: 3,
+              border: "1px solid rgba(0, 0, 0, 0.05)",
+              
+              // THE 3D LIFT HOVER EFFECT
+              transition: "all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+              "&:hover": {
+                transform: "translateY(-15px) scale(1.01)", // High lift effect
+                boxShadow: "0px 25px 50px rgba(0, 0, 0, 0.2)"
+              }
+            }}
+          >
+            {/* Header */}
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+              <EditNoteIcon sx={{ color: LABEL_COLOR, fontSize: "2rem" }} />
+              <Typography 
+                sx={{ 
+                  fontWeight: 800, 
+                  fontSize: "1.8rem", 
+                  fontFamily: TAJAWAL,
+                  color: "#1e293b" 
+                }}
+              >
+                تفاصيل إضافية
+              </Typography>
+            </Box>
+
+            <StyledTextField
+              multiline
+              minRows={4}
+              fullWidth
+              placeholder="اكتب ملاحظاتك..."
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              sx={{
                   mt: 2,
                   // 1. Background and Radius
                   "& .MuiInputBase-root": {
@@ -786,67 +1145,195 @@ const Service02: React.FC<Props> = ({ }) => {
                     borderWidth: "1px !important",
                   },
                 }}
-              />
-            </Box>
+            />
           </Box>
+        </Box>
 
-          {/* Media Upload Section */}
-          <Box sx={{ mt: 4, mb: 4, position: "relative" }}>
-            <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
-            <Box sx={{ position: "relative", zIndex: 10, p: 3, borderRadius: 3, background: "#E2E8F0", border: "1px solid #E2E8F0" }}>
-              <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR }}><CloudUpload /><Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>إرفاق الصور والفيديو</Typography></Box>
-              <Typography sx={{ fontSize: "0.9rem", mb: 2, color: "#475569", fontFamily: TAJAWAL }}>يمكنك رفع صور العقار ومقاطع الفيديو التوضيحية</Typography>
-              <input type="file" multiple id="file-upload" style={{ display: 'none' }} onChange={handleFileChange} accept="image/*,video/*,.pdf,.doc,.docx" />
-              <label htmlFor="file-upload">
-                <UploadBox>
-                  <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mb: 1 }}><CloudUpload size={32} color={COLOR_DEEP_BLUE} /><Video size={32} color={COLOR_DEEP_BLUE} /></Box>
-                  <Typography sx={{ fontWeight: 700, fontFamily: TAJAWAL }}>اضغط هنا لرفع الصور أو الفيديو</Typography>
-                </UploadBox>
-              </label>
+        {/* Media Upload Section */}
+        <Box sx={{ mt: 4, mb: 4, position: "relative", p: 2 }}>
+          
+          {/* Layer 1: The Deep 3D Directional Shadow */}
+          <Box 
+            sx={{ 
+              position: "absolute", 
+              inset: "10px", 
+              borderRadius: "16px", 
+              background: "rgba(0, 0, 0, 0.35)", 
+              filter: "blur(25px)", 
+              transform: "translate(18px, 22px)", // Consistent directional lighting
+              zIndex: 0,
+              transition: "0.4s ease" 
+            }} 
+          />
 
-              {loading && (
-                <Box sx={{ mt: 2, width: '100%' }}>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                    <Typography sx={{ color: COLOR_DEEP_BLUE, fontWeight: 'bold', fontSize: '0.8rem' }}>جاري التحميل...</Typography>
-                    <Typography sx={{ color: COLOR_DEEP_BLUE, fontWeight: 'bold', fontSize: '0.8rem' }}>{uploadProgress}%</Typography>
+          {/* Layer 2: Main Card Container */}
+          <Box 
+            sx={{ 
+              position: "relative", 
+              zIndex: 10, 
+              p: 3, 
+              borderRadius: 3, 
+              background: "#E2E8F0", // High-contrast White for 3D Pop
+              border: "1px solid rgba(0, 0, 0, 0.05)",
+              
+              // THE 3D POP HOVER EFFECT
+              transition: "all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+              "&:hover": {
+                transform: "translateY(-15px)", // Section lifts on hover
+                boxShadow: "0px 25px 50px rgba(0, 0, 0, 0.15)"
+              }
+            }}
+          >
+            {/* Header */}
+            <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR, alignItems: "center" }}>
+              <CloudUpload  />
+              <Typography sx={{ fontWeight: 800, fontSize: "1.5rem", fontFamily: TAJAWAL, color: "#1e293b" }}>
+                إرفاق الصور والفيديو
+              </Typography>
+            </Box>
+            
+            <Typography sx={{ fontSize: "1rem", mb: 3, color: "#475569", fontFamily: TAJAWAL, fontWeight: 800 }}>
+              يمكنك رفع صور العقار ومقاطع الفيديو التوضيحية
+            </Typography>
+
+            <input type="file" multiple id="file-upload" style={{ display: 'none' }} onChange={handleFileChange} accept="image/*,video/*,.pdf,.doc,.docx" />
+            
+            <label htmlFor="file-upload">
+              <UploadBox sx={{
+                cursor: 'pointer',
+                transition: '0.3s',
+                backgroundColor: '#F1F5F9', // Inset look
+                borderRadius: '12px',
+                p: 4,
+                border: '2px dashed #CBD5E1',
+                '&:hover': {
+                  backgroundColor: '#E2E8F0',
+                  borderColor: '#00b3ff',
+                  transform: 'scale(1.02)' // Internal pop effect
+                }
+              }}>
+                <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mb: 1 }}>
+                  <CloudUpload size={40} color={COLOR_DEEP_BLUE} />
+                  <Video size={40} color={COLOR_DEEP_BLUE} />
+                </Box>
+                <Typography sx={{ fontWeight: 800, fontFamily: TAJAWAL, textAlign: 'center', color: '#334155' }}>
+                  اضغط هنا لرفع الصور أو الفيديو
+                </Typography>
+              </UploadBox>
+            </label>
+
+            {/* Progress Bar Section */}
+            {loading && (
+              <Box sx={{ mt: 3, width: '100%' }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                  <Typography sx={{ color: COLOR_DEEP_BLUE, fontWeight: 800, fontSize: '0.9rem' }}>جاري التحميل...</Typography>
+                  <Typography sx={{ color: COLOR_DEEP_BLUE, fontWeight: 800, fontSize: '0.9rem' }}>{uploadProgress}%</Typography>
+                </Box>
+                <LinearProgress 
+                  variant="determinate" 
+                  value={uploadProgress} 
+                  sx={{ 
+                    height: 12, 
+                    borderRadius: 6, 
+                    backgroundColor: '#E2E8F0', 
+                    '& .MuiLinearProgress-bar': { 
+                      backgroundColor: COLOR_PRIMARY_CYAN, 
+                      boxShadow: `0 0 15px ${COLOR_PRIMARY_CYAN}`,
+                      borderRadius: 6
+                    }
+                  }} 
+                />
+              </Box>
+            )}
+
+            {/* File Preview Chips */}
+            {selectedFiles.length > 0 && (
+              <Box sx={{ mt: 3, display: "flex", flexWrap: "wrap", gap: 1.5 }}>
+                {selectedFiles.map((file, idx) => (
+                  <Box 
+                    key={idx} 
+                    sx={{ 
+                      display: "flex", 
+                      alignItems: "center", 
+                      p: 1.5, 
+                      borderRadius: "12px", 
+                      border: "1px solid #E2E8F0", 
+                      background: "#F8FAFC",
+                      boxShadow: "0px 4px 10px rgba(0,0,0,0.05)",
+                      transition: "0.2s",
+                      "&:hover": { transform: "translateY(-3px)", boxShadow: "0px 8px 15px rgba(0,0,0,0.1)" }
+                    }}
+                  >
+                    {file.type.startsWith('video/') ? <Video size={18} style={{ marginLeft: '8px', color: '#023B4E' }} /> : <FileText size={18} style={{ marginLeft: '8px' }} />}
+                    <Typography sx={{ fontSize: "0.85rem", fontWeight: 700, maxWidth: "150px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{file.name}</Typography>
+                    <IconButton size="small" onClick={() => removeFile(idx)} sx={{ color: "red", ml: 1 }}><X size={16} /></IconButton>
                   </Box>
-                  <LinearProgress variant="determinate" value={uploadProgress} sx={{ height: 10, borderRadius: 5, backgroundColor: '#CBD5E1', '& .MuiLinearProgress-bar': { backgroundColor: COLOR_PRIMARY_CYAN, boxShadow: `0 0 10px ${COLOR_PRIMARY_CYAN}` }}} />
-                </Box>
-              )}
-
-              {selectedFiles.length > 0 && (
-                <Box sx={{ mt: 2, display: "flex", flexWrap: "wrap", gap: 1 }}>
-                  {selectedFiles.map((file, idx) => (
-                    <Box key={idx} sx={{ display: "flex", alignItems: "center", p: 1, borderRadius: "10px", border: "1px solid #cbd5e1", background: "#fff" }}>
-                      {file.type.startsWith('video/') ? <Video size={16} style={{ marginLeft: '8px', color: '#023B4E' }} /> : <FileText size={16} style={{ marginLeft: '8px' }} />}
-                      <Typography sx={{ fontSize: "0.75rem", maxWidth: "120px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{file.name}</Typography>
-                      <IconButton size="small" onClick={() => removeFile(idx)} sx={{ color: "red" }}><X size={14} /></IconButton>
-                    </Box>
-                  ))}
-                </Box>
-              )}
-            </Box>
+                ))}
+              </Box>
+            )}
           </Box>
+        </Box>
 
-          {/* Pricing Section */}
-          <Box sx={{ position: "relative", mb: 4 }}> 
-            <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
-            <Box sx={{ position: "relative", zIndex: 10, p: 3, borderRadius: 3, border: "1px solid #E2E8F0", background: "#E2E8F0" }}>
-              <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR }}><AccountBalanceWalletIcon /><Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>سعر البيع</Typography></Box>
-              <Typography sx={{ fontSize: "1rem", mb: 3, color: "#242629ff", fontFamily: TAJAWAL, fontWeight: 'bold' }}>الرجاء اختيار أحد الطرق لتقييم سعر البيع</Typography>
+     {/* Pricing Section */}
+        <Box sx={{ position: "relative", mb: 4, p: 2 }}>
+          
+          {/* Layer 1: The Deep 3D Directional Shadow */}
+          <Box 
+            sx={{ 
+              position: "absolute", 
+              inset: "10px", 
+              borderRadius: "16px", 
+              background: "rgba(0, 0, 0, 0.35)", // Strong depth shadow
+              filter: "blur(25px)", 
+              transform: "translate(18px, 22px)", // Pushes shadow down and right
+              zIndex: 0,
+              transition: "0.4s ease" 
+            }} 
+          />
 
-              <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
-                <Checkbox checked={checkboxValues[0]} onChange={(e) => handleCheckboxChange(0, e.target.checked)} />
-                <Typography sx={{ minWidth: 100, fontFamily: TAJAWAL }}>سعر محدد</Typography>
-                <StyledTextField
-                  size="small"
-                  value={priceLimit}
-                  onChange={(e) => {
-                    const val = e.target.value;
-                    setPriceLimit(val);
-                    handleCheckboxChange(0, val.trim() !== "");
-                  }}
-                  sx={{
+          {/* Layer 2: Main Pricing Container */}
+          <Box 
+            sx={{ 
+              position: "relative", 
+              zIndex: 10, 
+              p: 3, 
+              borderRadius: 3, 
+              background: "#E2E8F0", // High-contrast White for the 3D Pop
+              border: "1px solid rgba(0, 0, 0, 0.05)",
+              
+              // THE 3D POP HOVER EFFECT
+              transition: "all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+              "&:hover": {
+                transform: "translateY(-15px) scale(1.01)", // Card lifts every time
+                boxShadow: "0px 25px 50px rgba(0, 0, 0, 0.15)"
+              }
+            }}
+          >
+            {/* Section Header */}
+            <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR, alignItems: "center" }}>
+              <AccountBalanceWalletIcon sx={{ fontSize: "1.8rem" }} />
+              <Typography sx={{ fontWeight: 800, fontSize: "1.5rem", fontFamily: TAJAWAL, color: "#1e293b" }}>
+                سعر البيع
+              </Typography>
+            </Box>
+
+            <Typography sx={{ fontSize: "1rem", mb: 3, color: "#475569", fontFamily: TAJAWAL, fontWeight: 800 }}>
+              الرجاء اختيار أحد الطرق لتقييم سعر البيع
+            </Typography>
+
+            {/* Price Option 1 */}
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
+              <Checkbox checked={checkboxValues[0]} onChange={(e) => handleCheckboxChange(0, e.target.checked)} />
+              <Typography sx={{ minWidth: 100, fontFamily: TAJAWAL, fontWeight: 700 }}>سعر محدد</Typography>
+              <StyledTextField
+                size="small"
+                value={priceLimit}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  setPriceLimit(val);
+                  handleCheckboxChange(0, val.trim() !== "");
+                }}
+                sx={{
                     // 1. Background and Radius
                     "& .MuiInputBase-root": {
                       borderRadius: "8px",
@@ -867,21 +1354,22 @@ const Service02: React.FC<Props> = ({ }) => {
                       borderWidth: "1px !important",
                     },
                   }}
-                />
-              </Box>
+              />
+            </Box>
 
-              <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 4 }}>
-                <Checkbox checked={checkboxValues[1]} onChange={(e) => handleCheckboxChange(1, e.target.checked)} />
-                <Typography sx={{ minWidth: 100, fontFamily: TAJAWAL }}>على السوم</Typography>
-                <StyledTextField
-                  size="small"
-                  value={priceOffer}
-                  onChange={(e) => {
-                    const val = e.target.value;
-                    setPriceOffer(val);
-                    handleCheckboxChange(1, val.trim() !== "");
-                  }}
-                  sx={{
+            {/* Price Option 2 */}
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 4 }}>
+              <Checkbox checked={checkboxValues[1]} onChange={(e) => handleCheckboxChange(1, e.target.checked)} />
+              <Typography sx={{ minWidth: 100, fontFamily: TAJAWAL, fontWeight: 700 }}>على السوم</Typography>
+              <StyledTextField
+                size="small"
+                value={priceOffer}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  setPriceOffer(val);
+                  handleCheckboxChange(1, val.trim() !== "");
+                }}
+                sx={{
                     // 1. Background and Border Radius
                     "& .MuiInputBase-root": {
                       borderRadius: "8px",
@@ -902,57 +1390,131 @@ const Service02: React.FC<Props> = ({ }) => {
                       borderWidth: "1px !important",
                     },
                   }}
-                />
+              />
+            </Box>
+
+            <Divider sx={{ mb: 3, borderColor: "rgba(0,0,0,0.1)" }} />
+
+            {/* Negotiable Section */}
+            <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR, alignItems: "center" }}>
+              <HandshakeIcon sx={{ fontSize: "1.7rem" }} />
+              <Typography sx={{ fontWeight: 800, fontSize: "1.4rem", fontFamily: TAJAWAL, color: "#1e293b" }}>
+                هل السعر قابل للتفاوض؟
+              </Typography>
+            </Box>
+
+            <Box sx={{ display: "flex", gap: 8, mt: 4, mb: 2, width: "100%", justifyContent: "flex-start", px: 2 }}>
+              {/* Yes Toggle */}
+              <Box onClick={() => setIsNegotiable('yes')} sx={{ display: "flex", alignItems: "center", cursor: "pointer", transition: "0.3s", "&:hover": { transform: "scale(1.1)" } }}>
+                <Switch checked={isNegotiable === 'yes'} color="success" size="medium" sx={{ transform: "scale(1.2)", ml: 1 }} />
+                <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 800, fontSize: "1.6rem", color: isNegotiable === 'yes' ? '#2e7d32' : '#64748B' }}>نعم</Typography>
               </Box>
-
-              <Divider sx={{ mb: 3, borderColor: "rgba(0,0,0,0.1)" }} />
-
-              <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR }}><HandshakeIcon /><Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>هل السعر قابل للتفاوض؟</Typography></Box>
-
-              <Box sx={{ display: "flex", gap: 8, mt: 4, mb: 2, width: "100%", justifyContent: "flex-start", px: 2 }}>
-                <Box onClick={() => setIsNegotiable('yes')} sx={{ display: "flex", alignItems: "center", cursor: "pointer", transition: "0.2s", "&:hover": { opacity: 0.7 } }}>
-                  <Switch checked={isNegotiable === 'yes'} color="success" size="medium" sx={{ transform: "scale(1.2)", ml: 1 }} />
-                  <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 800, fontSize: "1.6rem", color: isNegotiable === 'yes' ? '#2e7d32' : '#64748B' }}>نعم</Typography>
-                </Box>
-                <Box onClick={() => setIsNegotiable('no')} sx={{ display: "flex", alignItems: "center", cursor: "pointer", transition: "0.2s", "&:hover": { opacity: 0.7 } }}>
-                  <Switch checked={isNegotiable === 'no'} sx={{ transform: "scale(1.2)", ml: 1, '& .MuiSwitch-switchBase.Mui-checked': { color: '#d32f2f' }, '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#d32f2f' } }} size="medium" />
-                  <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 800, fontSize: "1.6rem", color: isNegotiable === 'no' ? '#d32f2f' : '#64748B' }}>لا</Typography>
-                </Box>
+              
+              {/* No Toggle */}
+              <Box onClick={() => setIsNegotiable('no')} sx={{ display: "flex", alignItems: "center", cursor: "pointer", transition: "0.3s", "&:hover": { transform: "scale(1.1)" } }}>
+                <Switch checked={isNegotiable === 'no'} sx={{ transform: "scale(1.2)", ml: 1, '& .MuiSwitch-switchBase.Mui-checked': { color: '#d32f2f' }, '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#d32f2f' } }} size="medium" />
+                <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 800, fontSize: "1.6rem", color: isNegotiable === 'no' ? '#d32f2f' : '#64748B' }}>لا</Typography>
               </Box>
             </Box>
           </Box>
+        </Box>
 
           {/* Contact Channels Section */}
-          <Box sx={{ mb: 6, position: "relative" }}>
-            <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
-            <Box sx={{ position: "relative", zIndex: 10, p: 3, borderRadius: 3, border: "1px solid #E2E8F0", background: "#E2E8F0" }}>
-              <Typography sx={{ fontWeight: 800, fontSize: "1.3rem", mb: 0.5, color: LABEL_COLOR, fontFamily: TAJAWAL }}>قنوات التواصل</Typography>
-              <Typography sx={{ fontSize: "1rem", mb: 3, color: "#242629ff", fontFamily: TAJAWAL, fontWeight: 'bold' }}>وسائل التواصل المتعددة تتيح الرد السريع من الفريق المختص</Typography>
-              
-              <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 1, mb: 2, width: "100%", flexWrap: "nowrap" }}>
-                <FormControlLabel sx={{ mr: 0, flexShrink: 0 }} control={<Checkbox size="small" checked={channels.call} onChange={(e) => setChannels({ ...channels, call: e.target.checked })} />} label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: { xs: '12px', sm: '16px', md: '18px' }, whiteSpace: "nowrap" }}>الرجاء التواصل على الرقم</Typography>} />
-                <Box sx={{ display: "flex", justifyContent: "flex-end", minWidth: 0, flexShrink: 1 }}>
-                  <Typography sx={{ fontFamily: "TAJAWAL", fontWeight: 800, fontSize: { xs: "11px", sm: "16px", md: "20px" }, color: "#1D4ED8", backgroundColor: "#F8FAFC", px: { xs: 1, md: 3 }, py: 0.5, borderRadius: "999px", boxShadow: "0 4px 12px rgba(37,99,235,0.25)", cursor: "pointer", border: "1px solid rgba(29, 78, 216, 0.1)" }}>
-                    📞 +966 50 985 5666
-                  </Typography>
-                </Box>
-              </Box>
+          {/* Contact Channels Section */}
+        <Box sx={{ mb: 6, position: "relative", p: 2 }}>
+          
+          {/* Layer 1: The Deep 3D Directional Shadow */}
+          <Box 
+            sx={{ 
+              position: "absolute", 
+              inset: "10px", 
+              borderRadius: "16px", 
+              background: "rgba(0, 0, 0, 0.35)", // Strong depth shadow
+              filter: "blur(25px)", 
+              transform: "translate(18px, 22px)", // Pushes shadow down and right
+              zIndex: 0,
+              transition: "0.4s ease" 
+            }} 
+          />
 
-              <Box sx={{ display: "flex", justifyContent: "flex-start", gap: 8, alignItems: "center", mb: 3, marginRight: '27px' }}>
-                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}><WhatsAppIcon sx={{ color: "#25D366" }} /><Typography sx={{ fontFamily: TAJAWAL }}>واتساب</Typography></Box>
-                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}><PhoneIcon /><Typography sx={{ fontFamily: TAJAWAL }}>جوال</Typography></Box>
+          {/* Layer 2: Main Card Container */}
+          <Box 
+            sx={{ 
+              position: "relative", 
+              zIndex: 10, 
+              p: 3, 
+              borderRadius: 3, 
+              background: "#E2E8F0", // High-contrast White for the 3D Pop
+              border: "1px solid rgba(0, 0, 0, 0.05)",
+              
+              // THE 3D POP HOVER EFFECT
+              transition: "all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+              "&:hover": {
+                transform: "translateY(-15px)", // Card lifts on hover
+                boxShadow: "0px 25px 50px rgba(0, 0, 0, 0.15)"
+              }
+            }}
+          >
+            {/* Header */}
+            <Typography sx={{ fontWeight: 800, fontSize: "1.6rem", mb: 0.5, color: LABEL_COLOR, fontFamily: TAJAWAL }}>
+              قنوات التواصل
+            </Typography>
+            <Typography sx={{ fontSize: "1.1rem", mb: 3, color: "#475569", fontFamily: TAJAWAL, fontWeight: 800 }}>
+              وسائل التواصل المتعددة تتيح الرد السريع من الفريق المختص
+            </Typography>
+            
+            {/* Phone Number Row */}
+            <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 1, mb: 2, width: "100%", flexWrap: "nowrap" }}>
+              <FormControlLabel 
+                sx={{ mr: 0, flexShrink: 0 }} 
+                control={<Checkbox size="small" checked={channels.call} onChange={(e) => setChannels({ ...channels, call: e.target.checked })} />} 
+                label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: { xs: '12px', sm: '16px', md: '18px' }, fontWeight: 700, whiteSpace: "nowrap" }}>الرجاء التواصل على الرقم</Typography>} 
+              />
+              <Box sx={{ display: "flex", justifyContent: "flex-end", minWidth: 0, flexShrink: 1 }}>
+                <Typography 
+                  sx={{ 
+                    fontFamily: "TAJAWAL", 
+                    fontWeight: 800, 
+                    fontSize: { xs: "11px", sm: "16px", md: "20px" }, 
+                    color: "#E2E8F0", 
+                    backgroundColor: "#1D4ED8", // Solid blue for 3D visibility
+                    px: { xs: 1, md: 3 }, 
+                    py: 1, 
+                    borderRadius: "999px", 
+                    boxShadow: "0 8px 20px rgba(29,78,216,0.35)", 
+                    cursor: "pointer",
+                    transition: "0.3s",
+                    "&:hover": { transform: "scale(1.05) translateY(-3px)" } 
+                  }}
+                >
+                  📞 +966 50 985 5666
+                </Typography>
               </Box>
-              
-              <Divider sx={{ my: 3, borderColor: "#1f2937", borderBottomWidth: "2px" }} />
-              <FormControlLabel sx={{ mb: 3 }} control={<Checkbox checked={channels.chat} onChange={(e) => setChannels({ ...channels, chat: e.target.checked })} />} label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: '18px', fontWeight: 'bold' }}> اترك اسمك وجوالك للتواصل معك لاحقًا </Typography>} />
-              
-              <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
-                <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 600, fontSize: '18px' }}> الاسم </Typography>
-                <StyledTextField
-                  fullWidth
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  sx={{
+            </Box>
+
+            {/* Icons Row */}
+            <Box sx={{ display: "flex", justifyContent: "flex-start", gap: 8, alignItems: "center", mb: 3, marginRight: '27px' }}>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}><WhatsAppIcon sx={{ color: "#25D366", fontSize: "1.8rem" }} /><Typography sx={{ fontFamily: TAJAWAL, fontWeight: 700 }}>واتساب</Typography></Box>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}><PhoneIcon sx={{ color: LABEL_COLOR, fontSize: "1.8rem" }} /><Typography sx={{ fontFamily: TAJAWAL, fontWeight: 700 }}>جوال</Typography></Box>
+            </Box>
+            
+            <Divider sx={{ my: 3, borderColor: "rgba(0,0,0,0.15)", borderBottomWidth: "2px" }} />
+            
+            {/* Chat Checkbox */}
+            <FormControlLabel 
+              sx={{ mb: 3 }} 
+              control={<Checkbox checked={channels.chat} onChange={(e) => setChannels({ ...channels, chat: e.target.checked })} />} 
+              label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: '18px', fontWeight: 800, color: "#1e293b" }}> اترك اسمك وجوالك للتواصل معك لاحقًا </Typography>} 
+            />
+            
+            {/* Name Input */}
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
+              <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 800, fontSize: '18px' }}> الاسم </Typography>
+              <StyledTextField
+                fullWidth
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                sx={{
                     // 1. Background and Shape
                     "& .MuiInputBase-root": {
                       borderRadius: "8px",
@@ -973,15 +1535,17 @@ const Service02: React.FC<Props> = ({ }) => {
                       borderWidth: "1px !important",
                     },
                   }}
-                />
-              </Box>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 600, fontSize: '18px' }}> الجوال </Typography>
-                <StyledTextField
-                  fullWidth
-                  value={mobile}
-                  onChange={(e) => setMobile(e.target.value)}
-                  sx={{
+              />
+            </Box>
+
+            {/* Mobile Input */}
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+              <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 800, fontSize: '18px' }}> الجوال </Typography>
+              <StyledTextField
+                fullWidth
+                value={mobile}
+                onChange={(e) => setMobile(e.target.value)}
+                 sx={{
                     // 1. Background Color and Radius
                     "& .MuiInputBase-root": {
                       borderRadius: "8px",
@@ -1002,17 +1566,62 @@ const Service02: React.FC<Props> = ({ }) => {
                       borderWidth: "1px !important", 
                     },
                   }}
-                />
-              </Box>
+              />
             </Box>
           </Box>
+        </Box>
 
           {/* Submit Button */}
-          <Box sx={{ textAlign: "center" }}>
-            <SubmitButton onClick={handleSubmit} disabled={loading} endIcon={loading ? <CircularProgress size={24} color="inherit" /> : <Send size={24} />}>
-              {loading ? `جاري الحفظ ${uploadProgress}%` : "ارسال الطلب وحفظ البيانات"}
-            </SubmitButton>
-          </Box>
+      <Box sx={{ textAlign: "center", mt: 6, mb: 8, p: 2 }}>
+      <SubmitButton 
+        onClick={handleSubmit} 
+        disabled={loading} 
+        endIcon={loading ? <CircularProgress size={24} color="inherit" /> : <Send size={24} />}
+        sx={{
+          // 1. DIMENSIONS & TYPOGRAPHY
+          px: 6,
+          py: 2,
+          fontSize: "1.4rem",
+          fontWeight: 800,
+          fontFamily: TAJAWAL,
+          borderRadius: "16px",
+          
+          // 2. 3D COLORS (Matching your theme)
+          background: "linear-gradient(135deg, #1e293b 0%, #0f172a 100%)", 
+          color: "#E2E8F0",
+          border: "1px solid rgba(255, 255, 255, 0.1)",
+
+          // 3. THE "POP" EFFECT (Shadows)
+          boxShadow: `
+            0px 10px 20px rgba(0, 0, 0, 0.3),
+            0px 20px 40px rgba(0, 0, 0, 0.2)
+          `,
+
+          // 4. INTERACTIVE HOVER (The "Lift")
+          transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+          "&:hover": {
+            transform: "translateY(-10px) scale(1.03)", // Lifts off the screen
+            background: "linear-gradient(135deg, #00b3ff 0%, #1D4ED8 100%)", // Glows blue on hover
+            boxShadow: "0px 30px 60px rgba(0, 179, 255, 0.35)", // Neon-colored shadow
+          },
+
+          // 5. CLICK EFFECT (The "Press")
+          "&:active": {
+            transform: "translateY(2px) scale(0.98)", // Presses into the screen
+            boxShadow: "0px 5px 10px rgba(0, 0, 0, 0.2)",
+          },
+
+          // 6. DISABLED STATE
+          "&.Mui-disabled": {
+            background: "#E2E8F0",
+            color: "#94A3B8",
+            boxShadow: "none"
+          }
+        }}
+      >
+        {loading ? `جاري الحفظ ${uploadProgress}%` : "ارسال الطلب وحفظ البيانات"}
+      </SubmitButton>
+    </Box>
         </GlassCard>
       </Container>
     </Box>
