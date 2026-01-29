@@ -10,7 +10,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, MapPin, Bed, Bath, History, Phone, MessageSquare } from 'lucide-react';
 
 /* ---------------- ICONS ---------------- */
-import { Search, } from "lucide-react";
 import HomeWorkIcon from '@mui/icons-material/HomeWork';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
