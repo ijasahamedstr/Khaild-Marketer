@@ -19,6 +19,8 @@ import {
 } from "@mui/material";
 import { Send, CloudUpload, X, FileText, Video } from "lucide-react";
 
+const BORDER_THICKNESS = 18;
+
 /* ---------------- ICONS ---------------- */
 import HomeWorkIcon from "@mui/icons-material/HomeWork";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
@@ -28,18 +30,16 @@ import EditNoteIcon from "@mui/icons-material/EditNote";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import PhoneIcon from "@mui/icons-material/Phone";
 import HandshakeIcon from '@mui/icons-material/Handshake';
+import PublicIcon from "@mui/icons-material/Public";
+import WcIcon from "@mui/icons-material/Wc";
 import { keyframes } from "@mui/system";
 import { Sparkles } from "lucide-react";
-import HotelIcon from '@mui/icons-material/Hotel';          // For Rooms
-import BathtubIcon from '@mui/icons-material/Bathtub';      // For Bathrooms
+import HotelIcon from '@mui/icons-material/Hotel';          
+import BathtubIcon from '@mui/icons-material/Bathtub';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 
 /* ---------------- TYPES & INTERFACES ---------------- */
-
-const BORDER_THICKNESS = 18;
-/**
- * Props for the Service01 component.
- * @property {Function} onSubmit - Optional callback triggered after successful data submission.
- */
 type Props = {
   onSubmit?: (data: {
     dropdowns: string[];
@@ -53,9 +53,6 @@ type Props = {
   }) => void;
 };
 
-/**
- * Interface for the structured form payload.
- */
 interface FormPayload {
   propertyStatus: string;
   propertyType: string;
@@ -76,6 +73,9 @@ interface FormPayload {
   };
   clientName: string;
   clientMobile: string;
+  ownerName: string;
+  nationality: string;
+  gender: string;
   date: string;
 }
 
@@ -85,34 +85,21 @@ const COLOR_PRIMARY_CYAN = "#06f9f3";
 const COLOR_DEEP_BLUE = "#023B4E";
 const LABEL_COLOR = "#023B4E";
 
-/**
- * Base URL for the backend API.
- * Defaults to localhost if the environment variable is not set.
- */
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 /* ---------------- ANIMATIONS ---------------- */
-/**
- * Shimmer animation for the submit button highlight effect.
- */
 const shimmer = keyframes`
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
 `;
 
-/**
- * Floating animation for header text.
- */
 const float = keyframes`
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
 `;
 
 /* ---------------- STYLED COMPONENTS ---------------- */
-/**
- * GlassCard: A translucent container with backdrop filter.
- */
-const GlassCard = styled(Box)(({ }) => ({
+const GlassCard = styled(Box)(() => ({
   position: "relative",
   background: "rgba(255, 255, 255, 0.85)",
   backdropFilter: "blur(12px)",
@@ -128,9 +115,6 @@ const GlassCard = styled(Box)(({ }) => ({
   },
 }));
 
-/**
- * StyledTextField: Custom Material UI TextField with themed borders and Tajawal font.
- */
 const StyledTextField = styled(TextField)({
   "& .MuiOutlinedInput-root": {
     borderRadius: "16px",
@@ -151,9 +135,6 @@ const StyledTextField = styled(TextField)({
   },
 });
 
-/**
- * UploadBox: Area for file drag-and-drop or selection.
- */
 const UploadBox = styled(Box)({
   border: `2px dashed ${COLOR_DEEP_BLUE}`,
   borderRadius: "16px",
@@ -168,9 +149,6 @@ const UploadBox = styled(Box)({
   }
 });
 
-/**
- * SubmitButton: Gradient action button with shimmer effect.
- */
 const SubmitButton = styled(Button)({
   background: `linear-gradient(45deg, ${COLOR_DEEP_BLUE} 30%, #086d8d 90%)`,
   color: "white",
@@ -197,10 +175,6 @@ const SubmitButton = styled(Button)({
   },
 });
 
-/* ---------------- FORM DATA ---------------- */
-/**
- * Configuration for the property type selection.
- */
 const DROPDOWN_FIELDS = [
   {
     label: "نوع العقار",
@@ -210,65 +184,59 @@ const DROPDOWN_FIELDS = [
 ];
 
 /* ---------------- COMPONENT LOGIC ---------------- */
-const Service2: React.FC<Props> = ({ onSubmit }) => {
-  // Ensure the page starts at the top
+const Service2: React.FC<Props> = ({ }) => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
   /* --- State Management --- */
-  const [dropdownValues, setDropdownValues] = React.useState<Record<number, string>>({});
-  const [notes, setNotes] = React.useState("");
-  const [search] = React.useState("");
+  const [dropdownValues, setDropdownValues] = useState<Record<number, string>>({});
+  const [notes, setNotes] = useState("");
   const [loading, setLoading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
 
-  // Contact Channels State
-  const [channels, setChannels] = React.useState({
+  const [channels, setChannels] = useState({
     chat: true,
     whatsapp: true,
     call: false,
   });
 
-  // Client Details
-  const [name, setName] = React.useState("");
-  const [mobile, setMobile] = React.useState("");
+  const [name, setName] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [location, setLocation] = useState("");
+  const [developer, setDeveloper] = useState("");
   
-  // Property Details
-  const [location, setLocation] = React.useState("");
-  const [developer, setDeveloper] = React.useState("");
-  const [area, setArea] = React.useState("");
-  const [rooms, setRooms] = React.useState("");
-  const [bathrooms, setBathrooms] = React.useState("");
-  const [propertyAgeSelection, setPropertyAgeSelection] = React.useState(""); 
-  const [customAgeInput, setCustomAgeInput] = React.useState("");
+  // Personal Data States
+  const [ownerName, setOwnerName] = useState("");
+  const [nationality, setNationality] = useState("");
+  const [gender, setGender] = useState("");
 
-  // Financial Details
-  const [priceLimit, setPriceLimit] = React.useState("");
-  const [priceOffer, setPriceOffer] = React.useState("");
-  const [isChecked1, setIsChecked1] = React.useState(false);
-  const [isChecked2, setIsChecked2] = React.useState(false);
-  const [checkboxValues, setCheckboxValues] = React.useState<boolean[]>([false, false]);
+  // Specs States
+  const [area, setArea] = useState("");
+  const [rooms, setRooms] = useState("");
+  const [bathrooms, setBathrooms] = useState("");
+  const [propertyAgeSelection, setPropertyAgeSelection] = useState(""); 
+  const [customAgeInput, setCustomAgeInput] = useState("");
+
+  const [priceLimit, setPriceLimit] = useState("");
+  const [priceOffer, setPriceOffer] = useState("");
+  const [checkboxValues, setCheckboxValues] = useState<boolean[]>([false, false]);
   const [isNegotiable, setIsNegotiable] = useState<'yes' | 'no' | null>(null); 
   
-  // Files
+  const [isChecked1, setIsChecked1] = useState(false);
+  const [isChecked2, setIsChecked2] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
-  // Feedback State
-  const [openPopup, setOpenPopup] = React.useState(false);
-  const [alertSeverity, setAlertSeverity] = React.useState<"success" | "error">("success");
-  const [alertMessage, setAlertMessage] = React.useState("");
+  const [openPopup, setOpenPopup] = useState(false);
+  const [alertSeverity, setAlertSeverity] = useState<"success" | "error">("success");
+  const [alertMessage, setAlertMessage] = useState("");
 
   /* --- Event Handlers --- */
-   const handleAgeCheckboxChange = (type: string) => {
+  const handleAgeCheckboxChange = (type: string) => {
     setPropertyAgeSelection(type);
     if (type !== "custom") setCustomAgeInput("");
   };
 
-
-  /**
-   * Manages file uploads, adding new selections to the state.
-   */
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const filesArray = Array.from(e.target.files);
@@ -276,16 +244,10 @@ const Service2: React.FC<Props> = ({ onSubmit }) => {
     }
   };
 
-  /**
-   * Removes a specific file from the selected files list.
-   */
   const removeFile = (index: number) => {
     setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
-  /**
-   * Toggles between "Ready" and "Under Construction" status.
-   */
   const handleDeveloperCheckbox = (index: number) => {
     if (index === 0) {
       setIsChecked1(true);
@@ -297,50 +259,14 @@ const Service2: React.FC<Props> = ({ onSubmit }) => {
     }
   };
 
-  /**
-   * Manages the check state for pricing methods.
-   */
   const handleCheckboxChange = (index: number, value: boolean) => {
     const updated = [...checkboxValues];
     updated[index] = value;
     setCheckboxValues(updated);
   };
 
-  // Derived property status string
   const propertyStatus = isChecked1 ? "جاهز" : isChecked2 ? "على الخارطة" : "غير محدد";
 
-  /**
-   * Formats the WhatsApp message string based on current state.
-   */
-  const buildWhatsAppMessage = () => {
-    const negotiableText = isNegotiable === 'yes' ? "نعم" : isNegotiable === 'no' ? "لا" : "غير محدد";
-    const ageText = propertyAgeSelection === "new" ? "جديد" : propertyAgeSelection === "custom" ? customAgeInput : "غير محدد";
-    
-    return `
-🏷 *حالة العقار:* ${propertyStatus}
-🛒 *طلب بيع عقار جديد*
-🏠 *نوع العقار:* ${dropdownValues[0] || "غير محدد"}
-📍 *الموقع:* ${location || "غير محدد"}
-🏗 *اسم المطور العقاري:* ${developer || "غير محدد"}
-📐 *المساحة:* ${area || "غير محدد"}
-🛏 *عدد الغرف:* ${rooms || "غير محدد"}
-🚿 *دورات المياه:* ${bathrooms || "غير محدد"}
-⏳ *عمر العقار:* ${ageText}
-💰 *سعر البيع:*
-${checkboxValues[0] ? `- حد: ${priceLimit || "غير محدد"}` : ""}
-${checkboxValues[1] ? `- على السوم: ${priceOffer || "غير محدد"}` : ""}
-🤝 *قابل للتفاوض:* ${negotiableText}
-📝 *تفاصيل إضافية:*
-${notes || "لا يوجد"}
-📎 *المرفقات:* ${selectedFiles.length} ملف/فيديو
-👤 *الاسم:* ${name || "غير مدخل"}
-📱 *الجوال:* ${mobile || "غير مدخل"}
-`;
-  };
-
-  /**
-   * Resets all form fields to their initial states.
-   */
   const handleResetForm = () => {
     setDropdownValues({});
     setNotes("");
@@ -349,6 +275,9 @@ ${notes || "لا يوجد"}
     setMobile("");
     setLocation("");
     setDeveloper("");
+    setOwnerName("");
+    setNationality("");
+    setGender("");
     setArea("");
     setRooms("");
     setBathrooms("");
@@ -364,11 +293,7 @@ ${notes || "لا يوجد"}
     setUploadProgress(0);
   };
 
-  /**
-   * Handles the form submission process including API call and WhatsApp redirect.
-   */
   const handleSubmit = async () => {
-    // Basic Validation
     if (!channels.call && !channels.whatsapp && !channels.chat) {
       setAlertSeverity("error");
       setAlertMessage("يرجى اختيار وسيلة للتواصل");
@@ -403,14 +328,14 @@ ${notes || "لا يوجد"}
       contactChannels: channels,
       clientName: name,
       clientMobile: mobile,
+      ownerName,
+      nationality,
+      gender,
       date: new Date().toISOString(),
     };
 
     formData.append("payload", JSON.stringify(payload));
-
-    selectedFiles.forEach((file) => {
-      formData.append("files", file);
-    });
+    selectedFiles.forEach((file) => formData.append("files", file));
 
     try {
       const response = await axios.post(`${API_BASE_URL}/api/save-request`, formData, {
@@ -425,39 +350,20 @@ ${notes || "لا يوجد"}
         setAlertSeverity("success");
         setAlertMessage("تم حفظ البيانات والملفات بنجاح!");
         setOpenPopup(true);
-
-        // WhatsApp Redirection
-        const phoneNumber = "966509855666";
-        const message = buildWhatsAppMessage();
-        window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, "_blank");
-
-        // Clear Form
         handleResetForm();
-
-        // Optional Prop Callback
-        if (onSubmit) {
-          onSubmit({
-            dropdowns: DROPDOWN_FIELDS.map((_, i) => dropdownValues[i] || ""),
-            notes,
-            search,
-            channels,
-          });
-        }
       }
     } catch (error) {
-      console.error("Submission Error:", error);
       setAlertSeverity("error");
-      setAlertMessage("حدث خطأ في حفظ البيانات، يرجى المحاولة لاحقاً");
+      setAlertMessage("حدث خطأ في حفظ البيانات في قاعدة البيانات");
       setOpenPopup(true);
     } finally {
       setLoading(false);
     }
   };
 
-  /* --- Component UI --- */
   return (
     <Box
-      sx={{ 
+    sx={{ 
       minHeight: "100vh", 
       background: `linear-gradient(rgba(217, 170, 248, 0.85), rgba(217, 170, 248, 0.85))`,
       backgroundSize: "cover",
@@ -466,23 +372,13 @@ ${notes || "لا يوجد"}
       direction: "rtl"
     }}
     >
-      {/* Toast Notification for Success/Error */}
-      <Snackbar 
-        open={openPopup} 
-        autoHideDuration={6000} 
-        onClose={() => setOpenPopup(false)} 
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-      >
-        <Alert 
-          onClose={() => setOpenPopup(false)} 
-          severity={alertSeverity} 
-          variant="filled" 
-          sx={{ width: '100%', fontSize: '1.2rem', fontFamily: TAJAWAL }}
-        >
+      <Snackbar open={openPopup} autoHideDuration={6000} onClose={() => setOpenPopup(false)} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
+        <Alert onClose={() => setOpenPopup(false)} severity={alertSeverity} variant="filled" sx={{ width: '100%', fontSize: '1.2rem', fontFamily: TAJAWAL }}>
           {alertMessage}
         </Alert>
       </Snackbar>
 
+      
       <Container maxWidth="xl">
         <Box sx={{ width: "100%", position: "relative", py: "60px", overflow: "visible" }}>
           
@@ -565,39 +461,46 @@ ${notes || "لا يوجد"}
 
       <Container maxWidth="md" sx={{ mt: { xs: 4, md: 8 }, mb: { xs: 6, md: 12 }, direction: "rtl", fontFamily: TAJAWAL }}>
         
-        {/* Header Section */}
-     
+        <Box sx={{ textAlign: "center", mb: 8, animation: `${float} 4s ease-in-out infinite`, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <Typography variant="h1" sx={{ fontWeight: 900, fontSize: { xs: "2.5rem", md: "4rem" }, color: COLOR_PRIMARY_CYAN, fontFamily: TAJAWAL, textShadow: "0 10px 20px rgba(0,0,0,0.3)", display: 'flex', alignItems: 'center', gap: 1 }}>
+            بيع العقار <Sparkles size={32} style={{ color: COLOR_PRIMARY_CYAN }} />
+          </Typography>
+          <Typography sx={{ color: "#fff", opacity: 0.9, fontSize: "1.2rem", mt: 2, fontFamily: TAJAWAL, maxWidth: "600px" }}>
+            نحول رؤيتك إلى واقع ملموس بدقة واحترافية
+          </Typography>
+        </Box>
+
         <GlassCard sx={{ p: { xs: 2, md: 4 } }}>
           
-          {/* Status Selection (Ready vs Off-Plan) */}
+          {/* Status Selection */}
           <Box sx={{ display: "flex", flexDirection: "row", gap: { xs: 2, sm: 3 }, mb: 4, overflowX: "visible", p: 2, perspective: "1000px" }}>
-            <Box sx={{ flex: 1, minWidth: { xs: 120, sm: "auto" }, position: "relative", display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <Box sx={{ flex: 1, position: "relative", display: "flex", justifyContent: "center", alignItems: "center" }}>
               <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "28px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 6 }} />
-              <Box onClick={() => handleDeveloperCheckbox(0)} sx={{ width: "100%", p: { xs: 1, sm: 2 }, borderRadius: 3, border: "1px solid #E2E8F0", background: "#E2E8F0", textAlign: "center", cursor: "pointer", position: "relative", zIndex: 10 }}>
+              <Box onClick={() => handleDeveloperCheckbox(0)} sx={{ width: "100%", p: { xs: 1, sm: 2 }, borderRadius: 3, background: "#E2E8F0", textAlign: "center", cursor: "pointer", position: "relative", zIndex: 10 }}>
                 <FormControlLabel sx={{ width: "100%", m: 0, pointerEvents: "none" }} control={<Checkbox checked={isChecked1} sx={{ "& .MuiSvgIcon-root": { fontSize: { xs: 28, sm: 40 } } }} />} label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: { xs: "1rem", sm: "1.5rem" }, fontWeight: "bold" }}>جاهز</Typography>} />
               </Box>
             </Box>
-            <Box sx={{ flex: 1, minWidth: { xs: 120, sm: "auto" }, position: "relative", display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <Box sx={{ flex: 1, position: "relative", display: "flex", justifyContent: "center", alignItems: "center" }}>
               <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "28px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 6 }} />
-              <Box onClick={() => handleDeveloperCheckbox(1)} sx={{ width: "100%", p: { xs: 1, sm: 2 }, borderRadius: 3, border: "1px solid #E2E8F0", background: "#E2E8F0", textAlign: "center", cursor: "pointer", position: "relative", zIndex: 10 }}>
+              <Box onClick={() => handleDeveloperCheckbox(1)} sx={{ width: "100%", p: { xs: 1, sm: 2 }, borderRadius: 3, background: "#E2E8F0", textAlign: "center", cursor: "pointer", position: "relative", zIndex: 10 }}>
                 <FormControlLabel sx={{ width: "100%", m: 0, pointerEvents: "none" }} control={<Checkbox checked={isChecked2} sx={{ "& .MuiSvgIcon-root": { fontSize: { xs: 28, sm: 40 } } }} />} label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: { xs: "1rem", sm: "1.5rem" }, fontWeight: "bold" }}>على الخارطة</Typography>} />
               </Box>
             </Box>
           </Box>
 
-          {/* Property Type Dropdown Fields */}
+          {/* Property Type Dropdown */}
           <Box sx={{ display: "grid", gap: 3 }}>
             {DROPDOWN_FIELDS.map((field, i) => (
               <Box key={i} sx={{ position: "relative" }}>
                 <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
-                <Box sx={{ position: "relative", zIndex: 10, p: 3, borderRadius: 3, border: "1px solid #E2E8F0", background: "#E2E8F0" }}>
+                <Box sx={{ position: "relative", zIndex: 10, p: 3, borderRadius: 3, background: "#E2E8F0" }}>
                   <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR, alignItems: 'center' }}>
                     {field.icon}
                     <Typography sx={{ fontWeight: 800, fontSize: { xs: "1.2rem", md: "1.6rem" }, fontFamily: TAJAWAL }}>{field.label}</Typography>
                   </Box>
                   <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "repeat(2, 1fr)", md: "repeat(3, 1fr)" }, gap: 2 }}>
                     {field.options.map((opt, idx) => (
-                      <FormControlLabel key={idx} control={<Checkbox checked={dropdownValues[i] === opt} onChange={(e) => setDropdownValues({ ...dropdownValues, [i]: e.target.checked ? opt : "" })} />} label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: { xs: "1.6rem", md: "1.7rem" }, fontWeight: 500 }}>{opt}</Typography>} />
+                      <FormControlLabel key={idx} control={<Checkbox checked={dropdownValues[i] === opt} onChange={(e) => setDropdownValues({ ...dropdownValues, [i]: e.target.checked ? opt : "" })} />} label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: "1.6rem", fontWeight: 500 }}>{opt}</Typography>} />
                     ))}
                   </Box>
                 </Box>
@@ -605,60 +508,234 @@ ${notes || "لا يوجد"}
             ))}
           </Box>
 
-          {/* Location Input */}
-          <Box sx={{ display: "grid", gap: 3, mt: 3 }}>
-            <Box sx={{ position: "relative" }}>
-              <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
-              <Box sx={{ position: "relative", zIndex: 10, p: 2, borderRadius: 3, border: "1px solid #E2E8F0", background: "#E2E8F0" }}>
-                <Box sx={{ display: "flex", gap: 1, mb: 0.5, color: LABEL_COLOR }}><HomeWorkIcon /><Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>الموقع</Typography></Box>
-                <Typography sx={{ fontSize: "1rem", mb: 3, color: "#242629ff", fontFamily: TAJAWAL, fontWeight: 'bold' }}>الرجاء كتابة موقع العقار المراد بيعه بالتفصيل</Typography>
-                <StyledTextField fullWidth multiline minRows={3} value={location} onChange={(e) => setLocation(e.target.value)} />
+          {/* Personal Data Section */}
+    
+            {/* Personal Data Section - Added mt: 5 for top space */}
+           <Box sx={{ position: "relative", borderRadius: 4, mt: 5 ,mb: 5 }}>
+              {/* Glow Border Effect */}
+              <Box sx={{ position: "absolute", inset: "-2px", borderRadius: 4, background: "linear-gradient(135deg, #06f9f3, #00b3ff, #06f9f3)", filter: "blur(6px)", zIndex: 0 }} />
+
+              <Box sx={{ position: "relative", zIndex: 1, p: { xs: 2, sm: 3 }, borderRadius: 4, border: "1px solid #CBD5E1", backgroundColor: "#E2E8F0" }}>
+                
+                {/* SECTION TITLE */}
+                <Box sx={{ display: "flex", gap: 1, mb: 3, color: LABEL_COLOR, alignItems: "center" }}>
+                  <AccountBoxIcon sx={{ fontSize: "1.7rem" }} /> 
+                  <Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>
+                    البيانات الشخصية
+                  </Typography>
+                </Box>
+
+                {/* 1. ROW: OWNER NAME - Responsive Stack */}
+                <Box sx={{ 
+                  display: "flex", 
+                  flexDirection: { xs: "column", sm: "row" }, 
+                  alignItems: { xs: "flex-start", sm: "center" }, 
+                  gap: { xs: 1, sm: 2 }, 
+                  mb: 3 
+                }}>
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 1, minWidth: 165 }}>
+                    <AssignmentIndIcon sx={{ color: LABEL_COLOR, fontSize: "1.2rem" }} />
+                    <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 600 }}>اسم   المالك  أو الوكيل</Typography>
+                  </Box>
+                  <StyledTextField
+                    size="small"
+                    value={ownerName}
+                    onChange={(e) => setOwnerName(e.target.value)}
+                    placeholder="أدخل الاسم هنا"
+                    sx={{
+                      // Keep your responsive width
+                      width: { xs: "100%", sm: "50%", md: "40%" },
+
+                      // 1. Background and Shape
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                        backgroundColor: "#E2E8F0", // Kept white as per your second snippet
+                      },
+
+                      // 2. Standard border state
+                      "& .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#000000 !important",
+                        borderWidth: "1px !important",
+                      },
+
+                      // 3. Hover state (remains black)
+                      "&:hover .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#000000 !important",
+                      },
+
+                      // 4. Focused state (prevents the default blue/thick border)
+                      "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#000000 !important",
+                        borderWidth: "1px !important",
+                      },
+                    }}
+                  />
+                </Box>
+
+                {/* 2. ROW: NATIONALITY - Responsive Wrap */}
+                <Box sx={{ 
+                  display: "flex", 
+                  flexDirection: { xs: "column", sm: "row" }, 
+                  alignItems: { xs: "flex-start", sm: "center" }, 
+                  gap: { xs: 1, sm: 2 }, 
+                  mb: 3 
+                }}>
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 1, minWidth: 165 }}>
+                    <PublicIcon sx={{ color: LABEL_COLOR, fontSize: "1.2rem" }} />
+                    <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 600 }}>جنسية المالك</Typography>
+                  </Box>
+                  <Box sx={{ display: "flex", gap: 1 }}>
+                    <FormControlLabel
+                      control={<Checkbox checked={nationality === "saudi"} onChange={() => setNationality("saudi")} />}
+                      label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: "0.95rem" }}>سعودي</Typography>}
+                    />
+                    <FormControlLabel
+                      control={<Checkbox checked={nationality === "non-saudi"} onChange={() => setNationality("non-saudi")} />}
+                      label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: "0.95rem" }}>غير سعودي</Typography>}
+                    />
+                  </Box>
+                </Box>
+
+                {/* 3. ROW: GENDER - Responsive Wrap */}
+                <Box sx={{ 
+                  display: "flex", 
+                  flexDirection: { xs: "column", sm: "row" }, 
+                  alignItems: { xs: "flex-start", sm: "center" }, 
+                  gap: { xs: 1, sm: 2 } 
+                }}>
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 1, minWidth: 165 }}>
+                    <WcIcon sx={{ color: LABEL_COLOR, fontSize: "1.2rem" }} />
+                    <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 600 }}>النوع</Typography>
+                  </Box>
+                  <Box sx={{ display: "flex", gap: 1 }}>
+                    <FormControlLabel
+                      control={<Checkbox checked={gender === "male"} onChange={() => setGender("male")} />}
+                      label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: "0.95rem" }}>ذكر</Typography>}
+                    />
+                    <FormControlLabel
+                      control={<Checkbox checked={gender === "female"} onChange={() => setGender("female")} />}
+                      label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: "0.95rem" }}>أنثى</Typography>}
+                    />
+                  </Box>
+                </Box>
+
               </Box>
+            </Box>
+
+          {/* Location Details */}
+          <Box sx={{ mt: 3, position: "relative" }}>
+            <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
+            <Box sx={{ position: "relative", zIndex: 10, p: 2, borderRadius: 3, background: "#E2E8F0" }}>
+              <Box sx={{ display: "flex", gap: 1, mb: 0.5, color: LABEL_COLOR }}><HomeWorkIcon /><Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>الموقع</Typography></Box>
+              <Typography sx={{ fontSize: "1rem", mb: 3, color: "#242629ff", fontFamily: TAJAWAL, fontWeight: 'bold' }}>اكتب موقع العقار بالتفصيل</Typography>
+              <StyledTextField
+                fullWidth
+                multiline
+                minRows={3}
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                sx={{
+                  // 1. Background Color and Radius
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                    backgroundColor: "#E2E8F0",
+                    padding: "12px", // Adjust padding for multiline comfort
+                  },
+                  // 2. Persistent Black Border (Normal State)
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#000000 !important",
+                    borderWidth: "1px !important",
+                  },
+                  // 3. Hover State
+                  "&:hover .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#000000 !important",
+                  },
+                  // 4. Focused State (While typing)
+                  "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#000000 !important",
+                    borderWidth: "1px !important", // Prevents the border from thickening
+                  },
+                }}
+              />
             </Box>
           </Box>
 
-          {/* Developer Input */}
-          <Box sx={{ display: "grid", gap: 3, mt: 3 }}>
-            <Box sx={{ position: "relative" }}>
-              <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
-              <Box sx={{ position: "relative", zIndex: 10, p: 2, borderRadius: 3, border: "1px solid #E2E8F0", background: "#E2E8F0" }}>
-                <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR }}><LocationCityIcon /><Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>اسم المطور العقاري</Typography></Box>
-                <Typography sx={{ fontSize: "1rem", mb: 3, color: "#242629ff", fontFamily: TAJAWAL, fontWeight: 'bold' }}>الرجاء كتابة اسم المطور العقاري إن أمكن</Typography>
-                <StyledTextField fullWidth value={developer} onChange={(e) => setDeveloper(e.target.value)} />
-              </Box>
+          {/* Developer Details */}
+          <Box sx={{ mt: 3, position: "relative" }}>
+            <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
+            <Box sx={{ position: "relative", zIndex: 10, p: 2, borderRadius: 3, background: "#E2E8F0" }}>
+              <Box sx={{ display: "flex", gap: 1, mb: 1, color: LABEL_COLOR }}><LocationCityIcon /><Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>اسم المطور العقاري</Typography></Box>
+              <Typography sx={{ fontSize: "1rem", mb: 3, color: "#242629ff", fontFamily: TAJAWAL, fontWeight: 'bold' }}>اكتب اسم المطور العقاري إن أمكن</Typography>
+              <StyledTextField
+                fullWidth
+                value={developer}
+                onChange={(e) => setDeveloper(e.target.value)}
+                sx={{
+                  // Container background and shape
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                    backgroundColor: "#E2E8F0",
+                  },
+                  // Standard border state
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#000000 !important",
+                    borderWidth: "1px !important",
+                  },
+                  // Hover state (remains black)
+                  "&:hover .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#000000 !important",
+                  },
+                  // Active/Focused state (remains 1px and black)
+                  "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#000000 !important",
+                    borderWidth: "1px !important",
+                  },
+                }}
+              />
             </Box>
           </Box>
 
-          {/* Specs Section: Area, Rooms, Bathrooms, Age */}
+          {/* Specs: Area, Rooms, Bathrooms */}
           <Box sx={{ display: "grid", gap: 3, mt: 3 }}>
             <Box sx={{ position: "relative", borderRadius: 4 }}>
               <Box sx={{ position: "absolute", inset: "-2px", borderRadius: 4, background: "linear-gradient(135deg, #06f9f3, #00b3ff, #06f9f3)", filter: "blur(6px)", zIndex: 0 }} />
               <Box sx={{ position: "relative", zIndex: 1, p: 3, borderRadius: 4, border: "1px solid #CBD5E1", backgroundColor: "#E2E8F0" }}>
                 
-              {/* 1. AREA FIELD */}
                 <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
                   <Box sx={{ display: "flex", alignItems: "center", gap: 1, minWidth: 165 }}>
                     <StraightenIcon sx={{ color: LABEL_COLOR, fontSize: "1.2rem" }} />
-                    <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 600, display: "flex", alignItems: "center", gap: "5px" }}>
-                      المساحة
-                      <Box component="span" sx={{ fontSize: "0.8rem", fontWeight: 400, color: "#475569" }}>(اختياري)</Box>
-                    </Typography>
+                    <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 600, display: "flex", alignItems: "center", gap: "5px" }}>المساحة <Box component="span" sx={{ fontSize: "0.8rem", fontWeight: 400, color: "#475569" }}>(اختياري)</Box></Typography>
                   </Box>
                   <StyledTextField
                     size="small"
                     placeholder="الرجاء كتابة المساحة"
                     value={area}
                     onChange={(e) => setArea(e.target.value)}
-                    sx={{ 
+                    sx={{
                       width: { xs: "100%", sm: "40%" },
-                      "& .MuiInputBase-root": { borderRadius: "8px", backgroundColor: "#fff" },
-                      "& .MuiInputBase-input": { fontFamily: TAJAWAL, fontWeight: 300, fontSize: { xs: "0.9rem", md: "1rem" } },
-                      "& .MuiInputBase-input::placeholder": { opacity: 0.6 }
+                      // 1. Updated Background and Radius
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                        backgroundColor: "#E2E8F0",
+                      },
+                      // 2. Fixed Black Border (Normal)
+                      "& .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#000000 !important",
+                        borderWidth: "1px !important",
+                      },
+                      // 3. Keep Black on Hover
+                      "&:hover .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#000000 !important",
+                      },
+                      // 4. Keep Black and 1px on Focus (Click)
+                      "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#000000 !important",
+                        borderWidth: "1px !important",
+                      },
                     }}
                   />
                 </Box>
 
-                {/* 2. ROOMS FIELD */}
                 <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
                   <Box sx={{ display: "flex", alignItems: "center", gap: 1, minWidth: 165 }}>
                     <HotelIcon sx={{ color: LABEL_COLOR, fontSize: "1.2rem" }} />
@@ -668,16 +745,31 @@ ${notes || "لا يوجد"}
                     size="small"
                     value={rooms}
                     onChange={(e) => setRooms(e.target.value)}
-                    sx={{ 
+                    sx={{
                       width: { xs: "100%", sm: "40%" },
-                      "& .MuiInputBase-root": { borderRadius: "8px", backgroundColor: "#fff" },
-                      "& .MuiInputBase-input": { fontFamily: TAJAWAL, fontWeight: 300, fontSize: { xs: "0.9rem", md: "1rem" } },
-                      "& .MuiInputBase-input::placeholder": { opacity: 0.6 }
+                      // 1. Background and Shape
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                        backgroundColor: "#E2E8F0",
+                      },
+                      // 2. Fixed Black Border (Normal State)
+                      "& .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#000000 !important",
+                        borderWidth: "1px !important",
+                      },
+                      // 3. Keep Black on Hover
+                      "&:hover .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#000000 !important",
+                      },
+                      // 4. Keep Black and Thin on Focus
+                      "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#000000 !important",
+                        borderWidth: "1px !important",
+                      },
                     }}
                   />
                 </Box>
 
-                {/* 3. BATHROOMS FIELD */}
                 <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
                   <Box sx={{ display: "flex", alignItems: "center", gap: 1, minWidth: 165 }}>
                     <BathtubIcon sx={{ color: LABEL_COLOR, fontSize: "1.2rem" }} />
@@ -687,26 +779,35 @@ ${notes || "لا يوجد"}
                     size="small"
                     value={bathrooms}
                     onChange={(e) => setBathrooms(e.target.value)}
-                    sx={{ 
+                    sx={{
                       width: { xs: "100%", sm: "40%" },
-                      "& .MuiInputBase-root": { borderRadius: "8px", backgroundColor: "#fff" },
-                      "& .MuiInputBase-input": { fontFamily: TAJAWAL, fontWeight: 300, fontSize: { xs: "0.9rem", md: "1rem" } },
-                      "& .MuiInputBase-input::placeholder": { opacity: 0.6 }
+                      // 1. Background Color and Radius
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                        backgroundColor: "#E2E8F0",
+                      },
+                      // 2. Fixed Black Border (Standard)
+                      "& .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#000000 !important",
+                        borderWidth: "1px !important",
+                      },
+                      // 3. Keep Black on Hover
+                      "&:hover .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#000000 !important",
+                      },
+                      // 4. Keep Black and Fixed Width on Focus
+                      "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#000000 !important",
+                        borderWidth: "1px !important",
+                      },
                     }}
                   />
                 </Box>
 
-                {/* PROPERTY AGE SECTION */}
                 <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 3, mt: 1 }}>
                   <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 600 }}>عمر العقار</Typography>
-                  <FormControlLabel
-                    control={<Checkbox checked={propertyAgeSelection === "new"} onChange={() => handleAgeCheckboxChange("new")} />}
-                    label={<Typography sx={{ fontFamily: TAJAWAL }}>جديد</Typography>}
-                  />
-                  <FormControlLabel
-                    control={<Checkbox checked={propertyAgeSelection === "custom"} onChange={() => handleAgeCheckboxChange("custom")} />}
-                    label={<Typography sx={{ fontFamily: TAJAWAL }}>أكثر من سنة</Typography>}
-                  />
+                  <FormControlLabel control={<Checkbox checked={propertyAgeSelection === "new"} onChange={() => handleAgeCheckboxChange("new")} />} label={<Typography sx={{ fontFamily: TAJAWAL }}>جديد</Typography>} />
+                  <FormControlLabel control={<Checkbox checked={propertyAgeSelection === "custom"} onChange={() => handleAgeCheckboxChange("custom")} />} label={<Typography sx={{ fontFamily: TAJAWAL }}>أكثر من سنة</Typography>} />
                   <TextField
                     size="small"
                     value={customAgeInput}
@@ -715,58 +816,73 @@ ${notes || "لا يوجد"}
                       setCustomAgeInput(val);
                       handleAgeCheckboxChange(val.trim() !== "" ? "custom" : "");
                     }}
-                    sx={{ width: 120, backgroundColor: "white", borderRadius: "8px", "& .MuiOutlinedInput-root": { borderRadius: "8px" } }}
+                    sx={{
+                      width: 120,
+                      // 1. Updated Background and Radius
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                        backgroundColor: "#E2E8F0",
+                      },
+                      // 2. Fixed Black Border (Normal State)
+                      "& .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#000000 !important",
+                        borderWidth: "1px !important",
+                      },
+                      // 3. Keep Black on Hover
+                      "&:hover .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#000000 !important",
+                      },
+                      // 4. Keep Black and 1px Width on Focus
+                      "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#000000 !important",
+                        borderWidth: "1px !important",
+                      },
+                    }}
                   />
                 </Box>
-
               </Box>
             </Box>
           </Box>
 
-   
-
-          {/* Additional Notes */}
+          {/* Additional Notes Area */}
           <Box sx={{ mt: 5, position: "relative" }}>
             <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
-            <Box sx={{ position: "relative", zIndex: 10, border: "1px solid #E2E8F0", background: "#E2E8F0", borderRadius: 3, p: 3 }}>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}><EditNoteIcon sx={{ color: LABEL_COLOR }} /><Typography sx={{ fontWeight: 800, fontSize: "1.6rem", color: LABEL_COLOR, fontFamily: TAJAWAL }}>تفاصيل إضافية</Typography></Box>
-              <Typography sx={{ mt: 0.5, mb: 1.5, fontSize: "0.95rem", color: "#222324ff", fontFamily: TAJAWAL, fontWeight: 'bold' }}>اذكر أي ملاحظات أو متطلبات خاصة تساعدنا في خدمتك بشكل أفضل</Typography>
+            <Box sx={{ position: "relative", zIndex: 10, background: "#E2E8F0", borderRadius: 3, p: 3 }}>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}><EditNoteIcon sx={{ color: LABEL_COLOR }} /><Typography sx={{ fontWeight: 800, fontSize: "1.6rem", fontFamily: TAJAWAL }}>تفاصيل إضافية</Typography></Box>
               <StyledTextField
                 multiline
                 minRows={4}
                 fullWidth
-                placeholder="اكتب ملاحظاتك هنا..."
+                placeholder="اكتب ملاحظاتك..."
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 sx={{
-                  // تخصيص منطقة الإدخال
+                  mt: 2,
+                  // 1. Background and Radius
                   "& .MuiInputBase-root": {
-                    borderRadius: "12px",
-                    backgroundColor: "#fff",
-                    p: { xs: 1.5, md: 2 }, // حواف داخلية أكبر قليلاً لسهولة اللمس على الجوال
+                    backgroundColor: "#E2E8F0",
+                    borderRadius: "8px",
                   },
-                  // النص الذي يكتبه المستخدم
-                  "& .MuiInputBase-input": {
-                    fontFamily: TAJAWAL,
-                    fontWeight: 300, // الخط الخفيف المطلوب
-                    fontSize: { xs: "1rem", md: "1.1rem" },
-                    lineHeight: 1.6, // تباعد أسطر مريح للقراءة
-                    color: "#1e293b",
+                  // 2. Fixed Black Border (Normal)
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#000000 !important",
+                    borderWidth: "1px !important",
                   },
-                  // النص المؤقت (Placeholder)
-                  "& .MuiInputBase-input::placeholder": {
-                    fontFamily: TAJAWAL,
-                    fontWeight: 300, // جعل الـ placeholder خفيفاً أيضاً
-                    fontSize: { xs: "0.95rem", md: "1.05rem" },
-                    opacity: 0.6,
-                    color: "#64748b",
+                  // 3. Keep Black on Hover
+                  "&:hover .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#000000 !important",
+                  },
+                  // 4. Keep Black and 1px on Focus (typing)
+                  "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#000000 !important",
+                    borderWidth: "1px !important",
                   },
                 }}
               />
             </Box>
           </Box>
 
-          {/* Media Upload Area */}
+          {/* Media Upload Section */}
           <Box sx={{ mt: 4, mb: 4, position: "relative" }}>
             <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
             <Box sx={{ position: "relative", zIndex: 10, p: 3, borderRadius: 3, background: "#E2E8F0", border: "1px solid #E2E8F0" }}>
@@ -804,81 +920,101 @@ ${notes || "لا يوجد"}
             </Box>
           </Box>
 
-          {/* Pricing Details */}
+          {/* Pricing Section */}
           <Box sx={{ position: "relative", mb: 4 }}> 
             <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
             <Box sx={{ position: "relative", zIndex: 10, p: 3, borderRadius: 3, border: "1px solid #E2E8F0", background: "#E2E8F0" }}>
-              <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR }}>
-                <AccountBalanceWalletIcon />
-                <Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>سعر البيع</Typography>
-              </Box>
+              <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR }}><AccountBalanceWalletIcon /><Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>سعر البيع</Typography></Box>
+              <Typography sx={{ fontSize: "1rem", mb: 3, color: "#242629ff", fontFamily: TAJAWAL, fontWeight: 'bold' }}>الرجاء اختيار أحد الطرق لتقييم سعر البيع</Typography>
 
-              <Typography sx={{ fontSize: "1rem", mb: 3, color: "#242629ff", fontFamily: TAJAWAL, fontWeight: 'bold' }}>
-                الرجاء اختيار أحد الطرق لتقييم سعر البيع
-              </Typography>
-
-              {/* Price Option: Limit */}
               <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
                 <Checkbox checked={checkboxValues[0]} onChange={(e) => handleCheckboxChange(0, e.target.checked)} />
                 <Typography sx={{ minWidth: 100, fontFamily: TAJAWAL }}>سعر محدد</Typography>
-                <StyledTextField 
-                  size="small" 
-                  value={priceLimit} 
+                <StyledTextField
+                  size="small"
+                  value={priceLimit}
                   onChange={(e) => {
                     const val = e.target.value;
                     setPriceLimit(val);
                     handleCheckboxChange(0, val.trim() !== "");
-                  }} 
+                  }}
+                  sx={{
+                    // 1. Background and Radius
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                      backgroundColor: "#E2E8F0",
+                    },
+                    // 2. Fixed Black Border (Normal)
+                    "& .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#000000 !important",
+                      borderWidth: "1px !important",
+                    },
+                    // 3. Keep Black on Hover
+                    "&:hover .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#000000 !important",
+                    },
+                    // 4. Keep Black and 1px on Focus
+                    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#000000 !important",
+                      borderWidth: "1px !important",
+                    },
+                  }}
                 />
               </Box>
 
-              {/* Price Option: Offer */}
               <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 4 }}>
                 <Checkbox checked={checkboxValues[1]} onChange={(e) => handleCheckboxChange(1, e.target.checked)} />
                 <Typography sx={{ minWidth: 100, fontFamily: TAJAWAL }}>على السوم</Typography>
-                <StyledTextField 
-                  size="small" 
-                  value={priceOffer} 
+                <StyledTextField
+                  size="small"
+                  value={priceOffer}
                   onChange={(e) => {
                     const val = e.target.value;
                     setPriceOffer(val);
                     handleCheckboxChange(1, val.trim() !== "");
-                  }} 
+                  }}
+                  sx={{
+                    // 1. Background and Border Radius
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                      backgroundColor: "#E2E8F0",
+                    },
+                    // 2. Fixed Black Border (Normal State)
+                    "& .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#000000 !important",
+                      borderWidth: "1px !important",
+                    },
+                    // 3. Keep Black on Hover
+                    "&:hover .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#000000 !important",
+                    },
+                    // 4. Keep Black and 1px Width on Focus
+                    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#000000 !important",
+                      borderWidth: "1px !important",
+                    },
+                  }}
                 />
               </Box>
 
               <Divider sx={{ mb: 3, borderColor: "rgba(0,0,0,0.1)" }} />
 
-              {/* Negotiability Toggle */}
-              <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR }}>
-                <HandshakeIcon />
-                <Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>هل السعر قابل للتفاوض؟</Typography>
-              </Box>
+              <Box sx={{ display: "flex", gap: 1, mb: 2, color: LABEL_COLOR }}><HandshakeIcon /><Typography sx={{ fontWeight: 700, fontSize: "1.3rem", fontFamily: TAJAWAL }}>هل السعر قابل للتفاوض؟</Typography></Box>
 
               <Box sx={{ display: "flex", gap: 8, mt: 4, mb: 2, width: "100%", justifyContent: "flex-start", px: 2 }}>
                 <Box onClick={() => setIsNegotiable('yes')} sx={{ display: "flex", alignItems: "center", cursor: "pointer", transition: "0.2s", "&:hover": { opacity: 0.7 } }}>
                   <Switch checked={isNegotiable === 'yes'} color="success" size="medium" sx={{ transform: "scale(1.2)", ml: 1 }} />
                   <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 800, fontSize: "1.6rem", color: isNegotiable === 'yes' ? '#2e7d32' : '#64748B' }}>نعم</Typography>
                 </Box>
-
                 <Box onClick={() => setIsNegotiable('no')} sx={{ display: "flex", alignItems: "center", cursor: "pointer", transition: "0.2s", "&:hover": { opacity: 0.7 } }}>
-                  <Switch 
-                    checked={isNegotiable === 'no'} 
-                    sx={{
-                      transform: "scale(1.2)", 
-                      ml: 1,
-                      '& .MuiSwitch-switchBase.Mui-checked': { color: '#d32f2f' },
-                      '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#d32f2f' },
-                    }}
-                    size="medium"
-                  />
+                  <Switch checked={isNegotiable === 'no'} sx={{ transform: "scale(1.2)", ml: 1, '& .MuiSwitch-switchBase.Mui-checked': { color: '#d32f2f' }, '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#d32f2f' } }} size="medium" />
                   <Typography sx={{ fontFamily: TAJAWAL, fontWeight: 800, fontSize: "1.6rem", color: isNegotiable === 'no' ? '#d32f2f' : '#64748B' }}>لا</Typography>
                 </Box>
               </Box>
             </Box>
-          </Box>  
+          </Box>
 
-          {/* Contact Channels Selection */}
+          {/* Contact Channels Section */}
           <Box sx={{ mb: 6, position: "relative" }}>
             <Box sx={{ position: "absolute", inset: "-2px", borderRadius: "16px", background: "linear-gradient(135deg,#06f9f3,#00b3ff,#06f9f3)", filter: "blur(4px)", zIndex: 0 }} />
             <Box sx={{ position: "relative", zIndex: 10, p: 3, borderRadius: 3, border: "1px solid #E2E8F0", background: "#E2E8F0" }}>
@@ -888,7 +1024,7 @@ ${notes || "لا يوجد"}
               <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 1, mb: 2, width: "100%", flexWrap: "nowrap" }}>
                 <FormControlLabel sx={{ mr: 0, flexShrink: 0 }} control={<Checkbox size="small" checked={channels.call} onChange={(e) => setChannels({ ...channels, call: e.target.checked })} />} label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: { xs: '12px', sm: '16px', md: '18px' }, whiteSpace: "nowrap" }}>الرجاء التواصل على الرقم</Typography>} />
                 <Box sx={{ display: "flex", justifyContent: "flex-end", minWidth: 0, flexShrink: 1 }}>
-                  <Typography sx={{ fontFamily: "TAJAWAL", fontWeight: 800, fontSize: { xs: "11px", sm: "16px", md: "20px" }, color: "#1D4ED8", backgroundColor: "#F8FAFC", px: { xs: 1, md: 3 }, py: 0.5, borderRadius: "999px", boxShadow: "0 4px 12px rgba(37,99,235,0.25)", cursor: "pointer", whiteSpace: "nowrap", border: "1px solid rgba(29, 78, 216, 0.1)" }}>
+                  <Typography sx={{ fontFamily: "TAJAWAL", fontWeight: 800, fontSize: { xs: "11px", sm: "16px", md: "20px" }, color: "#1D4ED8", backgroundColor: "#F8FAFC", px: { xs: 1, md: 3 }, py: 0.5, borderRadius: "999px", boxShadow: "0 4px 12px rgba(37,99,235,0.25)", cursor: "pointer", border: "1px solid rgba(29, 78, 216, 0.1)" }}>
                     📞 +966 50 985 5666
                   </Typography>
                 </Box>
@@ -900,28 +1036,72 @@ ${notes || "لا يوجد"}
               </Box>
               
               <Divider sx={{ my: 3, borderColor: "#1f2937", borderBottomWidth: "2px" }} />
-              
               <FormControlLabel sx={{ mb: 3 }} control={<Checkbox checked={channels.chat} onChange={(e) => setChannels({ ...channels, chat: e.target.checked })} />} label={<Typography sx={{ fontFamily: TAJAWAL, fontSize: '18px', fontWeight: 'bold' }}> اترك اسمك وجوالك للتواصل معك لاحقًا </Typography>} />
               
-              {/* Name & Mobile for Chat */}
               <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
                 <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 600, fontSize: '18px' }}> الاسم </Typography>
-                <StyledTextField fullWidth value={name} onChange={(e) => setName(e.target.value)} />
+                <StyledTextField
+                  fullWidth
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  sx={{
+                    // 1. Background and Shape
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                      backgroundColor: "#E2E8F0",
+                    },
+                    // 2. Fixed Black Border (Normal)
+                    "& .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#000000 !important",
+                      borderWidth: "1px !important",
+                    },
+                    // 3. Keep Black on Hover
+                    "&:hover .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#000000 !important",
+                    },
+                    // 4. Keep Black and 1px on Focus
+                    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#000000 !important",
+                      borderWidth: "1px !important",
+                    },
+                  }}
+                />
               </Box>
               <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                 <Typography sx={{ minWidth: 120, fontFamily: TAJAWAL, fontWeight: 600, fontSize: '18px' }}> الجوال </Typography>
-                <StyledTextField fullWidth value={mobile} onChange={(e) => setMobile(e.target.value)} />
+                <StyledTextField
+                  fullWidth
+                  value={mobile}
+                  onChange={(e) => setMobile(e.target.value)}
+                  sx={{
+                    // 1. Background Color and Radius
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                      backgroundColor: "#E2E8F0",
+                    },
+                    // 2. Fixed Black Border (Standard State)
+                    "& .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#000000 !important",
+                      borderWidth: "1px !important",
+                    },
+                    // 3. Persistent Black Border on Hover
+                    "&:hover .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#000000 !important",
+                    },
+                    // 4. Persistent Black Border on Focus (Active)
+                    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#000000 !important",
+                      borderWidth: "1px !important", 
+                    },
+                  }}
+                />
               </Box>
             </Box>
           </Box>
 
-          {/* Action Button */}
-          <Box sx={{ mt: 5, textAlign: "center" }}>
-            <SubmitButton 
-              onClick={handleSubmit} 
-              disabled={loading} 
-              endIcon={loading ? <CircularProgress size={24} color="inherit" /> : <Send size={24} style={{ marginRight: '8px' }} />}
-            >
+          {/* Submit Button */}
+          <Box sx={{ textAlign: "center" }}>
+            <SubmitButton onClick={handleSubmit} disabled={loading} endIcon={loading ? <CircularProgress size={24} color="inherit" /> : <Send size={24} />}>
               {loading ? `جاري الحفظ ${uploadProgress}%` : "ارسال الطلب وحفظ البيانات"}
             </SubmitButton>
           </Box>
