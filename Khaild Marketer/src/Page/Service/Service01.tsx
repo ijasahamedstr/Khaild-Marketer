@@ -183,32 +183,38 @@ const Service01: React.FC = () => {
   };
 
   // --- SEARCH LOGIC ---
-  const handleSearch = async () => {
-    setLoading(true);
-    try {
-      const params = {
-        propertyStatus: isChecked1 ? "جاهز" : "على الخارطة",
-        propertyType: dropdownValues[0] || "",
-        location, rooms, bathrooms, priceLimit, ownerName, nationality, gender, area,
-        age: propertyAgeSelection === "custom" ? customAgeInput : propertyAgeSelection,
-        paymentMethod: isPaymentmethod, contactName: name, contactMobile: mobile
-      };
+ const handleSearch = async () => {
+  setLoading(true);
+  try {
+    const filters = {
+      propertyStatus: isChecked1 ? "جاهز" : "على الخارطة",
+      propertyType: dropdownValues[0] || "",
+      location: location,
+      rooms: rooms,
+      bathrooms: bathrooms,
+      priceLimit: priceLimit,
+      area: area,
+    };
 
-      const response = await axios.get(`${API_BASE_URL}/api/save-request-filter`, { params });
+    // --- LOGIC: Remove empty fields so they don't block the match ---
+    const activeFilters = Object.fromEntries(
+      Object.entries(filters).filter(([_, value]) => value !== "" && value !== null)
+    );
 
-      if (response.data.success) {
-        setDbResults(response.data.data);
-        setView("results");
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    } catch (error) {
-      console.error("Database Filter Error:", error);
-      setDbResults([]);
+    const response = await axios.get(`${API_BASE_URL}/api/save-request-filter`, { 
+      params: activeFilters 
+    });
+
+    if (response.data.success) {
+      setDbResults(response.data.data);
       setView("results");
-    } finally {
-      setLoading(false);
     }
-  };
+  } catch (error) {
+    console.error("Match Error:", error);
+  } finally {
+    setLoading(false);
+  }
+};
 
   // --- BOOKING LOGIC ---
   // 1. Open the modal and pre-fill data
