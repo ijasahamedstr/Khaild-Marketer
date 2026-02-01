@@ -26,6 +26,7 @@ import Properties from "./Property for sale/Properties"; // الصفحة الت�
 import CreateAdmin from "./Settings";
 import Propertyrental from "./Property rental/Propertyrental";
 import Propertyfinishing from "./Property finishing/Propertyfinishing";
+import Buyingproperty from "./Buying property/Buying property";
 
 // ملاحظة: يمكنك إنشاء صفحات بسيطة لهذه الأقسام مؤقتاً
 const PlaceholderPage = ({ title }: { title: string }) => (
@@ -73,7 +74,7 @@ const Dashboard: React.FC = () => {
       case "بيع العقار": 
         return <Properties />; // عرض صفحة بيع العقار (الكود الذي كتبناه سابقاً)
       case "شراء العقار": 
-        return <PlaceholderPage title="شراء العقار" />;
+        return <Buyingproperty />;
       case "إيجار العقار": 
         return <Propertyrental />;
       case "تشطيب العقار": 

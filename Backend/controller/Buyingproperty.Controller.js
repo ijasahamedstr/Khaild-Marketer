@@ -1,68 +1,99 @@
-// New import method
 
-import Buyingproperty from "../models/Buyingproperty.models.js";
 
-export const saveRequest = async (req, res) => {
+import Booking from "../models/Booking.models.js";
+
+
+export const saveBooking = async (req, res) => {
   try {
-    const newRequest = new Buyingproperty(req.body);
-    await newRequest.save();
-    res.status(201).json({ success: true, message: "Saved Successfully" });
-  } catch (err) {
-    res.status(500).json({ success: false, error: err.message });
-  }
-};
+    console.log("📅 New Booking Request:", req.body);
 
-// 2. VIEW ALL: Get all buying requests
-export const getAllRequests = async (req, res) => {
-  try {
-    const requests = await Buyingproperty.find().sort({ createdAt: -1 });
-    res.status(200).json({ success: true, data: requests });
-  } catch (err) {
-    res.status(500).json({ success: false, error: err.message });
-  }
-};
+    const {
+      clientName, clientMobile, clientLocation, bookingTime,
+      propertyId, propertyType, propertyStatus, propertyPrice, propertyLocation
+    } = req.body;
 
-// 3. SINGLE VIEW: Get one request by ID
-export const getRequestById = async (req, res) => {
-  try {
-    const request = await Buyingproperty.findById(req.params.id);
-    if (!request) {
-      return res.status(404).json({ success: false, message: "Request not found" });
+    // Validation
+    if (!clientName || !clientMobile || !bookingTime) {
+      return res.status(400).json({ success: false, message: "Required fields missing" });
     }
-    res.status(200).json({ success: true, data: request });
-  } catch (err) {
-    res.status(500).json({ success: false, error: err.message });
+
+    const newBooking = new Booking({
+      clientName,
+      clientMobile,
+      clientLocation,
+      bookingTime,
+      propertyId,
+      propertyType,
+      propertyStatus,
+      propertyPrice,
+      propertyLocation
+    });
+
+    await newBooking.save();
+
+    res.status(201).json({ 
+      success: true, 
+      message: "Appointment booked successfully!", 
+      bookingId: newBooking._id 
+    });
+
+  } catch (error) {
+    console.error("❌ Booking Save Error:", error);
+    res.status(500).json({ success: false, error: error.message });
   }
 };
 
-// 4. UPDATE: Update a request by ID
-export const updateRequest = async (req, res) => {
+// @desc    Get all bookings
+export const getAllBookings = async (req, res) => {
   try {
-    const updatedRequest = await Buyingproperty.findByIdAndUpdate(
+    const bookings = await Booking.find().sort({ createdAt: -1 });
+    res.status(200).json({ success: true, count: bookings.length, data: bookings });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+// @desc    Get single booking by ID
+export const getBookingById = async (req, res) => {
+  try {
+    const booking = await Booking.findById(req.params.id);
+    if (!booking) {
+      return res.status(404).json({ success: false, message: "Booking not found" });
+    }
+    res.status(200).json({ success: true, data: booking });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+// @desc    Update a booking
+export const updateBooking = async (req, res) => {
+  try {
+    const updatedBooking = await Booking.findByIdAndUpdate(
       req.params.id,
       req.body,
-      { new: true, runValidators: true } // Returns the updated document and runs schema validation
+      { new: true, runValidators: true }
     );
 
-    if (!updatedRequest) {
-      return res.status(404).json({ success: false, message: "Request not found" });
+    if (!updatedBooking) {
+      return res.status(404).json({ success: false, message: "Booking not found" });
     }
 
-    res.status(200).json({ success: true, message: "Updated Successfully", data: updatedRequest });
-  } catch (err) {
-    res.status(500).json({ success: false, error: err.message });
+    res.status(200).json({ success: true, message: "Updated successfully", data: updatedBooking });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
   }
 };
 
-// 5. DELETE: Remove a request by ID
-export const deleteRequest = async (req, res) => {
+// @desc    Delete a booking
+export const deleteBooking = async (req, res) => {
   try {
-    const deletedRequest = await Buyingproperty.findByIdAndDelete(req.params.id);
-    if (!deletedRequest) {
-      return res.status(404).json({ success: false, message: "Request not found" });
+    const booking = await Booking.findByIdAndDelete(req.params.id);
+    if (!booking) {
+      return res.status(404).json({ success: false, message: "Booking not found" });
     }
-    res.status(200).json({ success: true, message: "Deleted Successfully" });
-  } catch (err) {
-    res.status(500).json({ success: false, error: err.message });
+    res.status(200).json({ success: true, message: "Booking deleted" });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
   }
 };

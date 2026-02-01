@@ -1,32 +1,27 @@
 import express from 'express';
 import { 
-    saveRequest, 
-    getAllRequests, 
-    getRequestById, 
-    updateRequest, 
-    deleteRequest 
+    saveBooking, 
+    getAllBookings, 
+    updateBooking, 
+    deleteBooking, 
+    getBookingById
 } from '../controller/Buyingproperty.Controller.js';
 
 const Buyingpropertyrouter = express.Router();
 
-/**
- * @description Routes for handling the collection
- * POST: /api/buying/save
- * GET:  /api/buying/save
- */
-Buyingpropertyrouter.route('/save')
-    .post(saveRequest)      // CREATE
-    .get(getAllRequests);   // VIEW ALL
+// Create a new booking
+Buyingpropertyrouter.post("/save-booking", saveBooking);
 
-/**
- * @description Routes for handling specific items by ID
- * GET:    /api/buying/save/:id
- * PUT:    /api/buying/save/:id
- * DELETE: /api/buying/save/:id
- */
-Buyingpropertyrouter.route('/save/:id')
-    .get(getRequestById)    // SINGLE VIEW
-    .put(updateRequest)     // UPDATE
-    .delete(deleteRequest); // DELETE
+// View all bookings
+Buyingpropertyrouter.get("/all-bookings", getAllBookings);
+
+// View a single booking by ID
+Buyingpropertyrouter.get("/booking/:id", getBookingById);
+
+// Update a booking by ID
+Buyingpropertyrouter.put("/update-booking/:id", updateBooking);
+
+// Delete a booking by ID
+Buyingpropertyrouter.delete("/delete-booking/:id", deleteBooking);
 
 export default Buyingpropertyrouter;
