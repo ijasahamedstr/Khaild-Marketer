@@ -29,11 +29,11 @@ import Propertyfinishing from "./Property finishing/Propertyfinishing";
 import Buyingproperty from "./Buying property/Buying property";
 
 // ملاحظة: يمكنك إنشاء صفحات بسيطة لهذه الأقسام مؤقتاً
-const PlaceholderPage = ({ title }: { title: string }) => (
-  <Box sx={{ p: 5, textAlign: 'center' }}>
-    <Typography variant="h4" sx={{ fontFamily: 'Tajawal' }}>قريباً: صفحة {title}</Typography>
-  </Box>
-);
+// const PlaceholderPage = ({ title }: { title: string }) => (
+//   <Box sx={{ p: 5, textAlign: 'center' }}>
+//     <Typography variant="h4" sx={{ fontFamily: 'Tajawal' }}>قريباً: صفحة {title}</Typography>
+//   </Box>
+// );
 
 const drawerWidth = 300;
 
