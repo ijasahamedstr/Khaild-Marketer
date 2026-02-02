@@ -210,7 +210,7 @@ const Service4: React.FC<Props> = () => {
                           {/* 1. TOP IMAGE LAYER */}
                           <Box
                             component="img"
-                            src="https://i.ibb.co/Y7twRGkm/copy-1.jpg"
+                            src="#"
                             alt="Website Showcase"
                             sx={{
                               width: "100%",
