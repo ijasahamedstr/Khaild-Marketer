@@ -47,7 +47,7 @@ const Service11new: React.FC = () => {
                                                                                                           {/* 1. TOP IMAGE LAYER */}
                                                                                                           <Box
                                                                                                             component="img"
-                                                                                                            src="https://i.ibb.co/Y7twRGkm/copy-1.jpg"
+                                                                                                            src="https://i.ibb.co/jPJfRL3Z/FINAL-7-jpg.webp"
                                                                                                             alt="Website Showcase"
                                                                                                             sx={{
                                                                                                               width: "100%",

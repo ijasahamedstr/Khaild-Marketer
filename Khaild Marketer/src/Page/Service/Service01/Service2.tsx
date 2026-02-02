@@ -405,7 +405,7 @@ const Service2: React.FC<Props> = ({ }) => {
               {/* 1. TOP IMAGE LAYER */}
               <Box
                 component="img"
-                src="https://i.ibb.co/Y7twRGkm/copy-1.jpg"
+                src="https://i.ibb.co/gbKhMs8s/FINAL-1-jpg.webp"
                 alt="Website Showcase"
                 sx={{
                   width: "100%",
@@ -460,16 +460,7 @@ const Service2: React.FC<Props> = ({ }) => {
       </Container>
 
       <Container maxWidth="md" sx={{ mt: { xs: 4, md: 8 }, mb: { xs: 6, md: 12 }, direction: "rtl", fontFamily: TAJAWAL }}>
-        
-        <Box sx={{ textAlign: "center", mb: 8, animation: `${float} 4s ease-in-out infinite`, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <Typography variant="h1" sx={{ fontWeight: 900, fontSize: { xs: "2.5rem", md: "4rem" }, color: COLOR_PRIMARY_CYAN, fontFamily: TAJAWAL, textShadow: "0 10px 20px rgba(0,0,0,0.3)", display: 'flex', alignItems: 'center', gap: 1 }}>
-            بيع العقار <Sparkles size={32} style={{ color: COLOR_PRIMARY_CYAN }} />
-          </Typography>
-          <Typography sx={{ color: "#fff", opacity: 0.9, fontSize: "1.2rem", mt: 2, fontFamily: TAJAWAL, maxWidth: "600px" }}>
-            نحول رؤيتك إلى واقع ملموس بدقة واحترافية
-          </Typography>
-        </Box>
-
+    
         <GlassCard sx={{ p: { xs: 2, md: 4 } }}>
           
           {/* Status Selection */}

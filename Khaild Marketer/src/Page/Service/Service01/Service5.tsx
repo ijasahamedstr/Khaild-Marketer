@@ -129,7 +129,7 @@ const Service5: React.FC<Props> = ({ onSubmit }) => {
                           {/* 1. TOP IMAGE LAYER */}
                           <Box
                             component="img"
-                            src="https://i.ibb.co/Y7twRGkm/copy-1.jpg"
+                            src="https://i.ibb.co/rRRWPYj8/FINAL-9-jpg.webp\"
                             alt="Website Showcase"
                             sx={{
                               width: "100%",

@@ -366,7 +366,7 @@ const Service3: React.FC<Props> = ({  }) => {
                     {/* 1. TOP IMAGE LAYER */}
                     <Box
                       component="img"
-                      src="https://i.ibb.co/Y7twRGkm/copy-1.jpg"
+                      src="https://i.ibb.co/k2nBh9Kr/FINAL-2-jpg.webp"
                       alt="Website Showcase"
                       sx={{
                         width: "100%",
@@ -421,14 +421,6 @@ const Service3: React.FC<Props> = ({  }) => {
             </Container>
 
       <Container maxWidth="md" sx={{ mt: { xs: 4, md: 8 }, mb: { xs: 6, md: 12 }, direction: "rtl", fontFamily: TAJAWAL }}>
-
-        {/* --- HEADER TITLE --- */}
-        <Box sx={{ textAlign: "center", mb: 10, animation: `${float} 4s ease-in-out infinite`, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <Typography variant="h1" sx={{ fontWeight: 900, fontSize: { xs: "2.5rem", md: "4.5rem" }, color: COLOR_PRIMARY_CYAN, fontFamily: TAJAWAL, textShadow: "0 10px 20px rgba(0,0,0,0.3)", display: 'flex', alignItems: 'center', gap: 2 }}>
-            إيجار العقار <Sparkles size={40} style={{ color: COLOR_PRIMARY_CYAN }} />
-          </Typography>
-          <Typography sx={{ color: "#fff", opacity: 0.9, fontSize: "1.3rem", mt: 2, fontFamily: TAJAWAL, maxWidth: "600px" }}>نحول رؤيتك إلى واقع ملموس بدقة واحترافية</Typography>
-        </Box>
 
         <GlassCard sx={{ p: { xs: 2, md: 4 } }}>
 
