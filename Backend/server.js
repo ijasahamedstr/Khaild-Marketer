@@ -14,20 +14,11 @@ import Propertyrentalrouter from "./routes/Propertyrental.route.js";
 const app = express();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // 3. CORS setup
-// 3. CORS setup - UPDATE THIS PART
 app.use(cors({
-  origin: [
-    "https://darak.com.sa", 
-    "https://khaild-marketer.vercel.app",
-    "http://localhost:5173" // Add local dev just in case
-  ],
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Added OPTIONS
-  credentials: true,
-  optionsSuccessStatus: 200 // Some legacy browsers choke on 204
+  origin: ["https://darak.com.sa", "https://khaild-marketer.vercel.app"],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
 }));
-
-// IMPORTANT: Add this right below your CORS setup
-app.options('*', cors());
 
 app.use(express.json({ limit: '50mb' })); 
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
