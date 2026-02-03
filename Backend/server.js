@@ -20,6 +20,9 @@ app.use(cors({
   credentials: true
 }));
 
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
+
 app.use(express.json());
 // Serve the uploads folder statically so you can view images via URL
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
