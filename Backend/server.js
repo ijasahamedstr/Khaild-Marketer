@@ -13,15 +13,12 @@ import Propertyrentalrouter from "./routes/Propertyrental.route.js";
 
 const app = express();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
+// 3. CORS setup
 app.use(cors({
-  origin: 'https://darak.com.sa', 
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  origin: ["https://darak.com.sa"],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
 }));
-
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 app.use(express.json());
 // Serve the uploads folder statically so you can view images via URL
