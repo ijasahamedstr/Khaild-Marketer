@@ -36,7 +36,6 @@ import HotelIcon from '@mui/icons-material/Hotel';
 import BathtubIcon from '@mui/icons-material/Bathtub';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
-import imageCompression from 'browser-image-compression';
 
 /* ---------------- TYPES & INTERFACES ---------------- */
 type Props = {
@@ -293,98 +292,72 @@ const Service02: React.FC<Props> = ({ }) => {
   };
 
   const handleSubmit = async () => {
-  if (!channels.call && !channels.whatsapp && !channels.chat) {
-    setAlertSeverity("error");
-    setAlertMessage("يرجى اختيار وسيلة للتواصل");
-    setOpenPopup(true);
-    return;
-  }
-  
-  if (channels.chat && (!name || !mobile)) {
-    setAlertSeverity("error");
-    setAlertMessage("يرجى إدخال الاسم والجوال للتواصل");
-    setOpenPopup(true);
-    return;
-  }
-
-  setLoading(true);
-  setUploadProgress(0);
-
-  const formData = new FormData();
-  const payload: FormPayload = {
-    propertyStatus,
-    propertyType: dropdownValues[0] || "غير محدد",
-    location,
-    developer,
-    area,
-    rooms,
-    bathrooms,
-    propertyAge: propertyAgeSelection === "new" ? "جديد" : customAgeInput,
-    priceLimit,
-    priceOffer,
-    isNegotiable: isNegotiable === 'yes' ? "نعم" : isNegotiable === 'no' ? "لا" : "غير محدد",
-    notes,
-    contactChannels: channels,
-    clientName: name,
-    clientMobile: mobile,
-    ownerName,
-    nationality,
-    gender,
-    date: new Date().toISOString(),
-  };
-
-  formData.append("payload", JSON.stringify(payload));
-
-  // --- COMPRESSION LOGIC START ---
-  const compressionOptions = {
-    maxSizeMB: 1,           // Each image will be reduced to ~1MB
-    maxWidthOrHeight: 1920, // High quality but resized
-    useWebWorker: true,
-  };
-
-  try {
-    // Process all files
-    for (const file of selectedFiles) {
-      if (file.type.startsWith('image/')) {
-        // If it's an image, compress it
-        console.log(`Compressing: ${file.name}`);
-        const compressedFile = await imageCompression(file, compressionOptions);
-        formData.append("files", compressedFile, file.name);
-      } else {
-        // If it's a video or PDF, append it normally
-        formData.append("files", file);
-      }
-    }
-    // --- COMPRESSION LOGIC END ---
-
-    const response = await axios.post(`${API_BASE_URL}/api/save-request`, formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-      onUploadProgress: (progressEvent) => {
-        const percentCompleted = Math.round((progressEvent.loaded * 100) / (progressEvent.total || 100));
-        setUploadProgress(percentCompleted);
-      }
-    });
-
-    if (response.status === 201 || response.status === 200) {
-      setAlertSeverity("success");
-      setAlertMessage("تم حفظ البيانات والملفات بنجاح!");
-      setOpenPopup(true);
-      handleResetForm();
-    }
-  } catch (error: any) {
-    // Handle the 413 error specifically to show a better message
-    if (error.response && error.response.status === 413) {
+    if (!channels.call && !channels.whatsapp && !channels.chat) {
       setAlertSeverity("error");
-      setAlertMessage("حجم الملفات كبير جداً! يرجى تقليل عدد الصور أو الفيديوهات.");
-    } else {
+      setAlertMessage("يرجى اختيار وسيلة للتواصل");
+      setOpenPopup(true);
+      return;
+    }
+    
+    if (channels.chat && (!name || !mobile)) {
+      setAlertSeverity("error");
+      setAlertMessage("يرجى إدخال الاسم والجوال للتواصل");
+      setOpenPopup(true);
+      return;
+    }
+
+    setLoading(true);
+    setUploadProgress(0);
+
+    const formData = new FormData();
+    const payload: FormPayload = {
+      propertyStatus,
+      propertyType: dropdownValues[0] || "غير محدد",
+      location,
+      developer,
+      area,
+      rooms,
+      bathrooms,
+      propertyAge: propertyAgeSelection === "new" ? "جديد" : customAgeInput,
+      priceLimit,
+      priceOffer,
+      isNegotiable: isNegotiable === 'yes' ? "نعم" : isNegotiable === 'no' ? "لا" : "غير محدد",
+      notes,
+      contactChannels: channels,
+      clientName: name,
+      clientMobile: mobile,
+      ownerName,
+      nationality,
+      gender,
+      date: new Date().toISOString(),
+    };
+
+    formData.append("payload", JSON.stringify(payload));
+    selectedFiles.forEach((file) => formData.append("files", file));
+
+    try {
+      const response = await axios.post(`${API_BASE_URL}/api/save-request`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+        onUploadProgress: (progressEvent) => {
+          const percentCompleted = Math.round((progressEvent.loaded * 100) / (progressEvent.total || 100));
+          setUploadProgress(percentCompleted);
+        }
+      });
+
+      if (response.status === 201 || response.status === 200) {
+        setAlertSeverity("success");
+        setAlertMessage("تم حفظ البيانات والملفات بنجاح!");
+        setOpenPopup(true);
+        handleResetForm();
+      }
+    } catch (error) {
       setAlertSeverity("error");
       setAlertMessage("حدث خطأ في حفظ البيانات في قاعدة البيانات");
+      setOpenPopup(true);
+    } finally {
+      setLoading(false);
     }
-    setOpenPopup(true);
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   return (
     <Box sx={{ minHeight: "100vh", background: `url('https://i.ibb.co/BVVmKKnJ/green-paint-wall-background-texture-jpg.webp')`, backgroundSize: "cover", backgroundAttachment: "fixed", py: 2, direction: "rtl" }}>
