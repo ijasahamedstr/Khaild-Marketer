@@ -5,7 +5,7 @@ import { Box } from "@mui/material";
 
 // ⭐ Direct URL for the hero image
 const heroImage =
-  "https://i.ibb.co/ycm8qDHw/04.jpg";
+  "https://i.ibb.co/BVXWZJkr/00001-jpg.webp";
 
 const FadeCarousel = () => {
   // Scroll to top on load
