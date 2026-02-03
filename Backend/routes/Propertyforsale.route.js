@@ -25,7 +25,13 @@ const storage = multer.diskStorage({
   }
 });
 
-const upload = multer({ storage });
+const upload = multer({ 
+  storage,
+  limits: {
+    fileSize: 10 * 1024 * 1024, // 10MB limit per file
+    fieldSize: 25 * 1024 * 1024 // 25MB limit for the text fields (payload)
+  }
+});
 
 // 2. Routes
 
