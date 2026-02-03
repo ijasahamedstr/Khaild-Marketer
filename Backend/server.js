@@ -15,7 +15,7 @@ const app = express();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // 3. CORS setup
 app.use(cors({
-  origin: ["https://darak.com.sa", "https://khaild-marketer.vercel.app"],
+  origin: ["https://darak.com.sa"],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
