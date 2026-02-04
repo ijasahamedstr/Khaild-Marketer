@@ -13,45 +13,24 @@ import Propertyrentalrouter from "./routes/Propertyrental.route.js";
 
 const app = express();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-// 1. قائمة النطاقات المسموحة (Origins)
-const allowedOrigins = [
-  "https://www.darak.com.sa",
-  "https://darak.com.sa",
-  "https://khaild-marketer.vercel.app"
-];
-
-// 2. إعداد CORS بشكل ديناميكي
+// 3. CORS setup
 app.use(cors({
-  origin: function (origin, callback) {
-    // السماح بالطلبات التي ليس لها Origin (مثل تطبيقات الجوال أو Postman)
-    if (!origin) return callback(null, true);
-    
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      console.log("Blocked by CORS:", origin); // لمساعدتك في معرفة النطاق المحظور إن وجد
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  credentials: true,
-  allowedHeaders: ["Content-Type", "Authorization"]
+  origin: ["https://www.darak.com.sa", "https://khaild-marketer.vercel.app"],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
 }));
 
-// 3. Middlewares الأساسية
 app.use(express.json());
-app.use(express.urlencoded({ extended: true })); // لدعم فورم البيانات المعقدة
-
-// 4. تقديم الملفات الثابتة (Uploads)
+// Serve the uploads folder statically so you can view images via URL
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// 5. الاتصال بقاعدة البيانات
+ 
+// 5. Connect Database
 connectDB();
 
-// 6. تعريف المسارات (Routes)
+// 6. Routes
 app.get("/", (req, res) => {
-  res.send("Server is running correctly with CORS updated");
+  res.send("Server is running");
 });
 
 app.use('/api', Adminrouter);
@@ -60,10 +39,8 @@ app.use('/api', Propertyforsalerouter);
 app.use('/api', Buyingpropertyrouter); 
 app.use('/api', Propertyrentalrouter); 
 
-// 7. تشغيل السيرفر
-const port = process.env.PORT || 8001; // استخدام منفذ البيئة أو 8001
+// 7. Start server
+const port = 8001;
 app.listen(port, () => {
-  console.log(`🚀 Server is running on port: ${port}`);
+  console.log(`🚀 Server is running on http://localhost:${port}`);
 });
-
-export default app; // ضروري لعمل السيرفر بشكل صحيح على Vercel
