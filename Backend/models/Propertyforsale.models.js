@@ -2,11 +2,10 @@ import mongoose from 'mongoose';
 
 const PropertyforsaleSchema = new mongoose.Schema({
   // 1. Property Status & Type
-  // Example: Ready (جاهز) or Off-plan (على الخارطة)
   propertyStatus: { type: String, required: true },
   propertyType: { type: String, required: true },
   
-  // 2. Personal Profile (Owner/Agent Information)
+  // 2. Personal Profile
   ownerName: { type: String, required: true },
   nationality: { type: String },
   gender: { type: String },
@@ -21,10 +20,10 @@ const PropertyforsaleSchema = new mongoose.Schema({
   bathrooms: { type: String },
   propertyAge: { type: String },
 
-  // 5. Pricing Logic
+  // 5. Pricing
   priceLimit: { type: String },
   priceOffer: { type: String },
-  isNegotiable: { type: String }, // Can be "Yes/No" or Boolean
+  isNegotiable: { type: String },
 
   // 6. Contact Channels
   contactChannels: {
@@ -37,13 +36,13 @@ const PropertyforsaleSchema = new mongoose.Schema({
   clientName: { type: String, required: true },
   clientMobile: { type: String, required: true },
 
-  // 8. Additional Info
+  // 8. Notes
   notes: { type: String },
 
-  // 9. File Uploads (Matches your controller mapping)
+  // 9. Files (Stores the ImgBB URL in filePath)
   files: [{
     fileName: { type: String },
-    filePath: { type: String },
+    filePath: { type: String }, // This will be the ImgBB public URL
     fileType: { type: String }
   }],
 

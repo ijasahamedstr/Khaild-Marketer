@@ -1,6 +1,5 @@
 import express from "express";
 import multer from "multer";
-import os from 'os';
 import { 
   deleteServiceRequest, 
   getAllServiceRequests, 
@@ -12,22 +11,15 @@ import {
 
 const Propertyforsalerouter = express.Router();
 
-// 1. Storage Config - Compatible with Vercel (/tmp) and Local Development
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    // Use /tmp for Vercel production environments, or 'uploads' for local
-    const dest = process.env.NODE_ENV === 'production' ? os.tmpdir() : 'uploads/';
-    cb(null, dest);
-  },
-  filename: (req, file, cb) => {
-    // Unique filename to prevent overwriting
-    cb(null, `${Date.now()}-${file.originalname}`);
-  }
-});
-
+// -----------------------------------------------------------
+// 1. Storage Config - MEMORY STORAGE (Required for Vercel/ImgBB)
+// -----------------------------------------------------------
+const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
+// -----------------------------------------------------------
 // 2. Routes
+// -----------------------------------------------------------
 
 // Main submission and viewing route
 Propertyforsalerouter.route('/save-request')

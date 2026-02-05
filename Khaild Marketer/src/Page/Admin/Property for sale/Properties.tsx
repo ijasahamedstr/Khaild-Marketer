@@ -399,9 +399,19 @@ const Properties: React.FC = () => {
         {mediaActive && (
           <Box onClick={(e) => e.stopPropagation()} sx={{ maxWidth: '90vw', maxHeight: '90vh' }}>
             {mediaActive.fileType.startsWith('image') ? (
-              <img src={`${API_URL}/${mediaActive.filePath}`} style={{ width: '100%', maxHeight: '80vh', borderRadius: "12px" }} alt="preview" />
+              <img 
+                src={mediaActive.filePath} 
+                style={{ width: '100%', maxHeight: '80vh', borderRadius: "12px" }} 
+                alt="preview" 
+              />
             ) : (
-              <video controls autoPlay style={{ width: '100%', maxHeight: '80vh', borderRadius: "12px" }}><source src={`${API_URL}/${mediaActive.filePath}`} /></video>
+              <video 
+                controls 
+                autoPlay 
+                style={{ width: '100%', maxHeight: '80vh', borderRadius: "12px" }}
+              >
+                <source src={mediaActive.filePath} />
+              </video>
             )}
           </Box>
         )}

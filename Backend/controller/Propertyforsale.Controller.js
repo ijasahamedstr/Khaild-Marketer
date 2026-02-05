@@ -1,77 +1,65 @@
 import Propertyforsale from "../models/Propertyforsale.models.js";
+import axios from 'axios';
+import FormData from 'form-data';
 
-
-// export const savePropertyRequest = async (req, res) => {
-//   try {
-//     // Parse the JSON string from the FormData 'payload' field
-//     const data = JSON.parse(req.body.payload);
-
-//     // Map uploaded files from Multer
-//     const fileData = req.files ? req.files.map(file => ({
-//       fileName: file.originalname,
-//       path: file.path,
-//       mimetype: file.mimetype
-//     })) : [];
-
-//     const newRequest = new Propertyforsale({
-//       propertyStatus: data.propertyStatus,
-//       propertyType: data.propertyType,
-//       location: data.location,
-//       developer: data.developer,
-//       area: data.area,
-//       rooms: data.rooms,
-//       bathrooms: data.bathrooms,
-//       propertyAge: data.propertyAge,
-//       priceLimit: data.priceLimit,
-//       priceOffer: data.priceOffer,
-//       isNegotiable: data.isNegotiable,
-//       notes: data.notes,
-//       clientName: data.clientName,
-//       clientMobile: data.clientMobile,
-//       contactChannels: data.contactChannels,
-//       files: fileData
-//     });
-
-//     await newRequest.save();
-
-//     res.status(201).json({
-//       success: true,
-//       message: "تم حفظ البيانات بنجاح",
-//       data: newRequest
-//     });
-//   } catch (error) {
-//     console.error("Save Error:", error);
-//     res.status(500).json({ success: false, error: error.message });
-//   }
-// };
-
-
+// ---------------------------------------------------------
+// 1. CREATE (Save Request & Upload to ImgBB)
+// ---------------------------------------------------------
 export const savePropertyRequest = async (req, res) => {
   try {
+    // Parse the JSON string from the FormData 'payload' field
     const data = JSON.parse(req.body.payload);
-    const fileEntries = (req.files || []).map(file => ({
-      fileName: file.originalname,
-      filePath: file.path,
-      fileType: file.mimetype
-    }));
+    let fileEntries = [];
 
-    // 3. Create the new document using the Propertyforsale model
+    // Check if files exist
+    if (req.files && req.files.length > 0) {
+      
+      const uploadPromises = req.files.map(async (file) => {
+        // Convert buffer to Base64 (ImgBB easiest method)
+        const base64Image = file.buffer.toString('base64');
+        
+        const formData = new FormData();
+        formData.append("image", base64Image);
+
+        // Upload to ImgBB API
+        const response = await axios.post(
+          `https://api.imgbb.com/1/upload?key=${process.env.IMGBB_API_KEY}`, 
+          formData,
+          {
+            headers: { 
+              ...formData.getHeaders()
+            }
+          }
+        );
+
+        // Return the schema object with the Public URL
+        return {
+          fileName: file.originalname,
+          filePath: response.data.data.url, // <--- The ImgBB URL
+          fileType: "image/png" // ImgBB standardizes formats
+        };
+      });
+
+      // Wait for all uploads to complete
+      fileEntries = await Promise.all(uploadPromises);
+    }
+
+    // Create MongoDB Document
     const newProperty = new Propertyforsale({
       ...data,
-      files: fileEntries // Matches the schema field for your sale properties
+      files: fileEntries 
     });
 
-    // 4. Save to Database
     const savedProperty = await newProperty.save();
 
     res.status(201).json({ 
       success: true, 
-      message: "Property for sale request saved successfully!",
+      message: "Property request saved successfully!",
       data: savedProperty 
     });
 
   } catch (error) {
-    console.error("Save Error:", error);
+    console.error("Save/Upload Error:", error?.response?.data || error.message);
     res.status(500).json({ 
       success: false, 
       message: "Failed to save property request", 
@@ -80,6 +68,9 @@ export const savePropertyRequest = async (req, res) => {
   }
 };
 
+// ---------------------------------------------------------
+// 2. FILTER (Search)
+// ---------------------------------------------------------
 export const getAllServiceRequestsfilter = async (req, res) => {
   try {
     const { propertyStatus, propertyType, location, rooms, bathrooms, priceLimit } = req.query;
@@ -92,7 +83,6 @@ export const getAllServiceRequestsfilter = async (req, res) => {
     if (bathrooms) filter.bathrooms = bathrooms;
     if (priceLimit) filter.priceLimit = priceLimit;
 
-    // Search location using keywords (Case-insensitive)
     if (location) {
       filter.location = { $regex: location, $options: "i" };
     }
@@ -100,36 +90,44 @@ export const getAllServiceRequestsfilter = async (req, res) => {
     const requests = await Propertyforsale.find(filter).sort({ createdAt: -1 });
     res.status(200).json({ success: true, data: requests });
   } catch (error) {
-    res.status(500).json({ success: false, message: "خطأ في البحث", error: error.message });
+    res.status(500).json({ success: false, message: "Search Error", error: error.message });
   }
 };
 
-// 2. VIEW ALL: Get all requests
+// ---------------------------------------------------------
+// 3. GET ALL
+// ---------------------------------------------------------
 export const getAllServiceRequests = async (req, res) => {
   try {
     const requests = await Propertyforsale.find().sort({ createdAt: -1 });
     res.status(200).json({ success: true, data: requests });
   } catch (error) {
-    res.status(500).json({ success: false, message: "خطأ في جلب البيانات", error: error.message });
+    res.status(500).json({ success: false, message: "Fetch Error", error: error.message });
   }
 };
 
-// 3. SINGLE VIEW: Get one request by ID
+// ---------------------------------------------------------
+// 4. GET BY ID
+// ---------------------------------------------------------
 export const getServiceRequestById = async (req, res) => {
   try {
     const request = await Propertyforsale.findById(req.params.id);
     if (!request) {
-      return res.status(404).json({ success: false, message: "الطلب غير موجود" });
+      return res.status(404).json({ success: false, message: "Not Found" });
     }
     res.status(200).json({ success: true, data: request });
   } catch (error) {
-    res.status(500).json({ success: false, message: "خطأ في خادم البيانات", error: error.message });
+    res.status(500).json({ success: false, message: "Server Error", error: error.message });
   }
 };
 
-// 4. UPDATE: Update a request by ID
+// ---------------------------------------------------------
+// 5. UPDATE
+// ---------------------------------------------------------
 export const updateServiceRequest = async (req, res) => {
   try {
+    // Note: If you want to update images, you need to handle file uploads here too
+    // For now, this just updates text fields
     const updatedRequest = await Propertyforsale.findByIdAndUpdate(
       req.params.id,
       req.body,
@@ -137,24 +135,26 @@ export const updateServiceRequest = async (req, res) => {
     );
 
     if (!updatedRequest) {
-      return res.status(404).json({ success: false, message: "الطلب غير موجود" });
+      return res.status(404).json({ success: false, message: "Not Found" });
     }
 
-    res.status(200).json({ success: true, message: "تم تحديث البيانات بنجاح", data: updatedRequest });
+    res.status(200).json({ success: true, message: "Update Success", data: updatedRequest });
   } catch (error) {
-    res.status(500).json({ success: false, message: "خطأ في التحديث", error: error.message });
+    res.status(500).json({ success: false, message: "Update Error", error: error.message });
   }
 };
 
-// 5. DELETE: Remove a request by ID
+// ---------------------------------------------------------
+// 6. DELETE
+// ---------------------------------------------------------
 export const deleteServiceRequest = async (req, res) => {
   try {
     const deletedRequest = await Propertyforsale.findByIdAndDelete(req.params.id);
     if (!deletedRequest) {
-      return res.status(404).json({ success: false, message: "الطلب غير موجود" });
+      return res.status(404).json({ success: false, message: "Not Found" });
     }
-    res.status(200).json({ success: true, message: "تم حذف الطلب بنجاح" });
+    res.status(200).json({ success: true, message: "Delete Success" });
   } catch (error) {
-    res.status(500).json({ success: false, message: "خطأ في الحذف", error: error.message });
+    res.status(500).json({ success: false, message: "Delete Error", error: error.message });
   }
 };
