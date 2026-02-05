@@ -113,7 +113,7 @@ const Dashboard: React.FC = () => {
           <LockOutlined sx={{ color: accentGold, fontSize: 40 }} />
         </Box>
         <Typography variant="h5" sx={{ fontFamily: menuFont, fontWeight: 900 }}>
-          ديجي ليزر <span style={{ color: accentGold }}>العقارية</span>
+         <span style={{ color: accentGold }}>شركة دارك رؤية المستقبل العقارية</span>
         </Typography>
       </Box>
 
