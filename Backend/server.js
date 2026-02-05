@@ -15,7 +15,7 @@ const app = express();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // 3. CORS setup
 app.use(cors({
-  origin: 'http://localhost:5173', // Allow only your frontend
+  origin: 'https://www.darak.com.sa', // Allow only your frontend
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
