@@ -31,7 +31,7 @@ const upload = multer({ storage });
 
 // Main submission and viewing route
 Propertyforsalerouter.route('/save-request')
-    .post(upload.array('files'), savePropertyRequest) 
+    .post(upload.array('files', 10), savePropertyRequest) 
     .get(getAllServiceRequests);
 
 // Search/Filter route
@@ -41,7 +41,7 @@ Propertyforsalerouter.route('/save-request-filter')
 // ID-based operations (Single view, Update, Delete)
 Propertyforsalerouter.route('/save-request/:id')
     .get(getServiceRequestById)
-    .put(upload.array('files'), updateServiceRequest) 
+    .put(upload.array('files', 10), updateServiceRequest) 
     .delete(deleteServiceRequest);
 
 export default Propertyforsalerouter;
