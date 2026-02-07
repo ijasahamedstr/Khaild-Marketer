@@ -45,20 +45,27 @@ const Service11new: React.FC = () => {
                                                                                                           }}
                                                                                                         >
                                                                                                           {/* 1. TOP IMAGE LAYER */}
-                                                                                                          <Box
-                                                                                                            component="img"
-                                                                                                            src="https://i.ibb.co/jPJfRL3Z/FINAL-7-jpg.webp"
-                                                                                                            alt="Website Showcase"
-                                                                                                            sx={{
-                                                                                                              width: "100%",
-                                                                                                              height: "auto",
-                                                                                                              borderRadius: "20px",
-                                                                                                              display: "block",
-                                                                                                              position: "relative",
-                                                                                                              zIndex: 10,
-                                                                                                              boxShadow: "20px 30px 50px rgba(0,0,0,0.5)",
-                                                                                                            }}
-                                                                                                          />
+                                                                                                         <Box
+                                                                                                          component="img"
+                                                                                                          src="https://i.ibb.co/jPJfRL3Z/FINAL-7-jpg.webp"
+                                                                                                          alt="Website Showcase"
+                                                                                                          sx={{
+                                                                                                            // تطبيق النمط الموحد لضمان التناسق
+                                                                                                            width: "100%",
+                                                                                                            height: "550px",         // الارتفاع الثابت الموحد
+                                                                                                            objectFit: "fill",      // لضمان ملء المساحة دون تشويه الصورة
+                                                                                                            
+                                                                                                            borderRadius: "20px",
+                                                                                                            display: "block",
+                                                                                                            position: "relative",
+                                                                                                            zIndex: 10,
+                                                                                                            boxShadow: "20px 30px 50px rgba(0,0,0,0.5)",
+                                                                                                            
+                                                                                                            // لضمان التجاوب مع جميع الشاشات
+                                                                                                            maxWidth: "100%",
+                                                                                                            mx: "auto"
+                                                                                                          }}
+                                                                                                        />
                                                                                             
                                                                                                           {/* 2. NEON GLOW EDGE */}
                                                                                                           <Box

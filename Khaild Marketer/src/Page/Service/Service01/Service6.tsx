@@ -46,19 +46,26 @@ const Service6: React.FC = () => {
                                         >
                                           {/* 1. TOP IMAGE LAYER */}
                                           <Box
-                                            component="img"
-                                            src="https://i.ibb.co/84Km78FF/FINAL-8-jpg.webp"
-                                            alt="Website Showcase"
-                                            sx={{
-                                              width: "100%",
-                                              height: "auto",
-                                              borderRadius: "20px",
-                                              display: "block",
-                                              position: "relative",
-                                              zIndex: 10,
-                                              boxShadow: "20px 30px 50px rgba(0,0,0,0.5)",
-                                            }}
-                                          />
+                                          component="img"
+                                          src="https://i.ibb.co/84Km78FF/FINAL-8-jpg.webp"
+                                          alt="Website Showcase"
+                                          sx={{
+                                            // تطبيق الستايل الثابت والموحد
+                                            width: "100%",
+                                            height: "550px",         // الارتفاع الموحد لكل الصور
+                                            objectFit: "fill",      // يمنع التشوه ويحافظ على أبعاد الصورة
+                                            
+                                            borderRadius: "20px",
+                                            display: "block",
+                                            position: "relative",
+                                            zIndex: 10,
+                                            boxShadow: "20px 30px 50px rgba(0,0,0,0.5)",
+                                            
+                                            // لضمان التجاوب المثالي
+                                            maxWidth: "100%",
+                                            mx: "auto"
+                                          }}
+                                        />
                             
                                           {/* 2. NEON GLOW EDGE */}
                                           <Box

@@ -408,13 +408,20 @@ const Service2: React.FC<Props> = ({ }) => {
                 src="https://i.ibb.co/gbKhMs8s/FINAL-1-jpg.webp"
                 alt="Website Showcase"
                 sx={{
+                  // توحيد المقاسات لتطابق الصورة الأولى
                   width: "100%",
-                  height: "auto",
+                  height: "550px",         // طول ثابت لضمان التناسق
+                  objectFit: "fill",      // لملء المساحة بدون تشويه
+                  
                   borderRadius: "20px",
                   display: "block",
                   position: "relative",
                   zIndex: 10,
                   boxShadow: "20px 30px 50px rgba(0,0,0,0.5)",
+                  
+                  // إضافات اختيارية لضمان التجاوب (Responsive)
+                  maxWidth: "100%",
+                  mx: "auto"
                 }}
               />
 

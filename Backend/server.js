@@ -10,6 +10,8 @@ import Propertyfinishingrouter from "./routes/Propertyfinishing.route.js";
 import Propertyforsalerouter from "./routes/Propertyforsale.route.js";
 import Buyingpropertyrouter from "./routes/Buyingproperty.route.js";
 import Propertyrentalrouter from "./routes/Propertyrental.route.js";
+import Propertyfinishinggirlrouter from "./routes/Propertyfinishinggirl.route.js";
+import Propertyforsaleroutergirl from "./routes/Propertyforsalegirl.route.js";
 
 const app = express();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -38,6 +40,12 @@ app.use('/api', Propertyfinishingrouter);
 app.use('/api', Propertyforsalerouter);
 app.use('/api', Buyingpropertyrouter); 
 app.use('/api', Propertyrentalrouter); 
+
+
+app.use('/api/finishing', Propertyfinishinggirlrouter);
+app.use('/api/sale', Propertyforsaleroutergirl);
+app.use('/api/Buying', Buyingpropertyrouter); 
+app.use('/api/rental', Propertyrentalrouter); 
 
 // 7. Start server
 const port = 8001;

@@ -364,20 +364,27 @@ const Service3: React.FC<Props> = ({  }) => {
                     }}
                   >
                     {/* 1. TOP IMAGE LAYER */}
-                    <Box
-                      component="img"
-                      src="https://i.ibb.co/k2nBh9Kr/FINAL-2-jpg.webp"
-                      alt="Website Showcase"
-                      sx={{
-                        width: "100%",
-                        height: "auto",
-                        borderRadius: "20px",
-                        display: "block",
-                        position: "relative",
-                        zIndex: 10,
-                        boxShadow: "20px 30px 50px rgba(0,0,0,0.5)",
-                      }}
-                    />
+                   <Box
+                    component="img"
+                    src="https://i.ibb.co/k2nBh9Kr/FINAL-2-jpg.webp"
+                    alt="Website Showcase"
+                    sx={{
+                      // تطبيق الستايل الموحد
+                      width: "100%",
+                      height: "550px",         // الارتفاع الثابت المتفق عليه
+                      objectFit: "fill",      // لضمان ملء المساحة دون تمطيط الصورة
+                      
+                      borderRadius: "20px",
+                      display: "block",
+                      position: "relative",
+                      zIndex: 10,
+                      boxShadow: "20px 30px 50px rgba(0,0,0,0.5)",
+                      
+                      // لضمان التجاوب مع الشاشات الصغيرة
+                      maxWidth: "100%",
+                      mx: "auto"
+                    }}
+                  />
       
                     {/* 2. NEON GLOW EDGE */}
                     <Box

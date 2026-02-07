@@ -127,20 +127,27 @@ const Service5: React.FC<Props> = ({ onSubmit }) => {
                           }}
                         >
                           {/* 1. TOP IMAGE LAYER */}
-                          <Box
-                            component="img"
-                            src="https://i.ibb.co/rRRWPYj8/FINAL-9-jpg.webp\"
-                            alt="Website Showcase"
-                            sx={{
-                              width: "100%",
-                              height: "auto",
-                              borderRadius: "20px",
-                              display: "block",
-                              position: "relative",
-                              zIndex: 10,
-                              boxShadow: "20px 30px 50px rgba(0,0,0,0.5)",
-                            }}
-                          />
+                      <Box
+                        component="img"
+                        src="https://i.ibb.co/rRRWPYj8/FINAL-9-jpg.webp" // تم تصحيح الرابط هنا
+                        alt="Website Showcase"
+                        sx={{
+                          // تطبيق الستايل الموحد (ارتفاع ثابت 550px)
+                          width: "100%",
+                          height: "550px",
+                          objectFit: "fill", 
+                          
+                          borderRadius: "20px",
+                          display: "block",
+                          position: "relative",
+                          zIndex: 10,
+                          boxShadow: "20px 30px 50px rgba(0,0,0,0.5)",
+                          
+                          // لضمان التجاوب
+                          maxWidth: "100%",
+                          mx: "auto"
+                        }}
+                      />
             
                           {/* 2. NEON GLOW EDGE */}
                           <Box

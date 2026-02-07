@@ -197,20 +197,27 @@ const Service1: React.FC = () => {
                           }}
                         >
                           {/* 1. TOP IMAGE LAYER */}
-                          <Box
-                            component="img"
-                            src="https://i.ibb.co/nNgxdLQV/FINAL-4-jpg.webp"
-                            alt="Website Showcase"
-                            sx={{
-                              width: "100%",
-                              height: "auto",
-                              borderRadius: "20px",
-                              display: "block",
-                              position: "relative",
-                              zIndex: 10,
-                              boxShadow: "20px 30px 50px rgba(0,0,0,0.5)",
-                            }}
-                          />
+                         <Box
+                          component="img"
+                          src="https://i.ibb.co/nNgxdLQV/FINAL-4-jpg.webp"
+                          alt="Website Showcase"
+                          sx={{
+                            // تحديد الحجم الثابت هنا
+                            width: "100%",          // العرض الثابت
+                            height: "550px",         // الطول الثابت
+                            objectFit: "fill",      // يضمن عدم تشوه الصورة عند قصها لتناسب الأبعاد
+                            
+                            borderRadius: "20px",
+                            display: "block",
+                            position: "relative",
+                            zIndex: 10,
+                            boxShadow: "20px 30px 50px rgba(0,0,0,0.5)",
+                            
+                            // لجعل الصورة متجاوبة على الشاشات الصغيرة رغم الحجم الثابت
+                            maxWidth: "100%", 
+                            mx: "auto"               // لتوسيط الصورة إذا كان العرض أصغر من الحاوية
+                          }}
+                        />
             
                           {/* 2. NEON GLOW EDGE */}
                           <Box
