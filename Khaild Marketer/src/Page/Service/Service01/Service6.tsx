@@ -36,75 +36,71 @@ const Service6: React.FC = () => {
                                       {/* ---------------------------- */}
                             
                                       {/* Perspective Container */}
-                                      <Box sx={{ perspective: "2000px", display: "flex", justifyContent: "center" }}>
-                                        <Box
-                                          sx={{
-                                            position: "relative",
-                                            width: "100%",
-                                            transformStyle: "preserve-3d",
-                                          }}
-                                        >
-                                          {/* 1. TOP IMAGE LAYER */}
-                                          <Box
-                                          component="img"
-                                          src="https://i.ibb.co/84Km78FF/FINAL-8-jpg.webp"
-                                          alt="Website Showcase"
-                                          sx={{
-                                            // تطبيق الستايل الثابت والموحد
-                                            width: "100%",
-                                            height: "550px",         // الارتفاع الموحد لكل الصور
-                                            objectFit: "fill",      // يمنع التشوه ويحافظ على أبعاد الصورة
-                                            
-                                            borderRadius: "20px",
-                                            display: "block",
-                                            position: "relative",
-                                            zIndex: 10,
-                                            boxShadow: "20px 30px 50px rgba(0,0,0,0.5)",
-                                            
-                                            // لضمان التجاوب المثالي
-                                            maxWidth: "100%",
-                                            mx: "auto"
-                                          }}
-                                        />
-                            
-                                          {/* 2. NEON GLOW EDGE */}
-                                          <Box
-                                            sx={{
-                                              position: "absolute",
-                                              inset: "-4px",
-                                              borderRadius: "24px",
-                                              background: "linear-gradient(135deg, #06f9f3, #00b3ff)",
-                                              filter: "blur(12px)",
-                                              transform: `translateZ(-${BORDER_THICKNESS}px)`,
-                                              zIndex: 5,
-                                            }}
-                                          />
-                            
-                                          {/* 3. SOLID REAR PLATE */}
-                                          <Box
-                                            sx={{
-                                              position: "absolute",
-                                              inset: "0px",
-                                              borderRadius: "20px",
-                                              background: "#021212",
-                                              transform: `translateZ(-${BORDER_THICKNESS * 2}px)`,
-                                              zIndex: 4,
-                                            }}
-                                          />
-                            
-                                          {/* 4. AMBIENT FLOOR SHADOW */}
-                                          <Box
-                                            sx={{
-                                              position: "absolute",
-                                              inset: "-20px",
-                                              background: "rgba(0,0,0,0.8)",
-                                              filter: "blur(40px)",
-                                              transform: `translateZ(-${BORDER_THICKNESS * 4}px)`,
-                                              zIndex: 1,
-                                            }}
-                                          />
-                                        </Box>
-                                      </Box>
+                              <Box sx={{ perspective: "2000px", display: "flex", justifyContent: "center", width: "100%" }}>
+  <Box
+    sx={{
+      position: "relative",
+      width: "100%",
+      height: "400px", // Maintains the consistent height
+      transformStyle: "preserve-3d",
+    }}
+  >
+    {/* 1. TOP IMAGE LAYER */}
+    <Box
+      component="img"
+      src="https://i.ibb.co/84Km78FF/FINAL-8-jpg.webp"
+      alt="Website Showcase"
+      sx={{
+        width: "100%",
+        height: "100%", 
+        borderRadius: "20px",
+        display: "block",
+        position: "relative",
+        zIndex: 10,
+        boxShadow: "20px 30px 50px rgba(0,0,0,0.5)",
+        maxWidth: "100%",
+        mx: "auto"
+      }}
+    />
+
+    {/* 2. NEON GLOW EDGE */}
+    <Box
+      sx={{
+        position: "absolute",
+        inset: "-4px",
+        borderRadius: "24px",
+        background: "linear-gradient(135deg, #06f9f3, #00b3ff)",
+        filter: "blur(12px)",
+        transform: `translateZ(-${BORDER_THICKNESS}px)`,
+        zIndex: 5,
+      }}
+    />
+
+    {/* 3. SOLID REAR PLATE */}
+    <Box
+      sx={{
+        position: "absolute",
+        inset: "0px",
+        borderRadius: "20px",
+        background: "#021212",
+        transform: `translateZ(-${BORDER_THICKNESS * 2}px)`,
+        zIndex: 4,
+      }}
+    />
+
+    {/* 4. AMBIENT FLOOR SHADOW */}
+    <Box
+      sx={{
+        position: "absolute",
+        inset: "-20px",
+        background: "rgba(0,0,0,0.8)",
+        filter: "blur(40px)",
+        transform: `translateZ(-${BORDER_THICKNESS * 4}px)`,
+        zIndex: 1,
+      }}
+    />
+  </Box>
+</Box>
                                     </Box>
                                   </Container>
       <Container

@@ -355,37 +355,38 @@ const Service3: React.FC<Props> = ({  }) => {
                 {/* ---------------------------- */}
       
                 {/* Perspective Container */}
-                <Box sx={{ perspective: "2000px", display: "flex", justifyContent: "center" }}>
+              <Box sx={{ 
+                  perspective: "2000px", 
+                  display: "flex", 
+                  justifyContent: "center",
+                  width: "100%" 
+                }}>
                   <Box
                     sx={{
                       position: "relative",
                       width: "100%",
+                      height: "400px", // Standard height for consistency
                       transformStyle: "preserve-3d",
                     }}
                   >
                     {/* 1. TOP IMAGE LAYER */}
-                   <Box
-                    component="img"
-                    src="https://i.ibb.co/k2nBh9Kr/FINAL-2-jpg.webp"
-                    alt="Website Showcase"
-                    sx={{
-                      // تطبيق الستايل الموحد
-                      width: "100%",
-                      height: "550px",         // الارتفاع الثابت المتفق عليه
-                      objectFit: "fill",      // لضمان ملء المساحة دون تمطيط الصورة
-                      
-                      borderRadius: "20px",
-                      display: "block",
-                      position: "relative",
-                      zIndex: 10,
-                      boxShadow: "20px 30px 50px rgba(0,0,0,0.5)",
-                      
-                      // لضمان التجاوب مع الشاشات الصغيرة
-                      maxWidth: "100%",
-                      mx: "auto"
-                    }}
-                  />
-      
+                    <Box
+                      component="img"
+                      src="https://i.ibb.co/k2nBh9Kr/FINAL-2-jpg.webp"
+                      alt="Website Showcase"
+                      sx={{
+                        width: "100%",
+                        height: "100%", 
+                        borderRadius: "20px",
+                        display: "block",
+                        position: "relative",
+                        zIndex: 10,
+                        boxShadow: "20px 30px 50px rgba(0,0,0,0.5)",
+                        maxWidth: "100%",
+                        mx: "auto"
+                      }}
+                    />
+
                     {/* 2. NEON GLOW EDGE */}
                     <Box
                       sx={{
@@ -398,7 +399,7 @@ const Service3: React.FC<Props> = ({  }) => {
                         zIndex: 5,
                       }}
                     />
-      
+
                     {/* 3. SOLID REAR PLATE */}
                     <Box
                       sx={{
@@ -410,7 +411,7 @@ const Service3: React.FC<Props> = ({  }) => {
                         zIndex: 4,
                       }}
                     />
-      
+
                     {/* 4. AMBIENT FLOOR SHADOW */}
                     <Box
                       sx={{

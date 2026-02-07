@@ -394,34 +394,34 @@ const Service2: React.FC<Props> = ({ }) => {
           {/* ---------------------------- */}
 
           {/* Perspective Container */}
-          <Box sx={{ perspective: "2000px", display: "flex", justifyContent: "center" }}>
+          <Box sx={{ 
+            perspective: "2000px", 
+            display: "flex", 
+            justifyContent: "center", 
+            width: "100%", // Takes full available width
+            mb: 10 // Added some margin for the 3D shadow depth
+          }}>
             <Box
               sx={{
                 position: "relative",
-                width: "100%",
+                width: "100%", 
+                height: "400px", // Standardized height for both sections
                 transformStyle: "preserve-3d",
               }}
             >
               {/* 1. TOP IMAGE LAYER */}
               <Box
                 component="img"
-                src="https://i.ibb.co/gbKhMs8s/FINAL-1-jpg.webp"
+                src="https://i.ibb.co/gbKhMs8s/FINAL-1-jpg.webp" // Change this URL for the second image
                 alt="Website Showcase"
                 sx={{
-                  // توحيد المقاسات لتطابق الصورة الأولى
                   width: "100%",
-                  height: "550px",         // طول ثابت لضمان التناسق
-                  objectFit: "fill",      // لملء المساحة بدون تشويه
-                  
+                  height: "100%", 
                   borderRadius: "20px",
                   display: "block",
                   position: "relative",
                   zIndex: 10,
                   boxShadow: "20px 30px 50px rgba(0,0,0,0.5)",
-                  
-                  // إضافات اختيارية لضمان التجاوب (Responsive)
-                  maxWidth: "100%",
-                  mx: "auto"
                 }}
               />
 
