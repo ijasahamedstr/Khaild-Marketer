@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Box, Typography, Paper, IconButton, Divider, Button } from "@mui/material";
 import { 
   ArrowBackIosNew, HomeWorkOutlined, ShoppingBagOutlined, 
-  VpnKeyOutlined, FormatPaintOutlined, ArrowForward 
+  VpnKeyOutlined, FormatPaintOutlined, ArrowForward, ExitToApp 
 } from "@mui/icons-material";
 
 // استيراد صفحة الممتلكات (تأكد من وجودها بنفس المجلد)
@@ -41,11 +41,10 @@ const Overview = () => {
     { id: "finishing", title: "المستأجرين", count: counts.finishing, icon: <FormatPaintOutlined />, color: "#8B5CF6" }
   ];
 
-  // دالة لاختيار الصفحة المراد عرضها بناءً على الكارد
   const renderDetailView = () => {
     switch(selectedService) {
       case "sale":
-        return <Properties />; // تعرض الجدول الذي برمجناه سابقاً
+        return <Properties />;
       case "buying":
         return <Box sx={{p:4, textAlign:'center'}}><Typography variant="h5" fontFamily={menuFont}>قريباً: تفاصيل شراء العقار</Typography></Box>;
       default:
@@ -53,7 +52,6 @@ const Overview = () => {
     }
   };
 
-  // إذا كان هناك قسم مختار، اعرض زر العودة والمحتوى التفصيلي
   if (selectedService) {
     return (
       <Box sx={{ direction: "rtl", width: "100%" }}>
@@ -70,7 +68,6 @@ const Overview = () => {
     );
   }
 
-  // العرض الافتراضي (شبكة الإحصائيات)
   const renderStatsSection = (sectionTitle: string) => (
     <>
       <Box sx={{ textAlign: "center", mt: 2, mb: 6 }}>        
@@ -85,7 +82,7 @@ const Overview = () => {
           <Paper
             key={s.id}
             elevation={0}
-            onClick={() => setSelectedService(s.id)} // التغيير هنا: بدلاً من navigate
+            onClick={() => setSelectedService(s.id)}
             sx={{
               flex: { xs: "1 1 100%", sm: "1 1 calc(50% - 16px)", lg: "1 1 calc(20% - 16px)" },
               p: 2.5,
@@ -131,7 +128,31 @@ const Overview = () => {
 
   return (
     <Box sx={{ direction: "rtl", width: "100%", pb: 8 }}>
-      <Typography variant="h4" fontWeight={900} color={primaryTeal} fontFamily={menuFont} mb={4}>إحصائيات الخدمات</Typography>
+      {/* قسم الهيدر مع زر العودة للموقع */}
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
+        <Typography variant="h4" fontWeight={900} color={primaryTeal} fontFamily={menuFont}>
+          إحصائيات الخدمات
+        </Typography>
+        
+        <Button
+          variant="outlined"
+          onClick={() => window.location.href = "https://www.darak.com.sa/"}
+          startIcon={<ExitToApp sx={{ ml: 1 }} />}
+          sx={{
+            borderRadius: "12px",
+            fontFamily: menuFont,
+            borderColor: primaryTeal,
+            color: primaryTeal,
+            fontWeight: 700,
+            "&:hover": {
+              borderColor: accentGold,
+              bgcolor: `${accentGold}10`
+            }
+          }}
+        >
+          العودة للموقع الرئيسي
+        </Button>
+      </Box>
       
       {renderStatsSection("القسم الرجالي")}
       
@@ -145,7 +166,7 @@ const Overview = () => {
         <Box sx={{ width: 14, height: 14, borderRadius: "50%", bgcolor: accentGold }} />
       </Divider>
 
-      {renderStatsSection("قسم المستثمرين الأجان")}
+      {renderStatsSection("قسم المستثمرين الأجانب")}
     </Box>
   );
 };

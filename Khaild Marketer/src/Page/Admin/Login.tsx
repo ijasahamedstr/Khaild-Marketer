@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom"; 
 import axios from "axios";
 import { 
   Box, 
@@ -13,7 +13,7 @@ import {
   CircularProgress,
   Alert,
   Fade,
-  Collapse // Added for smooth alert transition
+  Collapse 
 } from "@mui/material";
 import { 
   Visibility, 
@@ -22,20 +22,19 @@ import {
   PersonOutline, 
   ShieldOutlined,
   ArrowForward,
-  InfoOutlined // Added for the alert icon
+  InfoOutlined,
+  HomeOutlined // تم إضافة أيقونة المنزل
 } from "@mui/icons-material";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
   
-  // UI & Flow States
   const [step, setStep] = useState<"password" | "otp">("password");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [showForgotAlert, setShowForgotAlert] = useState(false); // New State for Alert
+  const [showForgotAlert, setShowForgotAlert] = useState(false);
 
-  // Form Data States
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [otp, setOtp] = useState("");
@@ -58,7 +57,7 @@ const Login: React.FC = () => {
 
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setShowForgotAlert(false); // Hide alert if user tries to login again
+    setShowForgotAlert(false);
     if (!email || !password) {
       setError("يرجى إدخال البريد الإلكتروني وكلمة المرور");
       return;
@@ -126,6 +125,29 @@ const Login: React.FC = () => {
       }}
     >
       <Container maxWidth="sm">
+        {/* --- زر العودة للموقع الرئيسي --- */}
+        <Box sx={{ mb: 3, display: 'flex', justifyContent: 'center' }}>
+          <Button
+            onClick={() => window.location.href = "https://www.darak.com.sa"}
+            startIcon={<HomeOutlined sx={{ ml: 1 }} />}
+            sx={{
+              fontFamily: menuFont,
+              color: primaryTeal,
+              fontWeight: 800,
+              fontSize: '1rem',
+              borderRadius: '12px',
+              px: 3,
+              '&:hover': {
+                bgcolor: 'rgba(0, 70, 82, 0.05)',
+                transform: 'translateY(-2px)'
+              },
+              transition: '0.3s'
+            }}
+          >
+            العودة للموقع الرئيسي
+          </Button>
+        </Box>
+
         <Fade in={true} timeout={800}>
           <Paper
             elevation={24}
@@ -176,7 +198,6 @@ const Login: React.FC = () => {
                 : "تم تفعيل حماية Authenticator. يرجى إدخال الرمز من تطبيقك"}
             </Typography>
 
-            {/* --- ERROR ALERT --- */}
             {error && (
               <Alert 
                 severity="error" 
@@ -187,7 +208,6 @@ const Login: React.FC = () => {
               </Alert>
             )}
 
-            {/* --- FORGOT PASSWORD INFO ALERT --- */}
             <Collapse in={showForgotAlert}>
               <Alert 
                 severity="info" 
@@ -333,7 +353,7 @@ const Login: React.FC = () => {
         </Fade>
 
         <Typography sx={{ mt: 5, textAlign: "center", color: "#64748B", fontSize: "1rem", fontFamily: menuFont, fontWeight: 600 }}>
-          ديجي ليزر العقارية © {new Date().getFullYear()} | نظام محمي ومشفر
+          دارك العقارية © {new Date().getFullYear()} | نظام محمي ومشفر
         </Typography>
       </Container>
     </Box>
