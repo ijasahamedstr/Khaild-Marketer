@@ -2,16 +2,16 @@ import mongoose from 'mongoose';
 
 const PropertyforsaleSchema = new mongoose.Schema({
   // 1. Property Status & Type
-  propertyStatus: { type: String, required: true },
-  propertyType: { type: String, required: true },
+  propertyStatus: { type: String,  },
+  propertyType: { type: String, },
   
   // 2. Personal Profile
-  ownerName: { type: String, required: true },
+  ownerName: { type: String,  },
   nationality: { type: String },
   gender: { type: String },
 
   // 3. Location & Developer
-  location: { type: String, required: true },
+  location: { type: String,},
   developer: { type: String },
 
   // 4. Specifications
@@ -33,8 +33,8 @@ const PropertyforsaleSchema = new mongoose.Schema({
   },
 
   // 7. Submitter Details
-  clientName: { type: String, required: true },
-  clientMobile: { type: String, required: true },
+  clientName: { type: String, },
+  clientMobile: { type: String,},
 
   // 8. Notes
   notes: { type: String },
