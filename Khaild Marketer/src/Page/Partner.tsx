@@ -8,7 +8,8 @@ import {
   keyframes,
 } from "@mui/material";
 
-// 1. Define Keyframes for the Infinite Smooth Scroll
+// 1. Animations: We move -50% because the container holds 2 copies.
+// This makes the transition back to 0% invisible to the eye.
 const scrollLeft = keyframes`
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
@@ -24,17 +25,21 @@ interface PartnerData {
   partnerimagelink: string;
 }
 
-// 2. Static Data
 const PARTNERS: PartnerData[] = [
-  { id: 1, partnerimagelink: "https://i.ibb.co/TMh6gqGh/image-1738846927311-782364e0-72cc-4084-88cd-31cb57122c57-removebg-preview-removebg-preview.webp" },
-  { id: 2, partnerimagelink: "https://i.ibb.co/Kj26ksTM/image-1750578846840-SVG.webp" },
-  { id: 3, partnerimagelink: "https://i.ibb.co/TMh6gqGh/image-1738846927311-782364e0-72cc-4084-88cd-31cb57122c57-removebg-preview-removebg-preview.webp" },
-  { id: 4, partnerimagelink: "https://i.ibb.co/Kj26ksTM/image-1750578846840-SVG.webp" },
-  { id: 5, partnerimagelink: "https://i.ibb.co/TMh6gqGh/image-1738846927311-782364e0-72cc-4084-88cd-31cb57122c57-removebg-preview-removebg-preview.webp" },
-  { id: 6, partnerimagelink: "https://i.ibb.co/Kj26ksTM/image-1750578846840-SVG.webp" },
+  { id: 1, partnerimagelink: "https://i.ibb.co/rGNB81qX/369118.webp" },
+  { id: 2, partnerimagelink: "https://i.ibb.co/mFHMMZMS/372124.webp" },
+  { id: 3, partnerimagelink: "https://i.ibb.co/Myn8Dfqw/387539-1.webp" },
+  { id: 4, partnerimagelink: "https://i.ibb.co/gLbFhmyZ/390768.webp" },
+  { id: 5, partnerimagelink: "https://i.ibb.co/zWwZkrnx/Ejar.webp" },
+  { id: 6, partnerimagelink: "https://i.ibb.co/wrzNBWNP/Real-Estate-Market.webp" },
+  { id: 7, partnerimagelink: "https://i.ibb.co/tw5GhL58/Riyadh-region-municipality-01.webp" },
+  { id: 8, partnerimagelink: "https://i.ibb.co/qFYwvSwz/Taqeem-01.webp" },
+  { id: 9, partnerimagelink: "https://i.ibb.co/NgcnRQJH/wafi.webp" },
+  { id: 10, partnerimagelink: "https://i.ibb.co/0ywPm34T/svg.webp" },
 ];
 
-const PARTNERS_EXTENDED = [...PARTNERS, ...PARTNERS, ...PARTNERS, ...PARTNERS];
+// Exactly 2 copies for the infinite loop effect
+const PARTNERS_FOR_LOOP = [...PARTNERS, ...PARTNERS];
 
 const Partner: React.FC = () => {
   return (
@@ -45,29 +50,28 @@ const Partner: React.FC = () => {
           align="center"
           sx={{
             fontFamily: "Tajawal, sans-serif",
-            fontWeight: 800,
-             color:
-            "linear-gradient(90deg, rgba(2,59,78,1), rgba(4,106,132,1))",
+            fontWeight: 700,
+            color: "#086d6d", 
             mb: 8,
-            fontSize: { xs: "2rem", md: "3rem" }, // Larger heading
+            fontSize: { xs: "1.8rem", md: "2.5rem" },
           }}
         >
           شركاء النجاح
         </Typography>
 
-        {/* Row 1: Moving Left */}
-        <Box sx={{ mb: 6, overflow: "hidden" }}>
-          <MarqueeWrapper animation={`${scrollLeft} 40s linear infinite`}>
-            {PARTNERS_EXTENDED.map((partner, index) => (
+        {/* Moving Left */}
+        <Box sx={{ mb: 4, overflow: "hidden" }}>
+          <MarqueeWrapper animation={`${scrollLeft} 25s linear infinite`}>
+            {PARTNERS_FOR_LOOP.map((partner, index) => (
               <PartnerCard key={`row1-${index}`} imageUrl={partner.partnerimagelink} />
             ))}
           </MarqueeWrapper>
         </Box>
 
-        {/* Row 2: Moving Right */}
+        {/* Moving Right */}
         <Box sx={{ overflow: "hidden" }}>
-          <MarqueeWrapper animation={`${scrollRight} 40s linear infinite`}>
-            {PARTNERS_EXTENDED.map((partner, index) => (
+          <MarqueeWrapper animation={`${scrollRight} 25s linear infinite`}>
+            {PARTNERS_FOR_LOOP.map((partner, index) => (
               <PartnerCard key={`row2-${index}`} imageUrl={partner.partnerimagelink} />
             ))}
           </MarqueeWrapper>
@@ -77,7 +81,7 @@ const Partner: React.FC = () => {
   );
 };
 
-// --- Styled Components for Animation ---
+// --- Styled Components ---
 
 const MarqueeWrapper = styled(Box)<{ animation: string }>(({ animation }) => ({
   display: "flex",
@@ -91,24 +95,23 @@ const MarqueeWrapper = styled(Box)<{ animation: string }>(({ animation }) => ({
 const PartnerCard: React.FC<{ imageUrl: string }> = ({ imageUrl }) => (
   <Box
     sx={{
-      mx: 2, // Increased spacing between cards
-      // BIGGER DIMENSIONS HERE:
-      width: { xs: 180, sm: 220, md: 280 }, 
-      height: { xs: 100, sm: 120, md: 150 },
+      mx: 2,
+      width: { xs: 130, sm: 160, md: 180 }, 
+      height: { xs: 130, sm: 160, md: 180 },
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      bgcolor: "#f8faf9",
-      borderRadius: "16px",
-      p: 1.5, // Reduced padding to let the logo fill more space
-      transition: "all 0.4s ease",
+      bgcolor: "#ffffff",
+      borderRadius: "18px",
+      p: 2.5,
+      transition: "all 0.3s ease",
       cursor: "pointer",
-      border: "1px solid #eee",
+      border: "1px solid #f2f2f2",
+      boxShadow: "0 2px 10px rgba(0,0,0,0.02)",
       "&:hover": {
-        bgcolor: "#ffffff",
-        borderColor: "#096e69",
-        transform: "scale(1.05)", // Slight pop-out effect
-        boxShadow: "0 15px 35px rgba(9, 110, 105, 0.15)",
+        transform: "scale(1.03)",
+        boxShadow: "0 8px 20px rgba(0,0,0,0.06)",
+        borderColor: "#086d6d33",
       },
     }}
   >
@@ -116,11 +119,9 @@ const PartnerCard: React.FC<{ imageUrl: string }> = ({ imageUrl }) => (
       component="img"
       image={imageUrl}
       sx={{
-        width: "90%", // Logo takes up 90% of the card width
-        height: "90%",
+        width: "100%",
+        height: "100%",
         objectFit: "contain",
-        filter: "none", // Original colors
-        transition: "all 0.4s ease",
       }}
     />
   </Box>
