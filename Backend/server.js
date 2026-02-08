@@ -13,6 +13,7 @@ import Propertyrentalrouter from "./routes/Propertyrental.route.js";
 import Propertyfinishinggirlrouter from "./routes/Propertyfinishinggirl.route.js";
 import Propertyforsaleroutergirl from "./routes/Propertyforsalegirl.route.js";
 import Buyingpropertyroutergirl from "./routes/Buyingpropertygirl.route.js";
+import Propertyrentalgirlrouter from "./routes/Propertyrentalgirl.route.js";
 
 const app = express();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -46,7 +47,7 @@ app.use('/api', Propertyrentalrouter);
 app.use('/api/finishing', Propertyfinishinggirlrouter);
 app.use('/api/sale', Propertyforsaleroutergirl);
 app.use('/api/Buying', Buyingpropertyroutergirl); 
-// app.use('/api/rental', Propertyrentalroutergirl); 
+app.use('/api/rental',Propertyrentalgirlrouter); 
 
 // 7. Start server
 const port = 8001;
