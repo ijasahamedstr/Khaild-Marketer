@@ -16,9 +16,9 @@ const Footer: React.FC = () => {
   return (
     <Box component="footer" sx={{ direction: "rtl", fontFamily: TAJAWAL }}>
       {/* Main Footer Section */}
-      <Box sx={{ background: "#023B4E", color: "#fff", py: { xs: 6, sm: 8 } }}>
+      <Box sx={{ background: "#023B4E", color: "#fff" }}>
         {/* Updated Container for better Large Screen (lg) behavior */}
-        <Container maxWidth="lg" sx={{ px: { xs: 3, sm: 6 } }}>
+        <Container maxWidth="lg" >
           <Box 
             sx={{ 
               display: "flex", 
@@ -36,14 +36,14 @@ const Footer: React.FC = () => {
                 component="img" 
                 src="https://i.ibb.co/XR3RFDD/logo-DAR.webp" 
                 alt="شعار الشركة" 
-                sx={{ width: { xs: 180, md: 220 }, height: "auto" }} 
+                sx={{ width: { xs: 180, md: 350 }, height: "auto" }} 
               />
             </Box>
 
             <Divider orientation="vertical" flexItem sx={{ display: { xs: "none", md: "block" }, borderColor: "rgba(255,255,255,0.1)" }} />
 
             {/* Column 2: Address */}
-            <Box sx={{ flex: 1, px: { md: 4 } }}>
+            <Box sx={{ flex: 1, pt: { md: 4 } }}>
               <Typography variant="h6" sx={{ mb: 2, fontSize: "1.2rem", fontWeight: 700, fontFamily: TAJAWAL }}>
                 العنوان
               </Typography>
@@ -63,7 +63,7 @@ const Footer: React.FC = () => {
             <Divider orientation="vertical" flexItem sx={{ display: { xs: "none", md: "block" }, borderColor: "rgba(255,255,255,0.1)" }} />
 
             {/* Column 3: Contact Button */}
-               <Box sx={{ flexBasis: { xs: "100%", md: "18%" } }}>
+            <Box sx={{ flexBasis: { xs: "100%", md: "18%" } }}>
              <Typography
               variant="h6"
               sx={{
@@ -71,7 +71,8 @@ const Footer: React.FC = () => {
                 fontSize: "2rem",     
                 fontWeight: 700,
                 fontFamily: TAJAWAL,
-                textAlign: "center",    
+                textAlign: "center",
+                pt: { xs: 2, md: 8 }    
               }}
             >
               للشكاوى
