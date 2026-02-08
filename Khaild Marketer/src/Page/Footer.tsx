@@ -43,7 +43,7 @@ const Footer: React.FC = () => {
             <Divider orientation="vertical" flexItem sx={{ display: { xs: "none", md: "block" }, borderColor: "rgba(255,255,255,0.1)" }} />
 
             {/* Column 2: Address */}
-            <Box sx={{ flex: 1, pt: { md: 4 } }}>
+            <Box sx={{ flex: 1, pt: { md: 15 } }}>
               <Typography variant="h6" sx={{ mb: 2, fontSize: "1.2rem", fontWeight: 700, fontFamily: TAJAWAL }}>
                 العنوان
               </Typography>
@@ -72,7 +72,7 @@ const Footer: React.FC = () => {
                 fontWeight: 700,
                 fontFamily: TAJAWAL,
                 textAlign: "center",
-                pt: { xs: 2, md: 8 }    
+                pt: { xs: 2, md: 15 }    
               }}
             >
               للشكاوى
