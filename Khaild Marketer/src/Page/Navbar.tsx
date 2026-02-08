@@ -143,9 +143,9 @@ export default function Navbar() {
               >
                 <Box
                   component="img"
-                  src="https://i.ibb.co/yn0gbKdZ/Gemini-Generated-Image-pua0mbpua0mbpua0-removebg-preview.png"
+                  src="https://i.ibb.co/XR3RFDD/logo-DAR.webp"
                   alt="Logo"
-                  sx={{ maxHeight: 90 }}
+                  sx={{ maxHeight:130 }}
                 />
               </Box>
 
