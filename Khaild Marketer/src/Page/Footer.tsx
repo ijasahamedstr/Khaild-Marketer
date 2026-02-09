@@ -26,7 +26,7 @@ const Footer: React.FC = () => {
             
             {/* Column 1: Logo & Social */}
             <Box sx={{ flexBasis: { xs: "100%", md: "22%" }, display: "flex", flexDirection: "column", alignItems: { xs: "center", md: "flex-end" }, gap: 3 }}>
-              <Box component="img" src="https://i.ibb.co/XR3RFDD/logo-DAR.webp" alt="شعار الشركة" sx={{ width: { xs: 180, sm: 200, md: 240 }, height: "auto", mb: 2 }} />
+              <Box component="img" src="https://i.ibb.co/0xBgSzB/logo-DAR-1.webp" alt="شعار الشركة" sx={{ width: { xs: 180, sm: 200, md: 240 }, height: "auto", mb: 2 }} />
             </Box>
 
             <Divider orientation="vertical" flexItem sx={{ display: { xs: "none", md: "block" }, borderColor: "rgba(255,255,255,0.25)" }} />

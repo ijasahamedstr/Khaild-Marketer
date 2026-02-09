@@ -146,9 +146,9 @@ export default function Navbar() {
               >
                 <Box
                   component="img"
-                  src="https://i.ibb.co/XR3RFDD/logo-DAR.webp"
+                  src="https://i.ibb.co/0xBgSzB/logo-DAR-1.webp"
                   alt="Logo"
-                  sx={{ maxHeight: 100 }}
+                  sx={{ maxHeight: 110 }}
                 />
               </Box>
 
