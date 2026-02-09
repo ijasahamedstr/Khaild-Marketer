@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import LoginIcon from "@mui/icons-material/Login"; // Added for Login
+import LoginIcon from "@mui/icons-material/Login";
 
 import {
   FaInstagram,
@@ -124,13 +124,16 @@ export default function Navbar() {
             disableGutters
             sx={{
               px: 3,
-              justifyContent: "space-between", 
+              justifyContent: "space-between",
               alignItems: "center",
               gap: 2,
             }}
           >
             {/* RIGHT SIDE: LOGO + DESKTOP MENU */}
-            <Box sx={{ display: "flex", alignItems: "center", gap: isDesktop ? 6 : 2 }}>
+            {/* ------------------------------------------------------------- */}
+            {/* CHANGED: Increased 'gap' from 6 to 15 (Change this number to adjust space) */}
+            {/* ------------------------------------------------------------- */}
+            <Box sx={{ display: "flex", alignItems: "center", gap: isDesktop ? 15 : 2 }}>
               {/* LOGO */}
               <Box
                 component={Link}
@@ -145,7 +148,7 @@ export default function Navbar() {
                   component="img"
                   src="https://i.ibb.co/XR3RFDD/logo-DAR.webp"
                   alt="Logo"
-                  sx={{ maxHeight:130 }}
+                  sx={{ maxHeight: 100 }}
                 />
               </Box>
 
@@ -216,11 +219,11 @@ export default function Navbar() {
                 to="/login"
                 variant="outlined"
                 startIcon={
-                  <LoginIcon 
-                    sx={{ 
+                  <LoginIcon
+                    sx={{
                       transform: "rotate(180deg)",
-                      ml: 1.5 // Adds space between icon and text in RTL
-                    }} 
+                      ml: 1.5, // Adds space between icon and text in RTL
+                    }}
                   />
                 }
                 sx={{
@@ -229,12 +232,12 @@ export default function Navbar() {
                   fontFamily: menuFont,
                   borderRadius: "25px",
                   fontSize: isDesktop ? "18px" : "14px",
-                  px: isDesktop ? 4 : 2, // Increased horizontal padding
+                  px: isDesktop ? 4 : 2,
                   display: "flex",
                   alignItems: "center",
                   "& .MuiButton-startIcon": {
-                    marginRight: "0px", // Reset MUI default for RTL control
-                    marginLeft: "8px"   // Explicit space for Arabic text
+                    marginRight: "0px",
+                    marginLeft: "8px",
                   },
                   "&:hover": {
                     borderColor: "white",
