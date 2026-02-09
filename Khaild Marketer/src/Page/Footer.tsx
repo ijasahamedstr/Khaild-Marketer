@@ -19,14 +19,33 @@ const Footer: React.FC = () => {
   return (
     <Box component="footer" sx={{ direction: "rtl", fontFamily: TAJAWAL }}>
       {/* Main Footer Section */}
-      <Box sx={{ background: "#023B4E", color: "#fff", py: { xs: 6, sm: 8 }, px: { xs: 3, sm: 6 } }}>
+      <Box sx={{ background: "#023B4E", color: "#fff", py: { xs: 2, sm: 2 }, px: { xs: 3, sm: 6 } }}>
         <Container   maxWidth={false}
           sx={{ maxWidth: 1700, px: { xs: 3, sm: 6 } }}>
-          <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, justifyContent: "space-between", alignItems: { xs: "center", md: "flex-start" }, gap: 6, textAlign: { xs: "center", md: "right" } }}>
+          <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, justifyContent: "space-between", gap: 6,}}>
             
             {/* Column 1: Logo & Social */}
-            <Box sx={{ flexBasis: { xs: "100%", md: "22%" }, display: "flex", flexDirection: "column", alignItems: { xs: "center", md: "flex-end" }, gap: 3 }}>
-              <Box component="img" src="https://i.ibb.co/0xBgSzB/logo-DAR-1.webp" alt="شعار الشركة" sx={{ width: { xs: 180, sm: 200, md: 240 }, height: "auto", mb: 2 }} />
+     {/* Column 1: Logo & Social */}
+            <Box 
+              sx={{ 
+                flexBasis: { xs: "100%", md: "22%" }, 
+                display: "flex", 
+                flexDirection: "column", 
+                // This ensures the content pushes to the right on all screen sizes
+                alignItems: "flex-end", 
+                gap: 3 
+              }}
+            >
+              <Box 
+                component="img" 
+                src="https://i.ibb.co/0xBgSzB/logo-DAR-1.webp" 
+                alt="شعار الشركة" 
+                sx={{ 
+                  width: { xs: 180, sm: 200, md: 240 }, 
+                  height: "auto", 
+                  mb: 2 
+                }} 
+              />
             </Box>
 
             <Divider orientation="vertical" flexItem sx={{ display: { xs: "none", md: "block" }, borderColor: "rgba(255,255,255,0.25)" }} />
