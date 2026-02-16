@@ -54,7 +54,7 @@ const Service14new: React.FC = () => {
                                                                                                                               {/* 1. TOP IMAGE LAYER */}
                                                                                                                             <Box
                                                                                                                               component="img"
-                                                                                                                              src="https://i.ibb.co/Y7twRGkm/copy-1.jpg"
+                                                                                                                              src="#"
                                                                                                                               alt="Website Showcase"
                                                                                                                               sx={{
                                                                                                                                 // تطبيق الارتفاع الموحد والقص الاحترافي
