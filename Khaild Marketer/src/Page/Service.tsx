@@ -362,7 +362,7 @@ const Service: React.FC = () => {
                   borderRadius: 2,
                   boxShadow: "0 14px 34px rgba(2,59,78,0.14)",
                   background: card.id === 10 
-                    ? `url("https://i.ibb.co/svgXHBTW/Pi7-image-tool.webp")` 
+                    ? `url("https://i.ibb.co/R4NjRftM/76a36078-e458-45f2-826a-6214618b862b-Converted-01-jpg.webp")` 
                     : `linear-gradient(145deg, #CAD5E2 0%, #a2adbbff 45%, #E4E4E7 100%)`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
