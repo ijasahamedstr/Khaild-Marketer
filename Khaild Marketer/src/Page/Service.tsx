@@ -5,12 +5,12 @@ import {
   Button,
   Container,
   useMediaQuery,
+  IconButton,
 } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { keyframes } from "@mui/system";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-import IconButton from "@mui/material/IconButton";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 /* ================= ANIMATIONS ================= */
 
@@ -33,12 +33,13 @@ interface ServiceCard {
   description: string;
   href?: string;
 }
+
 const TAJAWAL = "'Tajawal', sans-serif";
 
 /* ================= DATA ================= */
 
 const serviceCards: ServiceCard[] = [
-   {
+  {
     id: 1,
     title: " بيع العقار  ",
     description:
@@ -63,7 +64,7 @@ const serviceCards: ServiceCard[] = [
     id: 4,
     title: "تشطيب العقار",
     description:
-      "نقدم خدمة التشطيب المتكامل للعقارات،     بأفضل المواد والمعايير، لتسكن أو تستثمر في مساحة تعكس ذوقك وقيمتك.",
+      "نقدم خدمة التشطيب المتكامل للعقارات، بأفضل المواد والمعايير، لتسكن أو تستثمر في مساحة تعكس ذوقك وقيمتك.",
     href: "/services/تشطيب العقار",
   },
   {
@@ -84,39 +85,39 @@ const serviceCards: ServiceCard[] = [
     id: 6,
     title: "محكّم معتمد",
     description:
-      "تحكيم تجتاري لحل النزاعات بكل احترافية.اطلب خدمة محكّم معتمد واحمِ حقوقك بثقة",
+      "تحكيم تجاري لحل النزاعات بكل احترافية. اطلب خدمة محكّم معتمد واحمِ حقوقك بثقة",
     href: "/services/محكم معتمد",
   },
   {
     id: 8,
     title: "خدمات التوثيق",
     description:
-      "نوفر خدمة التوثيق والتسجيل العيني  للعقارات لضمان حقوق جميع الاطراف",
+      "نوفر خدمة التوثيق والتسجيل العيني للعقارات لضمان حقوق جميع الأطراف",
     href: "/services/خدمات التوثيق",
   },
   {
     id: 9,
-     title: "خدمات التصوير العقاري",
+    title: "خدمات التصوير العقاري",
     description:
       "نوفر تصويرًا احترافيًا للعقار يعكس جماله ويعزز فرص البيع أو التأجير بشكل جذاب ودقيق.",
     href: "/services/خدمات التصوير العقاري",
   },
   {
     id: 12,
-     title: "التقييم العقاري",
-   description:"نقدّم لك خدمة تقييم عقاري دقيقة ومعتمدة تساعدك في اتخاذ القرار الصحيح.اعرف القيمة الحقيقية لعقارك من أهل الخبرة والاختصاص.",  
+    title: "التقييم العقاري",
+    description: "نقدّم لك خدمة تقييم عقاري دقيقة ومعتمدة تساعدك في اتخاذ القرار الصحيح. اعرف القيمة الحقيقية لعقارك من أهل الخبرة والاختصاص.",
     href: "/services/التقييم العقاري",
   },
   {
     id: 13,
-     title: "تملّك الأجانب للعقارات  ",
-     description:"نوفر لك المعلومات والإجراءات الرسمية لتملّك العقارات لغير السعوديين.نرشدك خطوة بخطوة لتحقيق حلم التملّك داخل المملكة.",
+    title: "تملّك الأجانب للعقارات  ",
+    description: "نوفر لك المعلومات والإجراءات الرسمية لتملّك العقارات لغير السعوديين. نرشدك خطوة بخطوة لتحقيق حلم التملّك داخل المملكة.",
     href: "/services/تملّك الأجانب للعقارات ",
   },
-    {
+  {
     id: 14,
-     title: " الوقف العقاري",
-    description:" يضم نخبة من المختصين للرد على استفساراتكم حول عقارات الوقف بيع وشراء وتأجير العقارات الوقفية وبما يتوافق مع الأنظمة الشرعية والتنظيمية.",
+    title: " الوقف العقاري",
+    description: " يضم نخبة من المختصين للرد على استفساراتكم حول عقارات الوقف بيع وشراء وتأجير العقارات الوقفية وبما يتوافق مع الأنظمة الشرعية والتنظيمية.",
     href: "/services/الوقف العقاري",
   },
   {
@@ -145,76 +146,22 @@ const Service: React.FC = () => {
   const [currentIndex, setCurrentIndex] = React.useState(0);
 
   const scrollToIndex = (index: number) => {
-  const el = sliderRef.current;
-  if (!el || cardWidth === 0) return;
-
-  el.scrollTo({
-    left: index * cardWidth,
-    behavior: "smooth",
-  });
-
-  setCurrentIndex(index);
-};
-
-const scrollByCard = (direction: "left" | "right") => {
-  const nextIndex =
-    direction === "right"
-      ? Math.min(currentIndex + 1, serviceCards.length - 1)
-      : Math.max(currentIndex - 1, 0);
-
-  scrollToIndex(nextIndex);
-};
-
-React.useEffect(() => {
-  const el = sliderRef.current;
-  if (!el || !el.firstElementChild) return;
-
-  const child = el.firstElementChild as HTMLElement;
-  const gap = 16;
-  setCardWidth(child.offsetWidth + gap);
-}, [isMobile]);
-
-React.useEffect(() => {
-  const el = sliderRef.current;
-  if (!el || cardWidth === 0) return;
-
-  let rafId = 0;
-
-  const onScroll = () => {
-    if (rafId) cancelAnimationFrame(rafId);
-    rafId = requestAnimationFrame(() => {
-      const idx = Math.round(el.scrollLeft / cardWidth);
-      setCurrentIndex(
-        Math.max(0, Math.min(serviceCards.length - 1, idx))
-      );
+    const el = sliderRef.current;
+    if (!el || cardWidth === 0) return;
+    el.scrollTo({
+      left: index * cardWidth,
+      behavior: "smooth",
     });
+    setCurrentIndex(index);
   };
 
-  el.addEventListener("scroll", onScroll, { passive: true });
-
-  return () => {
-    el.removeEventListener("scroll", onScroll);
-    if (rafId) cancelAnimationFrame(rafId);
+  const scrollByCard = (direction: "left" | "right") => {
+    const nextIndex =
+      direction === "right"
+        ? Math.min(currentIndex + 1, serviceCards.length - 1)
+        : Math.max(currentIndex - 1, 0);
+    scrollToIndex(nextIndex);
   };
-}, [cardWidth]);
-
-// AUTO SLIDE FOR MOBILE
-React.useEffect(() => {
-  if (!isMobile || cardWidth === 0) return;
-
-  const interval = setInterval(() => {
-    setCurrentIndex((prev) => {
-      const nextIndex = (prev + 1) % serviceCards.length;
-      // scroll to the next card
-      scrollToIndex(nextIndex);
-      return nextIndex;
-    });
-  }, 4000); // change 4000 to whatever speed in ms you want
-
-  return () => clearInterval(interval);
-}, [isMobile, cardWidth]);
-
-  /* ---------- MEASURE CARD WIDTH ---------- */
 
   React.useEffect(() => {
     const calc = () => {
@@ -238,28 +185,6 @@ React.useEffect(() => {
     };
   }, [isMobile]);
 
-  /* ---------- UPDATE INDEX ON SCROLL ---------- */
-
-  React.useEffect(() => {
-    const el = sliderRef.current;
-    if (!el) return;
-
-    let rafId = 0;
-    const onScroll = () => {
-      if (rafId) cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(() => {
-      });
-    };
-
-    el.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      el.removeEventListener("scroll", onScroll);
-      if (rafId) cancelAnimationFrame(rafId);
-    };
-  }, [cardWidth]);
-
-  /* ---------- HELPERS ---------- */
-
   const handleCardClick = (href?: string) => {
     if (!href) return;
     if (href.startsWith("http")) {
@@ -269,8 +194,6 @@ React.useEffect(() => {
     }
   };
 
-  /* ================= RENDER ================= */
-
   return (
     <Container
       maxWidth="xl"
@@ -279,7 +202,7 @@ React.useEffect(() => {
         mb: 10,
         direction: "rtl",
         px: { xs: 2, md: 4 },
-        fontFamily: "'Tajawal', sans-serif",
+        fontFamily: TAJAWAL,
       }}
     >
       <Typography
@@ -289,9 +212,8 @@ React.useEffect(() => {
           color: "#003c46",
           mb: 3,
           textAlign: "right",
-          fontFamily: "'Tajawal', sans-serif",
-          background:
-            "linear-gradient(90deg, rgba(2,59,78,1), rgba(4,106,132,1))",
+          fontFamily: TAJAWAL,
+          background: "linear-gradient(90deg, rgba(2,59,78,1), rgba(4,106,132,1))",
           WebkitBackgroundClip: "text",
           WebkitTextFillColor: "transparent",
           backgroundSize: "200% 100%",
@@ -301,18 +223,16 @@ React.useEffect(() => {
         نبذة عن خدماتنا
       </Typography>
 
-       <Box
+      <Box
         component="hr"
         sx={{
           border: "none",
           height: "2px",
           mb: 6,
-          background:
-            "linear-gradient(90deg, rgba(2,59,78,0), rgba(2,59,78,0.6), rgba(2,59,78,0))",
+          background: "linear-gradient(90deg, rgba(2,59,78,0), rgba(2,59,78,0.6), rgba(2,59,78,0))",
         }}
       />
 
-      {/* ================= DESKTOP / TABLET GRID ================= */}
       {!isMobile && (
         <Box
           sx={{
@@ -326,14 +246,9 @@ React.useEffect(() => {
             alignItems: "start",
           }}
         >
-          {serviceCards.map((card, index) => {
-            // ✅ ONLY CHANGE: center LAST card only
+          {serviceCards.map((card) => {
             const isCenterWide = card.id === 11 || card.id === 10;
-
-            const showDivider =
-              !isCenterWide &&
-              index % 3 !== 2 &&
-              index !== serviceCards.length - 1;
+            const isId10 = card.id === 10;
 
             return (
               <Box
@@ -341,69 +256,33 @@ React.useEffect(() => {
                 onClick={() => handleCardClick(card.href)}
                 role={card.href ? "button" : undefined}
                 tabIndex={card.href ? 0 : -1}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ")
-                    handleCardClick(card.href);
+                sx={{
+                  position: "relative",
+                  textAlign: "right",
+                  p: 3,
+                  borderRadius: 2,
+                  transition: "transform 0.36s cubic-bezier(.2,.9,.2,1), box-shadow 0.36s",
+                  boxShadow: "0 14px 34px rgba(2,59,78,0.14)",
+                  cursor: card.href ? "pointer" : "default",
+                  gridColumn: isCenterWide ? { md: "2 / span 1" } : "auto",
+                  width: isCenterWide ? { xs: "100%", md: isId10 ? "170%" : "130%" } : "100%",
+                  justifySelf: isCenterWide ? "center" : "stretch",
+                  maxWidth: isCenterWide ? { xs: "100%", md: card.id === 11 ? "none" : "1100px" } : "100%",
+                  
+                  /* LOGIC FOR ID 10: CLEAN IMAGE */
+                  background: isId10
+                    ? `url("https://i.ibb.co/Y4bB1Ptk/Gemini-Generated-Image-iu1j9fiu1j9fiu1j.png")`
+                    : `linear-gradient(145deg, #CAD5E2 0%, #a2adbbff 45%, #E4E4E7 100%)`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
+
+                  "&:hover": {
+                    transform: card.href ? "translateY(-8px)" : undefined,
+                    boxShadow: card.href ? "0 22px 50px rgba(2,59,78,0.12)" : undefined,
+                  },
                 }}
-               sx={{
-                position: "relative",
-                textAlign: "right",
-                color: "#000",
-                mb: { xs: 4, md: index < 3 ? 6 : 0 },
-                mt: isCenterWide ? { md: 6, xs: 0 } : 0,
-
-                // Centers both cards in the middle column (Column 2)
-                gridColumn: isCenterWide ? { md: "2 / span 1" } : "auto",
-                justifySelf: isCenterWide ? "center" : "stretch",
-
-                // ✅ CARD 10: Standard (100%) | CARD 11: Big (200%)
-                width: isCenterWide 
-                  ? { 
-                      xs: "100%", 
-                      md: card.id === 10 ? "170%" : "130%" 
-                    } 
-                  : "100%",
-
-                // ✅ Remove max-width for Card 11 so it can grow
-                maxWidth: isCenterWide
-                  ? { 
-                      xs: "100%", 
-                      md: card.id === 11 ? "none" : "1100px" 
-                    }
-                  : "100%",
-
-                fontFamily: "'Tajawal', sans-serif",
-                p: 3,
-                borderRadius: 2,
-                transition: "transform 0.36s cubic-bezier(.2,.9,.2,1), box-shadow 0.36s",
-                boxShadow: "0 14px 34px rgba(2,59,78,0.14), 0 6px 16px rgba(2,59,78,0.10)",
-                cursor: card.href ? "pointer" : "default",
-                "&:hover": {
-                  transform: card.href ? "translateY(-8px)" : undefined,
-                  boxShadow: card.href ? "0 22px 50px rgba(2,59,78,0.12)" : undefined,
-                },
-                overflow: "visible",
-                background: `linear-gradient(145deg, #CAD5E2 0%, #a2adbbff 45%, #E4E4E7 100%)`,
-              }}
               >
-                {/* ===== EVERYTHING BELOW IS UNCHANGED ===== */}
-                <Box
-                  sx={{
-                    position: "absolute",
-                    left: { xs: 12, md: 16 },
-                    top: 12,
-                    width: 10,
-                    height: 10,
-                    borderRadius: "50%",
-                    background: "linear-gradient(90deg, #9CF0FF, #FFFFFF)",
-                    boxShadow:
-                      "0 14px 34px rgba(2,59,78,0.14), 0 6px 16px rgba(2,59,78,0.10)",
-                    transformOrigin: "center",
-                    animation: `${floatUp} ${6 + index}s ease-in-out infinite`,
-                    display: { xs: "none", md: "block" },
-                  }}
-                />
-
                 <Typography
                   variant="h5"
                   sx={{
@@ -414,171 +293,95 @@ React.useEffect(() => {
                     justifyContent: "space-between",
                     alignItems: "center",
                     fontSize: "25px",
-                    fontFamily: "'Tajawal', sans-serif",
+                    fontFamily: TAJAWAL,
+                    textShadow: isId10 ? "0px 2px 4px rgba(255,255,255,0.8)" : "none",
                   }}
                 >
                   <span>{card.title}</span>
-                  <Box sx={{ display: { xs: "none", md: "inline-flex" } }}>
-                    <ArrowBackIosNewIcon
-                      sx={{
-                        transform: "rotateY(180deg)",
-                        transition: "transform .28s",
-                        "&:hover": {
-                          transform: "translateX(6px) rotateY(180deg)",
-                        },
-                      }}
-                    />
-                  </Box>
+                  <ArrowBackIosNewIcon sx={{ transform: "rotateY(180deg)", display: { xs: "none", md: "block" } }} />
                 </Typography>
 
-                <Typography sx={{ lineHeight: 2, mb: 4, fontSize: "18px", fontFamily: "'Tajawal', sans-serif" }}>
+                <Typography
+                  sx={{
+                    lineHeight: 2,
+                    mb: 4,
+                    fontSize: "18px",
+                    fontFamily: TAJAWAL,
+                    color: "#000",
+                    fontWeight: isId10 ? 700 : 500,
+                  }}
+                >
                   {card.description}
                 </Typography>
 
                 <Button
                   variant="outlined"
-                  endIcon={<ArrowBackIosNewIcon />}
-                  component={
-                    card.href && !card.href.startsWith("http")
-                      ? RouterLink
-                      : "a"
-                  }
-                  to={
-                    card.href && !card.href.startsWith("http")
-                      ? card.href
-                      : undefined
-                  }
-                  href={
-                    card.href && card.href.startsWith("http")
-                      ? card.href
-                      : undefined
-                  }
-                  onClick={(e) => card.href && e.stopPropagation()}
                   sx={{
                     borderColor: "#023B4E",
                     color: "#023B4E",
-                    fontFamily: "'Tajawal', sans-serif",
+                    fontFamily: TAJAWAL,
                     px: 3,
-                    "&:hover": {
-                      borderColor: "#023B4E",
-                      background: "rgba(4,106,132,0.03)",
-                    },
+                    backgroundColor: isId10 ? "rgba(255,255,255,0.6)" : "transparent",
+                    "&:hover": { background: "rgba(4,106,132,0.1)" },
                   }}
                 >
                   اكتشف المزيد
                 </Button>
-
-                {showDivider && (
-                  <Box
-                    sx={{
-                      position: "absolute",
-                      left: "-20px",
-                      top: 0,
-                      height: "100%",
-                      width: "2px",
-                      backgroundColor: "#023B4E",
-                      display: { xs: "none", md: "block" },
-                    }}
-                  />
-                )}
               </Box>
             );
           })}
         </Box>
       )}
 
-      {/* ================= MOBILE SLIDER (100% UNCHANGED) ================= */}
+      {isMobile && (
+        <Box sx={{ position: "relative", mt: 4 }}>
+          <IconButton onClick={() => scrollByCard("right")} disabled={currentIndex === 0} sx={{ position: "absolute", right: 6, top: "40%", zIndex: 2 }}>
+            <ArrowForwardIosIcon />
+          </IconButton>
+          <IconButton onClick={() => scrollByCard("left")} disabled={currentIndex === serviceCards.length - 1} sx={{ position: "absolute", left: 6, top: "40%", zIndex: 2, transform: "rotate(180deg)" }}>
+            <ArrowForwardIosIcon />
+          </IconButton>
 
-
-{isMobile && (
-  <Box sx={{ position: "relative", mt: 4 }}>
-    <IconButton
-      onClick={() => scrollByCard("right")}
-      disabled={currentIndex === 0}
-      sx={{ position: "absolute", right: 6, top: "40%", zIndex: 2 }}
-    >
-      <ArrowForwardIosIcon />
-    </IconButton>
-
-    <IconButton
-      onClick={() => scrollByCard("left")}
-      disabled={currentIndex === serviceCards.length - 1}
-      sx={{
-        position: "absolute",
-        left: 6,
-        top: "40%",
-        zIndex: 2,
-        transform: "rotate(180deg)",
-      }}
-    >
-      <ArrowForwardIosIcon />
-    </IconButton>
-
-    <Box
-      ref={sliderRef}
-      sx={{
-        display: "flex",
-        gap: 2,
-        overflowX: "auto",
-        scrollSnapType: "x mandatory",
-        "&::-webkit-scrollbar": { display: "none" },
-      }}
-    >
-      {serviceCards.map((card) => (
-        <Box
-          key={card.id}
-          sx={{
-            flex: "0 0 86%",
-            scrollSnapAlign: "center",
-            p: 3,
-            borderRadius: 2,
-            boxShadow:
-              "0 14px 34px rgba(2,59,78,0.14), 0 6px 16px rgba(2,59,78,0.10)",
-          }}
-        >
-          <Typography
-            variant="h6"
-            sx={{ mb: 2, fontFamily: TAJAWAL }} // Heading font
+          <Box
+            ref={sliderRef}
+            sx={{
+              display: "flex",
+              gap: 2,
+              overflowX: "auto",
+              scrollSnapType: "x mandatory",
+              "&::-webkit-scrollbar": { display: "none" },
+            }}
           >
-            {card.title}
-          </Typography>
-
-          <Typography sx={{ mb: 3, fontFamily: TAJAWAL }}> {/* Description font */}
-            {card.description}
-          </Typography>
-
-          {card.href && (
-            <Button
-              variant="outlined"
-              component={RouterLink}
-              to={card.href}
-              sx={{ fontFamily: TAJAWAL }}
-            >
-              اكتشف المزيد
-            </Button>
-          )}
+            {serviceCards.map((card) => (
+              <Box
+                key={card.id}
+                sx={{
+                  flex: "0 0 86%",
+                  scrollSnapAlign: "center",
+                  p: 3,
+                  borderRadius: 2,
+                  boxShadow: "0 14px 34px rgba(2,59,78,0.14)",
+                  background: card.id === 10 
+                    ? `url("https://i.ibb.co/svgXHBTW/Pi7-image-tool.webp")` 
+                    : `linear-gradient(145deg, #CAD5E2 0%, #a2adbbff 45%, #E4E4E7 100%)`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+              >
+                <Typography variant="h6" sx={{ mb: 2, fontFamily: TAJAWAL, fontWeight: 700 }}>
+                  {card.title}
+                </Typography>
+                <Typography sx={{ mb: 3, fontFamily: TAJAWAL, color: "#000" }}>
+                  {card.description}
+                </Typography>
+                <Button variant="outlined" component={RouterLink} to={card.href || "#"} sx={{ fontFamily: TAJAWAL, backgroundColor: card.id === 10 ? "rgba(255,255,255,0.6)" : "transparent" }}>
+                  اكتشف المزيد
+                </Button>
+              </Box>
+            ))}
+          </Box>
         </Box>
-      ))}
-    </Box>
-
-    {/* Dots */}
-    <Box sx={{ display: "flex", justifyContent: "center", mt: 2, gap: 1 }}>
-      {serviceCards.map((_, i) => (
-        <Box
-          key={i}
-          onClick={() => scrollToIndex(i)}
-          sx={{
-            width: currentIndex === i ? 12 : 8,
-            height: currentIndex === i ? 12 : 8,
-            borderRadius: "50%",
-            background:
-              currentIndex === i ? "#023B4E" : "rgba(2,59,78,0.2)",
-          }}
-        />
-      ))}
-    </Box>
-  </Box>
-)}
+      )}
     </Container>
   );
 };

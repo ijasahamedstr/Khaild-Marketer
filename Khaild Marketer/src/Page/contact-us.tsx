@@ -1,12 +1,11 @@
 // Contactus.tsx
 import React from "react";
 import { Box, Typography, Container, GlobalStyles } from "@mui/material";
-import { Phone, Email } from "@mui/icons-material";
 
 const Contactus: React.FC = () => {
   const fontSizes = {
-    title: { xs: "30px", md: "38px" },
-    description: { xs: "20px", md: "24px" },
+    title: { xs: "30px", md: "44px" }, // Slightly increased for XL layout
+    description: { xs: "20px", md: "26px" },
     sectionTitle: { xs: "24px", md: "32px" },
     label: { xs: "18px", md: "22px" },
     value: { xs: "22px", md: "28px" },
@@ -20,25 +19,27 @@ const Contactus: React.FC = () => {
         }}
       />
 
-      <Container maxWidth="lg" sx={{ my: 6, px: 3 }}>
+      {/* CHANGED TO maxWidth="xl" FOR MAXIMUM WIDTH */}
+      <Container maxWidth="xl" sx={{ my: 8, px: { xs: 3, md: 6 } }}>
         <Box
           sx={{
             display: "flex",
             flexDirection: { xs: "column", md: "row" },
-            gap: 6,
+            gap: 8,
           }}
         >
-          {/* LEFT SECTION */}
-          <Box sx={{ flex: 1 }}>
+          {/* LEFT SECTION - SET TO FLEX 3 TO DOMINATE THE SCREEN */}
+          <Box sx={{ flex: 3 }}> 
             {/* PAGE TITLE */}
             <Typography
               sx={{
-                fontWeight: 800,
+                fontWeight: 900, // Thicker for XL look
                 mt: 4,
                 mb: 3,
-                borderBottom: "3px solid #E5E7EB",
+                borderBottom: "4px solid #E5E7EB",
                 pb: 1,
                 fontSize: fontSizes.title,
+                width: "fit-content"
               }}
             >
               Khalid Marketer
@@ -49,113 +50,59 @@ const Contactus: React.FC = () => {
               sx={{
                 color: "#4B5563",
                 mt: 2,
-                mb: 5,
+                mb: 6,
                 lineHeight: 2,
                 fontSize: fontSizes.description,
+                maxWidth: "800px" // Keeps text readable on XL screens
               }}
             >
               <strong>Khalid Marketer</strong> تواصل معنا لأي معلومات إضافية أو
               استفسارات.
             </Typography>
 
-            {/* CONTACT INFORMATION */}
-            <Box>
-              <Typography
+            {/* --- XL IMAGE SECTION --- */}
+            <Box 
+              sx={{ 
+                width: "100%", 
+                position: "relative", 
+                overflow: "hidden",
+                borderRadius: "24px", // More pronounced curve for XL
+                boxShadow: "0 20px 50px rgba(0,0,0,0.15)",
+                backgroundColor: "#f9fafb"
+              }}
+            >
+              {/* Inset Shadow Overlay */}
+              <Box
                 sx={{
-                  fontWeight: 800,
-                  mb: 4,
-                  fontSize: fontSizes.sectionTitle,
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  zIndex: 1,
+                  pointerEvents: 'none',
+                  boxShadow: "inset 0 0 30px rgba(0, 0, 0, 0.2)",
                 }}
-              >
-                Saudi Arabia - Contact Information
-              </Typography>
+              />
 
-              <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
-                {[
-                  {
-                    icon: <Phone sx={{ fontSize: 28 }} />,
-                    label: "لبيع وشراء العقارات",
-                    value: "000 000 0000",
-                  },
-                  {
-                    icon: <Phone sx={{ fontSize: 28 }} />,
-                    label: "استئجار وتسليم واستلام العقارات",
-                    value: "000 000 0000",
-                  },
-                  {
-                    icon: <Phone sx={{ fontSize: 28 }} />,
-                    label: "لتشطيب العقار",
-                    value: "000 000 0000",
-                  },
-                  {
-                    icon: <Phone sx={{ fontSize: 28 }} />,
-                    label: "للقسم النسائي",
-                    value: "000 000 0000",
-                  },
-                  {
-                    icon: <Phone sx={{ fontSize: 28 }} />,
-                    label: "لقسم التمويل العقاري",
-                    value: "000 000 0000",
-                  },
-                  {
-                    icon: <Email sx={{ fontSize: 28 }} />,
-                    label: "ايميل الموقع",
-                    value: "info@waseetaqary.com",
-                  },
-                ].map((item, index) => (
-                  <Box
-                    key={index}
-                    sx={{
-                      display: "grid",
-                      gridTemplateColumns: "1fr 24px 1fr",
-                      alignItems: "center",
-                    }}
-                  >
-                    {/* ICON + LABEL */}
-                    <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                      <Box sx={{ color: "#0F172A" }}>{item.icon}</Box>
-                      <Typography
-                        sx={{
-                          fontSize: fontSizes.label,
-                          color: "#4B5563",
-                          fontWeight: 600,
-                        }}
-                      >
-                        {item.label}
-                      </Typography>
-                    </Box>
-
-                    {/* COLON */}
-                    <Typography
-                      sx={{
-                        fontSize: fontSizes.label,
-                        color: "#4B5563",
-                        textAlign: "center",
-                        fontWeight: 700,
-                      }}
-                    >
-                      :
-                    </Typography>
-
-                    {/* VALUE */}
-                    <Typography
-                      sx={{
-                        fontSize: fontSizes.value,
-                        fontWeight: 800,
-                        color: "#0F172A",
-                        direction: "ltr",
-                        unicodeBidi: "bidi-override",
-                        letterSpacing: "1.5px",
-                      }}
-                    >
-                      {item.value}
-                    </Typography>
-                  </Box>
-                ))}
-              </Box>
+              {/* Main Banner Image */}
+              <Box
+                component="img"
+                src="https://i.ibb.co/VYgM4n7L/compressed-01-jpg.jpg"
+                alt="main-slide"
+                sx={{
+                  width: "100%", 
+                  height: "auto",
+                  maxHeight: "800px", // Prevents it from becoming too tall
+                  display: "block",
+                  objectFit: "cover",
+                }}
+              />
             </Box>
           </Box>
-          <Box sx={{ flex: 1 }} />
+
+          {/* RIGHT SECTION - MINIMAL FLEX FOR XL BALANCE */}
+          <Box sx={{ flex: 0.5, display: { xs: "none", lg: "block" } }} />
         </Box>
       </Container>
     </Box>
