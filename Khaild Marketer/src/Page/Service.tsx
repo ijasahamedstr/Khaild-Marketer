@@ -271,7 +271,7 @@ const Service: React.FC = () => {
                   
                   /* LOGIC FOR ID 10: CLEAN IMAGE */
                   background: isId10
-                    ? `url("https://i.ibb.co/Y4bB1Ptk/Gemini-Generated-Image-iu1j9fiu1j9fiu1j.png")`
+                    ? `url("https://i.ibb.co/R4NjRftM/76a36078-e458-45f2-826a-6214618b862b-Converted-01-jpg.webp")`
                     : `linear-gradient(145deg, #CAD5E2 0%, #a2adbbff 45%, #E4E4E7 100%)`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
