@@ -14,11 +14,11 @@ import { Link as RouterLink, useNavigate } from "react-router-dom";
 
 /* ================= ANIMATIONS ================= */
 
-const floatUp = keyframes`
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-  100% { transform: translateY(0); }
-`;
+// const floatUp = keyframes`
+//   0% { transform: translateY(0); }
+//   50% { transform: translateY(-6px); }
+//   100% { transform: translateY(0); }
+// `;
 
 const sheen = keyframes`
   0% { background-position: -150% 0; }
