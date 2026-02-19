@@ -29,37 +29,7 @@ const Contactus: React.FC = () => {
           }}
         >
           {/* LEFT SECTION - SET TO FLEX 3 TO DOMINATE THE SCREEN */}
-          <Box sx={{ flex: 3 }}> 
-            {/* PAGE TITLE */}
-            <Typography
-              sx={{
-                fontWeight: 900, // Thicker for XL look
-                mt: 4,
-                mb: 3,
-                borderBottom: "4px solid #E5E7EB",
-                pb: 1,
-                fontSize: fontSizes.title,
-                width: "fit-content"
-              }}
-            >
-              Khalid Marketer
-            </Typography>
-
-            {/* DESCRIPTION */}
-            <Typography
-              sx={{
-                color: "#4B5563",
-                mt: 2,
-                mb: 6,
-                lineHeight: 2,
-                fontSize: fontSizes.description,
-                maxWidth: "800px" // Keeps text readable on XL screens
-              }}
-            >
-              <strong>Khalid Marketer</strong> تواصل معنا لأي معلومات إضافية أو
-              استفسارات.
-            </Typography>
-
+          <Box sx={{ flex: 3 }}>
             {/* --- XL IMAGE SECTION --- */}
             <Box 
               sx={{ 
