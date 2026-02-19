@@ -4,7 +4,6 @@ import {
   Typography,
   Button,
   Container,
-  useMediaQuery,
 } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { keyframes } from "@mui/system";

@@ -1,15 +1,9 @@
 // Contactus.tsx
 import React from "react";
-import { Box, Typography, Container, GlobalStyles } from "@mui/material";
+import { Box, Container, GlobalStyles } from "@mui/material";
 
 const Contactus: React.FC = () => {
-  const fontSizes = {
-    title: { xs: "30px", md: "44px" }, // Slightly increased for XL layout
-    description: { xs: "20px", md: "26px" },
-    sectionTitle: { xs: "24px", md: "32px" },
-    label: { xs: "18px", md: "22px" },
-    value: { xs: "22px", md: "28px" },
-  };
+
 
   return (
     <Box sx={{ direction: "rtl" }}>
